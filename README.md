@@ -32,6 +32,19 @@ python3 tools/build_harness.py
 Le générateur affiche le bilan et **sort en erreur** si une règle est violée.
 Ouvre ensuite `docs/faisceau.html` dans un navigateur.
 
+### Utiliser le dossier à l'atelier (téléphone)
+
+- **Barre du bas** : Coupe · Brochages (ECU et composants) · Planches · Contrôles · Plus (autres sections et recherche).
+- **Planches** : glisser pour déplacer, pincer ou double-toucher pour zoomer, bouton plein écran.
+  Toucher un fil l'encadre à taille lisible ; le panneau du bas donne longueur, couleur,
+  saut vers chaque extrémité et fil précédent / suivant. Chaque fil porte son repère aux deux bouts.
+- **Liens croisés** (coupe → planche → fiche connecteur…) : la pastille « ‹ Retour » en haut
+  remonte niveau par niveau, à la même position dans la liste.
+- **Liens directs** : ajouter `#IGN-03` (fil), `#COIL3` (composant), `#SNS` (planche) ou
+  `#CMC1.A2` (broche ECU) à l'adresse ouvre directement l'élément.
+- Les fils coupés et les contrôles cochés sont gardés sur l'appareil ; si le navigateur bloque
+  le stockage (navigation privée), un avertissement l'indique.
+
 ### Contrôles automatiques (ERC)
 
 - une broche ECU = un seul fil (sinon : épissure obligatoire) ;
