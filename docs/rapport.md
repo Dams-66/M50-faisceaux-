@@ -4,7 +4,7 @@
 
 > Généré par `tools/build_harness.py` depuis `harness/m50b25_vanos_turbo.yaml`. Ne pas éditer à la main.
 
-**116 fils** · **166.3 m de fil coupé** · 15 épissures/barrettes · 11 fusibles · 3 relais
+**116 fils** · **166.4 m de fil coupé** · 15 épissures/barrettes · 11 fusibles · 3 relais
 
 ## Contrôle des règles électriques : 0 erreur(s), 0 alerte(s)
 

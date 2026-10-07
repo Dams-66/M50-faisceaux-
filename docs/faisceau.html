@@ -62,13 +62,14 @@
   --fam-fire: #3987e5; --fam-wbo: #d95926; --fam-sens: #199e70; --fam-dbw: #c98500; --fam-out: #d55181;
   --fam-pwr: #008300; --fam-ref: #3f4d57;
 }
-html { scroll-padding-top: calc(var(--sticky-top) + 8px); scroll-padding-bottom: calc(var(--bnav-h) + var(--dock-h) + 8px); }
+html { scroll-padding-top: calc(var(--sticky-top) + var(--tool-h, 0px) + 8px); scroll-padding-bottom: calc(var(--bnav-h) + var(--dock-h) + 8px); }
 body { background: var(--paper); color: var(--ink); font: 15px/1.55 var(--font-body); }
 * { box-sizing: border-box; }
 a { color: var(--accent); }
 button, input, select { font: inherit; color: inherit; }
 button, a, summary, label { -webkit-tap-highlight-color: color-mix(in srgb, var(--accent) 18%, transparent); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tabs button.tab-btn:focus-visible, .card > summary:focus-visible, .segsw button:focus-visible, .cut-tbl .wid:focus-visible { outline-offset: -3px; }
 .wrap { max-width: 1320px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 56px; }
 @media (min-width: 900px) { .wrap { padding-inline: 28px; } }
 .mono { font-family: var(--font-mono); }
@@ -99,7 +100,12 @@ h1 { font: 700 clamp(28px, 5.4vw, 52px)/0.95 var(--font-display); text-transform
 .tabs button.tab-btn { font: 600 15.5px/1 var(--font-display); letter-spacing: .06em; text-transform: uppercase; padding: 15px 13px 13px; border: 0; border-bottom: 3px solid transparent; background: none; color: var(--ink-2); white-space: nowrap; cursor: pointer; }
 .tabs button.tab-btn:hover { color: var(--ink); }
 .tabs button.tab-btn[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
-.tabs .srch { align-self: center; width: 290px; flex: none; margin-left: 8px; }
+.tabs .srch { align-self: center; width: clamp(200px, 21vw, 290px); flex: none; margin-left: 8px; }
+.tabs-go { display: none; align-self: center; margin-left: 6px; }
+@media (max-width: 1099px) { .tabs-go { display: inline-grid; } }
+.tabs-scroll.ovf-r { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 44px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 44px), transparent); }
+.tabs-scroll.ovf-l { -webkit-mask-image: linear-gradient(90deg, transparent, #000 44px); mask-image: linear-gradient(90deg, transparent, #000 44px); }
+.tabs-scroll.ovf-l.ovf-r { -webkit-mask-image: linear-gradient(90deg, transparent, #000 44px, #000 calc(100% - 44px), transparent); mask-image: linear-gradient(90deg, transparent, #000 44px, #000 calc(100% - 44px), transparent); }
 @media (max-width: 1099px) { .tabs .srch { display: none; } }
 .tab { padding-top: 22px; }
 h2 { font: 700 26px/1.05 var(--font-display); text-transform: uppercase; letter-spacing: .02em; margin: 0 0 12px; text-wrap: balance; }
@@ -121,7 +127,7 @@ h3 { font: 600 19px/1.15 var(--font-display); text-transform: uppercase; letter-
   .tabs { display: none; }
   .mhead { display: flex; align-items: center; gap: 10px; padding: 10px 0; min-height: 60px; border-bottom: 1.5px solid var(--ink); }
   .mhead .mh-txt { flex: 1; min-width: 0; display: grid; }
-  .mhead strong { font: 700 20px/1.05 var(--font-display); text-transform: uppercase; letter-spacing: .03em; }
+  .mhead .mh-h1 { margin: 0; font: 700 20px/1.05 var(--font-display); text-transform: uppercase; letter-spacing: .03em; }
   .mhead small { font: 500 11.5px/1.4 var(--font-mono); color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .mhead small .chip { font-size: 10px; padding: 2px 5px; }
   body:not([data-tab="synthese"]) .tb { display: none; }
@@ -195,6 +201,7 @@ ul.plain { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
 .tbl tr.done td { color: var(--muted); }
 .tbl tr.done .wid { background: var(--rule); color: var(--ink-2); text-decoration: line-through; }
 .flash, .tbl tr.flash td { outline: 3px solid var(--accent); outline-offset: -3px; }
+@container (max-width: 640px) { .cards-m .tbl tr.flash td { outline: none; } }
 .sw { display: inline-block; width: 26px; height: 12px; border-radius: 3px; border: 1px solid color-mix(in srgb, var(--ink) 55%, transparent); vertical-align: -1px; flex: none; }
 .cc { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
 .wid { font: 600 12.5px var(--font-mono); background: var(--tag); color: var(--tag-ink); padding: 1px 5px; border-radius: 2px; white-space: nowrap; }
@@ -246,12 +253,13 @@ button.wid { position: relative; border: 0; cursor: pointer; padding: 3px 7px; }
 .btn:hover, .seg button:hover { border-color: var(--ink); }
 .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
 .btn .n { font: 600 11px var(--font-mono); background: var(--accent); color: var(--accent-ink); border-radius: 8px; padding: 1px 6px; }
-input[type="search"], select { font-size: 16px; color: var(--ink); background: var(--sheet); border: 1px solid var(--rule-strong); border-radius: 4px; padding: 8px 10px; min-width: 0; min-height: 44px; }
+input[type="search"], select { font-size: 16px; color: var(--ink); background: var(--sheet); border: 1px solid var(--muted); border-radius: 4px; padding: 8px 10px; min-width: 0; min-height: 44px; }
 input[type="search"] { width: min(100%, 300px); }
 .count { font: 500 12.5px var(--font-mono); color: var(--muted); }
 .progress { display: inline-flex; align-items: center; gap: 8px; font: 500 12.5px var(--font-mono); color: var(--ink-2); }
 .progress i { display: inline-block; width: 90px; height: 8px; border-radius: 4px; background: var(--sheet-2); border: 1px solid var(--rule); overflow: hidden; position: relative; }
 .progress i b { position: absolute; inset: 0 auto 0 0; background: var(--good); }
+.segsw > button { flex: 1 1 0; min-width: 0; }
 .segsw { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1.5px solid var(--ink); border-radius: 6px; overflow: hidden; margin-bottom: 14px; }
 .segsw button { min-height: 44px; border: 0; background: var(--sheet); font: 600 15px/1 var(--font-display); letter-spacing: .05em; text-transform: uppercase; cursor: pointer; }
 .segsw button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
@@ -271,6 +279,7 @@ input[type="search"] { width: min(100%, 300px); }
 .srch-list .t { font: 600 13.5px var(--font-mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .srch-list .s { font-size: 12px; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; grid-column: 2; }
 .srch-list .acts { grid-row: span 2; grid-column: 3; display: flex; gap: 4px; align-items: center; }
+@media (pointer: coarse) { .vw-dquick .btn, .srch-list .acts button { min-height: 44px !important; } }
 .srch-list .acts button { min-height: 36px; padding: 4px 8px; border: 1px solid var(--rule-strong); border-radius: 4px; background: var(--sheet); font: 500 11.5px var(--font-mono); cursor: pointer; }
 .srch-list .acts button:hover { border-color: var(--ink); }
 .srch-list .empty { color: var(--muted); font-size: 13px; padding: 10px; }
@@ -289,6 +298,7 @@ input[type="search"] { width: min(100%, 300px); }
 .pin.free { --fam: var(--rule-strong); background: repeating-linear-gradient(135deg, transparent 0 6px, var(--rule) 6px 7px), var(--sheet); }
 .pin.free .pid, .pin.free .pfn { color: var(--muted); }
 .pin[aria-pressed="true"] { outline: 3px solid var(--accent); outline-offset: 1px; }
+.pin:focus-visible { outline: 2px dashed var(--ink); outline-offset: 3px; }
 .detail { border: 1.5px solid var(--ink); background: var(--sheet); border-radius: 6px; padding: 14px 16px; }
 .detail h3 { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; }
 .kv { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 14px; margin: 8px 0 0; font-size: 14px; }
@@ -304,11 +314,11 @@ input[type="search"] { width: min(100%, 300px); }
 .dock-head h3 { flex: 1; margin: 0; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; min-width: 0; }
 
 /* ---------- Visualiseur (planches, formboard) ---------- */
-.viewer { position: relative; display: grid; gap: 10px; scroll-margin-top: calc(var(--sticky-top) + 6px); }
+.viewer { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; scroll-margin-top: calc(var(--sticky-top) + 6px); }
 .vw-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .vw-bar .grow { flex: 1 1 220px; min-width: 0; }
 .vw-nav { display: flex; gap: 6px; align-items: center; min-width: 0; flex: 1 1 300px; }
-.vw-nav select { flex: 1; min-width: 0; font-weight: 600; }
+.vw-nav select { flex: 1; width: 0; min-width: 0; font-weight: 600; }
 .vw-body { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
 .vw-stage { position: relative; height: clamp(340px, calc(100vh - 230px), 860px); height: var(--stage-h, clamp(340px, calc(100svh - 230px), 860px)); border: 1.5px solid var(--ink); border-radius: 4px; background: var(--sheet); overflow: hidden; touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; overscroll-behavior: contain; }
 .vw-stage:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
@@ -328,6 +338,7 @@ input[type="search"] { width: min(100%, 300px); }
 .vw-scale { position: absolute; left: 10px; top: 10px; z-index: 3; display: grid; gap: 3px; pointer-events: none; font: 600 11px var(--font-mono); color: var(--ink); background: color-mix(in srgb, var(--sheet) 88%, transparent); padding: 4px 6px; border-radius: 4px; }
 .vw-scale i { display: block; height: 7px; border: 2px solid var(--ink); border-top: 0; }
 .vw-hint { font-size: 12.5px; color: var(--muted); margin: 0; }
+@media (pointer: coarse) { .kbd-hint { display: none; } }
 .vw-close { display: none; }
 html.vw-lock, html.vw-lock body { overflow: hidden; }
 .viewer.is-full { position: fixed; inset: 0; z-index: 60; background: var(--paper); padding: calc(env(safe-area-inset-top, 0px) + 8px) calc(env(safe-area-inset-right, 0px) + 10px) calc(env(safe-area-inset-bottom, 0px) + 8px) calc(env(safe-area-inset-left, 0px) + 10px); grid-template-rows: auto minmax(0, 1fr); gap: 8px; }
@@ -340,6 +351,8 @@ html.vw-lock, html.vw-lock body { overflow: hidden; }
   .vw-pct { display: none; }
   .vw-mini { left: 10px; top: 10px; bottom: auto; }
   .viewer:not(.is-full) .vw-mini { display: none; }
+  .vw-scale { left: auto; right: 10px; }
+  .vw-bar .srch { flex: 1 1 160px; }
   .viewer.is-full .vw-nav { flex-basis: 200px; }
   .viewer.is-full .vw-bar .srch { flex: 1 1 160px; }
 }
@@ -397,6 +410,7 @@ svg.schem text, svg.formboard text { fill: var(--ink); font-family: var(--font-b
 .schem .w-drain { fill: none; stroke: var(--muted); stroke-width: 1.4; stroke-dasharray: 5 3; }
 .schem .tag rect.tg { fill: var(--tag); stroke: var(--tag-ink); stroke-opacity: .35; }
 .schem .tag text { font: 500 10px var(--font-mono); fill: var(--tag-ink); }
+.schem .tag.done text { fill: var(--ink-2); }
 .schem .tag.done rect.tg { fill: var(--rule); }
 .schem .tag.pick rect.tg { stroke: var(--accent); stroke-width: 2.5; stroke-opacity: 1; }
 .schem .box, .schem .node, .schem .tag { cursor: pointer; }
@@ -438,6 +452,8 @@ dialog.bs::backdrop { background: var(--scrim); }
 /* Retour après un lien croisé */
 .backchip { position: fixed; z-index: 55; left: 50%; transform: translateX(-50%); top: calc(var(--sticky-top) + 10px); display: inline-flex; align-items: center; border-radius: 24px; background: var(--ink); color: var(--paper); box-shadow: 0 6px 18px var(--shadow); max-width: calc(100vw - 32px); }
 .backchip[hidden] { display: none; }
+.linkish { font: inherit; color: inherit; background: none; border: 0; padding: 6px 0; cursor: pointer; text-decoration: underline; text-decoration-color: var(--rule-strong); text-underline-offset: 3px; min-height: 32px; }
+.sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .store-warn { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; margin: 0 0 14px; padding: 10px 12px; border: 1px solid var(--warn-ink); border-radius: 6px; background: var(--sheet); font-size: 13.5px; color: var(--ink-2); }
 .backchip button { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 12px; border: 0; background: none; color: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer; min-width: 0; }
 .backchip .bk-go { padding-left: 10px; max-width: calc(100vw - 100px); }
@@ -448,6 +464,7 @@ dialog.bs::backdrop { background: var(--scrim); }
 @media (max-width: 760px), (max-height: 520px) and (pointer: coarse) {
   .backchip { top: calc(var(--sticky-top) + 8px); left: max(12px, env(safe-area-inset-left, 0px)); transform: none; max-width: calc(100vw - 88px); }
   .backchip .bk-go { max-width: calc(100vw - 140px); }
+  html.has-back .toolbar.sticky { padding-top: 60px; }
 }
 
 /* ---------- Jauges énergie ---------- */
@@ -480,14 +497,15 @@ details.meter-d > ul li { font: 500 12px var(--font-mono); border: 1px solid var
 
 /* ---------- Connecteurs ---------- */
 .cards { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr)); align-items: start; }
-.card { background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; min-width: 0; scroll-margin-top: calc(var(--sticky-top) + 74px); }
+.card { position: relative; background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; min-width: 0; scroll-margin-top: calc(var(--sticky-top) + 74px); }
 .card[hidden] { display: none; }
 .card > summary { list-style: none; cursor: pointer; }
 .card > summary::-webkit-details-marker { display: none; }
 .card .chead { padding: 12px 14px 10px; border-bottom: 1px solid var(--rule); border-left: 4px solid var(--fam, var(--fam-ref)); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; }
 .card:not([open]) .chead { border-bottom: 0; }
 .card .chead > * { grid-column: 1; }
-.card .chead .card-go { grid-column: 2; grid-row: 1 / span 3; align-self: start; }
+.card > .card-go { position: absolute; top: 10px; right: 12px; z-index: 1; }
+.card.has-go .chead { padding-right: 104px; }
 .card .chead .id { font: 600 13px var(--font-mono); display: flex; gap: 8px; align-items: center; }
 .card .chead .id .chev { color: var(--muted); font-size: 12px; }
 .card .chead h3 { font: 600 16px/1.25 var(--font-body); text-transform: none; letter-spacing: 0; margin: 2px 0 2px; }
@@ -514,11 +532,30 @@ details.meter-d > ul li { font: 500 12px var(--font-mono); border: 1px solid var
 footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink); font-size: 13px; color: var(--ink-2); display: flex; flex-wrap: wrap; gap: 6px 20px; justify-content: space-between; }
 @media (pointer: coarse) { .seg button, .btn { min-height: 44px; } }
 @media (prefers-reduced-motion: no-preference) { .pin, .seg button, .tab-btn, .bnav button { transition: background-color .12s, color .12s, border-color .12s; } }
+
+/* Téléphone en paysage, et bureau large : le détail en colonne à droite du plan (jamais par-dessus) */
+@media (max-height: 520px) and (pointer: coarse) and (min-width: 600px) {
+  .vw-body.has-drawer { grid-template-columns: minmax(0, 1fr) min(42vw, 330px); gap: 8px; }
+  .vw-drawer { position: static !important; border-radius: 6px; border-width: 1.5px; box-shadow: none; max-height: var(--stage-h, 300px); overflow: auto; }
+  .viewer.is-full .vw-drawer { max-height: 100%; }
+  .vw-drawer.peek .vw-dbody { display: block; }
+  .vw-grab { display: none !important; }
+}
+@media (min-width: 1100px) {
+  .vw-body.has-drawer { grid-template-columns: minmax(0, 1fr) 360px; }
+  .viewer:not(.is-full) .vw-body.has-drawer .vw-drawer { max-height: var(--stage-h, clamp(340px, calc(100svh - 230px), 860px)); overflow: auto; align-self: start; }
+}
+/* Cadre hôte à hauteur automatique : rien de fixé en bas d'une page de plusieurs milliers de pixels */
+.tall-frame { --bnav-h: 0px !important; }
+.tall-frame body { padding-bottom: 0 !important; }
+@media (max-width: 899px) { .tall-frame .vw-drawer { position: static; border-radius: 6px; border-width: 1.5px; box-shadow: none; max-height: none; } }
+.tall-frame .vw-hud .vw-btn:last-child { display: none; }
+.tall-frame dialog.bs { margin: var(--bs-top, 16px) auto auto; max-height: min(86vh, 640px); }
 </style>
 
 <div class="wrap">
   <div class="mhead" id="mhead">
-    <div class="mh-txt"><strong id="mh-title">M50B25 Turbo</strong><small id="mh-sub"></small></div>
+    <div class="mh-txt"><h1 id="mh-title" class="mh-h1">M50B25 Turbo</h1><small id="mh-sub"></small></div>
     <button class="icon-btn" id="mh-search" aria-label="Rechercher un fil, une broche, un composant"></button>
   </div>
   <header class="tb" id="tb">
@@ -575,6 +612,9 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     return el;
   }
   const dec = (n, d) => Number(n).toFixed(d == null ? 2 : d).replace(".", ",");
+  // Totaux en centimètres entiers : même résultat quel que soit l'ordre d'addition
+  const sumCm = ws => ws.reduce((s, w) => s + Math.round(w.length_m * 100), 0);
+  const totM = ws => dec(Math.round(sumCm(ws) / 10) / 10, 1);
   const mm2 = v => String(v).replace(".", ",");
   const natural = (a, b) => String(a).localeCompare(String(b), "fr", { numeric: true });
   const trunc = (s, n) => (s = String(s || ""), s.length > n ? s.slice(0, Math.max(1, n - 1)) + "…" : s);
@@ -594,6 +634,10 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
   const REDUCED = mq("(prefers-reduced-motion: reduce)");
   const isPhone = () => mq("(max-width: 760px), (max-height: 520px) and (pointer: coarse)");
   const isNarrow = () => mq("(max-width: 899px)");
+  const isLand = () => mq("(max-height: 520px) and (pointer: coarse)");
+  // Lookups pilotés par l'adresse ou le stockage : jamais les propriétés héritées (#constructor…)
+  const own = (o, k) => k != null && Object.prototype.hasOwnProperty.call(o, k);
+  let fullViewer = null;
   const coarse = () => mq("(pointer: coarse)");
   function norm(s) {
     return String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "")
@@ -602,6 +646,12 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
   function debounce(fn, ms) { let t = 0; return function () { const a = arguments; clearTimeout(t); t = setTimeout(() => fn.apply(null, a), ms); }; }
   let uid = 0;
   const nextId = p => p + "-" + (++uid);
+  // Après un lien croisé, le focus clavier suit la destination au lieu de retomber sur <body>
+  function focusIfLost(el) {
+    const a = document.activeElement;
+    if (!el || (a && a !== document.body && a.isConnected && a.getClientRects().length)) return;
+    try { el.focus({ preventScroll: true }); } catch (e) { /* */ }
+  }
   function flashEl(el) { if (!el) return; el.classList.add("flash"); setTimeout(() => el.classList.remove("flash"), REDUCED ? 2500 : 1600); }
 
   // ------------------------------------------------------------------ icons
@@ -685,8 +735,9 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
   const checksDone = () => Object.keys(CHECKS).filter(k => CHECKS[k]).length;
 
   // Clavier virtuel ouvert : on cache la barre du bas ; cadre hôte à hauteur automatique : on garde les onglets
-  document.addEventListener("focusin", e => { if (e.target.matches && e.target.matches("input[type=search], input[type=text], select")) document.documentElement.classList.add("kb"); });
-  document.addEventListener("focusout", () => setTimeout(() => { const a = document.activeElement; if (!(a && a.matches && a.matches("input[type=search], input[type=text], select"))) document.documentElement.classList.remove("kb"); }, 80));
+  const kbField = el => !!(el && el.matches && el.matches("input[type=search], input[type=text]") && !el.closest("dialog"));
+  document.addEventListener("focusin", e => { if (kbField(e.target)) document.documentElement.classList.add("kb"); });
+  document.addEventListener("focusout", () => setTimeout(() => { if (!kbField(document.activeElement)) document.documentElement.classList.remove("kb"); }, 80));
   try { if (window.innerHeight > 2 * (screen.height || 1000)) document.documentElement.classList.add("tall-frame"); } catch (e) { /* */ }
 
   // ---------------------------------------------------------------- dialog
@@ -702,6 +753,10 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
         h("button", { class: "icon-btn", "aria-label": "Fermer", onclick: () => bs.close() }, icon("close"))),
       body);
     bsOnClose = onClose || null;
+    if (document.documentElement.classList.contains("tall-frame")) {
+      const a = document.activeElement, top = a && a !== document.body ? a.getBoundingClientRect().top : 16;
+      bs.style.setProperty("--bs-top", Math.max(8, top - 40) + "px");
+    }
     try { bs.showModal(); } catch (e) { bs.setAttribute("open", ""); }
     bs.scrollTop = 0;
   }
@@ -727,7 +782,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
   // ---------------------------------------------------------------- header
   const V = H.validation;
   const ecuUsed = H.ecu.pins.filter(p => p.wires.length).length;
-  const meters = REAL.reduce((s, w) => s + w.length_m, 0);
+
   document.getElementById("tb-title").textContent = H.meta.project;
   document.getElementById("tb-sub").textContent = H.meta.engine + " · " + H.meta.ecu;
   document.getElementById("foot-rev").textContent = "Révision " + H.meta.revision + " · " + H.meta.date;
@@ -743,7 +798,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
   [["Révision", H.meta.revision + " · " + H.meta.date],
    ["Statut", H.meta.status],
    ["Contrôle ERC", statusChip()],
-   ["Fils", REAL.length + " fils · " + dec(meters, 1) + " m"],
+   ["Fils", REAL.length + " fils · " + totM(REAL) + " m"],
    ["Broches ECU", ecuUsed + " / " + H.ecu.pins.length + " utilisées"],
    ["Distribution", Object.values(OW).filter(o => o.cat === "splice").length + " épissures/barrettes · " + H.fuses.length + " fusibles"]
   ].forEach(([k, v]) => tbGrid.append(h("div", null, h("dt", null, k), h("dd", null, v))));
@@ -772,14 +827,14 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
   SHEET_IDS.forEach(id => INDEX.push({ kind: "Planche", id: id, sub: sheetTitle(id), sheet: id, boost: 3,
     key: norm(id), text: norm(id + " " + sheetTitle(id) + " " + sheetShort(id)), go: () => goSheet(id, {}), alt: [] }));
   function searchIndex(q) {
-    const nq = norm(q);
+    const nq = norm(q), nq0 = nq.replace(/([a-z])0+$/, "$1");
     const toks = String(q || "").split(/\s+/).map(norm).filter(Boolean);
     if (!nq) return [];
     const res = [];
     INDEX.forEach(it => {
       let s = -1;
       if (it.key === nq) s = 100;
-      else if (it.key.startsWith(nq)) s = 80 - Math.min(10, it.key.length - nq.length);
+      else if (it.key.startsWith(nq) || (nq0 !== nq && it.key.startsWith(nq0))) s = 80 - Math.min(10, it.key.length - nq.length);
       else if (it.key.includes(nq)) s = 60;
       else if (toks.every(t => it.text.includes(t))) s = 30;
       if (s >= 0) res.push([s + it.boost, it]);
@@ -793,18 +848,18 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     const wrap = h("div", { class: "srch" + (opts.cls ? " " + opts.cls : "") });
     const input = h("input", { type: "search", placeholder: opts.placeholder || "Fil, broche, composant…", "aria-label": "Rechercher dans le faisceau",
       role: "combobox", "aria-autocomplete": "list", "aria-expanded": "false", "aria-controls": listId, autocomplete: "off", enterkeyhint: "go", spellcheck: "false", autocapitalize: "characters" });
-    const list = h("ul", { class: "srch-list", role: "listbox", id: listId, hidden: true });
+    const list = h("ul", { class: "srch-list", role: "listbox", id: listId, tabindex: "-1", hidden: true, "aria-label": "Résultats" });
     wrap.append(icon("search"), input, list);
     let items = [], active = -1;
     function render() {
       items = searchIndex(input.value);
       active = items.length ? 0 : -1;
       list.replaceChildren();
-      if (!input.value.trim()) { list.hidden = true; input.setAttribute("aria-expanded", "false"); return; }
-      if (!items.length) list.append(h("li", { class: "empty" }, "Aucun résultat pour « " + input.value + " »"));
+      if (!input.value.trim()) { list.hidden = true; input.setAttribute("aria-expanded", "false"); input.removeAttribute("aria-activedescendant"); return; }
+      if (!items.length) list.append(h("li", { class: "empty", role: "option", "aria-disabled": "true" }, "Aucun résultat pour « " + input.value + " »"));
       items.forEach((it, i) => {
         const acts = h("span", { class: "acts" }, (it.alt || []).map(([lbl, fn]) => {
-          const b = h("button", { type: "button" }, lbl);
+          const b = h("button", { type: "button", tabindex: "-1", title: lbl + " (Maj + Entrée sur le résultat actif)" }, lbl);
           b.addEventListener("pointerdown", ev => ev.preventDefault());
           b.addEventListener("click", ev => { ev.stopPropagation(); finish(); fn(); });
           return b;
@@ -816,7 +871,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
         list.append(li);
       });
       list.hidden = false; input.setAttribute("aria-expanded", "true");
-      input.setAttribute("aria-activedescendant", active >= 0 ? listId + "-" + active : "");
+      if (active >= 0) input.setAttribute("aria-activedescendant", listId + "-" + active); else input.removeAttribute("aria-activedescendant");
     }
     function move(d) {
       if (!items.length) return;
@@ -826,8 +881,9 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       const li = list.querySelectorAll("li.opt")[active]; if (li) li.scrollIntoView({ block: "nearest" });
     }
     function finish() {
-      list.hidden = true; input.setAttribute("aria-expanded", "false");
-      input.blur();
+      list.hidden = true; input.setAttribute("aria-expanded", "false"); input.removeAttribute("aria-activedescendant");
+      // Le focus va là où l'on travaille ensuite (le plan pour la recherche du visualiseur), jamais sur <body>
+      if (opts.focusAfter) opts.focusAfter(); else input.blur();
       if (opts.onPick) opts.onPick();
     }
     function pick(i) { const it = items[i]; if (!it) return; finish(); it.go(); }
@@ -837,8 +893,11 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     input.addEventListener("keydown", ev => {
       if (ev.key === "ArrowDown") { ev.preventDefault(); move(1); }
       else if (ev.key === "ArrowUp") { ev.preventDefault(); move(-1); }
+      else if (ev.key === "Enter" && (ev.shiftKey || ev.altKey) && items[active] && (items[active].alt || [])[0]) {
+        ev.preventDefault(); const f = items[active].alt[0][1]; finish(); f();
+      }
       else if (ev.key === "Enter") { ev.preventDefault(); pick(active); }
-      else if (ev.key === "Escape") { if (input.value) { input.value = ""; render(); ev.stopPropagation(); } else input.blur(); }
+      else if (ev.key === "Escape") { if (input.value) { input.value = ""; render(); ev.preventDefault(); ev.stopPropagation(); } else input.blur(); }
     });
     return { el: wrap, input: input };
   }
@@ -877,18 +936,37 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     sections[t.id] = sec; main.append(sec);
   });
   const deskSearch = createSearch({ placeholder: "Chercher : IGN-03, CMC1.H2, COIL3…" });
-  document.getElementById("tabs").append(deskSearch.el);
+  document.getElementById("tabs").append(deskSearch.el,
+    h("button", { class: "icon-btn tabs-go", "aria-label": "Rechercher un fil, une broche, un composant", title: "Rechercher", onclick: () => openGo(true) }, icon("search")));
+  const tabsOvf = () => {
+    tabsScroll.classList.toggle("ovf-r", tabsScroll.scrollLeft + tabsScroll.clientWidth < tabsScroll.scrollWidth - 1);
+    tabsScroll.classList.toggle("ovf-l", tabsScroll.scrollLeft > 1);
+  };
+  tabsScroll.addEventListener("scroll", tabsOvf, { passive: true });
+  window.addEventListener("resize", tabsOvf);
+  // Molette verticale sur la barre d'onglets : défilement horizontal des onglets
+  tabsScroll.addEventListener("wheel", e => {
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && tabsScroll.scrollWidth > tabsScroll.clientWidth) { tabsScroll.scrollLeft += e.deltaY; e.preventDefault(); }
+  }, { passive: false });
+  // Clavier : flèches / Début / Fin dans la liste d'onglets (motif ARIA)
+  tabsScroll.addEventListener("keydown", e => {
+    const btns = [...tabsScroll.querySelectorAll(".tab-btn")], i = btns.indexOf(document.activeElement);
+    if (i < 0) return;
+    const j = e.key === "ArrowRight" ? (i + 1) % btns.length : e.key === "ArrowLeft" ? (i - 1 + btns.length) % btns.length : e.key === "Home" ? 0 : e.key === "End" ? btns.length - 1 : -1;
+    if (j < 0) return;
+    e.preventDefault(); btns[j].focus(); btns[j].click();
+  });
   const bnavBtns = {};
   const ctrlBadge = h("span", { class: "badge", hidden: true });
   BNAV.forEach(b => {
-    const btn = h("button", { "aria-label": b.label, onclick: () => {
+    const btn = h("button", { onclick: () => {
       if (b.id === "broch") navigate(b.tabs.includes(currentTab) ? currentTab : (store("broch") || "ecu"), { user: true });
       else navigate(b.id, { user: true });
     } }, icon(b.icon), h("span", { class: "l" }, b.label), b.id === "controles" ? ctrlBadge : null);
     bnavBtns[b.id] = btn; bnav.append(btn);
   });
   const moreLabel = h("span", { class: "l" }, "Plus");
-  const moreBtn = h("button", { "aria-label": "Autres sections et recherche", "aria-haspopup": "dialog", onclick: () => openGo(false) }, icon("plus"), moreLabel);
+  const moreBtn = h("button", { "aria-haspopup": "dialog", onclick: () => openGo(false) }, icon("plus"), moreLabel, h("span", { class: "sr-only" }, " — autres sections et recherche"));
   bnav.append(moreBtn);
   function updateBadge() {
     const n = checksDone();
@@ -916,7 +994,9 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
   }
   function navigate(id, opts) {
     opts = opts || {};
-    if (!TAB[id]) id = "synthese";
+    if (!own(TAB, id)) id = "synthese";
+    // Changer d'onglet quitte toujours le plein écran (sinon la page reste inerte et figée)
+    if (fullViewer && id !== currentTab) fullViewer.setFull(false);
     if (opts.user) hideBack();
     if (opts.user && id === currentTab) {
       if (window.scrollY > 4) window.scrollTo({ top: 0, behavior: REDUCED ? "auto" : "smooth" });
@@ -924,21 +1004,28 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       return;
     }
     if (currentTab && currentTab !== id) { tabScroll[currentTab] = window.scrollY; closeDock(); }
-    TABS.forEach(t => { sections[t.id].hidden = t.id !== id; document.getElementById("tab-" + t.id).setAttribute("aria-selected", t.id === id ? "true" : "false"); });
+    TABS.forEach(t => { sections[t.id].hidden = t.id !== id; const tb = document.getElementById("tab-" + t.id); tb.setAttribute("aria-selected", t.id === id ? "true" : "false"); tb.tabIndex = t.id === id ? 0 : -1; });
     const changed = currentTab !== id;
     currentTab = id;
     document.body.setAttribute("data-tab", id);
     if (id === "ecu" || id === "connecteurs") store("broch", id);
     if (!rendered[id]) { rendered[id] = true; RENDER[id](sections[id]); }
+    else if (changed && opts.user && ENTER[id]) ENTER[id]();
     BNAV.forEach(b => bnavBtns[b.id].setAttribute("aria-current", b.tabs.includes(id) ? "page" : "false"));
     const inMore = !BNAV.some(b => b.tabs.includes(id));
     moreBtn.setAttribute("aria-current", inMore ? "page" : "false");
     moreLabel.textContent = inMore ? TAB[id].short : "Plus";
     fill(document.getElementById("mh-sub"), "Rév. " + H.meta.revision + " · ", statusChip(), " · " + TAB[id].label);
-    centerTab(id);
+    centerTab(id); tabsOvf();
+    // Hauteur de la barre d'outils collante de l'onglet, pour que le focus clavier ne passe pas dessous
+    const st = sections[id].querySelector(".toolbar.sticky");
+    document.documentElement.style.setProperty("--tool-h", st ? st.offsetHeight + "px" : "0px");
     store("tab", id);
     if (!opts.keepHash) setHash(id);
     if (opts.noScroll || !changed) return;
+    if ((id === "planches" || id === "formboard") && tabScroll[id] == null && (!isPhone() || isLand())) {
+      const vr = sections[id].querySelector(".viewer"); if (vr) { scrollToEl(vr, 6); return; }
+    }
     if (tabScroll[id] != null && !opts.top) window.scrollTo(0, tabScroll[id]);
     else window.scrollTo(0, isPhone() ? 0 : Math.min(window.scrollY, Math.max(0, main.offsetTop - stickyOffset())));
   }
@@ -947,6 +1034,10 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
   // Retour après un lien croisé : pile de plusieurs niveaux (Coupe → planche → fiche → …)
   const backchip = document.getElementById("backchip");
   const backStack = [];
+  // État propre à un onglet (filtres de coupe, planche + sélection) mémorisé dans chaque retour
+  const SNAP = {};
+  // Retour volontaire sur un onglet (barre du bas, onglets) : chaque onglet peut se remettre dans l'état choisi par l'utilisateur
+  const ENTER = {};
   function renderBack() {
     const t = backStack[backStack.length - 1];
     document.documentElement.classList.toggle("has-back", !!t);
@@ -962,7 +1053,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
   }
   function pushBack(fromTab, row) {
     if (!fromTab || fromTab === currentTab) return;
-    const e = { tab: fromTab, y: tabScroll[fromTab] != null ? tabScroll[fromTab] : 0, row: row || null };
+    const e = { tab: fromTab, y: tabScroll[fromTab] != null ? tabScroll[fromTab] : 0, row: row || null, snap: SNAP[fromTab] ? SNAP[fromTab].get() : null };
     const top = backStack[backStack.length - 1];
     if (top && top.tab === e.tab) backStack[backStack.length - 1] = e; else backStack.push(e);
     if (backStack.length > 8) backStack.shift();
@@ -972,6 +1063,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
   function goBack() {
     const t = backStack.pop(); renderBack(); if (!t) return;
     navigate(t.tab, { noScroll: true });
+    if (t.snap && SNAP[t.tab]) SNAP[t.tab].set(t.snap);
     window.scrollTo(0, t.y);
     if (t.row && t.tab !== "planches") {
       const el = sections[t.tab].querySelector('[data-w="' + t.row + '"], [data-pin="' + t.row + '"], #fiche-' + t.row);
@@ -1043,8 +1135,9 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
   }
   let pinImpl = null;
   function openPin(pid, from) {
+    const src = from || currentTab;
     if (!rendered.ecu) navigate("ecu", { noScroll: true });
-    pinImpl(pid, from);
+    pinImpl(pid, src);
   }
   RENDER.ecu = function (sec) {
     const byId = {}; H.ecu.pins.forEach(p => { byId[p.id] = p; });
@@ -1057,7 +1150,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       pressed = btn; if (btn) btn.setAttribute("aria-pressed", "true");
       const title = [h("span", { class: "mono" }, p.id), h("span", null, p.fn)];
       fill(detail, h("h3", null, title), pinDetail(p));
-      if (fromUser && isPhone()) {
+      if (fromUser && isPhone() && !document.documentElement.classList.contains("tall-frame")) {
         openDock(title, h("div", null, pinDetail(p)), "ecu");
         requestAnimationFrame(() => {
           if (!btn) return;
@@ -1100,7 +1193,8 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       const p = byId[pid]; if (!p) return;
       scrollToEl(btnOf[pid], 120);
       select(p, true); flashEl(btnOf[pid]);
-      setHash("ecu");
+      focusIfLost(btnOf[pid]);
+      setHash(pid);
     };
     let filter = "used";
     const tbody = h("tbody");
@@ -1139,10 +1233,10 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     const root = h("div", { class: "viewer" });
     const bar = h("div", { class: "vw-bar" });
     const hintId = nextId("vwh");
-    const stage = h("div", { class: "vw-stage", tabindex: "0", role: "region", "aria-roledescription": "plan zoomable", "aria-label": cfg.label, "aria-describedby": hintId });
+    const stage = h("div", { class: "vw-stage", tabindex: "0", role: "region", "aria-roledescription": "plan zoomable", "aria-label": cfg.label, "aria-describedby": hintId, "aria-keyshortcuts": "+ - 0 F ArrowLeft ArrowRight ArrowUp ArrowDown" + (cfg.keys ? " " + cfg.keys : "") });
     const flash = h("div", { class: "vw-flash", "aria-hidden": "true" });
     const btnOut = h("button", { class: "vw-btn", "aria-label": "Zoom arrière", title: "Zoom arrière (−)" }, "−");
-    const btnPct = h("button", { class: "vw-btn vw-pct", title: "Basculer Tout voir / Lisible", "aria-label": "Basculer entre tout voir et taille lisible" }, "100 %");
+    const btnPct = h("button", { class: "vw-btn vw-pct", title: "Basculer Tout voir / Lisible (taille lisible ↔ vue d'ensemble)" }, "100 %");
     const btnIn = h("button", { class: "vw-btn", "aria-label": "Zoom avant", title: "Zoom avant (+)" }, "+");
     const btnFit = h("button", { class: "vw-btn txt", title: "Tout voir (0)" }, "Tout voir");
     const btnFull = h("button", { class: "vw-btn", "aria-label": "Agrandir en plein écran", title: "Plein écran (F)" }, icon("full"));
@@ -1151,13 +1245,16 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     const mini = h("div", { class: "vw-mini", hidden: true, title: "Minicarte : toucher pour se déplacer" });
     mini.append(miniSvg);
     stage.append(flash, hud, mini);
-    const closeBtn = h("button", { class: "vw-btn txt vw-close", "aria-label": "Quitter le plein écran" }, icon("exit"), "Fermer");
+    const closeBtn = h("button", { class: "vw-btn txt vw-close", title: "Quitter le plein écran (Échap)" }, icon("exit"), "Fermer", h("span", { class: "sr-only" }, " le plein écran"));
     const drawer = h("aside", { class: "vw-drawer peek", hidden: true, "aria-label": "Détail de la sélection" });
     const body = h("div", { class: "vw-body" }, stage, drawer);
-    const hint = h("p", { class: "vw-hint", id: hintId }, cfg.hint || "Glisser pour déplacer · pincer, Ctrl + molette ou double-toucher pour zoomer · touche un élément pour le détail");
-    root.append(bar, body, hint);
+    const hint = h("p", { class: "vw-hint", id: hintId }, cfg.hint || "Glisser pour déplacer · pincer, Ctrl + molette ou double-toucher pour zoomer · touche un élément pour le détail",
+      h("span", { class: "kbd-hint" }, " · Clavier : + − 0 zoom, flèches, F plein écran" + (cfg.keysHint || "")));
+    const live = h("p", { class: "sr-only", "aria-live": "polite" });
+    root.append(bar, body, hint, live);
+    function announce(t) { live.textContent = ""; setTimeout(() => { live.textContent = t; }, 40); }
 
-    let svg = null, W = 1, Hc = 1, fitK = 1, anim = 0, fitted = true, pending = null, miniRect = null, lastSize = null, wantStart = false, lod = "";
+    let svg = null, W = 1, Hc = 1, fitK = 1, anim = 0, fitted = true, pending = null, miniRect = null, lastSize = null, wantStart = false, lod = null, userMoved = false, lastOrient = "", api = null, keepLeft = false;
     const view = { x: 0, y: 0, k: 1 };
     const dims = () => ({ w: stage.clientWidth, h: stage.clientHeight });
     const ready = () => { const d = dims(); return d.w > 20 && d.h > 20 && svg; };
@@ -1170,7 +1267,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     const clampK = k => { const [a, b] = kBounds(); return Math.min(b, Math.max(a, k)); };
     // Partie de la scène masquée par le panneau du bas (téléphone)
     function overlapBottom() {
-      if (drawer.hidden || !isNarrow()) return 0;
+      if (drawer.hidden || !isNarrow() || getComputedStyle(drawer).position !== "fixed") return 0;
       const s = stage.getBoundingClientRect(), d = drawer.getBoundingClientRect();
       return Math.max(0, Math.min(s.height * 0.7, s.bottom - d.top));
     }
@@ -1179,14 +1276,14 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       const { w, h: hh } = dims();
       ob = overlapBottom();
       view.k = clampK(view.k);
-      const vw = w / view.k, vh = hh / view.k, m = 60 / view.k;
+      const vw = w / view.k, vh = (hh - ob) / view.k, m = 60 / view.k;
       view.x = vw >= W ? (W - vw) / 2 : Math.min(W - vw + m, Math.max(-m, view.x));
-      view.y = vh >= Hc ? (Hc - vh) / 2 : Math.min(Hc - vh + m + ob / view.k, Math.max(-m, view.y));
+      view.y = vh >= Hc ? (Hc - vh) / 2 : Math.min(Hc - vh + m, Math.max(-m, view.y));
     }
     // Le HUD remonte au-dessus du tiroir de détail (téléphone) au lieu d'être recouvert
     function placeHud() {
       hud.style.bottom = ob > 0 ? (ob + 10) + "px" : "";
-      hud.style.visibility = ob > stage.clientHeight * 0.6 ? "hidden" : "";
+      hud.style.visibility = ob + hud.offsetHeight + 20 > stage.clientHeight ? "hidden" : "";
     }
     let hudRaf = 0;
     window.addEventListener("scroll", () => {
@@ -1196,7 +1293,8 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     function setLod(k) {
       const t1 = cfg.lod || 0.5;
       let n = lod;
-      if (k < t1 - 0.03) n = "lod-1"; else if (k > t1 + 0.03 && k < 0.77) n = "lod-2"; else if (k > 0.83) n = "";
+      if (lod === null) n = k < t1 ? "lod-1" : k < 0.8 ? "lod-2" : "";
+      else if (k < t1 - 0.03) n = "lod-1"; else if (k > t1 + 0.03 && k < 0.77) n = "lod-2"; else if (k > 0.83) n = "";
       else if (lod === "lod-1" && k > t1 + 0.03) n = "lod-2";
       if (n !== lod) { if (lod) svg.classList.remove(lod); if (n) svg.classList.add(n); lod = n; }
     }
@@ -1237,7 +1335,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       anim = requestAnimationFrame(step);
     }
     function fitView() {
-      const { w, h: hh } = dims(), pad = 14;
+      const { w } = dims(), hh = dims().h - overlapBottom(), pad = 14;
       const k = Math.max(0.05, Math.min(1.5, (w - 2 * pad) / W, (hh - 2 * pad) / Hc));
       return { k: k, x: (W - w / k) / 2, y: (Hc - hh / k) / 2 };
     }
@@ -1253,30 +1351,40 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       const fv = fitView();
       if (!isPhone() || root.classList.contains("is-full")) return { v: fv, fitted: true };
       const { h: hh } = dims();
-      const k = Math.min(cfg.phoneK || 0.8, (hh - 28) / Hc);
+      // Paysage : scène basse, on démarre lisible en haut à gauche (le doigt déplace le plan dans tous les sens)
+      const land = isLand();
+      const k = land ? (cfg.phoneK || 0.8) : Math.min(cfg.phoneK || 0.8, (hh - 28) / Hc);
       if (k <= fv.k * 1.15) return { v: fv, fitted: true };
-      return { v: { k: k, x: -14 / k, y: (Hc - hh / k) / 2 }, fitted: false };
+      return { v: { k: k, x: -14 / k, y: Hc * k > hh - 28 ? -14 / k : (Hc - hh / k) / 2 }, fitted: false };
     }
     function phoneHeight() {
-      stage.style.removeProperty("--stage-h");
-      if (!isPhone() || root.classList.contains("is-full") || !cfg.autoHeight) return;
+      root.style.removeProperty("--stage-h");
+      if (!isPhone() || root.classList.contains("is-full")) return;
+      if (isLand()) {
+        // Paysage : la scène occupe l'écran sous la barre d'outils, au-dessus de la barre du bas
+        const bn = document.getElementById("bnav"), bnH = bn && bn.offsetHeight ? bn.offsetHeight : 0;
+        root.style.setProperty("--stage-h", Math.max(180, Math.round(window.innerHeight - bnH - bar.offsetHeight - 22)) + "px");
+        return;
+      }
+      if (!cfg.autoHeight) return;
       const base = stage.clientHeight;
       const k = Math.min(cfg.phoneK || 0.8, (base - 28) / Hc);
       const want = Math.round(Math.max(300, Math.min(base, Hc * k + 40)));
-      if (want < base - 30) stage.style.setProperty("--stage-h", want + "px");
+      if (want < base - 30) root.style.setProperty("--stage-h", want + "px");
     }
     function fit(animate) { fitted = true; if (!ready()) return; target(fitView(), animate); }
     function zoomAt(f, sx, sy, animate) {
       if (!ready()) return;
-      fitted = false;
+      fitted = false; userMoved = true;
       const k2 = clampK(view.k * f);
       const cx = view.x + sx / view.k, cy = view.y + sy / view.k;
       target({ k: k2, x: cx - sx / k2, y: cy - sy / k2 }, animate);
     }
     const zoomCenter = (f, animate) => { const { w, h: hh } = dims(); zoomAt(f, w / 2, (hh - overlapBottom()) / 2, animate); };
     function focusBox(b, maxK) {
+      userMoved = true;
       if (!ready()) { pending = { box: b, maxK: maxK }; return; }
-      fitted = false; target(boxView(b, maxK), true);
+      fitted = false; userMoved = true; target(boxView(b, maxK), true);
     }
     // Zoom qu'il faudrait pour cadrer une zone (sans bornes), pour décider d'un cadrage lisible
     function boxK(b) {
@@ -1289,7 +1397,8 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       const { w } = dims();
       const kk = clampK(k), vw = w / kk;
       const cx = x + (0.5 - (fx == null ? 0.5 : fx)) * vw;
-      focusBox({ x: cx - (w - 60) / 2 / kk, y: y - 90 / kk, w: (w - 60) / kk, h: 180 / kk }, kk);
+      const bh = Math.max(20, Math.min(180, dims().h - overlapBottom() - 60));
+      focusBox({ x: cx - (w - 60) / 2 / kk, y: y - bh / 2 / kk, w: (w - 60) / kk, h: bh / kk }, kk);
     }
     function showFlash(text, ms) {
       flash.textContent = text; flash.classList.add("on");
@@ -1297,7 +1406,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     }
 
     // Gestes (pointer events) : 1 doigt déplace, 2 doigts pincent ; le click qui suit un glisser est absorbé
-    const pts = new Map(); let g = null, suppressClick = false, lastTap = { t: 0, x: 0, y: 0 }, lastType = "mouse", snap = null, gestureK = 0;
+    const pts = new Map(); let g = null, suppressClick = false, lastTap = { t: 0, x: 0, y: 0 }, lastType = "mouse", snap = null, gestureK = 0, lastDbl = 0;
     stage.addEventListener("pointerdown", e => {
       lastType = e.pointerType;
       if (e.pointerType === "mouse" && e.button !== 0) return;
@@ -1316,7 +1425,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       if (g.type === "pan" && pts.size === 1) {
         if (!g.moved && Math.hypot(e.clientX - g.sx, e.clientY - g.sy) < (g.pt === "mouse" ? 4 : 8)) return;
         if (!g.moved) { g.moved = true; stage.classList.add("is-panning"); g.x = e.clientX; g.y = e.clientY; return; }
-        fitted = false;
+        fitted = false; userMoved = true;
         view.x -= (e.clientX - g.x) / view.k; view.y -= (e.clientY - g.y) / view.k;
         g.x = e.clientX; g.y = e.clientY;
         apply();
@@ -1324,7 +1433,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
         const [a, b] = [...pts.values()];
         const d = Math.hypot(a.x - b.x, a.y - b.y), mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
         const r = stage.getBoundingClientRect();
-        fitted = false;
+        fitted = false; userMoved = true;
         view.x -= (mx - g.mx) / view.k; view.y -= (my - g.my) / view.k;
         const k2 = clampK(view.k * (g.d ? d / g.d : 1)), sx = mx - r.left, sy = my - r.top;
         const cx = view.x + sx / view.k, cy = view.y + sy / view.k;
@@ -1349,7 +1458,10 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       if (g && !g.moved && e.type === "pointerup" && g.pt !== "mouse") {
         const r = stage.getBoundingClientRect();
         if (e.timeStamp - lastTap.t < 320 && Math.hypot(e.clientX - lastTap.x, e.clientY - lastTap.y) < 30) {
-          zoomAt(view.k * 2 > kBounds()[1] * 0.98 ? fitView().k / view.k : 2, e.clientX - r.left, e.clientY - r.top, true); lastTap.t = 0;
+          lastDbl = performance.now(); userMoved = true;
+          // Si le premier toucher a déjà agrandi (vue d'ensemble → lisible), on s'arrête au zoom lisible
+          zoomAt(lastTap.zoomed ? lisibleK() / view.k : (view.k * 2 > kBounds()[1] * 0.98 ? fitView().k / view.k : 2), e.clientX - r.left, e.clientY - r.top, true);
+          lastTap = { t: 0, x: 0, y: 0 };
         } else lastTap = { t: e.timeStamp, x: e.clientX, y: e.clientY };
       }
       g = null; snap = null;
@@ -1359,18 +1471,21 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     window.addEventListener("pointercancel", endPointer);
     stage.addEventListener("click", e => {
       if (suppressClick) { e.stopPropagation(); e.preventDefault(); suppressClick = false; return; }
-      if (e.target.closest(".vw-hud, .vw-mini")) return;
+      // Cible détachée (icône d'un bouton du HUD remplacée pendant le clic) : ce n'est pas un toucher sur le plan
+      if (!e.target.isConnected || e.target.closest(".vw-hud, .vw-mini")) return;
       // Trop dézoomé pour viser un fil au doigt : on agrandit d'abord autour du point touché
       if (lastType !== "mouse" && view.k < 0.45) {
         const r = stage.getBoundingClientRect();
+        lastTap.zoomed = true; userMoved = true;
         zoomAt(lisibleK() / view.k, e.clientX - r.left, e.clientY - r.top, true);
         return;
       }
       if (cfg.onTap) cfg.onTap(e);
     });
     stage.addEventListener("dblclick", e => {
-      if (lastType !== "mouse" || e.target.closest(".vw-hud, .vw-mini")) return;
+      if (lastType !== "mouse" || !e.target.isConnected || e.target.closest(".vw-hud, .vw-mini")) return;
       const r = stage.getBoundingClientRect();
+      lastDbl = performance.now(); userMoved = true;
       zoomAt(e.shiftKey ? 0.5 : 2, e.clientX - r.left, e.clientY - r.top, true);
     });
     stage.addEventListener("wheel", e => {
@@ -1384,7 +1499,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
         return;
       }
       if (full || Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-        e.preventDefault(); fitted = false;
+        e.preventDefault(); fitted = false; userMoved = true;
         view.x += e.deltaX * unit / view.k; view.y += (full ? e.deltaY : 0) * unit / view.k; apply();
         return;
       }
@@ -1411,10 +1526,10 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
         case "-": case "_": zoomCenter(1 / 1.5, true); break;
         case "0": fit(true); break;
         case "1": zoomCenter(lisibleK() / view.k, true); break;
-        case "ArrowLeft": fitted = false; view.x -= w * f / view.k; apply(); break;
-        case "ArrowRight": fitted = false; view.x += w * f / view.k; apply(); break;
-        case "ArrowUp": fitted = false; view.y -= hh * f / view.k; apply(); break;
-        case "ArrowDown": fitted = false; view.y += hh * f / view.k; apply(); break;
+        case "ArrowLeft": fitted = false; userMoved = true; view.x -= w * f / view.k; apply(); break;
+        case "ArrowRight": fitted = false; userMoved = true; view.x += w * f / view.k; apply(); break;
+        case "ArrowUp": fitted = false; userMoved = true; view.y -= hh * f / view.k; apply(); break;
+        case "ArrowDown": fitted = false; userMoved = true; view.y += hh * f / view.k; apply(); break;
         case "f": case "F": setFull(!root.classList.contains("is-full")); break;
         case "Escape":
           if (cfg.onEscape && cfg.onEscape()) break;
@@ -1440,7 +1555,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       const ox = (r.width - W * s) / 2, oy = (r.height - Hc * s) / 2;
       const cx = (e.clientX - r.left - ox) / s, cy = (e.clientY - r.top - oy) / s;
       const { w, h: hh } = dims();
-      fitted = false; view.x = cx - w / 2 / view.k; view.y = cy - hh / 2 / view.k; apply();
+      fitted = false; userMoved = true; view.x = cx - w / 2 / view.k; view.y = cy - hh / 2 / view.k; apply();
     }
     let miniDrag = false;
     mini.addEventListener("pointerdown", e => { miniDrag = true; try { mini.setPointerCapture(e.pointerId); } catch (x) { /* */ } miniMove(e); e.preventDefault(); e.stopPropagation(); });
@@ -1452,6 +1567,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     let savedY = 0, inerted = [];
     function setFull(on) {
       if (on === root.classList.contains("is-full")) return;
+      if (on && document.documentElement.classList.contains("tall-frame")) return;
       const { w, h: hh } = dims();
       const center = { x: view.x + w / 2 / view.k, y: view.y + hh / 2 / view.k };
       if (on) {
@@ -1473,9 +1589,14 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       if (on && document.fullscreenEnabled && root.requestFullscreen) {
         try { const p = root.requestFullscreen({ navigationUI: "hide" }); if (p && p.catch) p.catch(() => {}); } catch (x) { /* refusé : superposition seule */ }
       } else if (!on && document.fullscreenElement) {
+        // Le document ne défile pas tant que le navigateur est en plein écran : on restaure après la sortie réelle
+        const y0 = savedY;
+        document.addEventListener("fullscreenchange", () => requestAnimationFrame(() => requestAnimationFrame(() => window.scrollTo(0, y0))), { once: true });
         try { const p = document.exitFullscreen(); if (p && p.catch) p.catch(() => {}); } catch (x) { /* */ }
       }
       if (!on) window.scrollTo(0, savedY);
+      fullViewer = on ? api : (fullViewer === api ? null : fullViewer);
+      if (on) root.setAttribute("aria-label", cfg.label + " — plein écran"); else root.removeAttribute("aria-label");
       requestAnimationFrame(() => {
         if (fitted) fit(false);
         else { const d = dims(); view.x = center.x - d.w / 2 / view.k; view.y = center.y - d.h / 2 / view.k; apply(); }
@@ -1496,10 +1617,17 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
 
     // Redimensionnement : garde le centre, ou réajuste si la vue était « tout voir »
     const onResize = () => {
+      const ok = isPhone() + ":" + isLand();
+      if (lastOrient && ok !== lastOrient && !root.classList.contains("is-full")) {
+        lastOrient = ok; phoneHeight();
+        if (!userMoved && ready()) { const sv0 = startView(); fitted = sv0.fitted; lastSize = dims(); target(sv0.v, false); return; }
+      }
+      lastOrient = ok;
       const s = dims();
       if (s.w < 20 || s.h < 20 || !svg) { lastSize = null; return; }
-      if (pending) { const p = pending; pending = null; wantStart = false; lastSize = s; fitted = false; target(boxView(p.box, p.maxK), false); return; }
+      if (pending) { const p = pending; pending = null; wantStart = false; lastSize = s; fitted = false; userMoved = true; target(boxView(p.box, p.maxK), false); return; }
       if (wantStart) { wantStart = false; phoneHeight(); const sv0 = startView(); fitted = sv0.fitted; lastSize = dims(); target(sv0.v, false); return; }
+      if (keepLeft) { keepLeft = false; if (fitted && lastSize && s.w > lastSize.w) target(fitView(), false); else { fitted = false; apply(); } lastSize = s; return; }
       if (fitted) { target(fitView(), false); }
       else if (lastSize) {
         const cx = view.x + lastSize.w / 2 / view.k, cy = view.y + lastSize.h / 2 / view.k;
@@ -1512,7 +1640,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
 
     function setContent(newSvg, w, hh, miniContent, initial) {
       if (svg) svg.remove();
-      svg = newSvg; W = w; Hc = hh; lod = "";
+      svg = newSvg; W = w; Hc = hh; lod = null; userMoved = false;
       svg.removeAttribute("width"); svg.removeAttribute("height");
       svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
       stage.prepend(svg);
@@ -1525,20 +1653,23 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       mini.style.width = mw + "px"; mini.style.height = Math.max(40, Math.min(isPhone() ? 80 : 110, mw * Hc / W)) + "px";
       pending = null; lastSize = null; wantStart = false;
       phoneHeight();
-      if (initial && initial.k) { fitted = false; Object.assign(view, initial); if (ready()) apply(); else wantStart = false; }
+      if (initial && initial.k) { fitted = false; userMoved = true; Object.assign(view, initial); if (ready()) apply(); else wantStart = false; }
       else if (ready()) { const sv0 = startView(); fitted = sv0.fitted; target(sv0.v, false); }
       else wantStart = true;
     }
     function setDrawer(on) {
+      if (!on && drawer.contains(document.activeElement)) { try { stage.focus({ preventScroll: true }); } catch (x) { /* */ } }
+      // Le détail en colonne rétrécit la scène par la droite : le plan ne bouge pas, ni zoom ni bord gauche
+      if (on !== !drawer.hidden) keepLeft = true;
       drawer.hidden = !on;
       body.classList.toggle("has-drawer", !!on);
-      if (root.classList.contains("is-full")) requestAnimationFrame(onResize);
+      requestAnimationFrame(onResize);
       if (!on) { ob = 0; placeHud(); }
     }
     if (window.ResizeObserver) new ResizeObserver(() => { ob = overlapBottom(); placeHud(); }).observe(drawer);
     function toScreen(x, y) { const r = stage.getBoundingClientRect(); return { x: r.left + (x - view.x) * view.k, y: r.top + (y - view.y) * view.k }; }
-    return {
-      root: root, bar: bar, stage: stage, drawer: drawer, hint: hint, closeBtn: closeBtn,
+    return api = {
+      root: root, bar: bar, stage: stage, drawer: drawer, hint: hint, closeBtn: closeBtn, lastDbl: () => lastDbl, announce: announce,
       setContent: setContent, fit: fit, focusBox: focusBox, boxK: boxK, centerOn: centerOn, setFull: setFull, showFlash: showFlash, setDrawer: setDrawer,
       isFull: () => root.classList.contains("is-full"), view: () => ({ x: view.x, y: view.y, k: view.k }),
       svg: () => svg, refresh: onResize, lisibleK: lisibleK, toScreen: toScreen,
@@ -1771,7 +1902,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       });
       g.append(t);
     }
-    const dupAt = {};
+    const dupAt = {}, placed = [], dups = [];
     L.wires.forEach(w => {
       const a = L.boxes.get(ownerOf(w.from)), b = L.boxes.get(ownerOf(w.to));
       let A = { b: a, e: w.from }, B = { b: b, e: w.to };
@@ -1804,19 +1935,28 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
         const t = makeTag(w, tx, ty);
         t.g.setAttribute("data-w", w.id); t.g.setAttribute("data-net", w.net);
         gT.append(t.g);
-        // Deuxième repère côté composant : celui qui sertit le lit au bout où il travaille (2 étiquettes par fil)
+        placed.push({ x: tx, y: ty - 7, w: tw, h: 14 });
+        // Deuxième repère côté composant : celui qui sertit le lit au bout où il travaille (2 étiquettes par fil).
+        // Placé après tous les repères principaux, et seulement s'il ne recouvre aucun autre repère
         if (!A.b.node && !B.b.node) {
           const n = dupAt[B.e] = (dupAt[B.e] || 0) + 1;
           const dx = same ? x2 + 9 + (n - 1) * (tw + 4) : x2 - 9 - tw - (n - 1) * (tw + 4);
-          const d2 = makeTag(w, dx, y2, "tag-dup");
-          d2.g.setAttribute("data-w", w.id); d2.g.setAttribute("data-net", w.net);
-          gT.append(d2.g);
-          geo.dup = true;
+          dups.push({ w: w, geo: geo, x: dx, y: y2, tw: tw });
         }
       }
       g.append(sv("path", { class: "w-hit", d: d }));
       g.append(sv("title", null, w.id + " — " + w.from + " → " + w.to + (w.internal ? " (barrette)" : w.drain ? " (blindage)" : " — " + mm2(w.mm2) + " mm² " + w.color + " · " + dec(w.length_m) + " m")));
       gW.append(g);
+    });
+    const hit = (a, b) => a.x < b.x + b.w + 3 && b.x < a.x + a.w + 3 && a.y < b.y + b.h + 1 && b.y < a.y + a.h + 1;
+    dups.forEach(d => {
+      const r = { x: d.x, y: d.y - 7, w: d.tw, h: 14 };
+      if (placed.some(p => hit(p, r))) return; // sans place : le repère d'extrémité apparaît quand le fil est sélectionné
+      const d2 = makeTag(d.w, d.x, d.y, "tag-dup");
+      d2.g.setAttribute("data-w", d.w.id); d2.g.setAttribute("data-net", d.w.net);
+      gT.append(d2.g);
+      placed.push(r);
+      d.geo.dup = true;
     });
     svg.append(gW, gB, gT, gBig);
     return { svg: svg, layout: L, mini: miniG, gT: gT };
@@ -1831,7 +1971,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     goSheetImpl(id, focus || {}, from, row);
   }
   RENDER.planches = function (sec) {
-    if (!H.sheets[PL.sheet]) PL.sheet = SHEET_IDS[0];
+    if (!own(H.sheets, PL.sheet)) PL.sheet = SHEET_IDS[0];
     let current = null, selection = null;
     const counts = {}; SHEET_IDS.forEach(id => { counts[id] = REAL.filter(w => w.sheet === id).length; });
     const sel = h("select", { id: "pl-sheet", "aria-label": "Choisir la planche" },
@@ -1840,20 +1980,20 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     const step = d => open(SHEET_IDS[(SHEET_IDS.indexOf(PL.sheet) + d + SHEET_IDS.length) % SHEET_IDS.length]);
     const prev = h("button", { class: "vw-btn", "aria-label": "Planche précédente", title: "Planche précédente (P)", onclick: () => step(-1) }, icon("prev"));
     const next = h("button", { class: "vw-btn", "aria-label": "Planche suivante", title: "Planche suivante (N)", onclick: () => step(1) }, icon("next"));
-    const search = createSearch({ placeholder: "Fil, broche, composant…", cls: "grow" });
+    const search = createSearch({ placeholder: "Fil, broche, composant…", cls: "grow", focusAfter: () => { try { vw.stage.focus({ preventScroll: true }); } catch (e) { /* */ } } });
     const tagsBtn = h("button", { class: "vw-btn txt", "aria-pressed": PL.tags ? "true" : "false", title: "Afficher / masquer les repères de fils" }, icon("tag"), "Repères");
     const views = {};
     const saveView = debounce((sheet, v) => store("view:" + sheet, v), 300);
     const vw = createViewer({
-      label: "Planche de câblage", autoHeight: true,
+      label: "Planche de câblage", autoHeight: true, keysHint: ", N / P planche, [ ] fil, / recherche", keys: "N P [ ] /",
       onTap: onTap,
       onEscape: () => { if (selection) { clearSel(); return true; } return false; },
       onKey: e => {
+        // [ ] avant le filtre des modificateurs : AltGr (Windows) et Option (macOS) les produisent sur AZERTY
+        if ((e.key === "]" || e.key === "[") && !e.metaKey) { stepWire(e.key === "]" ? 1 : -1); e.preventDefault(); return true; }
         if (e.ctrlKey || e.metaKey || e.altKey) return false;
         if (e.key === "n" || e.key === "N" || e.key === "PageDown") { step(1); e.preventDefault(); return true; }
         if (e.key === "p" || e.key === "P" || e.key === "PageUp") { step(-1); e.preventDefault(); return true; }
-        if (e.key === "]") { stepWire(1); e.preventDefault(); return true; }
-        if (e.key === "[") { stepWire(-1); e.preventDefault(); return true; }
         if (e.key === "/") { search.input.focus(); e.preventDefault(); return true; }
         return false;
       },
@@ -1869,7 +2009,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     const cap = h("p", { class: "vw-hint inline-only" });
 
     function open(id, focus) {
-      if (!H.sheets[id]) id = SHEET_IDS[0];
+      if (!own(H.sheets, id)) id = SHEET_IDS[0];
       PL.sheet = id; store("sheet", id);
       sel.value = id;
       selection = null;
@@ -1879,9 +2019,10 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       vw.setContent(current.svg, current.layout.width, current.layout.height, current.mini, saved);
       vw.setDrawer(false);
       const ws = REAL.filter(w => w.sheet === id);
-      fill(cap, h("strong", null, id + " · " + sheetTitle(id)), " — " + ws.length + " fils · " + dec(ws.reduce((s, w) => s + w.length_m, 0), 1) + " m. ",
+      fill(cap, h("strong", null, id + " · " + sheetTitle(id)), " — " + ws.length + (ws.length > 1 ? " fils · " : " fil · ") + totM(ws) + " m. ",
         "Gauche : ECU · centre : capteurs et actionneurs · droite : alimentation et masses. Étiquette jaune = repère et section du fil.");
       if (currentTab === "planches") setHash("planche-" + id);
+      vw.announce("Planche " + id + ", " + sheetTitle(id) + ", " + ws.length + " fils");
       if (!hasFocus) return;
       if (focus.wire && WB[focus.wire]) { const w = WB[focus.wire]; select({ nets: new Set([w.net]), wire: w.id }, true); }
       else if (focus.ep) { const w = (wiresAt[focus.ep] || []).find(x => x.sheet === id) || (wiresAt[focus.ep] || [])[0]; if (w) select({ nets: new Set([w.net]), ep: focus.ep }, true); }
@@ -1975,6 +2116,14 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       renderDrawer(s);
       if (currentTab === "planches") setHash(s.wire ? "fil-" + s.wire : "planche-" + PL.sheet);
       if (focus) focusSel(s);
+      const wsel = s.wire ? WB[s.wire] : null;
+      vw.announce(wsel ? wsel.id + " sélectionné, " + mm2(wsel.mm2) + " mm² " + colorName(wsel.color) + ", " + dec(wsel.length_m) + " m, de " + wsel.from + " vers " + wsel.to
+        : s.owner ? s.owner + " sélectionné" : s.ep ? s.ep + " sélectionnée" : "Réseau sélectionné");
+      // Bureau, plan en ligne : si le détail s'ouvre sous la ligne de flottaison, on le fait apparaître
+      if (!focus && !isNarrow() && !vw.isFull()) requestAnimationFrame(() => {
+        const dr = vw.drawer.getBoundingClientRect();
+        if (dr.top > window.innerHeight - 120) window.scrollBy({ top: Math.min(dr.top - stickyOffset() - 8, dr.top - window.innerHeight + 260), behavior: REDUCED ? "auto" : "smooth" });
+      });
     }
     function renderDrawer(s) {
       // Composant choisi : seulement ses propres fils (ce qu'on sertit), pas tous les réseaux partagés
@@ -2038,7 +2187,11 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
         const b = current.layout.boxes.get(box.dataset.owner);
         select({ nets: new Set(b.ports.flatMap(p => p.wires.map(w => w.net))), owner: box.dataset.owner }, false); return;
       }
-      if (selection) clearSel();
+      // Toucher dans le vide : on attend de savoir si c'est le premier d'un double-toucher (zoom), qui garde la sélection
+      if (selection) {
+        const s0 = selection; clearTimeout(onTap.t);
+        onTap.t = setTimeout(() => { if (selection === s0 && performance.now() - vw.lastDbl() > 400) clearSel(); }, 340);
+      }
     }
     cutListeners.push((id, on) => {
       const svg = vw.svg(); if (!svg) return;
@@ -2049,9 +2202,16 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       pushBack(from, row);
       if (!vw.isFull()) {
         const r = vw.root.getBoundingClientRect();
-        if (r.top < stickyOffset() || r.top > window.innerHeight * 0.3) scrollToEl(vw.root, 6);
+        // Paysage : la barre d'outils en haut, la scène remplit l'écran jusqu'à la barre du bas
+        if (isLand()) scrollToEl(vw.root, 4);
+        else if (r.top < stickyOffset() || r.top > window.innerHeight * 0.3) scrollToEl(vw.root, 6);
       }
       open(id, focus);
+      focusIfLost(vw.stage);
+    };
+    SNAP.planches = {
+      get: () => ({ sheet: PL.sheet, focus: !selection ? {} : selection.wire ? { wire: selection.wire } : selection.owner ? { owner: selection.owner } : selection.ep ? { ep: selection.ep } : {} }),
+      set: f => { if (f.sheet !== PL.sheet || Object.keys(f.focus).length) open(f.sheet, f.focus); },
     };
     sec.append(h("h2", { class: "d-only" }, "Planches de câblage"),
       h("p", { class: "lede d-only" }, "Un schéma par sous-système, tracé automatiquement depuis la définition du faisceau. Touche un fil pour sa longueur et ses extrémités ; agrandis en plein écran pour travailler."),
@@ -2067,9 +2227,11 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     opts = opts || {};
     const chk = h("input", { type: "checkbox", class: "cut-chk", "aria-label": "Fil " + w.id + " coupé", checked: isCut(w.id) });
     const owners = [...new Set([ownerOf(w.from), ownerOf(w.to)])].filter(isFiche);
+    const idBtn = h("button", { type: "button", class: "wid", "aria-label": w.id + " — " + w.from + " vers " + w.to + ", " + dec(w.length_m) + " m" });
+    idBtn.textContent = w.id;
     const tr = h("tr", { class: "clickable" + (isCut(w.id) ? " done" : ""), dataset: { w: w.id } },
       h("td", { class: "c-chk cut-cell" }, h("label", { title: "Marquer comme coupé" }, chk)),
-      h("td", { class: "c-id" }, h("span", { class: "wid" }, w.id)),
+      h("td", { class: "c-id" }, idBtn),
       h("td", { class: "c-mm2 num" }, mm2(w.mm2)),
       h("td", { class: "c-color" }, colorChip(w.color), h("span", { class: "mono m-only", style: "margin-left:6px" }, mm2(w.mm2) + " mm²")),
       h("td", { class: "c-len num" }, dec(w.length_m)),
@@ -2089,9 +2251,10 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     chk.addEventListener("change", () => setCut(w.id, chk.checked));
     tr.addEventListener("click", () => {
       if (opts.onRow) opts.onRow();
-      else if (cardMode(tr)) tr.classList.toggle("open");
+      else if (cardMode(tr)) { tr.classList.toggle("open"); idBtn.setAttribute("aria-expanded", tr.classList.contains("open") ? "true" : "false"); }
       else goSheet(w.sheet, { wire: w.id }, "coupe", w.id);
     });
+    if (!opts.onRow) idBtn.setAttribute("aria-expanded", "false");
     return tr;
   }
   cutListeners.push((id, on) => {
@@ -2102,8 +2265,9 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
   });
   let coupeOpenImpl = null;
   function openCut(wid, from, row) {
+    const src = from || currentTab;
     if (!rendered.coupe) navigate("coupe", { noScroll: true });
-    coupeOpenImpl(wid, from || currentTab, row);
+    coupeOpenImpl(wid, src, row);
   }
   RENDER.coupe = function (sec) {
     const saved = store("cutf") || {};
@@ -2130,8 +2294,13 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       const n = REAL.filter(w => isCut(w.id)).length;
       [prog, progM].forEach(p => fill(p, h("i", null, h("b", { style: "width:" + (100 * n / REAL.length) + "%" })), n + " / " + REAL.length + " coupés"));
     }
-    function fillRows() {
-      store("cutf", { q: q.value, h: harn.value, s: sh.value, o: sort.value, d: state.value });
+    let grpInfo = [];
+    const grpText = (w, grp) => { const done = grp.filter(x => isCut(x.id)).length;
+      return mm2(w.mm2) + " mm² · " + w.color + " — " + grp.length + " fil" + (grp.length > 1 ? "s" : "") + " · " + dec(sumCm(grp) / 100, 2) + " m" + (done ? " · " + done + " coupé" + (done > 1 ? "s" : "") : ""); };
+    let tempFilter = false, userF = null;
+    function fillRows(noStore) {
+      // Un lien croisé filtre la liste sans écraser les filtres choisis par l'utilisateur
+      if (noStore !== true) { tempFilter = false; userF = null; store("cutf", { q: q.value, h: harn.value, s: sh.value, o: sort.value, d: state.value }); }
       const nf = [harn.value, sh.value, state.value].filter(Boolean).length + (sort.value !== "cut" ? 1 : 0);
       filtN.hidden = !nf; filtN.textContent = nf;
       const t = norm(q.value);
@@ -2141,8 +2310,9 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       if (sort.value === "cut") rows.sort((a, b) => b.mm2 - a.mm2 || natural(a.color, b.color) || natural(a.id, b.id));
       else if (sort.value === "len") rows.sort((a, b) => b.length_m - a.length_m || natural(a.id, b.id));
       else rows.sort((a, b) => SHEET_IDS.indexOf(a.sheet) - SHEET_IDS.indexOf(b.sheet) || natural(a.id, b.id));
-      count.textContent = countM.textContent = rows.length + " fils · " + dec(rows.reduce((s, w) => s + w.length_m, 0), 1) + " m";
+      count.textContent = countM.textContent = rows.length + (rows.length > 1 ? " fils · " : " fil · ") + totM(rows) + " m";
       const out = [];
+      grpInfo = [];
       if (sort.value === "cut") {
         // En-têtes de bobine : une section et une couleur = un passage au dérouleur
         let key = null;
@@ -2151,23 +2321,42 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
           if (k !== key) {
             key = k;
             const grp = rows.filter(x => x.mm2 + "|" + x.color === k);
-            const done = grp.filter(x => isCut(x.id)).length;
-            out.push(h("tr", { class: "group" }, h("td", { colspan: 10 }, h("span", { class: "cc" }, swatch(w.color), mm2(w.mm2) + " mm² · " + w.color + " — " + grp.length + " fil" + (grp.length > 1 ? "s" : "") + " · " + dec(grp.reduce((s, x) => s + x.length_m, 0), 2) + " m" + (done ? " · " + done + " coupé" + (done > 1 ? "s" : "") : "")))));
+            const span = h("span", { class: "cc" }, swatch(w.color), grpText(w, grp));
+            grpInfo.push({ span: span, w: w, grp: grp });
+            out.push(h("tr", { class: "group" }, h("td", { colspan: 10 }, span)));
           }
           out.push(cutRow(w));
         });
       } else rows.forEach(w => out.push(cutRow(w)));
+      if (!rows.length) out.push(h("tr", { class: "empty" }, h("td", { colspan: 10, class: "muted" }, "Aucun fil ne correspond aux filtres.")));
       tbody.replaceChildren(...out);
       progress();
     }
-    cutListeners.push(() => { progress(); if (state.value || sort.value === "cut") { const y = window.scrollY; fillRows(); window.scrollTo(0, y); } });
+    // Cocher un fil : on met à jour sur place (la carte reste ouverte, le focus reste sur la case)
+    cutListeners.push(() => {
+      progress();
+      if (!state.value) { grpInfo.forEach(g => fill(g.span, swatch(g.w.color), grpText(g.w, g.grp))); return; }
+      const y = window.scrollY, open = [...tbody.querySelectorAll("tr.open")].map(t => t.dataset.w);
+      const a = document.activeElement, fr = a && tbody.contains(a) ? a.closest("tr[data-w]") : null;
+      fillRows(tempFilter);
+      open.forEach(w => { const t = tbody.querySelector('tr[data-w="' + w + '"]'); if (t) t.classList.add("open"); });
+      if (fr) { const c = tbody.querySelector('tr[data-w="' + fr.dataset.w + '"] .cut-chk'); if (c) c.focus({ preventScroll: true }); }
+      window.scrollTo(0, y);
+    });
+    SNAP.coupe = { get: () => ({ q: q.value, h: harn.value, s: sh.value, o: sort.value, d: state.value }),
+      set: f => { q.value = f.q; harn.value = f.h; sh.value = f.s; sort.value = f.o; state.value = f.d; fillRows(); } };
+    // Revenir sur la Coupe par la navigation efface le filtre temporaire posé par un lien croisé
+    ENTER.coupe = () => { if (tempFilter && userF) SNAP.coupe.set(userF); };
     [q, harn, sh, sort, state].forEach(el => el.addEventListener("input", fillRows));
     fillRows();
     coupeOpenImpl = function (wid, from, row) {
-      q.value = wid; harn.value = ""; sh.value = ""; state.value = ""; fillRows();
       navigate("coupe", { noScroll: true }); pushBack(from, row);
+      if (!tbody.querySelector('tr[data-w="' + wid + '"]')) {
+        if (!tempFilter) userF = SNAP.coupe.get();
+        q.value = wid; harn.value = ""; sh.value = ""; state.value = ""; fillRows(true); tempFilter = true;
+      }
       const tr = tbody.querySelector('tr[data-w="' + wid + '"]');
-      if (tr) { if (cardMode(tr)) tr.classList.add("open"); scrollToEl(tr, 90); flashEl(tr); }
+      if (tr) { if (cardMode(tr)) tr.classList.add("open"); scrollToEl(tr, 90); flashEl(tr); focusIfLost(tr.querySelector(".wid")); }
     };
     const cables = h("div", { class: "tbl-wrap" }, h("table", { class: "tbl" },
       h("thead", null, h("tr", null, ["Câble", "Fonction", "Type", "Ø ext.", "Coupe", "Conducteurs"].map(t => h("th", null, t)))),
@@ -2192,8 +2381,9 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
   // ------------------------------------------------------------ connecteurs
   let ficheImpl = null;
   function openFiche(oid, from, row) {
+    const src = from || currentTab;
     if (!rendered.connecteurs) navigate("connecteurs", { noScroll: true });
-    ficheImpl(oid, from || currentTab, row);
+    ficheImpl(oid, src, row);
   }
   RENDER.connecteurs = function (sec) {
     const owners = Object.keys(OW).filter(isFiche);
@@ -2204,12 +2394,12 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       const pins = Object.keys(EP).filter(e => EP[e].owner === oid).sort((a, b) => natural(EP[a].pin, EP[b].pin));
       const bsheet = bestSheet(oid);
       const nPins = pins.filter(e => (wiresAt[e] || []).length).length;
-      const card = h("details", { class: "card", id: "fiche-" + oid, open: openDefault, style: "--fam:" + famVar(FAM[o.system]), dataset: { fam: FAM[o.system] || "ref" } },
+      const card = h("details", { class: "card" + (bsheet ? " has-go" : ""), id: "fiche-" + oid, open: openDefault, style: "--fam:" + famVar(FAM[o.system]), dataset: { fam: FAM[o.system] || "ref" } },
         h("summary", null, h("div", { class: "chead" },
           h("div", { class: "id" }, oid, h("span", { class: "chev", "aria-hidden": "true" }, "▾")), h("h3", null, o.label),
           h("p", null, [o.ref, o.type].filter(Boolean).join(" · ")),
-          h("p", null, h("span", { class: "muted" }, "Connecteur : "), o.connector, " · " + nPins + " broche" + (nPins > 1 ? "s" : "") + " câblée" + (nPins > 1 ? "s" : "") + (o.verify ? " · ⚠ à vérifier" : "")),
-          bsheet ? h("button", { class: "btn card-go", onclick: ev => { ev.preventDefault(); ev.stopPropagation(); goSheet(bsheet, { owner: oid }, "connecteurs", oid); }, title: "Voir sur la planche " + bsheet }, icon("planches"), bsheet) : null)),
+          h("p", null, h("span", { class: "muted" }, "Connecteur : "), o.connector, " · " + nPins + " broche" + (nPins > 1 ? "s" : "") + " câblée" + (nPins > 1 ? "s" : "") + (o.verify ? " · ⚠ à vérifier" : "")))),
+        bsheet ? h("button", { class: "btn card-go", onclick: ev => { ev.preventDefault(); ev.stopPropagation(); goSheet(bsheet, { owner: oid }, "connecteurs", oid); }, title: "Voir sur la planche " + bsheet, "aria-label": "Voir " + oid + " sur la planche " + bsheet }, icon("planches"), bsheet) : null,
         o.notes ? h("p", { class: "note" }, o.notes) : null,
         o.verify ? h("p", { class: "verify" }, h("strong", null, "À vérifier : "), o.verify) : null,
         h("div", { class: "tbl-wrap", style: "border:0;border-radius:0" }, h("table", { class: "tbl" },
@@ -2250,6 +2440,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       c.open = true;
       scrollToEl(c, 80);
       flashEl(c);
+      focusIfLost(c.querySelector("summary"));
       setHash("fiche-" + oid);
     };
     sec.append(brochSwitch("connecteurs"), h("h2", null, "Connecteurs et brochages composants"),
@@ -2267,7 +2458,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
   RENDER.energie = function (sec) {
     const st = s => s === "bad" ? h("span", { class: "chip bad st" }, "✕ dépasse") : s === "warn" ? h("span", { class: "chip warn st" }, "! à mesurer") : h("span", { class: "chip good st" }, "✓ OK");
     const fuseRows = H.fuses.map(f => h("details", { class: "meter-d" },
-      h("summary", { class: "meter-row", "aria-label": f.id + " " + f.label + " : " + dec(f.load, 1) + " A sur " + f.rating + " A, toucher pour le détail" },
+      h("summary", { class: "meter-row", "aria-label": f.id + " " + f.label + " : " + dec(f.load, 1) + " A sur " + f.rating + " A, " + ({ ok: "OK", warn: "à mesurer", bad: "dépasse" }[f.status] || "") + ", section mini " + mm2(f.min_mm2) + " mm², toucher pour le détail" },
         h("span", { class: "id" }, f.id),
         h("span", { class: "lbl" }, f.label, h("small", null, "Section mini " + mm2(f.min_mm2) + " mm² · " + f.loads.length + " consommateur" + (f.loads.length > 1 ? "s" : "") + " ▾")),
         h("div", { class: "meter", role: "img", "aria-label": f.id + " : " + dec(f.load, 1) + " A sur " + f.rating + " A" },
@@ -2420,7 +2611,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     }
     vw.bar.append(vw.closeBtn, h("span", { class: "count grow" }, "Échelle 1 m = " + SCALE + " unités · " + T.segments.length + " tronçons · touche un tronçon pour ses fils"));
     const segRows = order.slice(1).map(n => segOf[n]).map(s => h("tr", { class: "clickable", onclick: () => { scrollToEl(vw.root, 6); selectSeg(s.id, true); } },
-      h("td", { class: "mono" }, s.a + " → " + s.b),
+      h("td", { class: "mono" }, h("button", { type: "button", class: "linkish", onclick: ev => { ev.stopPropagation(); scrollToEl(vw.root, 6); selectSeg(s.id, true); } }, s.a + " → " + s.b)),
       h("td", null, T.nodes[s.b]), h("td", { class: "num" }, Math.round(s.length * 1000) + " mm"), h("td", { class: "num" }, s.wires),
       h("td", { class: "num" }, s.bundle_mm ? dec(s.bundle_mm, 1) + " mm" : "—"), h("td", { class: "mono fn" }, s.sleeve || "—")));
     sec.append(h("h2", null, "Formboard"),
@@ -2481,19 +2672,28 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
   function route(tok, initial) {
     try { tok = decodeURIComponent(tok || ""); } catch (e) { tok = tok || ""; }
     const T = tok.toUpperCase();
-    const m = /^(planche|fil|fiche|comp)-(.+)$/.exec(tok || "");
-    if (m && m[1] === "planche" && H.sheets[m[2]]) {
-      if (rendered.planches) goSheet(m[2], {}); else { PL.sheet = m[2]; navigate("planches", { keepHash: true }); }
-      setHash("planche-" + m[2]);
-    } else if (m && m[1] === "fil" && WB[m[2]]) { goSheet(WB[m[2]].sheet, { wire: m[2] }); hideBack(); }
-    else if (m && (m[1] === "fiche" || m[1] === "comp") && OW[m[2]]) { openFiche(m[2]); hideBack(); }
-    else if (TAB[tok]) navigate(tok);
-    // Liens courts tapés à la main : #IGN-03, #COIL3, #SNS, #CMC1.A2
-    else if (WB[T]) { goSheet(WB[T].sheet, { wire: T }); hideBack(); }
-    else if (H.sheets[T]) route("planche-" + T);
-    else if (OW[T] && isFiche(T)) { openFiche(T); hideBack(); }
-    else if (H.ecu.pins.some(p => p.id === T)) { navigate("ecu"); openPin(T); }
-    else if (initial) navigate(TAB[store("tab")] ? store("tab") : "synthese");
+    // Fil sans zéro : #IGN-3 = IGN-03
+    const wireId = id => own(WB, id) ? id : own(WB, id.replace(/-(\d)$/, "-0$1")) ? id.replace(/-(\d)$/, "-0$1") : null;
+    const m = /^(planche|fil|fiche|comp)-(.+)$/i.exec(tok);
+    const kind = m && m[1].toLowerCase(), K = m && m[2].toUpperCase();
+    const pinOf = id => H.ecu.pins.some(p => p.id === id);
+    if (kind === "planche" && own(H.sheets, K)) {
+      if (rendered.planches) goSheet(K, {}); else { PL.sheet = K; navigate("planches", { keepHash: true }); }
+      setHash("planche-" + K);
+    } else if (kind === "fil" && wireId(K)) { const id = wireId(K); goSheet(WB[id].sheet, { wire: id }); }
+    else if ((kind === "fiche" || kind === "comp") && own(OW, K) && isFiche(K)) openFiche(K);
+    else if (own(TAB, tok)) navigate(tok);
+    else if (own(TAB, tok.toLowerCase())) navigate(tok.toLowerCase());
+    // Liens courts tapés à la main : #IGN-03, #IGN-3, #COIL3, #SNS, #CMC1.A2, #F3, #K1
+    else if (T && wireId(T)) { const id = wireId(T); goSheet(WB[id].sheet, { wire: id }); }
+    else if (own(H.sheets, T)) { route("planche-" + T); return; }
+    else if (own(OW, T) && isFiche(T)) openFiche(T);
+    else if (pinOf(T)) { navigate("ecu"); openPin(T); }
+    else if (own(OW, T) && bestSheet(T)) goSheet(bestSheet(T), { owner: T });
+    else if (initial) { const st = store("tab"); navigate(own(TAB, st) ? st : "synthese"); }
+    else return;
+    // Une adresse tapée est un point de départ : pas de « retour » vers l'endroit d'où l'on vient
+    hideBack();
   }
   window.addEventListener("hashchange", () => { try { route(location.hash.replace("#", ""), false); } catch (e) { /* */ } });
   let start = "";

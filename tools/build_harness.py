@@ -49,6 +49,12 @@ SLEEVES = [(3.2, 1.6), (4.8, 2.4), (6.4, 3.2), (9.5, 4.8), (12.7, 6.4),
            (19.1, 9.5), (25.4, 12.7), (38.1, 19.1), (50.8, 25.4)]
 
 
+
+def total_m(wires):
+    """Total en mètres arrondi au décimètre, calculé en centimètres entiers (même valeur que le dossier HTML)."""
+    cm = sum(round(w["length_m"] * 100) for w in wires)
+    return (cm + 5) // 10 / 10
+
 def natural_key(text):
     return [int(t) if t.isdigit() else t for t in re.split(r"(\d+)", str(text))]
 
@@ -767,7 +773,7 @@ def report_md(h, data):
     lines = [f"# {m['project']} — rapport de vérification", "",
              f"*{m['ecu']} · révision {m['revision']} · {m['date']} · {m['status']}*", "",
              "> Généré par `tools/build_harness.py` depuis `harness/m50b25_vanos_turbo.yaml`. Ne pas éditer à la main.", "",
-             f"**{len(real)} fils** · **{sum(w['length_m'] for w in real):.1f} m de fil coupé** · "
+             f"**{len(real)} fils** · **{total_m(real):.1f} m de fil coupé** · "
              f"{len(h.d['splices'])} épissures/barrettes · {len(data['fuses'])} fusibles · "
              f"{sum(1 for o in h.owners.values() if o['cat'] == 'relay')} relais", "",
              f"## Contrôle des règles électriques : {len(v['errors'])} erreur(s), {len(v['warnings'])} alerte(s)", ""]
@@ -827,7 +833,7 @@ def main():
     write_outputs(h, export, Path(args.out))
     v = export["validation"]
     real = [w for w in h.wires if not w["internal"] and not w["drain"]]
-    print(f"{len(real)} fils, {sum(w['length_m'] for w in real):.1f} m, "
+    print(f"{len(real)} fils, {total_m(real):.1f} m, "
           f"{len(v['errors'])} erreur(s), {len(v['warnings'])} alerte(s), {len(v['infos'])} info(s)")
     for e in v["errors"]:
         print(f"  ERREUR  {e}")
