@@ -4,7 +4,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
 <style>
-/* Layout: engineering-drawing title block over a tabbed workshop binder; every drawing sits on its own bordered sheet. */
+/* Layout: engineering-drawing title block over a tabbed workshop binder; on phones a thumb-reach bottom bar, drawings open in a pan/zoom viewer. */
 :root {
   color-scheme: light;
   --paper: #eceff0;
@@ -12,7 +12,7 @@
   --sheet-2: #f1f4f5;
   --ink: #14202a;
   --ink-2: #4a5864;
-  --muted: #74828d;
+  --muted: #5f6d78;
   --rule: #d2dade;
   --rule-strong: #9fb0ba;
   --accent: #0f6b8c;
@@ -26,6 +26,8 @@
   --warn-ink: #8a5a00;
   --bad-ink: #a92a2a;
   --wire-edge: #26323b;
+  --scrim: rgba(10, 16, 20, 0.45);
+  --shadow: rgba(10, 16, 20, 0.18);
   --fam-fire: #2a78d6;
   --fam-wbo: #eb6834;
   --fam-sens: #1baf7a;
@@ -36,13 +38,17 @@
   --font-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
   --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --bnav-h: 0px;
+  --sticky-top: calc(env(safe-area-inset-top, 0px) + 50px);
+  --dock-h: 0px;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
     --paper: #0d1215; --sheet: #151c21; --sheet-2: #1b242a; --ink: #e4eaee; --ink-2: #a5b3bd;
-    --muted: #7f8d97; --rule: #28333b; --rule-strong: #3f4d57; --accent: #5ab8db; --accent-ink: #06202b;
+    --muted: #93a1ad; --rule: #28333b; --rule-strong: #3f4d57; --accent: #5ab8db; --accent-ink: #06202b;
     --good-ink: #46cf5e; --warn-ink: #f4c04a; --bad-ink: #f07a74; --wire-edge: #a3b2bc;
+    --scrim: rgba(0, 0, 0, 0.6); --shadow: rgba(0, 0, 0, 0.5);
     --fam-fire: #3987e5; --fam-wbo: #d95926; --fam-sens: #199e70; --fam-dbw: #c98500; --fam-out: #d55181;
     --fam-pwr: #008300; --fam-ref: #3f4d57;
   }
@@ -50,27 +56,32 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
   --paper: #0d1215; --sheet: #151c21; --sheet-2: #1b242a; --ink: #e4eaee; --ink-2: #a5b3bd;
-  --muted: #7f8d97; --rule: #28333b; --rule-strong: #3f4d57; --accent: #5ab8db; --accent-ink: #06202b;
+  --muted: #93a1ad; --rule: #28333b; --rule-strong: #3f4d57; --accent: #5ab8db; --accent-ink: #06202b;
   --good-ink: #46cf5e; --warn-ink: #f4c04a; --bad-ink: #f07a74; --wire-edge: #a3b2bc;
+  --scrim: rgba(0, 0, 0, 0.6); --shadow: rgba(0, 0, 0, 0.5);
   --fam-fire: #3987e5; --fam-wbo: #d95926; --fam-sens: #199e70; --fam-dbw: #c98500; --fam-out: #d55181;
   --fam-pwr: #008300; --fam-ref: #3f4d57;
 }
+html { scroll-padding-top: calc(var(--sticky-top) + 8px); scroll-padding-bottom: calc(var(--bnav-h) + var(--dock-h) + 8px); }
 body { background: var(--paper); color: var(--ink); font: 15px/1.55 var(--font-body); }
 * { box-sizing: border-box; }
 a { color: var(--accent); }
-button { font: inherit; color: inherit; }
+button, input, select { font: inherit; color: inherit; }
+button, a, summary, label { -webkit-tap-highlight-color: color-mix(in srgb, var(--accent) 18%, transparent); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .wrap { max-width: 1320px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 56px; }
 @media (min-width: 900px) { .wrap { padding-inline: 28px; } }
 .mono { font-family: var(--font-mono); }
 .muted { color: var(--muted); }
 .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+svg.ic { width: 22px; height: 22px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.m-flex, .m-block { display: none !important; }
 
 /* ---------- Cartouche ---------- */
 .tb { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); border: 1.5px solid var(--ink); background: var(--sheet); }
 .tb-main { padding: 18px 20px 16px; border-right: 1.5px solid var(--ink); min-width: 0; }
 .eyebrow { font: 600 11.5px/1.2 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); }
-h1 { font: 700 clamp(30px, 5.4vw, 52px)/0.95 var(--font-display); text-transform: uppercase; letter-spacing: .01em; margin: 10px 0 8px; text-wrap: balance; }
+h1 { font: 700 clamp(28px, 5.4vw, 52px)/0.95 var(--font-display); text-transform: uppercase; letter-spacing: .01em; margin: 10px 0 8px; text-wrap: balance; }
 .tb-sub { margin: 0; color: var(--ink-2); }
 .tb-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; }
 .tb-grid > div { padding: 9px 12px; border-bottom: 1px solid var(--rule-strong); min-width: 0; }
@@ -79,13 +90,17 @@ h1 { font: 700 clamp(30px, 5.4vw, 52px)/0.95 var(--font-display); text-transform
 .tb-grid dt { font: 600 10.5px/1.2 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
 .tb-grid dd { margin: 3px 0 0; font-weight: 600; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
 @media (max-width: 780px) { .tb { grid-template-columns: 1fr; } .tb-main { border-right: 0; border-bottom: 1.5px solid var(--ink); } }
+.mhead { display: none; }
 
-/* ---------- Onglets ---------- */
-.tabs { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; background: var(--paper); border-bottom: 1.5px solid var(--ink); margin-top: 18px; }
-.tabs::-webkit-scrollbar { display: none; }
-.tabs button { font: 600 15.5px/1 var(--font-display); letter-spacing: .06em; text-transform: uppercase; padding: 13px 13px 11px; border: 0; border-bottom: 3px solid transparent; background: none; color: var(--ink-2); white-space: nowrap; cursor: pointer; }
-.tabs button:hover { color: var(--ink); }
-.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+/* ---------- Onglets (bureau) ---------- */
+.tabs { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40; display: flex; align-items: stretch; gap: 2px; background: var(--paper); border-bottom: 1.5px solid var(--ink); margin-top: 18px; }
+.tabs-scroll { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; min-width: 0; flex: 1; }
+.tabs-scroll::-webkit-scrollbar { display: none; }
+.tabs button.tab-btn { font: 600 15.5px/1 var(--font-display); letter-spacing: .06em; text-transform: uppercase; padding: 15px 13px 13px; border: 0; border-bottom: 3px solid transparent; background: none; color: var(--ink-2); white-space: nowrap; cursor: pointer; }
+.tabs button.tab-btn:hover { color: var(--ink); }
+.tabs button.tab-btn[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.tabs .srch { align-self: center; width: 290px; flex: none; margin-left: 8px; }
+@media (max-width: 1099px) { .tabs .srch { display: none; } }
 .tab { padding-top: 22px; }
 h2 { font: 700 26px/1.05 var(--font-display); text-transform: uppercase; letter-spacing: .02em; margin: 0 0 12px; text-wrap: balance; }
 h3 { font: 600 19px/1.15 var(--font-display); text-transform: uppercase; letter-spacing: .03em; margin: 0 0 8px; }
@@ -93,6 +108,48 @@ h3 { font: 600 19px/1.15 var(--font-display); text-transform: uppercase; letter-
 .stack { display: grid; gap: 22px; }
 .cols-2 { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); align-items: start; }
 .panel { background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; padding: 16px 18px; min-width: 0; }
+
+/* ---------- Téléphone : en-tête compact + barre du bas ---------- */
+.bnav { display: none; }
+@media (max-width: 760px), (max-height: 520px) and (pointer: coarse) {
+  :root { --bnav-h: calc(60px + max(env(safe-area-inset-bottom, 0px), 4px)); --sticky-top: env(safe-area-inset-top, 0px); }
+  body { padding-bottom: calc(var(--bnav-h) + var(--dock-h)); }
+  .wrap { padding-block: 0 28px; }
+  .m-flex { display: flex !important; }
+  .m-block { display: block !important; }
+  .d-only { display: none !important; }
+  .tabs { display: none; }
+  .mhead { display: flex; align-items: center; gap: 10px; padding: 10px 0; min-height: 60px; border-bottom: 1.5px solid var(--ink); }
+  .mhead .mh-txt { flex: 1; min-width: 0; display: grid; }
+  .mhead strong { font: 700 20px/1.05 var(--font-display); text-transform: uppercase; letter-spacing: .03em; }
+  .mhead small { font: 500 11.5px/1.4 var(--font-mono); color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .mhead small .chip { font-size: 10px; padding: 2px 5px; }
+  body:not([data-tab="synthese"]) .tb { display: none; }
+  .tb { margin-top: 14px; }
+  .tb-main { padding: 14px 16px 12px; }
+  .tab { padding-top: 14px; }
+  h2 { font-size: 24px; }
+  .bnav { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; background: var(--sheet); border-top: 1.5px solid var(--ink); padding-bottom: max(env(safe-area-inset-bottom, 0px), 4px); }
+  .bnav button { position: relative; display: grid; justify-items: center; align-content: center; gap: 3px; min-height: 60px; padding: 6px 2px; border: 0; background: none; color: var(--ink-2); font: 600 12.5px/1.05 var(--font-display); letter-spacing: .05em; text-transform: uppercase; cursor: pointer; min-width: 0; }
+  .bnav button span.l { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bnav button[aria-current="page"] { color: var(--accent); box-shadow: inset 0 3px 0 var(--accent); }
+  .bnav svg.ic { width: 24px; height: 24px; }
+  .bnav .badge { position: absolute; top: 5px; left: calc(50% + 8px); font: 600 9.5px/1 var(--font-mono); letter-spacing: 0; padding: 2px 4px; border-radius: 8px; background: var(--accent); color: var(--accent-ink); }
+  .kb .bnav { display: none; }
+  .tall-frame .bnav { display: none; }
+  .tall-frame .tabs { display: flex; }
+}
+/* Téléphone en paysage : barre du bas et en-tête plus bas, plan à la hauteur de l'écran */
+@media (max-height: 520px) and (pointer: coarse) {
+  :root { --bnav-h: calc(48px + env(safe-area-inset-bottom, 0px)); }
+  .wrap { padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px)); }
+  .bnav { padding: 0 env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px); }
+  .bnav button { display: flex; justify-content: center; align-items: center; min-height: 48px; gap: 8px; padding: 4px 6px; }
+  .bnav svg.ic { width: 20px; height: 20px; }
+  .bnav .badge { top: 2px; left: auto; right: 2px; }
+  .mhead { min-height: 50px; padding: 4px 0; }
+  .viewer .vw-stage { height: var(--stage-h, max(200px, calc(100svh - var(--bnav-h) - 76px))); }
+}
 
 /* ---------- Puces ---------- */
 .chip { display: inline-flex; align-items: center; gap: 5px; font: 600 11px/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; padding: 4px 7px; border-radius: 3px; border: 1px solid currentColor; white-space: nowrap; }
@@ -102,7 +159,6 @@ h3 { font: 600 19px/1.15 var(--font-display); text-transform: uppercase; letter-
 .chip.fix { color: var(--accent); }
 .chip.add { color: var(--ink-2); }
 .chip.info { color: var(--muted); }
-.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; }
 
 /* ---------- Synthèse ---------- */
 .checklist-v { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
@@ -111,34 +167,113 @@ h3 { font: 600 19px/1.15 var(--font-display); text-transform: uppercase; letter-
 .audit article { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 14px; padding: 13px 16px; background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; }
 .audit article h3 { font: 600 16px/1.3 var(--font-body); text-transform: none; letter-spacing: 0; margin: 0 0 4px; }
 .audit article p { margin: 0; color: var(--ink-2); max-width: 82ch; }
+.audit details > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 10px; padding: 12px 16px; min-height: 48px; background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; font-weight: 600; }
+.audit details > summary::-webkit-details-marker { display: none; }
+.audit details > summary::after { content: "▾"; margin-left: auto; color: var(--muted); }
+.audit details[open] > summary::after { content: "▴"; }
+.audit details[open] > summary { margin-bottom: 10px; }
+.audit details > div { display: grid; gap: 10px; }
 @media (max-width: 560px) { .audit article { grid-template-columns: 1fr; gap: 8px; } }
 ul.plain { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+.quick { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); }
+.quick button { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; align-items: center; text-align: left; padding: 14px 16px; min-height: 64px; border: 1px solid var(--rule); border-radius: 6px; background: var(--sheet); cursor: pointer; }
+.quick button:hover { border-color: var(--ink); }
+.quick button svg.ic { grid-row: span 2; color: var(--accent); width: 26px; height: 26px; }
+.quick button strong { font: 600 16px/1.2 var(--font-display); letter-spacing: .04em; text-transform: uppercase; }
+.quick button small { color: var(--muted); font-size: 12.5px; }
 
 /* ---------- Tableaux ---------- */
 .tbl-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 6px; background: var(--sheet); }
 .tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; }
-.tbl th { font: 600 10.5px/1.2 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 9px 10px; border-bottom: 1.5px solid var(--ink); white-space: nowrap; background: var(--sheet); position: sticky; top: 0; }
+.tbl th { font: 600 10.5px/1.2 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 9px 10px; border-bottom: 1.5px solid var(--ink); white-space: nowrap; background: var(--sheet); }
 .tbl td { padding: 7px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
 .tbl tr:last-child td { border-bottom: 0; }
-.tbl tr.group td { background: var(--sheet-2); font: 600 12px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+.tbl tr.group td { background: var(--sheet-2); font: 600 12px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); }
 .tbl .fn { color: var(--ink-2); font-size: 12.5px; }
 .tbl tbody tr.clickable { cursor: pointer; }
 .tbl tbody tr.clickable:hover td { background: var(--sheet-2); }
-.sw { display: inline-block; width: 26px; height: 12px; border-radius: 3px; border: 1px solid var(--rule-strong); vertical-align: -1px; flex: none; }
+.tbl tr.done td { color: var(--muted); }
+.tbl tr.done .wid { background: var(--rule); color: var(--ink-2); text-decoration: line-through; }
+.flash, .tbl tr.flash td { outline: 3px solid var(--accent); outline-offset: -3px; }
+.sw { display: inline-block; width: 26px; height: 12px; border-radius: 3px; border: 1px solid color-mix(in srgb, var(--ink) 55%, transparent); vertical-align: -1px; flex: none; }
 .cc { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
 .wid { font: 600 12.5px var(--font-mono); background: var(--tag); color: var(--tag-ink); padding: 1px 5px; border-radius: 2px; white-space: nowrap; }
-button.wid { border: 0; cursor: pointer; }
+button.wid { position: relative; border: 0; cursor: pointer; padding: 3px 7px; }
+@media (pointer: coarse) { button.wid::after { content: ""; position: absolute; inset: -12px -4px; } }
+.cut-chk { width: 22px; height: 22px; accent-color: var(--accent); margin: 0; cursor: pointer; }
+.cut-cell { width: 44px; text-align: center; }
+.cut-cell label { display: inline-grid; place-items: center; width: 44px; height: 44px; margin: -11px -6px; cursor: pointer; }
+.c-path, .c-det, .c-act, .cut-tbl .c-meta, .m-only { display: none; }
+
+/* Tableaux compacts quand la place manque (requête de conteneur) */
+.cq { container-type: inline-size; min-width: 0; }
+@container (max-width: 640px) {
+  .tbl-wrap.cards-m { border: 0; background: none; overflow: visible; border-radius: 0; }
+  .cards-m .tbl, .cards-m .tbl tbody { display: block; }
+  .cards-m .tbl thead { display: none; }
+  .cards-m .tbl tr { display: grid; gap: 2px 10px; background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; padding: 8px 10px; margin-bottom: 6px; }
+  .cards-m .tbl td { display: block; padding: 0; border: 0; min-width: 0; }
+  .cards-m .tbl tr.group { display: block; background: none; border: 0; padding: 14px 2px 4px; margin: 0; }
+  .cards-m .tbl tr.group td { background: none; padding: 0; }
+  .m-only { display: inline; }
+  .cut-tbl tr { grid-template-columns: 44px auto minmax(0, 1fr) auto; grid-template-areas: "chk id color len" "chk path path path"; align-items: center; }
+  .cut-tbl tr.open { grid-template-areas: "chk id color len" "chk path path path" "chk det det det" "chk act act act"; }
+  .cut-tbl .c-chk { grid-area: chk; align-self: start; }
+  .cut-tbl .c-chk label { margin: -6px -6px; }
+  .cut-tbl .c-id { grid-area: id; }
+  .cut-tbl .c-color { grid-area: color; overflow: hidden; }
+  .cut-tbl .c-len { grid-area: len; font: 600 15px var(--font-mono); }
+  .cut-tbl .c-len::after { content: " m"; font-size: 12px; color: var(--muted); }
+  .cut-tbl .c-path { grid-area: path; display: block; font: 500 13px/1.35 var(--font-mono); overflow-wrap: anywhere; }
+  .cut-tbl .c-mm2, .cut-tbl .c-from, .cut-tbl .c-to, .cut-tbl .c-cable, .cut-tbl .c-harn, .cut-tbl .c-note { display: none !important; }
+  .cut-tbl tr:not(.open) .c-det, .cut-tbl tr:not(.open) .c-act { display: none; }
+  .cut-tbl tr.open .c-det { grid-area: det; display: grid; gap: 2px; font-size: 13px; color: var(--ink-2); padding-top: 4px; }
+  .cut-tbl tr.open .c-act { grid-area: act; display: flex; flex-wrap: wrap; gap: 8px; padding: 6px 0 2px; }
+  .pin-tbl tr { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "pin fn" "wire wire" "dest dest"; }
+  .pin-tbl td:nth-child(1) { grid-area: pin; font-weight: 600; }
+  .pin-tbl td:nth-child(2) { grid-area: fn; }
+  .pin-tbl td.p-wire { grid-area: wire; display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; }
+  .pin-tbl td.p-dest { grid-area: dest; }
+  .pin-tbl td.p-free { grid-area: wire; }
+}
 
 /* ---------- Outils ---------- */
 .toolbar { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; margin-bottom: 12px; }
+.toolbar.sticky { position: sticky; top: var(--sticky-top); z-index: 30; background: var(--paper); padding: 10px 0; margin-bottom: 4px; }
 .seg { display: flex; flex-wrap: wrap; gap: 6px; }
-.seg button, .btn { border: 1px solid var(--rule-strong); background: var(--sheet); border-radius: 4px; padding: 6px 10px; font-size: 13px; cursor: pointer; white-space: nowrap; }
+.seg button, .btn { border: 1px solid var(--rule-strong); background: var(--sheet); border-radius: 4px; padding: 7px 11px; font-size: 13.5px; cursor: pointer; white-space: nowrap; min-height: 40px; display: inline-flex; align-items: center; gap: 6px; }
 .seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 .btn:hover, .seg button:hover { border-color: var(--ink); }
-.field { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink-2); }
-input[type="search"], select { font: inherit; font-size: 14px; color: var(--ink); background: var(--sheet); border: 1px solid var(--rule-strong); border-radius: 4px; padding: 6px 9px; min-width: 0; }
-input[type="search"] { width: min(100%, 280px); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn .n { font: 600 11px var(--font-mono); background: var(--accent); color: var(--accent-ink); border-radius: 8px; padding: 1px 6px; }
+input[type="search"], select { font-size: 16px; color: var(--ink); background: var(--sheet); border: 1px solid var(--rule-strong); border-radius: 4px; padding: 8px 10px; min-width: 0; min-height: 44px; }
+input[type="search"] { width: min(100%, 300px); }
 .count { font: 500 12.5px var(--font-mono); color: var(--muted); }
+.progress { display: inline-flex; align-items: center; gap: 8px; font: 500 12.5px var(--font-mono); color: var(--ink-2); }
+.progress i { display: inline-block; width: 90px; height: 8px; border-radius: 4px; background: var(--sheet-2); border: 1px solid var(--rule); overflow: hidden; position: relative; }
+.progress i b { position: absolute; inset: 0 auto 0 0; background: var(--good); }
+.segsw { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1.5px solid var(--ink); border-radius: 6px; overflow: hidden; margin-bottom: 14px; }
+.segsw button { min-height: 44px; border: 0; background: var(--sheet); font: 600 15px/1 var(--font-display); letter-spacing: .05em; text-transform: uppercase; cursor: pointer; }
+.segsw button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+@media (max-width: 760px), (max-height: 520px) and (pointer: coarse) {
+  .toolbar.sticky { margin-inline: -16px; padding: 8px 16px; border-bottom: 1px solid var(--rule); flex-wrap: nowrap; }
+  .toolbar.sticky input[type="search"], .toolbar.sticky .srch { flex: 1 1 auto; width: auto; }
+}
+
+/* ---------- Recherche globale ---------- */
+.srch { position: relative; min-width: 0; }
+.srch input { width: 100%; padding-left: 36px; }
+.srch > svg.ic { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--muted); pointer-events: none; }
+.srch-list { position: absolute; left: 0; right: 0; top: calc(100% + 4px); z-index: 80; margin: 0; padding: 4px; list-style: none; background: var(--sheet); border: 1.5px solid var(--ink); border-radius: 6px; box-shadow: 0 10px 28px var(--shadow); max-height: min(60vh, 440px); overflow: auto; min-width: min(92vw, 360px); overscroll-behavior: contain; }
+.srch-list li.opt { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 2px 10px; align-items: center; padding: 8px 8px 8px 10px; border-radius: 4px; cursor: pointer; min-height: 48px; }
+.srch-list li.opt[aria-selected="true"], .srch-list li.opt:hover { background: var(--sheet-2); }
+.srch-list .k { font: 600 9.5px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--rule-strong); border-radius: 3px; padding: 2px 4px; grid-row: span 2; }
+.srch-list .t { font: 600 13.5px var(--font-mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.srch-list .s { font-size: 12px; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; grid-column: 2; }
+.srch-list .acts { grid-row: span 2; grid-column: 3; display: flex; gap: 4px; align-items: center; }
+.srch-list .acts button { min-height: 36px; padding: 4px 8px; border: 1px solid var(--rule-strong); border-radius: 4px; background: var(--sheet); font: 500 11.5px var(--font-mono); cursor: pointer; }
+.srch-list .acts button:hover { border-color: var(--ink); }
+.srch-list .empty { color: var(--muted); font-size: 13px; padding: 10px; }
 
 /* ---------- Brochage ECU ---------- */
 .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--ink-2); margin-bottom: 14px; }
@@ -150,25 +285,94 @@ input[type="search"] { width: min(100%, 280px); }
 .cmc .lab { font: 600 12px var(--font-mono); color: var(--muted); display: grid; place-items: center; }
 .pin { --fam: var(--fam-ref); min-height: 56px; min-width: 0; border: 1px solid var(--rule); border-left: 4px solid var(--fam); background: color-mix(in srgb, var(--fam) 13%, var(--sheet)); border-radius: 3px; padding: 5px 6px; text-align: left; cursor: pointer; display: grid; align-content: start; gap: 1px; }
 .pin .pid { font: 600 13px/1.1 var(--font-mono); }
-.pin .pfn { font-size: 11px; line-height: 1.2; color: var(--ink-2); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow-wrap: anywhere; }
+.pin .pfn { font-size: 11px; line-height: 1.2; color: var(--ink-2); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow-wrap: break-word; hyphens: auto; }
 .pin.free { --fam: var(--rule-strong); background: repeating-linear-gradient(135deg, transparent 0 6px, var(--rule) 6px 7px), var(--sheet); }
 .pin.free .pid, .pin.free .pfn { color: var(--muted); }
-.pin[aria-pressed="true"] { outline: 2px solid var(--accent); outline-offset: 1px; }
+.pin[aria-pressed="true"] { outline: 3px solid var(--accent); outline-offset: 1px; }
 .detail { border: 1.5px solid var(--ink); background: var(--sheet); border-radius: 6px; padding: 14px 16px; }
 .detail h3 { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; }
 .kv { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 14px; margin: 8px 0 0; font-size: 14px; }
 .kv dt { color: var(--muted); font: 600 11px/1.9 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; }
 .kv dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.wire-line { display: grid; gap: 6px; padding: 10px 0; border-top: 1px solid var(--rule); }
+.wire-line:first-of-type { border-top: 0; }
 
-/* ---------- Planches ---------- */
-.sheet-chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; }
-.sheet-chips button { border: 1px solid var(--rule-strong); background: var(--sheet); border-radius: 4px; padding: 7px 10px; cursor: pointer; white-space: nowrap; font-size: 13px; display: inline-flex; gap: 6px; align-items: center; }
-.sheet-chips button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-.sheet-chips .n { font: 500 11px var(--font-mono); opacity: .7; }
-.frame { overflow: auto; border: 1.5px solid var(--ink); background: var(--sheet); border-radius: 4px; max-height: 80vh; -webkit-overflow-scrolling: touch; }
-.frame-cap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px 12px; font-size: 13px; color: var(--ink-2); padding: 8px 2px 0; }
-svg.schem, svg.formboard { display: block; }
-.schem text, .formboard text { fill: var(--ink); font-family: var(--font-body); }
+/* Panneau non bloquant (détail de broche, téléphone) */
+.dock { position: fixed; left: 0; right: 0; bottom: var(--bnav-h); z-index: 45; background: var(--sheet); border-top: 1.5px solid var(--ink); border-radius: 14px 14px 0 0; box-shadow: 0 -10px 30px var(--shadow); max-height: 52vh; max-height: 52dvh; overflow: auto; overscroll-behavior: contain; padding: 0 16px 14px; }
+.dock[hidden] { display: none; }
+.dock-head { position: sticky; top: 0; display: flex; align-items: center; gap: 10px; background: var(--sheet); padding: 10px 0 8px; z-index: 1; }
+.dock-head h3 { flex: 1; margin: 0; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; min-width: 0; }
+
+/* ---------- Visualiseur (planches, formboard) ---------- */
+.viewer { position: relative; display: grid; gap: 10px; scroll-margin-top: calc(var(--sticky-top) + 6px); }
+.vw-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.vw-bar .grow { flex: 1 1 220px; min-width: 0; }
+.vw-nav { display: flex; gap: 6px; align-items: center; min-width: 0; flex: 1 1 300px; }
+.vw-nav select { flex: 1; min-width: 0; font-weight: 600; }
+.vw-body { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+.vw-stage { position: relative; height: clamp(340px, calc(100vh - 230px), 860px); height: var(--stage-h, clamp(340px, calc(100svh - 230px), 860px)); border: 1.5px solid var(--ink); border-radius: 4px; background: var(--sheet); overflow: hidden; touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; overscroll-behavior: contain; }
+.vw-stage:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+.vw-stage.is-panning { cursor: grabbing; }
+.vw-stage > svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.vw-hud { position: absolute; right: 10px; bottom: 10px; display: flex; gap: 6px; z-index: 3; }
+.vw-btn { min-width: 44px; height: 44px; padding: 0 11px; border-radius: 8px; border: 1px solid var(--rule-strong); background: var(--sheet); box-shadow: 0 1px 4px var(--shadow); font: 600 17px/1 var(--font-body); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; }
+.vw-btn:hover { border-color: var(--ink); }
+.vw-btn[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.vw-btn.txt { font-size: 13.5px; font-weight: 600; }
+.vw-pct { font: 500 12.5px var(--font-mono); min-width: 62px; }
+.vw-mini { position: absolute; left: 10px; bottom: 10px; z-index: 3; background: var(--sheet); border: 1px solid var(--rule-strong); border-radius: 6px; box-shadow: 0 1px 4px var(--shadow); touch-action: none; cursor: crosshair; overflow: hidden; }
+.vw-mini svg { display: block; width: 100%; height: 100%; }
+.vw-mini-view { fill: color-mix(in srgb, var(--accent) 18%, transparent); stroke: var(--accent); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.vw-flash { position: absolute; left: 50%; top: 14px; transform: translateX(-50%); z-index: 4; background: var(--ink); color: var(--paper); padding: 8px 12px; border-radius: 6px; font-size: 13px; pointer-events: none; opacity: 0; max-width: calc(100% - 28px); text-align: center; }
+.vw-flash.on { opacity: .94; }
+.vw-scale { position: absolute; left: 10px; top: 10px; z-index: 3; display: grid; gap: 3px; pointer-events: none; font: 600 11px var(--font-mono); color: var(--ink); background: color-mix(in srgb, var(--sheet) 88%, transparent); padding: 4px 6px; border-radius: 4px; }
+.vw-scale i { display: block; height: 7px; border: 2px solid var(--ink); border-top: 0; }
+.vw-hint { font-size: 12.5px; color: var(--muted); margin: 0; }
+.vw-close { display: none; }
+html.vw-lock, html.vw-lock body { overflow: hidden; }
+.viewer.is-full { position: fixed; inset: 0; z-index: 60; background: var(--paper); padding: calc(env(safe-area-inset-top, 0px) + 8px) calc(env(safe-area-inset-right, 0px) + 10px) calc(env(safe-area-inset-bottom, 0px) + 8px) calc(env(safe-area-inset-left, 0px) + 10px); grid-template-rows: auto minmax(0, 1fr); gap: 8px; }
+.viewer.is-full .vw-hint, .viewer.is-full .inline-only { display: none; }
+.viewer.is-full .vw-body { min-height: 0; height: 100%; }
+.viewer.is-full .vw-stage { height: 100%; touch-action: none; }
+.vw-stage.pan-all { touch-action: none; }
+.viewer.is-full .vw-close { display: inline-flex; order: -1; }
+@media (max-width: 760px), (max-height: 520px) and (pointer: coarse) {
+  .vw-pct { display: none; }
+  .vw-mini { left: 10px; top: 10px; bottom: auto; }
+  .viewer:not(.is-full) .vw-mini { display: none; }
+  .viewer.is-full .vw-nav { flex-basis: 200px; }
+  .viewer.is-full .vw-bar .srch { flex: 1 1 160px; }
+}
+@media (prefers-reduced-motion: no-preference) { .vw-flash { transition: opacity .2s; } }
+
+/* Panneau de détail du visualiseur */
+.vw-drawer { background: var(--sheet); border: 1.5px solid var(--ink); border-radius: 6px; min-width: 0; }
+.vw-drawer[hidden] { display: none !important; }
+.vw-dhead { display: flex; align-items: center; gap: 8px; padding: 10px 12px 8px 14px; }
+.vw-dhead .sum { flex: 1; min-width: 0; display: grid; gap: 2px; text-align: left; background: none; border: 0; padding: 2px 0; cursor: pointer; min-height: 44px; align-content: center; }
+.vw-dhead .sum strong { font: 600 14px var(--font-body); overflow-wrap: anywhere; display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; }
+.vw-dhead .sum small { color: var(--ink-2); font: 500 12.5px var(--font-mono); overflow-wrap: anywhere; }
+.vw-dquick { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 12px 10px 14px; border-bottom: 1px solid var(--rule); }
+.vw-dquick:empty { display: none; }
+.vw-dquick .btn { min-height: 40px; font-size: 13px; }
+.vw-dbody { padding: 12px 14px 14px; }
+.vw-dbody .tbl { font-size: 13px; }
+.vw-dact { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.vw-grab { display: none; }
+@media (min-width: 900px) {
+  .viewer.is-full .vw-body.has-drawer { grid-template-columns: minmax(0, 1fr) 380px; }
+  .viewer.is-full .vw-drawer { overflow: auto; max-height: 100%; }
+}
+@media (max-width: 899px) {
+  .vw-drawer { position: fixed; left: 0; right: 0; bottom: var(--bnav-h); z-index: 45; border-radius: 14px 14px 0 0; border-width: 1.5px 0 0; box-shadow: 0 -10px 30px var(--shadow); max-height: 62vh; max-height: 62dvh; overflow: auto; overscroll-behavior: contain; }
+  .viewer.is-full .vw-drawer { bottom: 0; padding-bottom: env(safe-area-inset-bottom, 0px); z-index: 62; }
+  .vw-grab { display: block; width: 40px; height: 5px; border-radius: 3px; background: var(--rule-strong); margin: 7px auto 0; }
+  .vw-drawer.peek .vw-dbody { display: none; }
+  .vw-dhead { position: sticky; top: 0; background: var(--sheet); z-index: 1; }
+}
+
+/* Dessins */
+svg.schem text, svg.formboard text { fill: var(--ink); font-family: var(--font-body); }
 .schem .box-bg { fill: var(--sheet); stroke: var(--ink); stroke-width: 1.2; }
 .schem .box-head { fill: var(--sheet-2); }
 .schem .box-sep { stroke: var(--rule-strong); stroke-width: 1; }
@@ -176,7 +380,10 @@ svg.schem, svg.formboard { display: block; }
 .schem .t-label { font-size: 11.5px; font-weight: 600; }
 .schem .t-ref, .schem .t-fn { font-size: 10.5px; fill: var(--ink-2); }
 .schem .t-pin { font: 600 11px var(--font-mono); }
-.schem .t-x { font: 500 10px var(--font-mono); fill: var(--accent); cursor: pointer; }
+.schem .xg rect { fill: color-mix(in srgb, var(--accent) 12%, var(--sheet)); stroke: var(--accent); stroke-width: 1; }
+.schem .xg text { font: 600 10px var(--font-mono); fill: var(--accent); }
+.schem .xg { cursor: pointer; }
+.schem .t-big { font: 700 30px var(--font-mono); fill: var(--ink); display: none; paint-order: stroke; stroke: var(--sheet); stroke-width: 6px; stroke-linejoin: round; pointer-events: none; }
 .schem .node text, .schem .xref { paint-order: stroke; stroke: var(--sheet); stroke-width: 3.5px; stroke-linejoin: round; }
 .schem .port-dot { fill: var(--ink); }
 .schem .node-dot { fill: var(--ink); }
@@ -185,21 +392,74 @@ svg.schem, svg.formboard { display: block; }
 .schem .w-halo { fill: none; stroke: var(--sheet); stroke-linecap: round; }
 .schem .w-edge { fill: none; stroke: var(--wire-edge); stroke-linecap: round; }
 .schem .w-core, .schem .w-stripe { fill: none; stroke-linecap: butt; }
-.schem .w-hit { fill: none; stroke: transparent; stroke-width: 14; cursor: pointer; }
+.schem .w-hit { fill: none; stroke: transparent; stroke-width: 22px; vector-effect: non-scaling-stroke; cursor: pointer; }
 .schem .w-bus { fill: none; stroke: var(--muted); stroke-width: 4; stroke-dasharray: 2 4; stroke-linecap: round; }
 .schem .w-drain { fill: none; stroke: var(--muted); stroke-width: 1.4; stroke-dasharray: 5 3; }
-.schem .tag rect { fill: var(--tag); stroke: var(--tag-ink); stroke-opacity: .35; }
+.schem .tag rect.tg { fill: var(--tag); stroke: var(--tag-ink); stroke-opacity: .35; }
 .schem .tag text { font: 500 10px var(--font-mono); fill: var(--tag-ink); }
-.schem .box, .schem .node { cursor: pointer; }
+.schem .tag.done rect.tg { fill: var(--rule); }
+.schem .tag.pick rect.tg { stroke: var(--accent); stroke-width: 2.5; stroke-opacity: 1; }
+.schem .box, .schem .node, .schem .tag { cursor: pointer; }
 .schem.dim .wire:not(.hl), .schem.dim .tag:not(.hl) { opacity: .1; }
 .schem.dim .box:not(.hl), .schem.dim .node:not(.hl) { opacity: .4; }
 .schem .wire.hl .w-edge { stroke: var(--accent); }
-.hide-tags .tag { display: none; }
+.schem .wire.pick .w-halo { stroke: var(--accent); stroke-opacity: .4; }
+.schem.lod-2 .t-ref, .schem.lod-2 .tag-dup:not(.hl) { display: none; }
+.schem.lod-1 .tag, .schem.lod-1 .t-fn, .schem.lod-1 .t-ref, .schem.lod-1 .t-pin, .schem.lod-1 .t-label, .schem.lod-1 .t-id, .schem.lod-1 .xref, .schem.lod-1 .xg { display: none; }
+.schem.lod-1.dim .tag.hl { display: inline; }
+.schem.lod-1 .t-big { display: inline; }
+.no-tags .schem .tag:not(.hl) { display: none; }
+.formboard .seg-hit { fill: none; stroke: transparent; stroke-width: 22px; vector-effect: non-scaling-stroke; cursor: pointer; }
+.formboard .node-hit { fill: transparent; cursor: pointer; }
+.formboard .seg.hl path.seg-ink { stroke: var(--accent); }
+.formboard.lod-1 .fb-small { display: none; }
+
+/* ---------- Feuille du bas (dialog) ---------- */
+dialog.bs { margin: auto auto 0; width: 100%; max-width: 100%; max-height: 86vh; max-height: 86dvh; border: 0; border-top: 1.5px solid var(--ink); border-radius: 14px 14px 0 0; padding: 0 16px calc(max(env(safe-area-inset-bottom, 0px), 8px) + 12px); background: var(--sheet); color: var(--ink); box-shadow: 0 -10px 30px var(--shadow); overflow: auto; overscroll-behavior: contain; }
+dialog.bs::backdrop { background: var(--scrim); }
+.bs-head { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--sheet); padding: 12px 0 10px; }
+.bs-head h3 { margin: 0; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+.bs-grab { width: 40px; height: 5px; border-radius: 3px; background: var(--rule-strong); margin: 8px auto 0; }
+.icon-btn { width: 44px; height: 44px; flex: none; display: inline-grid; place-items: center; border: 1px solid var(--rule-strong); border-radius: 8px; background: var(--sheet); cursor: pointer; }
+.icon-btn:hover { border-color: var(--ink); }
+@media (min-width: 761px) {
+  dialog.bs { margin: auto; width: min(560px, 92vw); border: 1.5px solid var(--ink); border-radius: 10px; max-height: 84vh; }
+}
+.more-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
+.more-grid button { display: grid; gap: 6px; justify-items: start; padding: 12px 14px; min-height: 80px; border: 1px solid var(--rule); border-radius: 8px; background: var(--sheet-2); cursor: pointer; text-align: left; }
+.more-grid button[aria-current="page"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.more-grid button strong { font: 600 16px/1.1 var(--font-display); letter-spacing: .05em; text-transform: uppercase; }
+.more-grid button small { color: var(--muted); font-size: 12px; line-height: 1.3; }
+.more-grid svg.ic { color: var(--accent); }
+.filters { display: grid; gap: 10px; }
+.filters label { display: grid; gap: 4px; font: 600 11px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.filters select { width: 100%; }
+
+/* Retour après un lien croisé */
+.backchip { position: fixed; z-index: 55; left: 50%; transform: translateX(-50%); top: calc(var(--sticky-top) + 10px); display: inline-flex; align-items: center; border-radius: 24px; background: var(--ink); color: var(--paper); box-shadow: 0 6px 18px var(--shadow); max-width: calc(100vw - 32px); }
+.backchip[hidden] { display: none; }
+.store-warn { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; margin: 0 0 14px; padding: 10px 12px; border: 1px solid var(--warn-ink); border-radius: 6px; background: var(--sheet); font-size: 13.5px; color: var(--ink-2); }
+.backchip button { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 12px; border: 0; background: none; color: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer; min-width: 0; }
+.backchip .bk-go { padding-left: 10px; max-width: calc(100vw - 100px); }
+.backchip .bk-go span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.backchip .bk-x { border-left: 1px solid color-mix(in srgb, var(--paper) 30%, transparent); width: 44px; justify-content: center; padding: 0; }
+.backchip .bk-n { font: 600 11px/1 var(--font-mono); background: var(--paper); color: var(--ink); border-radius: 8px; padding: 2px 5px; }
+/* Téléphone : en haut à gauche, jamais sur le tiroir de détail, le HUD ou la barre du bas ; la recherche reste libre */
+@media (max-width: 760px), (max-height: 520px) and (pointer: coarse) {
+  .backchip { top: calc(var(--sticky-top) + 8px); left: max(12px, env(safe-area-inset-left, 0px)); transform: none; max-width: calc(100vw - 88px); }
+  .backchip .bk-go { max-width: calc(100vw - 140px); }
+}
 
 /* ---------- Jauges énergie ---------- */
-.meters { display: grid; gap: 4px; }
+.meters { display: grid; gap: 0; }
 .meter-row { display: grid; grid-template-columns: 54px minmax(0, 1.2fr) minmax(90px, 1fr) 160px 104px; gap: 12px; align-items: center; padding: 8px 4px; border-bottom: 1px solid var(--rule); }
-.meter-row:last-child { border-bottom: 0; }
+details.meter-d { border-bottom: 1px solid var(--rule); }
+details.meter-d:last-child { border-bottom: 0; }
+details.meter-d > summary { list-style: none; cursor: pointer; border-bottom: 0; min-height: 52px; }
+details.meter-d > summary::-webkit-details-marker { display: none; }
+details.meter-d > ul { margin: 0 0 10px 66px; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+details.meter-d > ul li { font: 500 12px var(--font-mono); border: 1px solid var(--rule); border-radius: 4px; padding: 3px 7px; background: var(--sheet-2); }
+.meters > .meter-row:last-child { border-bottom: 0; }
 .meter-row .id { font: 600 13px var(--font-mono); }
 .meter-row .lbl { min-width: 0; font-size: 13.5px; }
 .meter-row .lbl small { display: block; color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
@@ -215,36 +475,53 @@ svg.schem, svg.formboard { display: block; }
   .meter-row .meter { grid-column: 1 / -1; grid-row: 2; }
   .meter-row .val { grid-column: 2; grid-row: 3; text-align: left; }
   .meter-row .st { grid-column: 3; grid-row: 1; }
+  details.meter-d > ul { margin-left: 4px; }
 }
 
 /* ---------- Connecteurs ---------- */
 .cards { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr)); align-items: start; }
-.card { background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; min-width: 0; }
-.card header { padding: 12px 14px 10px; border-bottom: 1px solid var(--rule); border-left: 4px solid var(--fam, var(--fam-ref)); }
-.card header .id { font: 600 13px var(--font-mono); }
-.card header h3 { font: 600 16px/1.25 var(--font-body); text-transform: none; letter-spacing: 0; margin: 2px 0 2px; }
-.card header p { margin: 0; font-size: 12.5px; color: var(--ink-2); }
+.card { background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; min-width: 0; scroll-margin-top: calc(var(--sticky-top) + 74px); }
+.card[hidden] { display: none; }
+.card > summary { list-style: none; cursor: pointer; }
+.card > summary::-webkit-details-marker { display: none; }
+.card .chead { padding: 12px 14px 10px; border-bottom: 1px solid var(--rule); border-left: 4px solid var(--fam, var(--fam-ref)); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; }
+.card:not([open]) .chead { border-bottom: 0; }
+.card .chead > * { grid-column: 1; }
+.card .chead .card-go { grid-column: 2; grid-row: 1 / span 3; align-self: start; }
+.card .chead .id { font: 600 13px var(--font-mono); display: flex; gap: 8px; align-items: center; }
+.card .chead .id .chev { color: var(--muted); font-size: 12px; }
+.card .chead h3 { font: 600 16px/1.25 var(--font-body); text-transform: none; letter-spacing: 0; margin: 2px 0 2px; }
+.card .chead p { margin: 0; font-size: 12.5px; color: var(--ink-2); }
 .card .note { margin: 0; padding: 8px 14px; font-size: 12.5px; color: var(--ink-2); border-bottom: 1px solid var(--rule); }
 .card .verify { margin: 0; padding: 8px 14px; font-size: 12.5px; border-bottom: 1px solid var(--rule); background: color-mix(in srgb, var(--warn) 14%, var(--sheet)); }
-.card .tbl { font-size: 12.5px; }
-.card .tbl td, .card .tbl th { padding: 6px 10px; }
-.card .tbl th { position: static; }
+.card .tbl { font-size: 12.5px; table-layout: fixed; }
+.card .tbl td, .card .tbl th { padding: 7px 8px; overflow-wrap: anywhere; }
+.card .tbl col.c1 { width: 42px; }
+.fam-chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; max-width: 100%; flex-wrap: nowrap; }
+.fam-chips::-webkit-scrollbar { display: none; }
+.fam-chips button { display: inline-flex; align-items: center; gap: 6px; }
+.fam-chips i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
 
 /* ---------- Contrôles ---------- */
 .phase { background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; }
 .phase header { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--rule); }
 .phase header h3 { margin: 0; }
 .phase ol { list-style: none; margin: 0; padding: 4px 0; }
-.phase li label { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; padding: 8px 16px; cursor: pointer; align-items: start; }
-.phase li input { width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--accent); }
+.phase li label { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; padding: 11px 16px; cursor: pointer; align-items: start; min-height: 44px; }
+.phase li input { width: 22px; height: 22px; margin: 1px 0 0; accent-color: var(--accent); }
 .phase li input:checked + span { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--rule-strong); }
 
 footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink); font-size: 13px; color: var(--ink-2); display: flex; flex-wrap: wrap; gap: 6px 20px; justify-content: space-between; }
-@media (prefers-reduced-motion: no-preference) { .pin, .seg button, .tabs button { transition: background-color .12s, color .12s, border-color .12s; } }
+@media (pointer: coarse) { .seg button, .btn { min-height: 44px; } }
+@media (prefers-reduced-motion: no-preference) { .pin, .seg button, .tab-btn, .bnav button { transition: background-color .12s, color .12s, border-color .12s; } }
 </style>
 
 <div class="wrap">
-  <header class="tb">
+  <div class="mhead" id="mhead">
+    <div class="mh-txt"><strong id="mh-title">M50B25 Turbo</strong><small id="mh-sub"></small></div>
+    <button class="icon-btn" id="mh-search" aria-label="Rechercher un fil, une broche, un composant"></button>
+  </div>
+  <header class="tb" id="tb">
     <div class="tb-main">
       <div class="eyebrow">Faisceau moteur · plan de fabrication</div>
       <h1 id="tb-title">Faisceau M50B25 Turbo</h1>
@@ -252,13 +529,16 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     </div>
     <dl class="tb-grid" id="tb-grid"></dl>
   </header>
-  <nav class="tabs" id="tabs" role="tablist" aria-label="Sections du dossier"></nav>
+  <nav class="tabs" id="tabs" aria-label="Sections du dossier"><div class="tabs-scroll" id="tabs-scroll" role="tablist"></div></nav>
   <main id="main"></main>
   <footer>
     <span>Généré depuis <span class="mono">harness/m50b25_vanos_turbo.yaml</span> par <span class="mono">tools/build_harness.py</span>.</span>
     <span id="foot-rev"></span>
   </footer>
 </div>
+<nav class="bnav" id="bnav" aria-label="Navigation principale"></nav>
+<div class="backchip" id="backchip" hidden></div>
+<aside class="dock" id="dock" hidden aria-live="polite"></aside>
 
 <script>const H = /*__HARNESS_DATA__*/null;</script>
 <script>
@@ -304,6 +584,55 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       localStorage.setItem("m50h:" + key, JSON.stringify(val));
     } catch (e) { return null; }
   }
+  // Le stockage peut être bloqué (navigation privée, cadre) : on le teste pour ne jamais promettre une mémorisation fausse
+  const STORE_OK = (() => { try { localStorage.setItem("m50h:t", "1"); localStorage.removeItem("m50h:t"); return true; } catch (e) { return false; } })();
+  function storeWarn() {
+    return STORE_OK ? "" : h("p", { class: "store-warn", role: "status" }, h("span", { class: "chip warn" }, "! Non mémorisé"),
+      " Ce navigateur bloque le stockage local : les cases cochées seront perdues en fermant la page. Ouvre le dossier hors navigation privée pour garder ta progression.");
+  }
+  const mq = q => !!(window.matchMedia && window.matchMedia(q).matches);
+  const REDUCED = mq("(prefers-reduced-motion: reduce)");
+  const isPhone = () => mq("(max-width: 760px), (max-height: 520px) and (pointer: coarse)");
+  const isNarrow = () => mq("(max-width: 899px)");
+  const coarse = () => mq("(pointer: coarse)");
+  function norm(s) {
+    return String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "")
+      .replace(/[^a-z0-9]/g, "").replace(/([a-z])0+(\d)/g, "$1$2");
+  }
+  function debounce(fn, ms) { let t = 0; return function () { const a = arguments; clearTimeout(t); t = setTimeout(() => fn.apply(null, a), ms); }; }
+  let uid = 0;
+  const nextId = p => p + "-" + (++uid);
+  function flashEl(el) { if (!el) return; el.classList.add("flash"); setTimeout(() => el.classList.remove("flash"), REDUCED ? 2500 : 1600); }
+
+  // ------------------------------------------------------------------ icons
+  const ICONS = {
+    synthese: "M9 3h6v3H9z M7 4.5H5.5v16h13v-16H17 M9 13l2 2 4-4.5",
+    ecu: "M7 7h10v10H7z M9.5 3v4 M12 3v4 M14.5 3v4 M9.5 17v4 M12 17v4 M14.5 17v4 M3 9.5h4 M3 12h4 M3 14.5h4 M17 9.5h4 M17 12h4 M17 14.5h4",
+    planches: "M3.5 5h6v4h-6z M14.5 15h6v4h-6z M9.5 7c4.5 0 1.5 10 5 10 M3.5 15h4 M5.5 15v4",
+    coupe: "M8.3 7.6L20 18 M8.3 16.4L20 6 M6 8.5a2.5 2.5 0 1 0 0-5a2.5 2.5 0 1 0 0 5z M6 20.5a2.5 2.5 0 1 0 0-5a2.5 2.5 0 1 0 0 5z",
+    plus: "M5 12h.01 M12 12h.01 M19 12h.01",
+    connecteurs: "M9 3v5 M15 3v5 M6 8h12v4a6 6 0 0 1-12 0z M12 18v3",
+    energie: "M13 2.5L5 13.5h6l-1 8 8-11.5h-6z",
+    formboard: "M3 12h5 M8 5.5v13 M8 5.5h12 M8 12h9 M8 18.5h12",
+    controles: "M4 4h16v16H4z M8 12.5l2.8 2.8L16.5 9",
+    nomenclature: "M9 6h11 M9 12h11 M9 18h11 M4.5 6h.01 M4.5 12h.01 M4.5 18h.01",
+    search: "M11 17a6 6 0 1 0 0-12a6 6 0 1 0 0 12z M15.5 15.5L20 20",
+    full: "M4 9V4h5 M15 4h5v5 M20 15v5h-5 M9 20H4v-5",
+    exit: "M9 4v5H4 M15 4v5h5 M15 20v-5h5 M9 20v-5H4",
+    close: "M6 6l12 12 M18 6L6 18",
+    back: "M15 5l-7 7 7 7",
+    prev: "M15 5l-7 7 7 7",
+    next: "M9 5l7 7-7 7",
+    target: "M12 4v3 M12 17v3 M4 12h3 M17 12h3 M12 16a4 4 0 1 0 0-8a4 4 0 1 0 0 8z",
+    fiche: "M6 3h9l4 4v14H6z M14 3v5h5 M9 12h7 M9 16h7",
+    tag: "M3 12V4h8l10 10-8 8z M7.5 8.5h.01",
+    filter: "M4 5h16 M7 12h10 M10 19h4",
+  };
+  function icon(name, cls) {
+    const s = sv("svg", { class: "ic" + (cls ? " " + cls : ""), viewBox: "0 0 24 24", "aria-hidden": "true", focusable: "false" });
+    s.append(sv("path", { d: ICONS[name] || "" }));
+    return s;
+  }
 
   // ------------------------------------------------------------------- data
   const WIRES = H.wires;
@@ -314,31 +643,86 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
   const ownerOf = e => EP[e].owner;
   const wiresAt = {};
   const ownerSheets = {};
+  const ownerSheetCount = {};
   WIRES.forEach(w => [w.from, w.to].forEach(e => {
+    const o = ownerOf(e);
     (wiresAt[e] = wiresAt[e] || []).push(w);
-    (ownerSheets[ownerOf(e)] = ownerSheets[ownerOf(e)] || new Set()).add(w.sheet);
+    (ownerSheets[o] = ownerSheets[o] || new Set()).add(w.sheet);
+    const c = (ownerSheetCount[o] = ownerSheetCount[o] || {}); c[w.sheet] = (c[w.sheet] || 0) + 1;
   }));
+  const bestSheet = o => { const c = ownerSheetCount[o] || {}; return Object.keys(c).sort((a, b) => c[b] - c[a])[0]; };
   const FAM = { PWR: "pwr", GND: "pwr", IGN: "fire", INJ: "fire", SYNC: "sens", SNS: "sens", KNK: "sens", DBW: "dbw", WBO: "wbo", ACT: "out", RLY: "out", COM: "out", REF: "ref" };
   const FAM_LABEL = { fire: "Allumage & injection", wbo: "Lambda & EGT", sens: "Capteurs & synchro", dbw: "Papillon & pédale", out: "Sorties & habitacle", pwr: "Alimentation & masses" };
   const FAM_ORDER = ["fire", "wbo", "sens", "dbw", "out", "pwr"];
   const famVar = f => "var(--fam-" + (f || "ref") + ")";
   const SHEET_IDS = Object.keys(H.sheets);
   const sheetTitle = id => H.sheets[id] ? H.sheets[id].title : id;
+  const sheetShort = id => H.sheets[id] ? (H.sheets[id].short || H.sheets[id].title) : id;
+  const isFiche = o => OW[o] && ["comp", "inline"].includes(OW[o].cat);
 
   function colorHex(code) { return String(code || "").split("/").map(c => (H.colors[c] || {}).hex || "#999"); }
   function colorName(code) { return String(code || "").split("/").map(c => (H.colors[c] || {}).name || c).join(" / "); }
   function swatch(code) {
     const p = colorHex(code);
     const bg = p[1] ? "linear-gradient(180deg," + p[0] + " 0 33%," + p[1] + " 33% 67%," + p[0] + " 67%)" : p[0];
-    return h("span", { class: "sw", style: "background:" + bg, title: colorName(code) });
+    return h("span", { class: "sw", style: "background:" + bg, title: colorName(code), role: "img", "aria-label": colorName(code) });
   }
   const colorChip = code => h("span", { class: "cc" }, swatch(code), h("span", { class: "mono" }, code));
   function epLabel(eid) {
     const e = EP[eid]; const o = OW[e.owner];
-    return { id: eid, fn: e.fn, owner: o ? o.label : "" };
+    return { id: eid, fn: e.fn, owner: o ? (o.cat === "ecu" ? H.ecu.name : o.label) : "" };
   }
   function otherEnd(w, eid) { return w.from === eid ? w.to : w.from; }
-  const wireTag = (w, onclick) => h(onclick ? "button" : "span", { class: "wid", onclick: onclick, title: onclick ? "Voir sur la planche" : null }, w.id);
+  const wireTag = (w, onclick) => h(onclick ? "button" : "span", { class: "wid", onclick: onclick ? (ev => { ev.stopPropagation(); ev.preventDefault(); onclick(ev); }) : null, title: onclick ? "Voir " + w.id + " sur la planche" : null }, w.id);
+
+  // Fils coupés (mémorisés sur cet appareil)
+  const CUT = store("cut") || {};
+  const isCut = id => !!CUT[id];
+  const cutListeners = [];
+  function setCut(id, on) { if (on) CUT[id] = 1; else delete CUT[id]; store("cut", CUT); cutListeners.forEach(f => f(id, on)); }
+  const CHECKS = store("checks") || {};
+  const nChecks = H.checks.reduce((s, p) => s + p.items.length, 0);
+  const checksDone = () => Object.keys(CHECKS).filter(k => CHECKS[k]).length;
+
+  // Clavier virtuel ouvert : on cache la barre du bas ; cadre hôte à hauteur automatique : on garde les onglets
+  document.addEventListener("focusin", e => { if (e.target.matches && e.target.matches("input[type=search], input[type=text], select")) document.documentElement.classList.add("kb"); });
+  document.addEventListener("focusout", () => setTimeout(() => { const a = document.activeElement; if (!(a && a.matches && a.matches("input[type=search], input[type=text], select"))) document.documentElement.classList.remove("kb"); }, 80));
+  try { if (window.innerHeight > 2 * (screen.height || 1000)) document.documentElement.classList.add("tall-frame"); } catch (e) { /* */ }
+
+  // ---------------------------------------------------------------- dialog
+  const bs = h("dialog", { class: "bs", "aria-labelledby": "bs-title" });
+  document.body.append(bs);
+  bs.addEventListener("click", ev => { if (ev.target === bs) bs.close(); });
+  let bsOnClose = null;
+  bs.addEventListener("close", () => { const f = bsOnClose; bsOnClose = null; if (f) f(); });
+  function openSheet(title, body, onClose) {
+    if (bs.open) bs.close();
+    fill(bs, h("div", { class: "bs-grab", "aria-hidden": "true" }),
+      h("div", { class: "bs-head" }, h("h3", { id: "bs-title" }, title),
+        h("button", { class: "icon-btn", "aria-label": "Fermer", onclick: () => bs.close() }, icon("close"))),
+      body);
+    bsOnClose = onClose || null;
+    try { bs.showModal(); } catch (e) { bs.setAttribute("open", ""); }
+    bs.scrollTop = 0;
+  }
+  const closeSheet = () => { if (bs.open) bs.close(); };
+
+  // Panneau non bloquant (téléphone)
+  const dock = document.getElementById("dock");
+  let dockOwner = null;
+  function openDock(title, body, owner) {
+    dockOwner = owner || null;
+    fill(dock, h("div", { class: "bs-grab", "aria-hidden": "true" }),
+      h("div", { class: "dock-head" }, h("h3", null, title), h("button", { class: "icon-btn", "aria-label": "Fermer le détail", onclick: closeDock }, icon("close"))), body);
+    dock.hidden = false; dock.scrollTop = 0;
+    document.documentElement.style.setProperty("--dock-h", dock.offsetHeight + "px");
+  }
+  function closeDock() {
+    if (dock.hidden) return;
+    dock.hidden = true; dockOwner = null;
+    document.documentElement.style.setProperty("--dock-h", "0px");
+    document.dispatchEvent(new CustomEvent("dockclose"));
+  }
 
   // ---------------------------------------------------------------- header
   const V = H.validation;
@@ -347,39 +731,252 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
   document.getElementById("tb-title").textContent = H.meta.project;
   document.getElementById("tb-sub").textContent = H.meta.engine + " · " + H.meta.ecu;
   document.getElementById("foot-rev").textContent = "Révision " + H.meta.revision + " · " + H.meta.date;
+  document.getElementById("mh-title").textContent = H.meta.project.replace(/^Faisceau moteur\s+/i, "");
+  document.getElementById("mh-search").append(icon("search"));
+  document.getElementById("mh-search").addEventListener("click", () => openGo(true));
   function statusChip() {
     if (V.errors.length) return h("span", { class: "chip bad" }, "✕ " + V.errors.length + " erreur" + (V.errors.length > 1 ? "s" : ""));
-    if (V.warnings.length) return h("span", { class: "chip warn" }, "! " + V.warnings.length + " point" + (V.warnings.length > 1 ? "s" : "") + " à mesurer");
+    if (V.warnings.length) return h("span", { class: "chip warn" }, "! " + V.warnings.length + " à mesurer");
     return h("span", { class: "chip good" }, "✓ conforme");
   }
-  const tb = document.getElementById("tb-grid");
+  const tbGrid = document.getElementById("tb-grid");
   [["Révision", H.meta.revision + " · " + H.meta.date],
    ["Statut", H.meta.status],
    ["Contrôle ERC", statusChip()],
    ["Fils", REAL.length + " fils · " + dec(meters, 1) + " m"],
    ["Broches ECU", ecuUsed + " / " + H.ecu.pins.length + " utilisées"],
    ["Distribution", Object.values(OW).filter(o => o.cat === "splice").length + " épissures/barrettes · " + H.fuses.length + " fusibles"]
-  ].forEach(([k, v]) => tb.append(h("div", null, h("dt", null, k), h("dd", null, v))));
+  ].forEach(([k, v]) => tbGrid.append(h("div", null, h("dt", null, k), h("dd", null, v))));
+
+  // ------------------------------------------------------------------ search
+  const INDEX = [];
+  REAL.forEach(w => INDEX.push({ kind: "Fil", id: w.id, sub: w.from + " → " + w.to + " · " + mm2(w.mm2) + " mm² " + w.color + " · " + dec(w.length_m) + " m", sheet: w.sheet, boost: 4,
+    key: norm(w.id), text: norm([w.id, w.from, w.to, EP[w.from].fn, EP[w.to].fn, w.color, w.cable, w.note].join(" ")),
+    go: () => goSheet(w.sheet, { wire: w.id }), alt: [["Coupe", () => openCut(w.id)]] }));
+  Object.keys(EP).forEach(eid => {
+    const ws = (wiresAt[eid] || []).filter(w => !w.internal);
+    if (!ws.length || EP[eid].cat === "splice" || EP[eid].cat === "ground" || EP[eid].cat === "shield") return;
+    const o = OW[EP[eid].owner];
+    INDEX.push({ kind: "Broche", id: eid, sub: EP[eid].fn + " · " + (o.cat === "ecu" ? H.ecu.name : o.label), sheet: ws[0].sheet, boost: 2,
+      key: norm(eid), text: norm(eid + " " + EP[eid].fn + " " + o.label), go: () => goSheet(ws[0].sheet, { ep: eid }),
+      alt: o.cat === "ecu" ? [["Broche", () => openPin(eid)]] : isFiche(o && EP[eid].owner) ? [["Fiche", () => openFiche(EP[eid].owner)]] : [] });
+  });
+  Object.keys(OW).forEach(oid => {
+    const o = OW[oid];
+    if (o.cat === "shield" || !ownerSheets[oid]) return;
+    const kind = { ecu: "ECU", comp: "Compo.", inline: "Compo.", fuse: "Fusible", relay: "Relais", splice: "Épissure", ground: "Masse" }[o.cat] || "Élém.";
+    INDEX.push({ kind: kind, id: oid, sub: o.cat === "ecu" ? o.title : o.label, sheet: bestSheet(oid), boost: 5,
+      key: norm(oid), text: norm(oid + " " + o.label + " " + (o.ref || "")),
+      go: () => goSheet(bestSheet(oid), { owner: oid }), alt: isFiche(oid) ? [["Fiche", () => openFiche(oid)]] : [] });
+  });
+  SHEET_IDS.forEach(id => INDEX.push({ kind: "Planche", id: id, sub: sheetTitle(id), sheet: id, boost: 3,
+    key: norm(id), text: norm(id + " " + sheetTitle(id) + " " + sheetShort(id)), go: () => goSheet(id, {}), alt: [] }));
+  function searchIndex(q) {
+    const nq = norm(q);
+    const toks = String(q || "").split(/\s+/).map(norm).filter(Boolean);
+    if (!nq) return [];
+    const res = [];
+    INDEX.forEach(it => {
+      let s = -1;
+      if (it.key === nq) s = 100;
+      else if (it.key.startsWith(nq)) s = 80 - Math.min(10, it.key.length - nq.length);
+      else if (it.key.includes(nq)) s = 60;
+      else if (toks.every(t => it.text.includes(t))) s = 30;
+      if (s >= 0) res.push([s + it.boost, it]);
+    });
+    res.sort((a, b) => b[0] - a[0] || natural(a[1].id, b[1].id));
+    return res.slice(0, 12).map(r => r[1]);
+  }
+  function createSearch(opts) {
+    opts = opts || {};
+    const listId = nextId("srch");
+    const wrap = h("div", { class: "srch" + (opts.cls ? " " + opts.cls : "") });
+    const input = h("input", { type: "search", placeholder: opts.placeholder || "Fil, broche, composant…", "aria-label": "Rechercher dans le faisceau",
+      role: "combobox", "aria-autocomplete": "list", "aria-expanded": "false", "aria-controls": listId, autocomplete: "off", enterkeyhint: "go", spellcheck: "false", autocapitalize: "characters" });
+    const list = h("ul", { class: "srch-list", role: "listbox", id: listId, hidden: true });
+    wrap.append(icon("search"), input, list);
+    let items = [], active = -1;
+    function render() {
+      items = searchIndex(input.value);
+      active = items.length ? 0 : -1;
+      list.replaceChildren();
+      if (!input.value.trim()) { list.hidden = true; input.setAttribute("aria-expanded", "false"); return; }
+      if (!items.length) list.append(h("li", { class: "empty" }, "Aucun résultat pour « " + input.value + " »"));
+      items.forEach((it, i) => {
+        const acts = h("span", { class: "acts" }, (it.alt || []).map(([lbl, fn]) => {
+          const b = h("button", { type: "button" }, lbl);
+          b.addEventListener("pointerdown", ev => ev.preventDefault());
+          b.addEventListener("click", ev => { ev.stopPropagation(); finish(); fn(); });
+          return b;
+        }), h("span", { class: "k", style: "grid-row:auto;border:0;color:var(--accent)" }, it.kind === "Planche" ? "" : it.sheet || ""));
+        const li = h("li", { class: "opt", role: "option", id: listId + "-" + i, "aria-selected": i === active ? "true" : "false" },
+          h("span", { class: "k" }, it.kind), h("span", { class: "t" }, it.id), acts, h("span", { class: "s" }, it.sub));
+        li.addEventListener("pointerdown", ev => ev.preventDefault());
+        li.addEventListener("click", () => pick(i));
+        list.append(li);
+      });
+      list.hidden = false; input.setAttribute("aria-expanded", "true");
+      input.setAttribute("aria-activedescendant", active >= 0 ? listId + "-" + active : "");
+    }
+    function move(d) {
+      if (!items.length) return;
+      active = (active + d + items.length) % items.length;
+      [...list.querySelectorAll("li.opt")].forEach((li, i) => li.setAttribute("aria-selected", i === active ? "true" : "false"));
+      input.setAttribute("aria-activedescendant", listId + "-" + active);
+      const li = list.querySelectorAll("li.opt")[active]; if (li) li.scrollIntoView({ block: "nearest" });
+    }
+    function finish() {
+      list.hidden = true; input.setAttribute("aria-expanded", "false");
+      input.blur();
+      if (opts.onPick) opts.onPick();
+    }
+    function pick(i) { const it = items[i]; if (!it) return; finish(); it.go(); }
+    input.addEventListener("input", render);
+    input.addEventListener("focus", () => { if (input.value.trim()) render(); });
+    input.addEventListener("blur", () => setTimeout(() => { list.hidden = true; input.setAttribute("aria-expanded", "false"); }, 150));
+    input.addEventListener("keydown", ev => {
+      if (ev.key === "ArrowDown") { ev.preventDefault(); move(1); }
+      else if (ev.key === "ArrowUp") { ev.preventDefault(); move(-1); }
+      else if (ev.key === "Enter") { ev.preventDefault(); pick(active); }
+      else if (ev.key === "Escape") { if (input.value) { input.value = ""; render(); ev.stopPropagation(); } else input.blur(); }
+    });
+    return { el: wrap, input: input };
+  }
 
   // ------------------------------------------------------------------ tabs
-  const TABS = [["synthese", "Synthèse"], ["ecu", "Brochage ECU"], ["planches", "Planches"], ["coupe", "Liste de coupe"],
-    ["connecteurs", "Connecteurs"], ["energie", "Énergie"], ["formboard", "Formboard"], ["controles", "Contrôles"], ["nomenclature", "Nomenclature"]];
+  const TABS = [
+    { id: "synthese", label: "Synthèse", short: "Synthèse", icon: "synthese", hint: "Contrôle, audit, hypothèses" },
+    { id: "ecu", label: "Brochage ECU", short: "ECU", icon: "ecu", hint: "80 broches CMC1 / CMC2" },
+    { id: "planches", label: "Planches", short: "Planches", icon: "planches", hint: "12 schémas zoomables" },
+    { id: "coupe", label: "Liste de coupe", short: "Coupe", icon: "coupe", hint: "Fils à couper, longueurs" },
+    { id: "connecteurs", label: "Connecteurs", short: "Composants", icon: "connecteurs", hint: "Brochage de chaque composant" },
+    { id: "energie", label: "Énergie", short: "Énergie", icon: "energie", hint: "Fusibles, relais, chutes de tension" },
+    { id: "formboard", label: "Formboard", short: "Formboard", icon: "formboard", hint: "Tronçons à l'échelle, gaine" },
+    { id: "controles", label: "Contrôles", short: "Contrôles", icon: "controles", hint: "Check-lists banc et mise en route" },
+    { id: "nomenclature", label: "Nomenclature", short: "Nomencl.", icon: "nomenclature", hint: "Connecteurs, fil, gaine à prévoir" },
+  ];
+  const TAB = {}; TABS.forEach(t => { TAB[t.id] = t; });
+  // Barre du bas : usages en boucle à l'atelier
+  const BNAV = [
+    { id: "coupe", label: "Coupe", icon: "coupe", tabs: ["coupe"] },
+    { id: "broch", label: "Brochages", icon: "ecu", tabs: ["ecu", "connecteurs"] },
+    { id: "planches", label: "Planches", icon: "planches", tabs: ["planches"] },
+    { id: "controles", label: "Contrôles", icon: "controles", tabs: ["controles"] },
+  ];
   const main = document.getElementById("main");
-  const nav = document.getElementById("tabs");
-  const sections = {}, rendered = {};
+  const tabsScroll = document.getElementById("tabs-scroll");
+  const bnav = document.getElementById("bnav");
+  const sections = {}, rendered = {}, tabScroll = {};
   const RENDER = {};
-  TABS.forEach(([id, label]) => {
-    nav.append(h("button", { role: "tab", id: "tab-" + id, "aria-controls": "t-" + id, "aria-selected": "false", onclick: () => show(id) }, label));
-    const sec = h("section", { class: "tab", id: "t-" + id, role: "tabpanel", "aria-labelledby": "tab-" + id });
+  let currentTab = null;
+  TABS.forEach(t => {
+    tabsScroll.append(h("button", { class: "tab-btn", role: "tab", id: "tab-" + t.id, "aria-controls": "t-" + t.id, "aria-selected": "false",
+      onclick: () => navigate(t.id, { user: true }) }, t.label));
+    const sec = h("section", { class: "tab", id: "t-" + t.id, role: "tabpanel", "aria-labelledby": "tab-" + t.id });
     sec.hidden = true;
-    sections[id] = sec; main.append(sec);
+    sections[t.id] = sec; main.append(sec);
   });
-  function show(id) {
-    if (!sections[id]) id = "synthese";
-    if (!rendered[id]) { RENDER[id](sections[id]); rendered[id] = true; }
-    TABS.forEach(([t]) => { sections[t].hidden = t !== id; document.getElementById("tab-" + t).setAttribute("aria-selected", t === id ? "true" : "false"); });
+  const deskSearch = createSearch({ placeholder: "Chercher : IGN-03, CMC1.H2, COIL3…" });
+  document.getElementById("tabs").append(deskSearch.el);
+  const bnavBtns = {};
+  const ctrlBadge = h("span", { class: "badge", hidden: true });
+  BNAV.forEach(b => {
+    const btn = h("button", { "aria-label": b.label, onclick: () => {
+      if (b.id === "broch") navigate(b.tabs.includes(currentTab) ? currentTab : (store("broch") || "ecu"), { user: true });
+      else navigate(b.id, { user: true });
+    } }, icon(b.icon), h("span", { class: "l" }, b.label), b.id === "controles" ? ctrlBadge : null);
+    bnavBtns[b.id] = btn; bnav.append(btn);
+  });
+  const moreLabel = h("span", { class: "l" }, "Plus");
+  const moreBtn = h("button", { "aria-label": "Autres sections et recherche", "aria-haspopup": "dialog", onclick: () => openGo(false) }, icon("plus"), moreLabel);
+  bnav.append(moreBtn);
+  function updateBadge() {
+    const n = checksDone();
+    ctrlBadge.hidden = !n; ctrlBadge.textContent = n + "/" + nChecks;
+    ctrlBadge.setAttribute("aria-label", n + " contrôles sur " + nChecks + " faits");
+  }
+  updateBadge();
+  function openGo(focusSearch) {
+    const srch = createSearch({ placeholder: "Fil, broche, composant, planche…", onPick: closeSheet });
+    const grid = h("div", { class: "more-grid" }, TABS.map(t => h("button", { "aria-current": t.id === currentTab ? "page" : null,
+      onclick: () => { closeSheet(); navigate(t.id, { user: true }); } }, icon(t.icon), h("strong", null, t.label), h("small", null, t.hint))));
+    openSheet("Aller à…", h("div", null, srch.el, grid));
+    if (focusSearch || !coarse()) setTimeout(() => { try { srch.input.focus({ preventScroll: true }); } catch (e) { /* */ } }, 60);
+  }
+  function centerTab(id) {
+    const el = document.getElementById("tab-" + id);
+    if (!el || !tabsScroll.clientWidth) return;
+    tabsScroll.scrollLeft = el.offsetLeft - (tabsScroll.clientWidth - el.offsetWidth) / 2;
+  }
+  function stickyOffset() { return isPhone() ? (backchip.hidden ? 0 : 58) : (document.getElementById("tabs").offsetHeight || 50); }
+  function scrollToEl(el, extra) {
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - stickyOffset() - (extra == null ? 8 : extra);
+    window.scrollTo({ top: Math.max(0, top), behavior: "auto" });
+  }
+  function navigate(id, opts) {
+    opts = opts || {};
+    if (!TAB[id]) id = "synthese";
+    if (opts.user) hideBack();
+    if (opts.user && id === currentTab) {
+      if (window.scrollY > 4) window.scrollTo({ top: 0, behavior: REDUCED ? "auto" : "smooth" });
+      else { const s = sections[id].querySelector("input[type=search]"); if (s) s.focus(); }
+      return;
+    }
+    if (currentTab && currentTab !== id) { tabScroll[currentTab] = window.scrollY; closeDock(); }
+    TABS.forEach(t => { sections[t.id].hidden = t.id !== id; document.getElementById("tab-" + t.id).setAttribute("aria-selected", t.id === id ? "true" : "false"); });
+    const changed = currentTab !== id;
+    currentTab = id;
+    document.body.setAttribute("data-tab", id);
+    if (id === "ecu" || id === "connecteurs") store("broch", id);
+    if (!rendered[id]) { rendered[id] = true; RENDER[id](sections[id]); }
+    BNAV.forEach(b => bnavBtns[b.id].setAttribute("aria-current", b.tabs.includes(id) ? "page" : "false"));
+    const inMore = !BNAV.some(b => b.tabs.includes(id));
+    moreBtn.setAttribute("aria-current", inMore ? "page" : "false");
+    moreLabel.textContent = inMore ? TAB[id].short : "Plus";
+    fill(document.getElementById("mh-sub"), "Rév. " + H.meta.revision + " · ", statusChip(), " · " + TAB[id].label);
+    centerTab(id);
     store("tab", id);
-    try { history.replaceState(null, "", "#" + id); } catch (e) { /* cadre restreint */ }
+    if (!opts.keepHash) setHash(id);
+    if (opts.noScroll || !changed) return;
+    if (tabScroll[id] != null && !opts.top) window.scrollTo(0, tabScroll[id]);
+    else window.scrollTo(0, isPhone() ? 0 : Math.min(window.scrollY, Math.max(0, main.offsetTop - stickyOffset())));
+  }
+  function setHash(tok) { try { history.replaceState(null, "", "#" + tok); } catch (e) { /* cadre restreint */ } }
+
+  // Retour après un lien croisé : pile de plusieurs niveaux (Coupe → planche → fiche → …)
+  const backchip = document.getElementById("backchip");
+  const backStack = [];
+  function renderBack() {
+    const t = backStack[backStack.length - 1];
+    document.documentElement.classList.toggle("has-back", !!t);
+    if (!t) { backchip.hidden = true; backchip.replaceChildren(); return; }
+    const lbl = TAB[t.tab].label + (t.row ? " · " + t.row : "");
+    const go = h("button", { class: "bk-go", "aria-label": "Revenir à " + lbl + (backStack.length > 1 ? " (" + backStack.length + " niveaux)" : "") },
+      icon("back"), h("span", null, lbl), backStack.length > 1 ? h("small", { class: "bk-n", "aria-hidden": "true" }, String(backStack.length)) : null);
+    const x = h("button", { class: "bk-x", "aria-label": "Masquer le retour" }, icon("close"));
+    go.addEventListener("click", goBack);
+    x.addEventListener("click", hideBack);
+    fill(backchip, go, x);
+    backchip.hidden = false;
+  }
+  function pushBack(fromTab, row) {
+    if (!fromTab || fromTab === currentTab) return;
+    const e = { tab: fromTab, y: tabScroll[fromTab] != null ? tabScroll[fromTab] : 0, row: row || null };
+    const top = backStack[backStack.length - 1];
+    if (top && top.tab === e.tab) backStack[backStack.length - 1] = e; else backStack.push(e);
+    if (backStack.length > 8) backStack.shift();
+    renderBack();
+  }
+  function hideBack() { backStack.length = 0; renderBack(); }
+  function goBack() {
+    const t = backStack.pop(); renderBack(); if (!t) return;
+    navigate(t.tab, { noScroll: true });
+    window.scrollTo(0, t.y);
+    if (t.row && t.tab !== "planches") {
+      const el = sections[t.tab].querySelector('[data-w="' + t.row + '"], [data-pin="' + t.row + '"], #fiche-' + t.row);
+      if (el) { const r = el.getBoundingClientRect(); if (r.top < 60 || r.bottom > window.innerHeight - 80) scrollToEl(el, 80); flashEl(el); }
+    }
   }
 
   // -------------------------------------------------------------- synthèse
@@ -388,7 +985,15 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     const nE = V.errors.length, nW = V.warnings.length;
     const items = [].concat(
       V.errors.map(t => ["bad", "Erreur", t]), V.warnings.map(t => ["warn", "Alerte", t]), V.infos.map(t => ["info", "Info", t]));
+    const nCut = REAL.filter(w => isCut(w.id)).length;
+    const quick = h("div", { class: "quick" }, ["coupe", "planches", "ecu", "controles"].map(id => TAB[id]).map(t =>
+      h("button", { onclick: () => navigate(t.id, { user: true, top: true }) }, icon(t.icon), h("strong", null, t.label),
+        h("small", null, t.id === "coupe" ? nCut + " / " + REAL.length + " fils coupés" : t.id === "controles" ? checksDone() + " / " + nChecks + " contrôles faits" : t.hint))));
+    const art = a => h("article", null, h("div", null, h("span", { class: "chip " + SEV[a.sev][0] }, SEV[a.sev][1])),
+      h("div", null, h("h3", null, a.title), h("p", null, a.detail)));
+    const oks = H.audit.filter(a => a.sev === "ok");
     sec.append(h("div", { class: "stack" },
+      quick,
       h("div", { class: "panel" },
         h("h2", null, "Contrôle automatique du faisceau"),
         h("p", { class: "lede" }, "Chaque génération vérifie les règles électriques : une broche ECU = un fil, aucune masse de référence reliée à la caisse, aucun mélange +5 V / +12 V / masses, chaque fil protégé par un fusible adapté à sa section, courant de chaque sortie ECU sous sa limite. " +
@@ -397,9 +1002,8 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       h("div", null,
         h("h2", null, "Audit de ton plan"),
         h("p", { class: "lede" }, "Ton plan d'origine confronté au schéma officiel MaxxECU RACE REV9+ et aux brochages constructeur. Les corrections sont déjà intégrées dans toutes les planches."),
-        h("div", { class: "audit" }, ["fix", "add", "warn", "ok"].flatMap(s => H.audit.filter(a => a.sev === s)).map(a =>
-          h("article", null, h("div", null, h("span", { class: "chip " + SEV[a.sev][0] }, SEV[a.sev][1])),
-            h("div", null, h("h3", null, a.title), h("p", null, a.detail)))))),
+        h("div", { class: "audit" }, ["fix", "add", "warn"].flatMap(s => H.audit.filter(a => a.sev === s)).map(art),
+          oks.length ? h("details", null, h("summary", null, h("span", { class: "chip good" }, "✓ Validé"), oks.length + " points validés sans modification"), h("div", null, oks.map(art))) : null)),
       h("div", { class: "cols-2" },
         h("div", { class: "panel" }, h("h3", null, "Hypothèses de l'étude"),
           h("ul", { class: "plain" }, H.meta.assumptions.map(a => h("li", null, a)))),
@@ -411,28 +1015,59 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     ));
   };
 
+  // Sélecteur « Brochages » (téléphone) : ECU ou composants
+  function brochSwitch(active) {
+    const sw = h("div", { class: "segsw m-flex", role: "group", "aria-label": "Brochages" });
+    [["ecu", "Broches ECU (" + H.ecu.pins.length + ")"], ["connecteurs", "Composants (" + Object.keys(OW).filter(isFiche).length + ")"]].forEach(([id, lbl]) =>
+      sw.append(h("button", { "aria-pressed": id === active ? "true" : "false", onclick: () => navigate(id, { user: true }) }, lbl)));
+    sw.style.display = "";
+    return sw;
+  }
+
   // ------------------------------------------------------------ brochage ECU
+  function pinDetail(p) {
+    return [
+      h("dl", { class: "kv" },
+        h("dt", null, "Type"), h("dd", null, p.kind + (p.max_a ? " · " + p.max_a + " A max" : "")),
+        h("dt", null, "Usage"), h("dd", null, p.wires.length ? sheetTitle(p.sheet) : "Libre — disponible pour une évolution")),
+      p.wires.map(wid => {
+        const w = WB[wid]; const o = epLabel(otherEnd(w, p.id));
+        return h("div", { class: "wire-line" },
+          h("div", { class: "cc", style: "flex-wrap:wrap" }, wireTag(w), colorChip(w.color), h("span", { class: "mono" }, mm2(w.mm2) + " mm² · " + dec(w.length_m) + " m"), w.cable ? h("span", { class: "muted mono" }, w.cable) : null),
+          h("div", null, "→ ", h("span", { class: "mono" }, o.id), " ", h("span", { class: "muted" }, o.fn + " · " + o.owner)),
+          w.note ? h("div", { class: "muted", style: "font-size:13px" }, w.note) : null,
+          h("div", { style: "display:flex;flex-wrap:wrap;gap:8px" },
+            h("button", { class: "btn primary", onclick: () => { closeSheet(); goSheet(w.sheet, { wire: w.id }, "ecu", p.id); } }, icon("planches"), "Planche " + w.sheet),
+            h("button", { class: "btn", onclick: () => { closeSheet(); openCut(w.id, "ecu", p.id); } }, icon("coupe"), "Coupe")));
+      })];
+  }
+  let pinImpl = null;
+  function openPin(pid, from) {
+    if (!rendered.ecu) navigate("ecu", { noScroll: true });
+    pinImpl(pid, from);
+  }
   RENDER.ecu = function (sec) {
     const byId = {}; H.ecu.pins.forEach(p => { byId[p.id] = p; });
-    const detail = h("div", { class: "detail", "aria-live": "polite" });
+    const btnOf = {};
+    const detail = h("div", { class: "detail d-only", "aria-live": "polite" });
     let pressed = null;
-    function select(p, btn) {
+    function select(p, fromUser) {
+      const btn = btnOf[p.id];
       if (pressed) pressed.setAttribute("aria-pressed", "false");
       pressed = btn; if (btn) btn.setAttribute("aria-pressed", "true");
-      fill(detail,
-        h("h3", null, h("span", { class: "mono" }, p.id), h("span", null, p.fn)),
-        h("dl", { class: "kv" },
-          h("dt", null, "Type"), h("dd", null, p.kind + (p.max_a ? " · " + p.max_a + " A max" : "")),
-          h("dt", null, "Usage"), h("dd", null, p.wires.length ? sheetTitle(p.sheet) : "Libre — disponible pour une évolution")),
-        p.wires.map(wid => {
-          const w = WB[wid]; const o = epLabel(otherEnd(w, p.id));
-          return h("div", { style: "margin-top:10px;display:grid;gap:6px" },
-            h("div", { class: "cc" }, wireTag(w), colorChip(w.color), h("span", { class: "mono" }, mm2(w.mm2) + " mm² · " + dec(w.length_m) + " m"), w.cable ? h("span", { class: "muted mono" }, w.cable) : null),
-            h("div", null, "→ ", h("span", { class: "mono" }, o.id), " ", h("span", { class: "muted" }, o.fn + " · " + o.owner)),
-            w.note ? h("div", { class: "muted", style: "font-size:13px" }, w.note) : null,
-            h("div", null, h("button", { class: "btn", onclick: () => goSheet(w.sheet, w.net) }, "Voir sur la planche " + w.sheet)));
-        }));
+      const title = [h("span", { class: "mono" }, p.id), h("span", null, p.fn)];
+      fill(detail, h("h3", null, title), pinDetail(p));
+      if (fromUser && isPhone()) {
+        openDock(title, h("div", null, pinDetail(p)), "ecu");
+        requestAnimationFrame(() => {
+          if (!btn) return;
+          const r = btn.getBoundingClientRect(), top = dock.getBoundingClientRect().top;
+          if (r.bottom > top - 8) window.scrollBy(0, r.bottom - top + 16);
+          else if (r.top < 8) window.scrollBy(0, r.top - 16);
+        });
+      }
     }
+    document.addEventListener("dockclose", () => { if (pressed && currentTab === "ecu") { pressed.setAttribute("aria-pressed", "false"); pressed = null; } });
     const legend = h("div", { class: "legend" }, FAM_ORDER.map(f => h("span", null, h("i", { style: "background:" + famVar(f) }), FAM_LABEL[f])),
       h("span", null, h("i", { style: "background:repeating-linear-gradient(135deg,transparent 0 3px,var(--rule-strong) 3px 4px)" }), "Libre"));
     const grids = Object.keys(H.ecu.connectors).map(cid => {
@@ -448,9 +1083,9 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
           const p = byId[cid + "." + r + n];
           const fam = p.sheet ? FAM[p.sheet] : null;
           const btn = h("button", { class: "pin" + (p.wires.length ? "" : " free"), "aria-pressed": "false", style: fam ? "--fam:" + famVar(fam) : null,
-            title: p.id + " — " + p.fn }, h("span", { class: "pid" }, r + n), h("span", { class: "pfn" }, p.fn));
-          btn.addEventListener("click", () => select(p, btn));
-          if (p.id === "CMC1.H2") setTimeout(() => select(p, btn));
+            "aria-label": p.id + " — " + p.fn, dataset: { pin: p.id } }, h("span", { class: "pid" }, r + n), h("span", { class: "pfn", lang: "en" }, p.fn));
+          btn.addEventListener("click", () => select(p, true));
+          btnOf[p.id] = btn;
           grid.append(btn);
         });
       });
@@ -459,19 +1094,26 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
         h("p", { class: "muted", style: "margin:0 0 10px;font-size:13px" }, c.title + " — repérage logique lettre/chiffre, vérifier le marquage moulé du connecteur."),
         grid);
     });
-    // Table complète
+    if (!isPhone()) setTimeout(() => select(byId["CMC1.H2"], false));
+    pinImpl = function (pid, from) {
+      navigate("ecu", { noScroll: true }); pushBack(from);
+      const p = byId[pid]; if (!p) return;
+      scrollToEl(btnOf[pid], 120);
+      select(p, true); flashEl(btnOf[pid]);
+      setHash("ecu");
+    };
     let filter = "used";
     const tbody = h("tbody");
     function fillTable() {
       tbody.replaceChildren();
       H.ecu.pins.filter(p => filter === "all" || (filter === "used") === (p.wires.length > 0)).forEach(p => {
-        if (!p.wires.length) { tbody.append(h("tr", null, h("td", { class: "mono" }, p.id), h("td", null, p.fn), h("td", { colspan: 4, class: "muted" }, "libre"))); return; }
+        if (!p.wires.length) { tbody.append(h("tr", null, h("td", { class: "mono" }, p.id), h("td", null, p.fn), h("td", { colspan: 2, class: "muted p-free" }, "libre"))); return; }
         p.wires.forEach(wid => {
           const w = WB[wid]; const o = epLabel(otherEnd(w, p.id));
-          tbody.append(h("tr", { class: "clickable", onclick: () => goSheet(w.sheet, w.net) },
-            h("td", { class: "mono" }, p.id), h("td", null, p.fn), h("td", null, wireTag(w)),
-            h("td", null, colorChip(w.color)), h("td", { class: "num" }, mm2(w.mm2)),
-            h("td", null, h("span", { class: "mono" }, o.id), h("div", { class: "fn" }, o.fn + " · " + o.owner))));
+          tbody.append(h("tr", { class: "clickable", dataset: { w: w.id }, onclick: () => goSheet(w.sheet, { wire: w.id }, "ecu", w.id) },
+            h("td", { class: "mono" }, p.id), h("td", null, p.fn),
+            h("td", { class: "p-wire" }, wireTag(w), colorChip(w.color), h("span", { class: "mono" }, mm2(w.mm2) + " mm²")),
+            h("td", { class: "p-dest" }, h("span", { class: "mono" }, o.id), h("div", { class: "fn" }, o.fn + " · " + o.owner))));
         });
       });
     }
@@ -482,13 +1124,439 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       seg.append(b);
     });
     fillTable();
-    sec.append(h("h2", null, "Brochage MaxxECU RACE"),
+    sec.append(brochSwitch("ecu"), h("h2", null, "Brochage MaxxECU RACE"),
       h("p", { class: "lede" }, "Touche une broche pour voir son fil, sa section, sa longueur de coupe et sa destination. La couleur indique le sous-système ; les cases hachurées sont libres."),
-      legend, h("div", { class: "ecu-layout" }, grids, h("div", { style: "display:grid;gap:16px;align-content:start" }, detail)),
+      legend, h("div", { class: "ecu-layout" }, grids, h("div", { class: "d-only", style: "display:grid;gap:16px;align-content:start" }, detail)),
       h("div", { style: "margin-top:26px" }, h("div", { class: "toolbar" }, h("h3", { style: "margin:0 12px 0 0" }, "Table des broches"), seg),
-        h("div", { class: "tbl-wrap" }, h("table", { class: "tbl" },
-          h("thead", null, h("tr", null, ["Broche", "Fonction MaxxECU", "Fil", "Couleur", "mm²", "Destination"].map(t => h("th", null, t)))), tbody))));
+        h("div", { class: "cq" }, h("div", { class: "tbl-wrap cards-m" }, h("table", { class: "tbl pin-tbl" },
+          h("thead", null, h("tr", null, ["Broche", "Fonction MaxxECU", "Fil", "Destination"].map(t => h("th", null, t)))), tbody)))));
   };
+
+  // ------------------------------------------------------------------ viewer
+  // Visualiseur zoomable : viewBox piloté (net à toute échelle), glisser, pincer,
+  // Ctrl/⌘ + molette, double-toucher, clavier, plein écran, minicarte.
+  function createViewer(cfg) {
+    const root = h("div", { class: "viewer" });
+    const bar = h("div", { class: "vw-bar" });
+    const hintId = nextId("vwh");
+    const stage = h("div", { class: "vw-stage", tabindex: "0", role: "region", "aria-roledescription": "plan zoomable", "aria-label": cfg.label, "aria-describedby": hintId });
+    const flash = h("div", { class: "vw-flash", "aria-hidden": "true" });
+    const btnOut = h("button", { class: "vw-btn", "aria-label": "Zoom arrière", title: "Zoom arrière (−)" }, "−");
+    const btnPct = h("button", { class: "vw-btn vw-pct", title: "Basculer Tout voir / Lisible", "aria-label": "Basculer entre tout voir et taille lisible" }, "100 %");
+    const btnIn = h("button", { class: "vw-btn", "aria-label": "Zoom avant", title: "Zoom avant (+)" }, "+");
+    const btnFit = h("button", { class: "vw-btn txt", title: "Tout voir (0)" }, "Tout voir");
+    const btnFull = h("button", { class: "vw-btn", "aria-label": "Agrandir en plein écran", title: "Plein écran (F)" }, icon("full"));
+    const hud = h("div", { class: "vw-hud" }, btnOut, btnPct, btnIn, btnFit, btnFull);
+    const miniSvg = sv("svg", { "aria-hidden": "true", preserveAspectRatio: "xMidYMid meet" });
+    const mini = h("div", { class: "vw-mini", hidden: true, title: "Minicarte : toucher pour se déplacer" });
+    mini.append(miniSvg);
+    stage.append(flash, hud, mini);
+    const closeBtn = h("button", { class: "vw-btn txt vw-close", "aria-label": "Quitter le plein écran" }, icon("exit"), "Fermer");
+    const drawer = h("aside", { class: "vw-drawer peek", hidden: true, "aria-label": "Détail de la sélection" });
+    const body = h("div", { class: "vw-body" }, stage, drawer);
+    const hint = h("p", { class: "vw-hint", id: hintId }, cfg.hint || "Glisser pour déplacer · pincer, Ctrl + molette ou double-toucher pour zoomer · touche un élément pour le détail");
+    root.append(bar, body, hint);
+
+    let svg = null, W = 1, Hc = 1, fitK = 1, anim = 0, fitted = true, pending = null, miniRect = null, lastSize = null, wantStart = false, lod = "";
+    const view = { x: 0, y: 0, k: 1 };
+    const dims = () => ({ w: stage.clientWidth, h: stage.clientHeight });
+    const ready = () => { const d = dims(); return d.w > 20 && d.h > 20 && svg; };
+    const lisibleK = () => coarse() ? 1.3 : 1;
+    function kBounds() {
+      const { w, h: hh } = dims();
+      fitK = Math.min(1.5, Math.min((w - 28) / W, (hh - 28) / Hc));
+      return [Math.min(fitK, lisibleK()) * 0.8, Math.max(4, fitK * 3)];
+    }
+    const clampK = k => { const [a, b] = kBounds(); return Math.min(b, Math.max(a, k)); };
+    // Partie de la scène masquée par le panneau du bas (téléphone)
+    function overlapBottom() {
+      if (drawer.hidden || !isNarrow()) return 0;
+      const s = stage.getBoundingClientRect(), d = drawer.getBoundingClientRect();
+      return Math.max(0, Math.min(s.height * 0.7, s.bottom - d.top));
+    }
+    let ob = 0;
+    function clampView() {
+      const { w, h: hh } = dims();
+      ob = overlapBottom();
+      view.k = clampK(view.k);
+      const vw = w / view.k, vh = hh / view.k, m = 60 / view.k;
+      view.x = vw >= W ? (W - vw) / 2 : Math.min(W - vw + m, Math.max(-m, view.x));
+      view.y = vh >= Hc ? (Hc - vh) / 2 : Math.min(Hc - vh + m + ob / view.k, Math.max(-m, view.y));
+    }
+    // Le HUD remonte au-dessus du tiroir de détail (téléphone) au lieu d'être recouvert
+    function placeHud() {
+      hud.style.bottom = ob > 0 ? (ob + 10) + "px" : "";
+      hud.style.visibility = ob > stage.clientHeight * 0.6 ? "hidden" : "";
+    }
+    let hudRaf = 0;
+    window.addEventListener("scroll", () => {
+      if (drawer.hidden || hudRaf) return;
+      hudRaf = requestAnimationFrame(() => { hudRaf = 0; ob = overlapBottom(); placeHud(); });
+    }, { passive: true });
+    function setLod(k) {
+      const t1 = cfg.lod || 0.5;
+      let n = lod;
+      if (k < t1 - 0.03) n = "lod-1"; else if (k > t1 + 0.03 && k < 0.77) n = "lod-2"; else if (k > 0.83) n = "";
+      else if (lod === "lod-1" && k > t1 + 0.03) n = "lod-2";
+      if (n !== lod) { if (lod) svg.classList.remove(lod); if (n) svg.classList.add(n); lod = n; }
+    }
+    function apply() {
+      if (!ready()) return;
+      clampView();
+      const { w, h: hh } = dims();
+      svg.setAttribute("viewBox", view.x + " " + view.y + " " + (w / view.k) + " " + (hh / view.k));
+      setLod(view.k);
+      placeHud();
+      // En ligne, un glisser vertical fait défiler la page tant que le plan tient en hauteur ;
+      // dès qu'il déborde (zoom), le doigt déplace le plan dans tous les sens
+      stage.classList.toggle("pan-all", (hh - ob) / view.k < Hc - 2);
+      btnPct.textContent = Math.round(view.k * 100) + " %";
+      stage.setAttribute("aria-label", cfg.label + ", zoom " + Math.round(view.k * 100) + " %");
+      if (miniRect) {
+        miniRect.setAttribute("x", view.x); miniRect.setAttribute("y", view.y);
+        miniRect.setAttribute("width", w / view.k); miniRect.setAttribute("height", hh / view.k);
+      }
+      mini.hidden = !(view.k > fitK * 1.6);
+      if (cfg.onView) cfg.onView(view, fitted);
+    }
+    function target(t, animate) {
+      cancelAnimationFrame(anim);
+      if (!animate || REDUCED) { Object.assign(view, t); apply(); return; }
+      const from = { x: view.x, y: view.y, k: view.k };
+      const { w, h: hh } = dims();
+      const fc = { x: from.x + w / 2 / from.k, y: from.y + hh / 2 / from.k }, tc = { x: t.x + w / 2 / t.k, y: t.y + hh / 2 / t.k };
+      const t0 = performance.now(), D = 240;
+      const step = now => {
+        const p = Math.min(1, (now - t0) / D), e = 1 - Math.pow(1 - p, 3);
+        view.k = from.k * Math.pow(t.k / from.k, e);
+        const cx = fc.x + (tc.x - fc.x) * e, cy = fc.y + (tc.y - fc.y) * e;
+        view.x = cx - w / 2 / view.k; view.y = cy - hh / 2 / view.k;
+        apply();
+        if (p < 1) anim = requestAnimationFrame(step);
+      };
+      anim = requestAnimationFrame(step);
+    }
+    function fitView() {
+      const { w, h: hh } = dims(), pad = 14;
+      const k = Math.max(0.05, Math.min(1.5, (w - 2 * pad) / W, (hh - 2 * pad) / Hc));
+      return { k: k, x: (W - w / k) / 2, y: (Hc - hh / k) / 2 };
+    }
+    function boxView(b, maxK) {
+      const { w, h: hh } = dims(), pad = 30;
+      const vh = hh - overlapBottom();
+      let k = Math.min((w - 2 * pad) / Math.max(b.w, 10), (vh - 2 * pad) / Math.max(b.h, 10));
+      k = clampK(Math.min(k, maxK || 1.5));
+      return { k: k, x: b.x + b.w / 2 - w / 2 / k, y: b.y + b.h / 2 - vh / 2 / k };
+    }
+    // Vue de départ : sur téléphone, une planche large est montrée lisible et calée à gauche (côté ECU)
+    function startView() {
+      const fv = fitView();
+      if (!isPhone() || root.classList.contains("is-full")) return { v: fv, fitted: true };
+      const { h: hh } = dims();
+      const k = Math.min(cfg.phoneK || 0.8, (hh - 28) / Hc);
+      if (k <= fv.k * 1.15) return { v: fv, fitted: true };
+      return { v: { k: k, x: -14 / k, y: (Hc - hh / k) / 2 }, fitted: false };
+    }
+    function phoneHeight() {
+      stage.style.removeProperty("--stage-h");
+      if (!isPhone() || root.classList.contains("is-full") || !cfg.autoHeight) return;
+      const base = stage.clientHeight;
+      const k = Math.min(cfg.phoneK || 0.8, (base - 28) / Hc);
+      const want = Math.round(Math.max(300, Math.min(base, Hc * k + 40)));
+      if (want < base - 30) stage.style.setProperty("--stage-h", want + "px");
+    }
+    function fit(animate) { fitted = true; if (!ready()) return; target(fitView(), animate); }
+    function zoomAt(f, sx, sy, animate) {
+      if (!ready()) return;
+      fitted = false;
+      const k2 = clampK(view.k * f);
+      const cx = view.x + sx / view.k, cy = view.y + sy / view.k;
+      target({ k: k2, x: cx - sx / k2, y: cy - sy / k2 }, animate);
+    }
+    const zoomCenter = (f, animate) => { const { w, h: hh } = dims(); zoomAt(f, w / 2, (hh - overlapBottom()) / 2, animate); };
+    function focusBox(b, maxK) {
+      if (!ready()) { pending = { box: b, maxK: maxK }; return; }
+      fitted = false; target(boxView(b, maxK), true);
+    }
+    // Zoom qu'il faudrait pour cadrer une zone (sans bornes), pour décider d'un cadrage lisible
+    function boxK(b) {
+      if (!ready()) return Infinity;
+      const { w, h: hh } = dims(), vh = hh - overlapBottom();
+      return Math.min((w - 60) / Math.max(b.w, 10), (vh - 60) / Math.max(b.h, 10));
+    }
+    // Centre un point de la planche dans la partie visible, au zoom k ; fx = position horizontale voulue (0..1)
+    function centerOn(x, y, k, fx) {
+      const { w } = dims();
+      const kk = clampK(k), vw = w / kk;
+      const cx = x + (0.5 - (fx == null ? 0.5 : fx)) * vw;
+      focusBox({ x: cx - (w - 60) / 2 / kk, y: y - 90 / kk, w: (w - 60) / kk, h: 180 / kk }, kk);
+    }
+    function showFlash(text, ms) {
+      flash.textContent = text; flash.classList.add("on");
+      clearTimeout(showFlash.t); showFlash.t = setTimeout(() => flash.classList.remove("on"), ms || 1400);
+    }
+
+    // Gestes (pointer events) : 1 doigt déplace, 2 doigts pincent ; le click qui suit un glisser est absorbé
+    const pts = new Map(); let g = null, suppressClick = false, lastTap = { t: 0, x: 0, y: 0 }, lastType = "mouse", snap = null, gestureK = 0;
+    stage.addEventListener("pointerdown", e => {
+      lastType = e.pointerType;
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      if (e.target.closest(".vw-hud, .vw-mini")) return;
+      pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      cancelAnimationFrame(anim);
+      if (pts.size === 1) { snap = { x: view.x, y: view.y, k: view.k }; g = { type: "pan", x: e.clientX, y: e.clientY, sx: e.clientX, sy: e.clientY, moved: false, pt: e.pointerType }; }
+      else if (pts.size === 2) {
+        const [a, b] = [...pts.values()];
+        g = { type: "pinch", d: Math.hypot(a.x - b.x, a.y - b.y), mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2, moved: true, pt: e.pointerType };
+      }
+    });
+    window.addEventListener("pointermove", e => {
+      if (!g || !pts.has(e.pointerId)) return;
+      pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (g.type === "pan" && pts.size === 1) {
+        if (!g.moved && Math.hypot(e.clientX - g.sx, e.clientY - g.sy) < (g.pt === "mouse" ? 4 : 8)) return;
+        if (!g.moved) { g.moved = true; stage.classList.add("is-panning"); g.x = e.clientX; g.y = e.clientY; return; }
+        fitted = false;
+        view.x -= (e.clientX - g.x) / view.k; view.y -= (e.clientY - g.y) / view.k;
+        g.x = e.clientX; g.y = e.clientY;
+        apply();
+      } else if (g.type === "pinch" && pts.size >= 2) {
+        const [a, b] = [...pts.values()];
+        const d = Math.hypot(a.x - b.x, a.y - b.y), mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+        const r = stage.getBoundingClientRect();
+        fitted = false;
+        view.x -= (mx - g.mx) / view.k; view.y -= (my - g.my) / view.k;
+        const k2 = clampK(view.k * (g.d ? d / g.d : 1)), sx = mx - r.left, sy = my - r.top;
+        const cx = view.x + sx / view.k, cy = view.y + sy / view.k;
+        view.k = k2; view.x = cx - sx / k2; view.y = cy - sy / k2;
+        g.d = d; g.mx = mx; g.my = my;
+        apply();
+      }
+    }, { passive: true });
+    function endPointer(e) {
+      if (!pts.has(e.pointerId)) return;
+      pts.delete(e.pointerId);
+      // Défilement vertical repris par la page (pan-y) : on annule le petit déplacement parasite
+      if (e.type === "pointercancel" && g && g.type === "pan" && !pts.size && snap) { Object.assign(view, snap); apply(); }
+      if (g && g.moved) suppressClick = true;
+      if (pts.size === 1 && g && g.type === "pinch") {
+        const p = [...pts.values()][0];
+        g = { type: "pan", x: p.x, y: p.y, sx: p.x, sy: p.y, moved: true, pt: g.pt };
+        return;
+      }
+      if (pts.size) return;
+      stage.classList.remove("is-panning");
+      if (g && !g.moved && e.type === "pointerup" && g.pt !== "mouse") {
+        const r = stage.getBoundingClientRect();
+        if (e.timeStamp - lastTap.t < 320 && Math.hypot(e.clientX - lastTap.x, e.clientY - lastTap.y) < 30) {
+          zoomAt(view.k * 2 > kBounds()[1] * 0.98 ? fitView().k / view.k : 2, e.clientX - r.left, e.clientY - r.top, true); lastTap.t = 0;
+        } else lastTap = { t: e.timeStamp, x: e.clientX, y: e.clientY };
+      }
+      g = null; snap = null;
+      if (suppressClick) setTimeout(() => { suppressClick = false; }, 60);
+    }
+    window.addEventListener("pointerup", endPointer);
+    window.addEventListener("pointercancel", endPointer);
+    stage.addEventListener("click", e => {
+      if (suppressClick) { e.stopPropagation(); e.preventDefault(); suppressClick = false; return; }
+      if (e.target.closest(".vw-hud, .vw-mini")) return;
+      // Trop dézoomé pour viser un fil au doigt : on agrandit d'abord autour du point touché
+      if (lastType !== "mouse" && view.k < 0.45) {
+        const r = stage.getBoundingClientRect();
+        zoomAt(lisibleK() / view.k, e.clientX - r.left, e.clientY - r.top, true);
+        return;
+      }
+      if (cfg.onTap) cfg.onTap(e);
+    });
+    stage.addEventListener("dblclick", e => {
+      if (lastType !== "mouse" || e.target.closest(".vw-hud, .vw-mini")) return;
+      const r = stage.getBoundingClientRect();
+      zoomAt(e.shiftKey ? 0.5 : 2, e.clientX - r.left, e.clientY - r.top, true);
+    });
+    stage.addEventListener("wheel", e => {
+      if (!ready()) return;
+      const full = root.classList.contains("is-full");
+      const r = stage.getBoundingClientRect();
+      const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? r.height : 1;
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        zoomAt(Math.min(1.25, Math.max(0.8, Math.pow(2, -e.deltaY * unit * 0.01))), e.clientX - r.left, e.clientY - r.top);
+        return;
+      }
+      if (full || Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+        e.preventDefault(); fitted = false;
+        view.x += e.deltaX * unit / view.k; view.y += (full ? e.deltaY : 0) * unit / view.k; apply();
+        return;
+      }
+      if (!showFlash.last || performance.now() - showFlash.last > 4000) {
+        showFlash.last = performance.now();
+        showFlash(/Mac|iPhone|iPad/.test(navigator.platform || "") ? "⌘ + molette ou pincement pour zoomer" : "Ctrl + molette pour zoomer");
+      }
+    }, { passive: false });
+    // Safari macOS : pincement du trackpad
+    stage.addEventListener("gesturestart", e => { e.preventDefault(); gestureK = view.k; });
+    stage.addEventListener("gesturechange", e => {
+      e.preventDefault();
+      if (pts.size || !gestureK || !ready()) return;
+      const r = stage.getBoundingClientRect();
+      zoomAt(gestureK * e.scale / view.k, (e.clientX || r.left + r.width / 2) - r.left, (e.clientY || r.top + r.height / 2) - r.top);
+    });
+    stage.addEventListener("keydown", e => {
+      if (cfg.onKey && cfg.onKey(e)) return;
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      const { w, h: hh } = dims();
+      const f = e.shiftKey ? 0.5 : 0.15;
+      switch (e.key) {
+        case "+": case "=": zoomCenter(1.5, true); break;
+        case "-": case "_": zoomCenter(1 / 1.5, true); break;
+        case "0": fit(true); break;
+        case "1": zoomCenter(lisibleK() / view.k, true); break;
+        case "ArrowLeft": fitted = false; view.x -= w * f / view.k; apply(); break;
+        case "ArrowRight": fitted = false; view.x += w * f / view.k; apply(); break;
+        case "ArrowUp": fitted = false; view.y -= hh * f / view.k; apply(); break;
+        case "ArrowDown": fitted = false; view.y += hh * f / view.k; apply(); break;
+        case "f": case "F": setFull(!root.classList.contains("is-full")); break;
+        case "Escape":
+          if (cfg.onEscape && cfg.onEscape()) break;
+          if (root.classList.contains("is-full")) setFull(false); else return;
+          break;
+        default: return;
+      }
+      e.preventDefault();
+    });
+    btnIn.addEventListener("click", () => zoomCenter(1.5, true));
+    btnOut.addEventListener("click", () => zoomCenter(1 / 1.5, true));
+    btnPct.addEventListener("click", () => {
+      if (Math.abs(view.k - fitView().k) < 0.02) zoomCenter(lisibleK() / view.k, true); else fit(true);
+    });
+    btnFit.addEventListener("click", () => fit(true));
+    btnFull.addEventListener("click", () => setFull(!root.classList.contains("is-full")));
+    closeBtn.addEventListener("click", () => setFull(false));
+
+    // Minicarte
+    function miniMove(e) {
+      const r = miniSvg.getBoundingClientRect();
+      const s = Math.min(r.width / W, r.height / Hc);
+      const ox = (r.width - W * s) / 2, oy = (r.height - Hc * s) / 2;
+      const cx = (e.clientX - r.left - ox) / s, cy = (e.clientY - r.top - oy) / s;
+      const { w, h: hh } = dims();
+      fitted = false; view.x = cx - w / 2 / view.k; view.y = cy - hh / 2 / view.k; apply();
+    }
+    let miniDrag = false;
+    mini.addEventListener("pointerdown", e => { miniDrag = true; try { mini.setPointerCapture(e.pointerId); } catch (x) { /* */ } miniMove(e); e.preventDefault(); e.stopPropagation(); });
+    mini.addEventListener("pointermove", e => { if (miniDrag) miniMove(e); });
+    mini.addEventListener("pointerup", () => { miniDrag = false; });
+    mini.addEventListener("pointercancel", () => { miniDrag = false; });
+
+    // Plein écran : superposition CSS (voie principale), API Fullscreen en bonus si autorisée
+    let savedY = 0, inerted = [];
+    function setFull(on) {
+      if (on === root.classList.contains("is-full")) return;
+      const { w, h: hh } = dims();
+      const center = { x: view.x + w / 2 / view.k, y: view.y + hh / 2 / view.k };
+      if (on) {
+        savedY = window.scrollY;
+        inerted = [];
+        let n = root;
+        while (n && n.parentElement && n !== document.body) {
+          [...n.parentElement.children].forEach(sib => { if (sib !== n && !sib.inert && sib.tagName !== "SCRIPT" && sib.tagName !== "DIALOG") { sib.inert = true; inerted.push(sib); } });
+          n = n.parentElement;
+        }
+      } else { inerted.forEach(el => { el.inert = false; }); inerted = []; }
+      root.classList.toggle("is-full", on);
+      document.documentElement.classList.toggle("vw-lock", on);
+      if (on) root.setAttribute("role", "dialog"); else root.removeAttribute("role");
+      if (on) root.setAttribute("aria-modal", "true"); else root.removeAttribute("aria-modal");
+      phoneHeight();
+      fill(btnFull, icon(on ? "exit" : "full"));
+      btnFull.setAttribute("aria-label", on ? "Quitter le plein écran" : "Agrandir en plein écran");
+      if (on && document.fullscreenEnabled && root.requestFullscreen) {
+        try { const p = root.requestFullscreen({ navigationUI: "hide" }); if (p && p.catch) p.catch(() => {}); } catch (x) { /* refusé : superposition seule */ }
+      } else if (!on && document.fullscreenElement) {
+        try { const p = document.exitFullscreen(); if (p && p.catch) p.catch(() => {}); } catch (x) { /* */ }
+      }
+      if (!on) window.scrollTo(0, savedY);
+      requestAnimationFrame(() => {
+        if (fitted) fit(false);
+        else { const d = dims(); view.x = center.x - d.w / 2 / view.k; view.y = center.y - d.h / 2 / view.k; apply(); }
+        try { (on ? stage : btnFull).focus({ preventScroll: true }); } catch (x) { /* */ }
+      });
+      if (cfg.onFull) cfg.onFull(on);
+    }
+    document.addEventListener("fullscreenchange", () => {
+      if (!document.fullscreenElement && root.classList.contains("is-full")) setFull(false);
+    });
+    document.addEventListener("keydown", e => {
+      if (e.key !== "Escape" || !root.classList.contains("is-full") || stage.contains(document.activeElement)) return;
+      const a = document.activeElement;
+      if (a && (a.tagName === "INPUT" || a.tagName === "SELECT")) return;
+      if (cfg.onEscape && cfg.onEscape()) return;
+      setFull(false);
+    });
+
+    // Redimensionnement : garde le centre, ou réajuste si la vue était « tout voir »
+    const onResize = () => {
+      const s = dims();
+      if (s.w < 20 || s.h < 20 || !svg) { lastSize = null; return; }
+      if (pending) { const p = pending; pending = null; wantStart = false; lastSize = s; fitted = false; target(boxView(p.box, p.maxK), false); return; }
+      if (wantStart) { wantStart = false; phoneHeight(); const sv0 = startView(); fitted = sv0.fitted; lastSize = dims(); target(sv0.v, false); return; }
+      if (fitted) { target(fitView(), false); }
+      else if (lastSize) {
+        const cx = view.x + lastSize.w / 2 / view.k, cy = view.y + lastSize.h / 2 / view.k;
+        view.x = cx - s.w / 2 / view.k; view.y = cy - s.h / 2 / view.k; apply();
+      } else apply();
+      lastSize = s;
+    };
+    if (window.ResizeObserver) new ResizeObserver(onResize).observe(stage);
+    else window.addEventListener("resize", onResize);
+
+    function setContent(newSvg, w, hh, miniContent, initial) {
+      if (svg) svg.remove();
+      svg = newSvg; W = w; Hc = hh; lod = "";
+      svg.removeAttribute("width"); svg.removeAttribute("height");
+      svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+      stage.prepend(svg);
+      miniSvg.replaceChildren();
+      miniSvg.setAttribute("viewBox", "0 0 " + W + " " + Hc);
+      if (miniContent) miniSvg.append(miniContent);
+      miniRect = sv("rect", { class: "vw-mini-view" });
+      miniSvg.append(miniRect);
+      const mw = isPhone() ? 112 : 180;
+      mini.style.width = mw + "px"; mini.style.height = Math.max(40, Math.min(isPhone() ? 80 : 110, mw * Hc / W)) + "px";
+      pending = null; lastSize = null; wantStart = false;
+      phoneHeight();
+      if (initial && initial.k) { fitted = false; Object.assign(view, initial); if (ready()) apply(); else wantStart = false; }
+      else if (ready()) { const sv0 = startView(); fitted = sv0.fitted; target(sv0.v, false); }
+      else wantStart = true;
+    }
+    function setDrawer(on) {
+      drawer.hidden = !on;
+      body.classList.toggle("has-drawer", !!on);
+      if (root.classList.contains("is-full")) requestAnimationFrame(onResize);
+      if (!on) { ob = 0; placeHud(); }
+    }
+    if (window.ResizeObserver) new ResizeObserver(() => { ob = overlapBottom(); placeHud(); }).observe(drawer);
+    function toScreen(x, y) { const r = stage.getBoundingClientRect(); return { x: r.left + (x - view.x) * view.k, y: r.top + (y - view.y) * view.k }; }
+    return {
+      root: root, bar: bar, stage: stage, drawer: drawer, hint: hint, closeBtn: closeBtn,
+      setContent: setContent, fit: fit, focusBox: focusBox, boxK: boxK, centerOn: centerOn, setFull: setFull, showFlash: showFlash, setDrawer: setDrawer,
+      isFull: () => root.classList.contains("is-full"), view: () => ({ x: view.x, y: view.y, k: view.k }),
+      svg: () => svg, refresh: onResize, lisibleK: lisibleK, toScreen: toScreen,
+    };
+  }
+
+  // Panneau de détail commun (bas d'écran sur téléphone, colonne en plein écran)
+  function drawerContent(vw, sumText, subText, quick, bodyKids, onClose) {
+    const sum = h("button", { class: "sum", "aria-expanded": "false" }, h("strong", null, sumText), subText ? h("small", null, subText) : null);
+    const closeB = h("button", { class: "icon-btn", "aria-label": "Fermer le détail" }, icon("close"));
+    const dbody = h("div", { class: "vw-dbody" }, bodyKids);
+    fill(vw.drawer, h("div", { class: "vw-grab", "aria-hidden": "true" }), h("div", { class: "vw-dhead" }, sum, closeB), h("div", { class: "vw-dquick" }, quick), dbody);
+    const setPeek = p => { vw.drawer.classList.toggle("peek", p); sum.setAttribute("aria-expanded", p ? "false" : "true"); };
+    setPeek(isNarrow());
+    sum.addEventListener("click", () => setPeek(!vw.drawer.classList.contains("peek")));
+    closeB.addEventListener("click", onClose);
+    vw.setDrawer(true);
+  }
 
   // ------------------------------------------------------------- planches
   const ROW = 22, HEAD = 42, NODE_H = 58, GAP_Y = 14, GAP_X = 150, PAD = 24;
@@ -545,7 +1613,6 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       if (b.idx[e] == null) { b.idx[e] = b.ports.length; b.ports.push({ e: e, wires: [] }); }
       b.ports[b.idx[e]].wires.push(w);
     }));
-    // colonnes
     const rank = new Map();
     if (sheet.layout === "flow") {
       const adj = {};
@@ -569,9 +1636,8 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       b.w = boxWidth(b.o);
       const xs = [...(ownerSheets[b.o] || [])].filter(s => s !== sheetId);
       b.xref = catOf(b.o) === "ecu" ? [] : xs;
-      b.h = b.node ? NODE_H + (b.xref.length ? 12 : 0) : HEAD + b.ports.length * ROW + 6 + (b.xref.length ? 16 : 0);
+      b.h = b.node ? NODE_H + (b.xref.length ? 22 : 0) : HEAD + b.ports.length * ROW + 6 + (b.xref.length ? 26 : 0);
     });
-    // abscisses
     let x = PAD;
     const colX = cols.map(col => { const cx = x; const w = Math.max(...col.map(b => b.w)); x += w + GAP_X; return { x: cx, w: w }; });
     cols.forEach((col, i) => col.forEach(b => { b.x = colX[i].x + (colX[i].w - b.w) / 2; }));
@@ -617,17 +1683,37 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     return { wires: wires, boxes: boxes, width: x - GAP_X + PAD + (loops ? 90 : 0), height: maxY + PAD, portY: portY };
   }
 
+  function sideOf(L, box, w) {
+    const a = L.boxes.get(ownerOf(w.from)), b = L.boxes.get(ownerOf(w.to));
+    const other = a === box ? b : a;
+    if (other.col === box.col) return "R";
+    return other.col < box.col ? "L" : "R";
+  }
+
+  function makeTag(w, tx, ty, cls) {
+    const label = w.id + " · " + mm2(w.mm2);
+    const tw = label.length * 6.05 + 8;
+    const tg = sv("g", { class: "tag" + (cls ? " " + cls : "") + (isCut(w.id) ? " done" : "") });
+    tg.append(sv("rect", { x: tx - 3, y: ty - 10, width: tw + 6, height: 20, fill: "transparent", stroke: "none" }));
+    tg.append(sv("rect", { class: "tg", x: tx, y: ty - 7, width: tw, height: 14, rx: 2 }));
+    tg.append(sv("text", { x: tx + 4, y: ty + 3.6 }, label));
+    return { g: tg, w: tw };
+  }
+
   function drawSheet(sheetId) {
     const L = layoutSheet(sheetId);
-    const svg = sv("svg", { class: "schem", viewBox: "0 0 " + L.width + " " + L.height, width: L.width, height: L.height, role: "img", "aria-label": "Planche " + sheetTitle(sheetId) });
-    const gW = sv("g"), gB = sv("g"), gT = sv("g");
-    // boîtes
+    const svg = sv("svg", { class: "schem", viewBox: "0 0 " + L.width + " " + L.height, role: "img", "aria-label": "Planche " + sheetTitle(sheetId) });
+    const gW = sv("g"), gB = sv("g"), gT = sv("g"), gBig = sv("g");
+    const miniG = sv("g");
+    L.wireGeo = {};
     L.boxes.forEach(b => {
       const o = OW[b.o];
       const fam = FAM[o.system] || "ref";
+      miniG.append(sv("rect", { x: b.x, y: b.y, width: b.w, height: b.node ? 40 : b.h, rx: 4, fill: b.node ? "none" : famVar(fam), "fill-opacity": 0.55 }));
       if (b.node) {
         const g = sv("g", { class: "node", "data-owner": b.o, transform: "translate(" + b.x + "," + b.y + ")" });
         const cx = b.w / 2;
+        g.append(sv("rect", { x: 0, y: 0, width: b.w, height: NODE_H, fill: "transparent" }));
         g.append(sv("text", { class: "t-id", x: cx, y: 12, "text-anchor": "middle" }, b.o));
         g.append(sv("text", { class: "t-fn", x: cx, y: 54, "text-anchor": "middle" }, trunc(o.label, 26)));
         if (o.cat === "ground") {
@@ -637,8 +1723,9 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
         }
         if (o.cat === "shield") g.append(sv("ellipse", { class: "node-ring", cx: cx, cy: 30, rx: 14, ry: 9 }));
         g.append(sv("circle", { class: "node-dot", cx: cx, cy: 30, r: o.cat === "splice" ? 5 : 3.5 }));
-        if (b.xref.length) xref(g, cx, 66, b.xref, "middle");
+        if (b.xref.length) xrefPills(g, b.o, b.xref, cx, NODE_H + 4, true);
         gB.append(g);
+        gBig.append(sv("text", { class: "t-big", x: b.x + cx, y: b.y + 18, "text-anchor": "middle", style: "font-size:22px" }, b.o));
         return;
       }
       const g = sv("g", { class: "box", "data-owner": b.o, transform: "translate(" + b.x + "," + b.y + ")" });
@@ -656,6 +1743,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       b.ports.forEach((p, i) => {
         const e = EP[p.e]; const y = HEAD + i * ROW + 15;
         const pg = sv("g", { class: "port", "data-ep": p.e });
+        pg.append(sv("rect", { x: 0, y: HEAD + i * ROW, width: b.w, height: ROW, fill: "transparent" }));
         pg.append(sv("text", { class: "t-pin", x: 12, y: y }, e.pin));
         const off = o.cat === "ecu" ? 40 : 34;
         pg.append(sv("text", { class: "t-fn", x: 12 + off, y: y }, trunc(e.fn, Math.floor((b.w - 18 - off) / 5.7))));
@@ -664,20 +1752,26 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
         if (hasR) pg.append(sv("circle", { class: "port-dot", cx: b.w, cy: y - 4, r: 2.6 }));
         g.append(pg);
       });
-      if (b.xref.length) xref(g, 4, bodyH + 13, b.xref, "start");
+      if (b.xref.length) xrefPills(g, b.o, b.xref, 0, bodyH + 4, false);
       gB.append(g);
+      gBig.append(sv("text", { class: "t-big", x: b.x + b.w / 2, y: b.y + Math.min(bodyH / 2 + 11, 52), "text-anchor": "middle" }, b.o));
     });
-    function xref(g, x, y, list, anchor) {
-      const t = sv("text", { x: x, y: y, "text-anchor": anchor, class: "t-fn" });
-      t.append(document.createTextNode("aussi "));
-      list.forEach((s, i) => {
-        const ts = sv("tspan", { class: "t-x", "data-goto": s }, s);
-        const tt = sv("title", null, sheetTitle(s)); ts.append(tt);
-        t.append(ts); if (i < list.length - 1) t.append(document.createTextNode(" · "));
+    // Renvois « aussi PWR » : pastilles cliquables qui ouvrent l'autre planche sur le même composant
+    function xrefPills(g, owner, list, x0, y0, centered) {
+      const t = sv("g", { class: "xref" });
+      let x = 0;
+      const items = list.map(s => { const w = s.length * 7 + 14; const it = { s: s, x: x, w: w }; x += w + 6; return it; });
+      const total = x - 6, start = centered ? x0 - total / 2 : x0 + 4;
+      items.forEach(it => {
+        const xg = sv("g", { class: "xg", "data-goto": it.s, "data-owner": owner, transform: "translate(" + (start + it.x) + "," + y0 + ")" });
+        xg.append(sv("rect", { x: 0, y: 0, width: it.w, height: 18, rx: 9 }));
+        xg.append(sv("text", { x: it.w / 2, y: 12.5, "text-anchor": "middle" }, "→ " + it.s));
+        xg.append(sv("title", null, "Voir " + owner + " sur la planche " + sheetTitle(it.s)));
+        t.append(xg);
       });
       g.append(t);
     }
-    // fils
+    const dupAt = {};
     L.wires.forEach(w => {
       const a = L.boxes.get(ownerOf(w.from)), b = L.boxes.get(ownerOf(w.to));
       let A = { b: a, e: w.from }, B = { b: b, e: w.to };
@@ -688,226 +1782,499 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       let d;
       if (same) { const bx = Math.max(x1, x2) + 70; d = "M" + x1 + "," + y1 + " C" + bx + "," + y1 + " " + bx + "," + y2 + " " + x2 + "," + y2; }
       else { const dx = Math.max(36, (x2 - x1) * 0.5); d = "M" + x1 + "," + y1 + " C" + (x1 + dx) + "," + y1 + " " + (x2 - dx) + "," + y2 + " " + x2 + "," + y2; }
+      const geo = { x1: x1, y1: y1, x2: x2, y2: y2, aEp: A.e, bEp: B.e, aNode: A.b.node, bNode: B.b.node,
+        box: { x: Math.min(x1, x2), y: Math.min(y1, y2), w: Math.abs(x2 - x1) + (same ? 70 : 0), h: Math.abs(y2 - y1) } };
+      L.wireGeo[w.id] = geo;
       const g = sv("g", { class: "wire", "data-w": w.id, "data-net": w.net });
       if (w.internal) { g.append(sv("path", { class: "w-bus", d: d })); }
       else if (w.drain) { g.append(sv("path", { class: "w-drain", d: d })); }
       else {
         const sw = 1.6 + Math.sqrt(w.mm2) * 1.6;
         const [c1, c2] = colorHex(w.color);
+        miniG.append(sv("path", { d: d, fill: "none", stroke: c1, "stroke-width": 6, "stroke-opacity": 0.9 }));
         g.append(sv("path", { class: "w-halo", d: d, "stroke-width": sw + 5 }));
         g.append(sv("path", { class: "w-edge", d: d, "stroke-width": sw + 1.6 }));
         g.append(sv("path", { class: "w-core", d: d, stroke: c1, "stroke-width": sw }));
         if (c2) g.append(sv("path", { class: "w-stripe", d: d, stroke: c2, "stroke-width": Math.max(1.2, sw * 0.42), "stroke-dasharray": "7 6" }));
-        // repère
-        const label = w.id + " · " + mm2(w.mm2);
-        const tw = label.length * 6.05 + 8;
+        const tw = (w.id + " · " + mm2(w.mm2)).length * 6.05 + 8;
         let tx, ty;
-        if (!A.b.node) { tx = x1 + 9; ty = y1; }
-        else if (!B.b.node) { tx = x2 - 9 - tw; ty = y2; }
-        else { tx = (x1 + x2) / 2 - tw / 2; ty = (y1 + y2) / 2; }
-        const tg = sv("g", { class: "tag", "data-w": w.id, "data-net": w.net });
-        tg.append(sv("rect", { x: tx, y: ty - 7, width: tw, height: 14, rx: 2 }));
-        tg.append(sv("text", { x: tx + 4, y: ty + 3.6 }, label));
-        gT.append(tg);
+        if (!A.b.node) { tx = x1 + 9; ty = y1; geo.tagAt = "a"; }
+        else if (!B.b.node) { tx = x2 - 9 - tw; ty = y2; geo.tagAt = "b"; }
+        else { tx = (x1 + x2) / 2 - tw / 2; ty = (y1 + y2) / 2; geo.tagAt = "m"; }
+        const t = makeTag(w, tx, ty);
+        t.g.setAttribute("data-w", w.id); t.g.setAttribute("data-net", w.net);
+        gT.append(t.g);
+        // Deuxième repère côté composant : celui qui sertit le lit au bout où il travaille (2 étiquettes par fil)
+        if (!A.b.node && !B.b.node) {
+          const n = dupAt[B.e] = (dupAt[B.e] || 0) + 1;
+          const dx = same ? x2 + 9 + (n - 1) * (tw + 4) : x2 - 9 - tw - (n - 1) * (tw + 4);
+          const d2 = makeTag(w, dx, y2, "tag-dup");
+          d2.g.setAttribute("data-w", w.id); d2.g.setAttribute("data-net", w.net);
+          gT.append(d2.g);
+          geo.dup = true;
+        }
       }
       g.append(sv("path", { class: "w-hit", d: d }));
-      const ttl = sv("title", null, w.id + " — " + w.from + " → " + w.to + (w.internal ? " (barrette)" : w.drain ? " (blindage)" : " — " + mm2(w.mm2) + " mm² " + w.color));
-      g.append(ttl);
+      g.append(sv("title", null, w.id + " — " + w.from + " → " + w.to + (w.internal ? " (barrette)" : w.drain ? " (blindage)" : " — " + mm2(w.mm2) + " mm² " + w.color + " · " + dec(w.length_m) + " m")));
       gW.append(g);
     });
-    svg.append(gW, gB, gT);
-    return { svg: svg, layout: L };
-  }
-  function sideOf(L, box, w) {
-    const a = L.boxes.get(ownerOf(w.from)), b = L.boxes.get(ownerOf(w.to));
-    const other = a === box ? b : a;
-    if (other.col === box.col) return "R";
-    return other.col < box.col ? "L" : "R";
+    svg.append(gW, gB, gT, gBig);
+    return { svg: svg, layout: L, mini: miniG, gT: gT };
   }
 
-  const PL = { sheet: store("sheet") || "SYNC", zoom: 1, tags: true, fit: false };
+  const PL = { sheet: store("sheet") || "SYNC", tags: store("tags") !== false };
   let goSheetImpl = null;
-  function goSheet(id, net) {
-    if (!rendered.planches) { RENDER.planches(sections.planches); rendered.planches = true; }
-    goSheetImpl(id, net);
+  // Ouvre une planche et met en évidence un fil, une broche, un composant ou un réseau.
+  function goSheet(id, focus, fromTab, row) {
+    const from = fromTab || currentTab;
+    if (!rendered.planches) navigate("planches", { noScroll: true, keepHash: true });
+    goSheetImpl(id, focus || {}, from, row);
   }
   RENDER.planches = function (sec) {
     if (!H.sheets[PL.sheet]) PL.sheet = SHEET_IDS[0];
-    const chips = h("div", { class: "sheet-chips", role: "group", "aria-label": "Choisir la planche" });
-    SHEET_IDS.forEach(id => {
-      const n = REAL.filter(w => w.sheet === id).length;
-      const b = h("button", { "aria-pressed": "false", dataset: { sheet: id }, title: sheetTitle(id) }, h("span", { class: "mono" }, id), h("span", null, H.sheets[id].short || sheetTitle(id)), h("span", { class: "n" }, n));
-      b.addEventListener("click", () => open(id));
-      chips.append(b);
+    let current = null, selection = null;
+    const counts = {}; SHEET_IDS.forEach(id => { counts[id] = REAL.filter(w => w.sheet === id).length; });
+    const sel = h("select", { id: "pl-sheet", "aria-label": "Choisir la planche" },
+      SHEET_IDS.map(id => h("option", { value: id }, id + " · " + sheetShort(id) + " (" + counts[id] + ")")));
+    sel.addEventListener("change", () => open(sel.value));
+    const step = d => open(SHEET_IDS[(SHEET_IDS.indexOf(PL.sheet) + d + SHEET_IDS.length) % SHEET_IDS.length]);
+    const prev = h("button", { class: "vw-btn", "aria-label": "Planche précédente", title: "Planche précédente (P)", onclick: () => step(-1) }, icon("prev"));
+    const next = h("button", { class: "vw-btn", "aria-label": "Planche suivante", title: "Planche suivante (N)", onclick: () => step(1) }, icon("next"));
+    const search = createSearch({ placeholder: "Fil, broche, composant…", cls: "grow" });
+    const tagsBtn = h("button", { class: "vw-btn txt", "aria-pressed": PL.tags ? "true" : "false", title: "Afficher / masquer les repères de fils" }, icon("tag"), "Repères");
+    const views = {};
+    const saveView = debounce((sheet, v) => store("view:" + sheet, v), 300);
+    const vw = createViewer({
+      label: "Planche de câblage", autoHeight: true,
+      onTap: onTap,
+      onEscape: () => { if (selection) { clearSel(); return true; } return false; },
+      onKey: e => {
+        if (e.ctrlKey || e.metaKey || e.altKey) return false;
+        if (e.key === "n" || e.key === "N" || e.key === "PageDown") { step(1); e.preventDefault(); return true; }
+        if (e.key === "p" || e.key === "P" || e.key === "PageUp") { step(-1); e.preventDefault(); return true; }
+        if (e.key === "]") { stepWire(1); e.preventDefault(); return true; }
+        if (e.key === "[") { stepWire(-1); e.preventDefault(); return true; }
+        if (e.key === "/") { search.input.focus(); e.preventDefault(); return true; }
+        return false;
+      },
+      onView: (v, fitted) => { const val = fitted ? null : { x: v.x, y: v.y, k: v.k }; views[PL.sheet] = val; saveView(PL.sheet, val); },
     });
-    const frame = h("div", { class: "frame" });
-    const cap = h("div", { class: "frame-cap" });
-    const detail = h("div", { class: "detail", style: "margin-top:14px" });
-    const zoomOut = h("button", { class: "btn", onclick: () => setZoom(PL.zoom / 1.25), "aria-label": "Zoom arrière" }, "−");
-    const zoomFit = h("button", { class: "btn", onclick: () => { PL.fit = !PL.fit; applyZoom(); } }, "Ajuster");
-    const zoomIn = h("button", { class: "btn", onclick: () => setZoom(PL.zoom * 1.25), "aria-label": "Zoom avant" }, "+");
-    const tagBox = h("input", { type: "checkbox", id: "pl-tags", checked: true });
-    tagBox.addEventListener("change", () => { PL.tags = tagBox.checked; frame.classList.toggle("hide-tags", !PL.tags); });
-    let current = null;
-    function setZoom(z) { PL.fit = false; PL.zoom = Math.min(2.5, Math.max(0.3, z)); applyZoom(); }
-    function applyZoom() {
-      if (!current) return;
-      const svg = current.svg;
-      zoomFit.setAttribute("aria-pressed", PL.fit ? "true" : "false");
-      if (PL.fit) { svg.style.width = "100%"; svg.style.height = "auto"; }
-      else { svg.style.width = (current.layout.width * PL.zoom) + "px"; svg.style.height = (current.layout.height * PL.zoom) + "px"; }
-    }
-    function open(id, net) {
+    tagsBtn.addEventListener("click", () => {
+      PL.tags = !PL.tags; store("tags", PL.tags);
+      tagsBtn.setAttribute("aria-pressed", PL.tags ? "true" : "false");
+      vw.root.classList.toggle("no-tags", !PL.tags);
+    });
+    vw.root.classList.toggle("no-tags", !PL.tags);
+    vw.bar.append(vw.closeBtn, h("div", { class: "vw-nav" }, prev, sel, next), search.el, tagsBtn);
+    const cap = h("p", { class: "vw-hint inline-only" });
+
+    function open(id, focus) {
+      if (!H.sheets[id]) id = SHEET_IDS[0];
       PL.sheet = id; store("sheet", id);
-      chips.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.sheet === id ? "true" : "false"));
+      sel.value = id;
+      selection = null;
       current = drawSheet(id);
-      frame.replaceChildren(current.svg);
-      applyZoom();
+      const hasFocus = focus && Object.keys(focus).length;
+      const saved = hasFocus ? null : (views[id] !== undefined ? views[id] : store("view:" + id));
+      vw.setContent(current.svg, current.layout.width, current.layout.height, current.mini, saved);
+      vw.setDrawer(false);
       const ws = REAL.filter(w => w.sheet === id);
-      fill(cap, h("span", null, h("strong", null, id + " · " + sheetTitle(id))),
-        h("span", { class: "mono" }, ws.length + " fils · " + dec(ws.reduce((s, w) => s + w.length_m, 0), 1) + " m"));
-      clearSel();
-      if (net) selectNet(new Set([net]));
+      fill(cap, h("strong", null, id + " · " + sheetTitle(id)), " — " + ws.length + " fils · " + dec(ws.reduce((s, w) => s + w.length_m, 0), 1) + " m. ",
+        "Gauche : ECU · centre : capteurs et actionneurs · droite : alimentation et masses. Étiquette jaune = repère et section du fil.");
+      if (currentTab === "planches") setHash("planche-" + id);
+      if (!hasFocus) return;
+      if (focus.wire && WB[focus.wire]) { const w = WB[focus.wire]; select({ nets: new Set([w.net]), wire: w.id }, true); }
+      else if (focus.ep) { const w = (wiresAt[focus.ep] || []).find(x => x.sheet === id) || (wiresAt[focus.ep] || [])[0]; if (w) select({ nets: new Set([w.net]), ep: focus.ep }, true); }
+      else if (focus.owner) {
+        const b = current.layout.boxes.get(focus.owner);
+        if (b) select({ nets: new Set(b.ports.flatMap(p => p.wires.map(w => w.net))), owner: focus.owner }, true);
+      } else if (focus.net) select({ nets: new Set([focus.net]) }, true);
     }
     function clearSel() {
-      if (!current) return;
-      current.svg.classList.remove("dim");
-      current.svg.querySelectorAll(".hl").forEach(n => n.classList.remove("hl"));
-      fill(detail, h("h3", null, "Lecture de la planche"),
-        h("p", { style: "margin:0;color:var(--ink-2)" }, "À gauche l'ECU, au centre les capteurs et actionneurs, à droite l'alimentation et les masses. Chaque fil porte son repère (étiquette jaune) et sa section ; son tracé reprend la couleur d'isolant, rayure comprise. Touche un fil, une broche ou un composant pour isoler son réseau. Pointillés gris épais : barrette interne ; pointillés fins : blindage."));
+      selection = null;
+      const svg = vw.svg(); if (!svg) return;
+      svg.classList.remove("dim");
+      svg.querySelectorAll(".hl, .pick").forEach(n => n.classList.remove("hl", "pick"));
+      svg.querySelectorAll(".tag-end").forEach(n => n.remove());
+      vw.setDrawer(false);
+      if (currentTab === "planches") setHash("planche-" + PL.sheet);
     }
-    function selectNet(nets, ownerId) {
-      const svg = current.svg;
+    function netBox(nets, ownerId) {
+      const L = current.layout;
+      let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+      const add = (x, y, w, hh) => { x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x + w); y1 = Math.max(y1, y + hh); };
+      L.wires.forEach(w => { if (nets.has(w.net)) { const b = L.wireGeo[w.id].box; add(b.x, b.y, b.w, b.h); } });
+      if (ownerId && L.boxes.get(ownerId)) { const b = L.boxes.get(ownerId); add(b.x, b.y, b.w, b.h); }
+      if (!isFinite(x0)) return null;
+      return { x: x0 - 20, y: y0 - 30, w: x1 - x0 + 40, h: y1 - y0 + 60 };
+    }
+    function focusPoint(x, y) { vw.centerOn(x, y, vw.lisibleK()); }
+    // Cadrage d'une sélection : un fil seul est cadré sur lui-même ; s'il est trop long pour rester lisible,
+    // on montre l'extrémité étiquetée, le fil partant vers le centre (les boutons d'extrémité font le reste)
+    function focusSel(s) {
+      const geo = s.wire && current.layout.wireGeo[s.wire];
+      if (geo) {
+        const b = geo.box, box = { x: b.x - 24, y: b.y - 30, w: b.w + 48, h: b.h + 60 };
+        const minK = Math.max(0.85, vw.lisibleK() * 0.75);
+        if (vw.boxK(box) >= minK) { vw.focusBox(box, 1.4); return; }
+        const atB = geo.tagAt === "b", ex = atB ? geo.x2 : geo.x1, ey = atB ? geo.y2 : geo.y1, ox = atB ? geo.x1 : geo.x2;
+        vw.centerOn(ex, ey, minK, ox >= ex ? 0.22 : 0.78);
+        return;
+      }
+      const minK = Math.max(0.85, vw.lisibleK() * 0.75);
+      if (s.ep) {
+        // Broche : on vise la rangée, à taille lisible, côté où partent les fils
+        const w = (wiresAt[s.ep] || []).find(x => current.layout.wireGeo[x.id]);
+        const g2 = w && current.layout.wireGeo[w.id];
+        if (g2) {
+          const atA = g2.aEp === s.ep, ex = atA ? g2.x1 : g2.x2, ey = atA ? g2.y1 : g2.y2, ox = atA ? g2.x2 : g2.x1;
+          vw.centerOn(ex, ey, Math.max(minK, vw.lisibleK()), ox >= ex ? 0.3 : 0.7);
+          return;
+        }
+      }
+      const bx = s.owner && current.layout.boxes.get(s.owner);
+      if (bx) {
+        // Composant : la boîte et le départ de ses fils, à taille lisible
+        const box = { x: bx.x - 60, y: bx.y - 24, w: bx.w + 120, h: (bx.node ? NODE_H : HEAD + bx.ports.length * ROW + 6) + 48 };
+        if (vw.boxK(box) >= minK) vw.focusBox(box, 1.3);
+        else vw.centerOn(bx.x + bx.w / 2, bx.y + Math.min(box.h / 2, 120), minK);
+        return;
+      }
+      const b = netBox(s.nets, s.owner); if (b) vw.focusBox(b, 1.4);
+    }
+    function sheetWires() { return REAL.filter(w => w.sheet === PL.sheet).sort((a, b) => natural(a.id, b.id)); }
+    function stepWire(d) {
+      const ws = sheetWires(); if (!ws.length) return;
+      let i = selection && selection.wire ? ws.findIndex(w => w.id === selection.wire) : -1;
+      i = (i + d + ws.length) % ws.length;
+      select({ nets: new Set([ws[i].net]), wire: ws[i].id }, true);
+    }
+    function select(s, focus) {
+      selection = s;
+      const svg = vw.svg();
       svg.classList.add("dim");
-      svg.querySelectorAll(".wire, .tag").forEach(g => g.classList.toggle("hl", nets.has(g.dataset.net)));
+      svg.querySelectorAll(".tag-end").forEach(n => n.remove());
+      svg.querySelectorAll(".wire, .tag").forEach(g => {
+        g.classList.toggle("hl", s.nets.has(g.dataset.net));
+        g.classList.toggle("pick", !!s.wire && g.dataset.w === s.wire);
+      });
       svg.querySelectorAll(".box, .node").forEach(g => {
         const b = current.layout.boxes.get(g.dataset.owner);
-        g.classList.toggle("hl", g.dataset.owner === ownerId || b.ports.some(p => p.wires.some(w => nets.has(w.net))));
+        g.classList.toggle("hl", g.dataset.owner === s.owner || b.ports.some(p => p.wires.some(w => s.nets.has(w.net))));
       });
-      const ws = REAL.filter(w => nets.has(w.net));
-      const drains = WIRES.filter(w => nets.has(w.net) && (w.internal || w.drain));
-      const head = ownerId ? ownerDetail(ownerId) : [h("h3", null, "Réseau ", h("span", { class: "mono" }, [...nets].map(n => NETS[n].name).join(", ")))];
-      fill(detail, head,
-        h("div", { class: "tbl-wrap", style: "margin-top:10px" }, h("table", { class: "tbl" },
-          h("thead", null, h("tr", null, ["Fil", "Couleur", "mm²", "Coupe", "De", "Vers", "Note"].map(t => h("th", null, t)))),
-          h("tbody", null, ws.map(w => h("tr", null, h("td", null, wireTag(w)), h("td", null, colorChip(w.color)), h("td", { class: "num" }, mm2(w.mm2)),
-            h("td", { class: "num" }, dec(w.length_m) + " m"), h("td", null, h("span", { class: "mono" }, w.from), h("div", { class: "fn" }, EP[w.from].fn)),
-            h("td", null, h("span", { class: "mono" }, w.to), h("div", { class: "fn" }, EP[w.to].fn)), h("td", { class: "fn" }, [w.cable ? w.cable + " " : "", w.note])))))),
-        drains.length ? h("p", { class: "muted", style: "margin:8px 0 0;font-size:13px" }, drains.length + " liaison(s) sans coupe (barrette ou blindage).") : null);
+      // Étiquette répétée à l'autre extrémité du fil choisi
+      if (s.wire && current.layout.wireGeo[s.wire] && !current.layout.wireGeo[s.wire].dup) {
+        const geo = current.layout.wireGeo[s.wire], w = WB[s.wire];
+        const tw = (w.id + " · " + mm2(w.mm2)).length * 6.05 + 8;
+        let pos = null;
+        if (geo.tagAt === "a" && !geo.bNode) pos = [geo.x2 - 9 - tw, geo.y2];
+        else if (geo.tagAt === "a" && geo.bNode) pos = [geo.x2 - tw - 12, geo.y2 - 14];
+        else if (geo.tagAt === "b") pos = [geo.x1 + 9, geo.y1];
+        if (pos) { const t = makeTag(w, pos[0], pos[1], "tag-end hl pick"); current.gT.append(t.g); }
+      }
+      renderDrawer(s);
+      if (currentTab === "planches") setHash(s.wire ? "fil-" + s.wire : "planche-" + PL.sheet);
+      if (focus) focusSel(s);
     }
-    function ownerDetail(oid) {
-      const o = OW[oid];
-      return [h("h3", null, h("span", { class: "mono" }, oid), h("span", null, o.cat === "ecu" ? o.title : o.label)),
-        h("dl", { class: "kv" },
-          o.ref ? [h("dt", null, "Référence"), h("dd", null, o.ref)] : null,
-          o.connector ? [h("dt", null, "Connecteur"), h("dd", null, o.connector)] : null,
-          o.notes ? [h("dt", null, "Notes"), h("dd", null, o.notes)] : null,
-          o.verify ? [h("dt", null, "À vérifier"), h("dd", null, o.verify)] : null)];
+    function renderDrawer(s) {
+      // Composant choisi : seulement ses propres fils (ce qu'on sertit), pas tous les réseaux partagés
+      const ownMode = !!(s.owner && !s.wire);
+      const ownAll = ownMode ? REAL.filter(w => ownerOf(w.from) === s.owner || ownerOf(w.to) === s.owner) : [];
+      const ws = ownMode
+        ? ownAll.filter(w => w.sheet === PL.sheet)
+          .sort((a, b) => natural(ownerOf(a.from) === s.owner ? a.from : a.to, ownerOf(b.from) === s.owner ? b.from : b.to))
+        : REAL.filter(w => s.nets.has(w.net));
+      const extra = ownMode ? 0 : WIRES.filter(w => s.nets.has(w.net) && (w.internal || w.drain)).length;
+      let sum, sub, quick = [];
+      if (s.wire) {
+        const w = WB[s.wire], geo = current.layout.wireGeo[w.id];
+        sum = [h("span", { class: "wid" }, w.id), colorChip(w.color), h("span", { class: "mono" }, mm2(w.mm2) + " mm² · " + dec(w.length_m) + " m")];
+        sub = w.from + " → " + w.to;
+        const ends = [[geo.aEp, geo.x1, geo.y1], [geo.bEp, geo.x2, geo.y2]];
+        quick = [
+          h("button", { class: "btn", onclick: () => focusPoint(ends[0][1], ends[0][2]), title: "Aller à l'extrémité " + ends[0][0] }, icon("prev"), ends[0][0]),
+          h("button", { class: "btn", onclick: () => focusPoint(ends[1][1], ends[1][2]), title: "Aller à l'extrémité " + ends[1][0] }, ends[1][0], icon("next")),
+          h("button", { class: "btn", onclick: () => stepWire(-1), "aria-label": "Fil précédent", title: "Fil précédent ([)" }, "‹ fil"),
+          h("button", { class: "btn", onclick: () => stepWire(1), "aria-label": "Fil suivant", title: "Fil suivant (])" }, "fil ›")];
+      } else if (s.owner) {
+        const o = OW[s.owner];
+        sum = [h("span", { class: "mono" }, s.owner), o.cat === "ecu" ? o.title : o.label];
+        const elsewhere = ownAll.length - ws.length;
+        sub = ws.length + " fil(s) raccordé(s) ici" + (elsewhere ? " · " + elsewhere + " sur d'autres planches" : "");
+      } else {
+        const name = [...s.nets].map(n => NETS[n].name).join(", ");
+        sum = [s.ep ? h("span", { class: "mono" }, s.ep) : null, name];
+        sub = ws.length + " fil(s) dans ce réseau";
+      }
+      const own = s.owner ? OW[s.owner] : null;
+      const kids = [
+        own ? h("dl", { class: "kv", style: "margin:0 0 10px" },
+          own.ref ? [h("dt", null, "Référence"), h("dd", null, own.ref)] : null,
+          own.connector ? [h("dt", null, "Connecteur"), h("dd", null, own.connector)] : null,
+          own.notes ? [h("dt", null, "Notes"), h("dd", null, own.notes)] : null,
+          own.verify ? [h("dt", null, "À vérifier"), h("dd", null, own.verify)] : null) : null,
+        h("div", { class: "cq" }, h("div", { class: "tbl-wrap cards-m", style: "border:0" }, h("table", { class: "tbl cut-tbl" },
+          h("thead", null, h("tr", null, ["✓", "Fil", "mm²", "Couleur", "Coupe m", "De", "Vers", "Câble", "Faisceau", "Note"].map(t => h("th", null, t)))),
+          h("tbody", null, ws.map(w => cutRow(w, { onRow: () => w.sheet === PL.sheet && current.layout.wireGeo[w.id] ? select({ nets: new Set([w.net]), wire: w.id }, true) : open(w.sheet, { wire: w.id }) })))))),
+        extra ? h("p", { class: "muted", style: "margin:8px 0 0;font-size:13px" }, extra + " liaison(s) sans coupe (barrette ou blindage).") : null,
+        h("div", { class: "vw-dact" },
+          h("button", { class: "btn", onclick: () => focusSel(s) }, icon("target"), "Centrer"),
+          own && isFiche(s.owner) ? h("button", { class: "btn", onclick: () => { vw.setFull(false); openFiche(s.owner, "planches", s.owner); } }, icon("fiche"), "Fiche connecteur") : null,
+          s.wire ? h("button", { class: "btn", onclick: () => { vw.setFull(false); openCut(s.wire, "planches", s.wire); } }, icon("coupe"), "Liste de coupe") : null)];
+      drawerContent(vw, sum, sub, quick, kids, clearSel);
     }
-    frame.addEventListener("click", ev => {
+    function onTap(ev) {
       const go = ev.target.closest("[data-goto]");
-      if (go) { open(go.getAttribute("data-goto")); return; }
+      if (go) { const owner = go.getAttribute("data-owner"); open(go.getAttribute("data-goto"), owner ? { owner: owner } : {}); return; }
       const wg = ev.target.closest(".wire, .tag");
-      if (wg) { selectNet(new Set([wg.dataset.net])); return; }
+      if (wg && wg.dataset.net) {
+        const w = WB[wg.dataset.w];
+        select({ nets: new Set([wg.dataset.net]), wire: w && !w.internal && !w.drain ? w.id : null }, false); return;
+      }
       const port = ev.target.closest(".port");
-      if (port) { const net = (wiresAt[port.dataset.ep] || [])[0]; if (net) selectNet(new Set([net.net])); return; }
+      if (port) { const w = (wiresAt[port.dataset.ep] || []).find(x => x.sheet === PL.sheet) || (wiresAt[port.dataset.ep] || [])[0]; if (w) select({ nets: new Set([w.net]), ep: port.dataset.ep }, false); return; }
       const box = ev.target.closest(".box, .node");
       if (box) {
         const b = current.layout.boxes.get(box.dataset.owner);
-        selectNet(new Set(b.ports.flatMap(p => p.wires.map(w => w.net))), box.dataset.owner); return;
+        select({ nets: new Set(b.ports.flatMap(p => p.wires.map(w => w.net))), owner: box.dataset.owner }, false); return;
       }
-      clearSel();
+      if (selection) clearSel();
+    }
+    cutListeners.push((id, on) => {
+      const svg = vw.svg(); if (!svg) return;
+      svg.querySelectorAll('.tag[data-w="' + id + '"]').forEach(t => t.classList.toggle("done", on));
     });
-    goSheetImpl = function (id, net) {
-      show("planches"); open(id, net);
-      const smooth = !(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-      frame.scrollIntoView({ block: "start", behavior: smooth ? "smooth" : "auto" });
+    goSheetImpl = function (id, focus, from, row) {
+      navigate("planches", { noScroll: true });
+      pushBack(from, row);
+      if (!vw.isFull()) {
+        const r = vw.root.getBoundingClientRect();
+        if (r.top < stickyOffset() || r.top > window.innerHeight * 0.3) scrollToEl(vw.root, 6);
+      }
+      open(id, focus);
     };
-    sec.append(h("h2", null, "Planches de câblage"),
-      h("p", { class: "lede" }, "Un schéma par sous-système, tracé automatiquement depuis la définition du faisceau : rien n'est dessiné à la main, donc rien ne peut diverger de la liste de coupe."),
-      chips,
-      h("div", { class: "toolbar", style: "margin-top:10px" }, h("div", { class: "seg" }, zoomOut, zoomFit, zoomIn),
-        h("label", { class: "field", for: "pl-tags" }, tagBox, "Afficher les repères")),
-      frame, cap, detail);
+    sec.append(h("h2", { class: "d-only" }, "Planches de câblage"),
+      h("p", { class: "lede d-only" }, "Un schéma par sous-système, tracé automatiquement depuis la définition du faisceau. Touche un fil pour sa longueur et ses extrémités ; agrandis en plein écran pour travailler."),
+      vw.root, cap);
     open(PL.sheet);
   };
 
   // ----------------------------------------------------------- liste de coupe
+  const HN = { ENG: "Moteur", PDM: "PDM", CAB: "Habitacle", CHS: "Châssis" };
+  // Lignes en cartes (conteneur étroit) : toucher déplie ; en tableau, la ligne ouvre la planche
+  const cardMode = el => { const c = el.closest(".cq"); return !!c && c.clientWidth <= 640; };
+  function cutRow(w, opts) {
+    opts = opts || {};
+    const chk = h("input", { type: "checkbox", class: "cut-chk", "aria-label": "Fil " + w.id + " coupé", checked: isCut(w.id) });
+    const owners = [...new Set([ownerOf(w.from), ownerOf(w.to)])].filter(isFiche);
+    const tr = h("tr", { class: "clickable" + (isCut(w.id) ? " done" : ""), dataset: { w: w.id } },
+      h("td", { class: "c-chk cut-cell" }, h("label", { title: "Marquer comme coupé" }, chk)),
+      h("td", { class: "c-id" }, h("span", { class: "wid" }, w.id)),
+      h("td", { class: "c-mm2 num" }, mm2(w.mm2)),
+      h("td", { class: "c-color" }, colorChip(w.color), h("span", { class: "mono m-only", style: "margin-left:6px" }, mm2(w.mm2) + " mm²")),
+      h("td", { class: "c-len num" }, dec(w.length_m)),
+      h("td", { class: "c-from" }, h("span", { class: "mono" }, w.from), h("div", { class: "fn" }, EP[w.from].fn)),
+      h("td", { class: "c-to" }, h("span", { class: "mono" }, w.to), h("div", { class: "fn" }, EP[w.to].fn)),
+      h("td", { class: "c-cable mono fn" }, w.cable || ""),
+      h("td", { class: "c-harn fn" }, HN[w.harness] || w.harness),
+      h("td", { class: "c-note fn" }, w.note),
+      h("td", { class: "c-path" }, w.from + " → " + w.to),
+      h("td", { class: "c-det" }, h("div", null, h("span", { class: "mono" }, w.from), " · ", EP[w.from].fn), h("div", null, h("span", { class: "mono" }, w.to), " · ", EP[w.to].fn),
+        h("div", { class: "muted" }, [w.cable ? "Câble " + w.cable : null, "Faisceau " + (HN[w.harness] || w.harness), w.note].filter(Boolean).join(" · "))),
+      h("td", { class: "c-act" },
+        h("button", { class: "btn primary", onclick: ev => { ev.stopPropagation(); goSheet(w.sheet, { wire: w.id }, "coupe", w.id); } }, icon("planches"), "Planche " + w.sheet),
+        owners.map(o => h("button", { class: "btn", onclick: ev => { ev.stopPropagation(); openFiche(o, "coupe", w.id); } }, icon("fiche"), o))));
+    chk.addEventListener("click", ev => ev.stopPropagation());
+    chk.parentNode.addEventListener("click", ev => ev.stopPropagation());
+    chk.addEventListener("change", () => setCut(w.id, chk.checked));
+    tr.addEventListener("click", () => {
+      if (opts.onRow) opts.onRow();
+      else if (cardMode(tr)) tr.classList.toggle("open");
+      else goSheet(w.sheet, { wire: w.id }, "coupe", w.id);
+    });
+    return tr;
+  }
+  cutListeners.push((id, on) => {
+    document.querySelectorAll('tr[data-w="' + id + '"]').forEach(tr => {
+      tr.classList.toggle("done", on);
+      const c = tr.querySelector(".cut-chk"); if (c) c.checked = on;
+    });
+  });
+  let coupeOpenImpl = null;
+  function openCut(wid, from, row) {
+    if (!rendered.coupe) navigate("coupe", { noScroll: true });
+    coupeOpenImpl(wid, from || currentTab, row);
+  }
   RENDER.coupe = function (sec) {
-    const q = h("input", { type: "search", id: "cut-q", placeholder: "Repère, broche, fonction, couleur…", "aria-label": "Rechercher un fil" });
+    const saved = store("cutf") || {};
+    const q = h("input", { type: "search", id: "cut-q", placeholder: "Repère, broche, fonction, couleur…", "aria-label": "Filtrer les fils", value: saved.q || "", enterkeyhint: "search", autocapitalize: "characters", spellcheck: "false" });
     const harn = h("select", { id: "cut-h", "aria-label": "Faisceau" }, h("option", { value: "" }, "Tous les faisceaux"),
       [["ENG", "Moteur"], ["PDM", "Boîte fusibles/relais"], ["CAB", "Habitacle"], ["CHS", "Châssis"]].map(([v, l]) => h("option", { value: v }, l)));
-    const sh = h("select", { id: "cut-s", "aria-label": "Planche" }, h("option", { value: "" }, "Toutes les planches"), SHEET_IDS.map(id => h("option", { value: id }, id + " · " + sheetTitle(id))));
-    const sort = h("select", { id: "cut-o", "aria-label": "Ordre" }, h("option", { value: "cut" }, "Ordre de coupe (section, couleur)"), h("option", { value: "id" }, "Par repère"), h("option", { value: "len" }, "Par longueur"));
-    const count = h("span", { class: "count" });
+    const sh = h("select", { id: "cut-s", "aria-label": "Planche" }, h("option", { value: "" }, "Toutes les planches"), SHEET_IDS.map(id => h("option", { value: id }, id + " · " + sheetShort(id))));
+    const sort = h("select", { id: "cut-o", "aria-label": "Ordre" }, h("option", { value: "cut" }, "Ordre de coupe (par bobine)"), h("option", { value: "id" }, "Par repère"), h("option", { value: "len" }, "Par longueur"));
+    const state = h("select", { id: "cut-d", "aria-label": "Avancement" }, h("option", { value: "" }, "Tous les fils"), h("option", { value: "todo" }, "À couper"), h("option", { value: "done" }, "Coupés"));
+    harn.value = saved.h || ""; sh.value = saved.s || ""; sort.value = saved.o || "cut"; state.value = saved.d || "";
+    const count = h("span", { class: "count" }), countM = h("span", { class: "count" });
+    const prog = h("span", { class: "progress" }), progM = h("span", { class: "progress" });
     const tbody = h("tbody");
-    const HN = { ENG: "Moteur", PDM: "PDM", CAB: "Habitacle", CHS: "Châssis" };
+    const selWrap = h("div", { class: "toolbar d-only" }, harn, sh, sort, state);
+    const filtN = h("span", { class: "n", hidden: true });
+    const filtBtn = h("button", { class: "btn m-flex", "aria-haspopup": "dialog" }, icon("filter"), "Filtres", filtN);
+    filtBtn.addEventListener("click", () => {
+      const f = h("div", { class: "filters" },
+        h("label", null, "Avancement", state), h("label", null, "Ordre", sort), h("label", null, "Planche", sh), h("label", null, "Faisceau", harn),
+        h("button", { class: "btn", onclick: () => { harn.value = ""; sh.value = ""; state.value = ""; sort.value = "cut"; fillRows(); } }, "Réinitialiser les filtres"));
+      openSheet("Filtres de la liste", f, () => selWrap.append(harn, sh, sort, state));
+    });
+    function progress() {
+      const n = REAL.filter(w => isCut(w.id)).length;
+      [prog, progM].forEach(p => fill(p, h("i", null, h("b", { style: "width:" + (100 * n / REAL.length) + "%" })), n + " / " + REAL.length + " coupés"));
+    }
     function fillRows() {
-      const t = q.value.trim().toLowerCase();
+      store("cutf", { q: q.value, h: harn.value, s: sh.value, o: sort.value, d: state.value });
+      const nf = [harn.value, sh.value, state.value].filter(Boolean).length + (sort.value !== "cut" ? 1 : 0);
+      filtN.hidden = !nf; filtN.textContent = nf;
+      const t = norm(q.value);
       let rows = REAL.filter(w => (!harn.value || w.harness === harn.value) && (!sh.value || w.sheet === sh.value) &&
-        (!t || [w.id, w.from, w.to, EP[w.from].fn, EP[w.to].fn, w.color, w.cable, w.note, mm2(w.mm2)].join(" ").toLowerCase().includes(t)));
+        (!state.value || (state.value === "done") === isCut(w.id)) &&
+        (!t || norm([w.id, w.from, w.to, EP[w.from].fn, EP[w.to].fn, w.color, w.cable, w.note, mm2(w.mm2)].join(" ")).includes(t)));
       if (sort.value === "cut") rows.sort((a, b) => b.mm2 - a.mm2 || natural(a.color, b.color) || natural(a.id, b.id));
       else if (sort.value === "len") rows.sort((a, b) => b.length_m - a.length_m || natural(a.id, b.id));
       else rows.sort((a, b) => SHEET_IDS.indexOf(a.sheet) - SHEET_IDS.indexOf(b.sheet) || natural(a.id, b.id));
-      count.textContent = rows.length + " fils · " + dec(rows.reduce((s, w) => s + w.length_m, 0), 1) + " m";
-      tbody.replaceChildren(...rows.map(w => h("tr", { class: "clickable", onclick: () => goSheet(w.sheet, w.net) },
-        h("td", null, wireTag(w)), h("td", { class: "num" }, mm2(w.mm2)), h("td", null, colorChip(w.color)),
-        h("td", { class: "num" }, dec(w.length_m)), h("td", null, h("span", { class: "mono" }, w.from), h("div", { class: "fn" }, EP[w.from].fn)),
-        h("td", null, h("span", { class: "mono" }, w.to), h("div", { class: "fn" }, EP[w.to].fn)),
-        h("td", { class: "mono fn" }, w.cable || ""), h("td", { class: "fn" }, HN[w.harness] || w.harness), h("td", { class: "fn" }, w.note))));
+      count.textContent = countM.textContent = rows.length + " fils · " + dec(rows.reduce((s, w) => s + w.length_m, 0), 1) + " m";
+      const out = [];
+      if (sort.value === "cut") {
+        // En-têtes de bobine : une section et une couleur = un passage au dérouleur
+        let key = null;
+        rows.forEach(w => {
+          const k = w.mm2 + "|" + w.color;
+          if (k !== key) {
+            key = k;
+            const grp = rows.filter(x => x.mm2 + "|" + x.color === k);
+            const done = grp.filter(x => isCut(x.id)).length;
+            out.push(h("tr", { class: "group" }, h("td", { colspan: 10 }, h("span", { class: "cc" }, swatch(w.color), mm2(w.mm2) + " mm² · " + w.color + " — " + grp.length + " fil" + (grp.length > 1 ? "s" : "") + " · " + dec(grp.reduce((s, x) => s + x.length_m, 0), 2) + " m" + (done ? " · " + done + " coupé" + (done > 1 ? "s" : "") : "")))));
+          }
+          out.push(cutRow(w));
+        });
+      } else rows.forEach(w => out.push(cutRow(w)));
+      tbody.replaceChildren(...out);
+      progress();
     }
-    [q, harn, sh, sort].forEach(el => el.addEventListener("input", fillRows));
+    cutListeners.push(() => { progress(); if (state.value || sort.value === "cut") { const y = window.scrollY; fillRows(); window.scrollTo(0, y); } });
+    [q, harn, sh, sort, state].forEach(el => el.addEventListener("input", fillRows));
     fillRows();
+    coupeOpenImpl = function (wid, from, row) {
+      q.value = wid; harn.value = ""; sh.value = ""; state.value = ""; fillRows();
+      navigate("coupe", { noScroll: true }); pushBack(from, row);
+      const tr = tbody.querySelector('tr[data-w="' + wid + '"]');
+      if (tr) { if (cardMode(tr)) tr.classList.add("open"); scrollToEl(tr, 90); flashEl(tr); }
+    };
     const cables = h("div", { class: "tbl-wrap" }, h("table", { class: "tbl" },
       h("thead", null, h("tr", null, ["Câble", "Fonction", "Type", "Ø ext.", "Coupe", "Conducteurs"].map(t => h("th", null, t)))),
       h("tbody", null, H.cables.map(c => h("tr", null, h("td", { class: "mono" }, c.id), h("td", null, c.label), h("td", null, c.type),
         h("td", { class: "num" }, dec(c.od_mm, 1) + " mm"), h("td", { class: "num" }, dec(c.length_m) + " m"), h("td", { class: "mono fn" }, c.cores.join(" ")))))));
     sec.append(h("h2", null, "Liste de coupe"),
-      h("p", { class: "lede" }, "Longueur de coupe = trajet sur le formboard + " + dec(H.rules.termination_m * 100, 0) + " cm par extrémité + " + dec(H.rules.slack_m * 100, 0) + " cm de surlongueur, arrondie aux " + dec(H.rules.round_to_m * 100, 0) + " cm supérieurs. Les trajets sont estimés tant que le formboard n'est pas mesuré sur la voiture. Touche une ligne pour la voir sur sa planche."),
-      h("div", { class: "toolbar" }, q, harn, sh, sort, count),
-      h("div", { class: "tbl-wrap", style: "max-height:72vh" }, h("table", { class: "tbl" },
-        h("thead", null, h("tr", null, ["Repère", "mm²", "Couleur", "Coupe m", "De", "Vers", "Câble", "Faisceau", "Note"].map(t => h("th", null, t)))), tbody)),
+      h("p", { class: "lede" }, "Longueur = trajet sur le formboard + " + dec(H.rules.termination_m * 100, 0) + " cm par extrémité + " + dec(H.rules.slack_m * 100, 0) + " cm de surlongueur, arrondie aux " + dec(H.rules.round_to_m * 100, 0) + " cm. Coche chaque fil coupé" + (STORE_OK ? " (mémorisé sur cet appareil)" : "") + ". Sur téléphone, touche une ligne pour ses détails et ses liens."), storeWarn(),
+      h("div", { class: "toolbar sticky" }, q, filtBtn, h("span", { class: "d-only", style: "display:contents" }, count, prog)),
+      selWrap,
+      h("div", { class: "toolbar m-flex", style: "margin:4px 0 8px" }, countM, progM),
+      h("div", { class: "cq" }, h("div", { class: "tbl-wrap cards-m" }, h("table", { class: "tbl cut-tbl" },
+        h("thead", null, h("tr", null, ["✓", "Repère", "mm²", "Couleur", "Coupe m", "De", "Vers", "Câble", "Faisceau", "Note"].map(t => h("th", null, t)))), tbody))),
       h("h3", { style: "margin-top:26px" }, "Câbles multiconducteurs"),
       h("p", { class: "lede", style: "margin-top:0" }, "Les conducteurs listés ci-dessus avec un repère de câble sont les âmes de ces câbles : couper le câble une fois, à la longueur indiquée."),
       cables);
+    // le compteur mobile suit le compteur principal
+    const mCount = sec.querySelector(".toolbar.m-flex .count");
+    new MutationObserver(() => { mCount.textContent = count.textContent; }).observe(count, { childList: true, characterData: true, subtree: true });
+    mCount.textContent = count.textContent;
   };
 
   // ------------------------------------------------------------ connecteurs
+  let ficheImpl = null;
+  function openFiche(oid, from, row) {
+    if (!rendered.connecteurs) navigate("connecteurs", { noScroll: true });
+    ficheImpl(oid, from || currentTab, row);
+  }
   RENDER.connecteurs = function (sec) {
-    const owners = Object.keys(OW).filter(o => ["comp", "inline"].includes(OW[o].cat));
+    const owners = Object.keys(OW).filter(isFiche);
+    const cardOf = {};
+    const openDefault = !isPhone();
     const cards = owners.map(oid => {
       const o = OW[oid];
       const pins = Object.keys(EP).filter(e => EP[e].owner === oid).sort((a, b) => natural(EP[a].pin, EP[b].pin));
-      return h("article", { class: "card", style: "--fam:" + famVar(FAM[o.system]) },
-        h("header", null, h("div", { class: "id" }, oid), h("h3", null, o.label), h("p", null, [o.ref, o.type].filter(Boolean).join(" · ")),
-          h("p", null, h("span", { class: "muted" }, "Connecteur : "), o.connector)),
+      const bsheet = bestSheet(oid);
+      const nPins = pins.filter(e => (wiresAt[e] || []).length).length;
+      const card = h("details", { class: "card", id: "fiche-" + oid, open: openDefault, style: "--fam:" + famVar(FAM[o.system]), dataset: { fam: FAM[o.system] || "ref" } },
+        h("summary", null, h("div", { class: "chead" },
+          h("div", { class: "id" }, oid, h("span", { class: "chev", "aria-hidden": "true" }, "▾")), h("h3", null, o.label),
+          h("p", null, [o.ref, o.type].filter(Boolean).join(" · ")),
+          h("p", null, h("span", { class: "muted" }, "Connecteur : "), o.connector, " · " + nPins + " broche" + (nPins > 1 ? "s" : "") + " câblée" + (nPins > 1 ? "s" : "") + (o.verify ? " · ⚠ à vérifier" : "")),
+          bsheet ? h("button", { class: "btn card-go", onclick: ev => { ev.preventDefault(); ev.stopPropagation(); goSheet(bsheet, { owner: oid }, "connecteurs", oid); }, title: "Voir sur la planche " + bsheet }, icon("planches"), bsheet) : null)),
         o.notes ? h("p", { class: "note" }, o.notes) : null,
         o.verify ? h("p", { class: "verify" }, h("strong", null, "À vérifier : "), o.verify) : null,
         h("div", { class: "tbl-wrap", style: "border:0;border-radius:0" }, h("table", { class: "tbl" },
+          h("colgroup", null, h("col", { class: "c1" }), h("col"), h("col"), h("col")),
           h("thead", null, h("tr", null, ["Br.", "Fonction", "Fil", "Vers"].map(t => h("th", null, t)))),
           h("tbody", null, pins.map(e => {
             const ws = wiresAt[e] || [];
             if (!ws.length) return h("tr", null, h("td", { class: "mono" }, EP[e].pin), h("td", null, EP[e].fn), h("td", { colspan: 2, class: "muted" }, EP[e].nc ? "non câblée" : "non raccordée"));
-            return ws.map(w => h("tr", null, h("td", { class: "mono" }, EP[e].pin), h("td", null, EP[e].fn),
-              h("td", null, w.internal || w.drain ? h("span", { class: "muted mono" }, w.drain ? "blindage" : "barrette") : h("span", { class: "cc" }, wireTag(w, () => goSheet(w.sheet, w.net)), swatch(w.color), h("span", { class: "mono" }, mm2(w.mm2)))),
+            return ws.map(w => h("tr", { dataset: { w: w.id } }, h("td", { class: "mono" }, EP[e].pin), h("td", null, EP[e].fn),
+              h("td", null, w.internal || w.drain ? h("span", { class: "muted mono" }, w.drain ? "blindage" : "barrette") : h("span", { class: "cc", style: "white-space:normal;flex-wrap:wrap" }, wireTag(w, () => goSheet(w.sheet, { wire: w.id }, "connecteurs", oid)), swatch(w.color), h("span", { class: "mono" }, mm2(w.mm2)))),
               h("td", null, h("span", { class: "mono" }, otherEnd(w, e)), h("div", { class: "fn" }, EP[otherEnd(w, e)].fn))));
           })))));
+      card._text = norm([oid, o.label, o.ref, o.type, o.connector, pins.map(e => EP[e].fn).join(" ")].join(" "));
+      cardOf[oid] = card;
+      return card;
     });
-    sec.append(h("h2", null, "Connecteurs et brochages composants"),
+    const q = h("input", { type: "search", id: "fiche-q", placeholder: "Composant, référence, fonction…", "aria-label": "Filtrer les composants", enterkeyhint: "search" });
+    let fam = "";
+    const famBar = h("div", { class: "seg fam-chips", role: "group", "aria-label": "Filtrer par sous-système" });
+    const count = h("span", { class: "count" });
+    [["", "Tous"]].concat(FAM_ORDER.map(f => [f, FAM_LABEL[f]])).forEach(([k, l]) => {
+      const b = h("button", { "aria-pressed": k === fam ? "true" : "false" }, k ? h("i", { style: "background:" + famVar(k) }) : null, l);
+      b.addEventListener("click", () => { fam = k; famBar.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false")); apply(); });
+      famBar.append(b);
+    });
+    function apply() {
+      const t = norm(q.value); let n = 0;
+      cards.forEach(c => { const on = (!fam || c.dataset.fam === fam) && (!t || c._text.includes(t)); c.hidden = !on; if (on) n++; });
+      count.textContent = n + " / " + cards.length + " composants";
+      if (t && n === 1) cards.find(c => !c.hidden).open = true;
+    }
+    q.addEventListener("input", apply);
+    apply();
+    ficheImpl = function (oid, from, row) {
+      navigate("connecteurs", { noScroll: true }); pushBack(from, row);
+      q.value = ""; fam = ""; famBar.querySelectorAll("button").forEach((x, i) => x.setAttribute("aria-pressed", i === 0 ? "true" : "false")); apply();
+      const c = cardOf[oid]; if (!c) return;
+      c.open = true;
+      scrollToEl(c, 80);
+      flashEl(c);
+      setHash("fiche-" + oid);
+    };
+    sec.append(brochSwitch("connecteurs"), h("h2", null, "Connecteurs et brochages composants"),
       h("p", { class: "lede" }, "Une fiche par composant : référence, connecteur, brochage et fil de chaque broche. Les encadrés jaunes listent ce qui doit être confirmé au multimètre avant de sertir."),
+      h("div", { class: "toolbar sticky" }, q, h("span", { class: "d-only", style: "display:contents" }, count)),
+      h("div", { class: "toolbar" }, famBar, h("span", { class: "m-flex" }, count.cloneNode())),
       h("div", { class: "cards" }, cards));
+    const mCount = sec.querySelector(".toolbar:not(.sticky) .m-flex .count");
+    const sync = () => { mCount.textContent = count.textContent; };
+    new MutationObserver(sync).observe(count, { childList: true, characterData: true, subtree: true });
+    sync();
   };
 
   // ----------------------------------------------------------------- énergie
   RENDER.energie = function (sec) {
     const st = s => s === "bad" ? h("span", { class: "chip bad st" }, "✕ dépasse") : s === "warn" ? h("span", { class: "chip warn st" }, "! à mesurer") : h("span", { class: "chip good st" }, "✓ OK");
-    const fuseRows = H.fuses.map(f => h("div", { class: "meter-row", title: f.loads.map(l => l.id + " " + dec(l.a) + " A").join(" · ") },
-      h("span", { class: "id" }, f.id),
-      h("span", { class: "lbl" }, f.label, h("small", null, "Section mini " + mm2(f.min_mm2) + " mm² · " + f.loads.map(l => l.id).join(", "))),
-      h("div", { class: "meter", role: "img", "aria-label": f.id + " : " + dec(f.load, 1) + " A sur " + f.rating + " A" },
-        h("span", { class: "fill " + (f.status === "ok" ? "" : f.status), style: "width:" + Math.min(100, f.ratio * 100) + "%" })),
-      h("span", { class: "val" }, dec(f.load, 1) + " / " + f.rating + " A · " + Math.round(f.ratio * 100) + " %"),
-      st(f.status)));
+    const fuseRows = H.fuses.map(f => h("details", { class: "meter-d" },
+      h("summary", { class: "meter-row", "aria-label": f.id + " " + f.label + " : " + dec(f.load, 1) + " A sur " + f.rating + " A, toucher pour le détail" },
+        h("span", { class: "id" }, f.id),
+        h("span", { class: "lbl" }, f.label, h("small", null, "Section mini " + mm2(f.min_mm2) + " mm² · " + f.loads.length + " consommateur" + (f.loads.length > 1 ? "s" : "") + " ▾")),
+        h("div", { class: "meter", role: "img", "aria-label": f.id + " : " + dec(f.load, 1) + " A sur " + f.rating + " A" },
+          h("span", { class: "fill " + (f.status === "ok" ? "" : f.status), style: "width:" + Math.min(100, f.ratio * 100) + "%" })),
+        h("span", { class: "val" }, dec(f.load, 1) + " / " + f.rating + " A · " + Math.round(f.ratio * 100) + " %"),
+        st(f.status)),
+      h("ul", null, f.loads.map(l => h("li", null, l.id + " · " + dec(l.a) + " A")))));
     const outRows = H.outputs.filter(o => o.max_a && o.a_max > 0).map(o => {
       const pmin = Math.min(100, o.a_min / o.max_a * 100), pmax = Math.min(100, o.a_max / o.max_a * 100);
       return h("div", { class: "meter-row" },
@@ -921,7 +2288,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     });
     const relays = Object.keys(OW).filter(o => OW[o].cat === "relay");
     sec.append(h("h2", null, "Énergie : fusibles, relais, sorties"),
-      h("p", { class: "lede" }, "Charges estimées en régime établi (consommations indiquées dans la définition). Une jauge au-delà de 80 % passe en alerte. Survole une ligne pour le détail des consommateurs."),
+      h("p", { class: "lede" }, "Charges estimées en régime établi (consommations indiquées dans la définition). Une jauge au-delà de 80 % passe en alerte. Touche un fusible pour la liste de ses consommateurs."),
       h("div", { class: "stack" },
         h("div", { class: "panel" }, h("h3", null, "Fusibles"), h("div", { class: "meters" }, fuseRows)),
         h("div", { class: "panel" }, h("h3", null, "Sorties ECU sous charge"),
@@ -971,66 +2338,111 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     const X = n => X0 + dist[n] * SCALE;
     const maxX = Math.max(...Object.keys(dist).map(X));
     const W = maxX + 330, Hh = 40 + leafRow * RH + 90;
-    const svg = sv("svg", { class: "formboard", viewBox: "0 0 " + W + " " + Hh, width: W, height: Hh, role: "img", "aria-label": "Formboard du faisceau à l'échelle" });
+    const svg = sv("svg", { class: "formboard", viewBox: "0 0 " + W + " " + Hh, role: "img", "aria-label": "Formboard du faisceau à l'échelle" });
     const gL = sv("g"), gN = sv("g"), gT = sv("g");
-    // règle d'échelle
-    const meters = Math.ceil((maxX - X0) / SCALE);
-    for (let m = 0; m <= meters; m++) {
-      const x = X0 + m * SCALE;
-      gL.append(sv("line", { x1: x, y1: 14, x2: x, y2: Hh - 6, stroke: "var(--rule)", "stroke-width": 1 }));
-      gT.append(sv("text", { x: x + 3, y: 12, style: "font:500 10px var(--font-mono);fill:var(--muted)" }, m + " m"));
-    }
+    const miniG = sv("g");
+    const segBox = {};
     order.slice(1).forEach(n => {
       const p = parent[n], s = segOf[n];
       const w = s.bundle_mm ? 1.5 + s.bundle_mm * 0.32 : 1;
       const d = "M" + X(p) + "," + Y[p] + " V" + Y[n] + " H" + X(n);
-      const g = sv("g");
+      segBox[s.id] = { x: Math.min(X(p), X(n)) - 30, y: Math.min(Y[p], Y[n]) - 30, w: Math.abs(X(n) - X(p)) + 60, h: Math.abs(Y[n] - Y[p]) + 60 };
+      const g = sv("g", { class: "seg", "data-seg": s.id });
       g.append(sv("path", { d: d, fill: "none", stroke: "var(--sheet)", "stroke-width": w + 4 }));
-      g.append(sv("path", { d: d, fill: "none", stroke: "var(--ink)", "stroke-width": w, "stroke-linejoin": "round" }));
+      g.append(sv("path", { class: "seg-ink", d: d, fill: "none", stroke: "var(--ink)", "stroke-width": w, "stroke-linejoin": "round" }));
+      g.append(sv("path", { class: "seg-hit", d: d }));
       g.append(sv("title", null, s.a + " → " + s.b + " · " + dec(s.length) + " m · " + s.wires + " fils · Ø " + dec(s.bundle_mm, 1) + " mm" + (s.sleeve ? " · " + s.sleeve : "")));
       gL.append(g);
+      miniG.append(sv("path", { d: d, fill: "none", stroke: "currentColor", "stroke-width": 8 }));
       const span = X(n) - X(p);
-      if (span >= 34) gT.append(sv("text", { x: (X(p) + X(n)) / 2, y: Y[n] - w / 2 - 4, "text-anchor": "middle", style: "font:500 10px var(--font-mono);fill:var(--ink-2)" },
+      if (span >= 34) gT.append(sv("text", { class: "fb-small", x: (X(p) + X(n)) / 2, y: Y[n] - w / 2 - 4, "text-anchor": "middle", style: "font:500 10px var(--font-mono);fill:var(--ink-2)" },
         Math.round(s.length * 1000) + (span >= 90 && s.bundle_mm ? " · Ø" + dec(s.bundle_mm, 0) : "")));
     });
     order.forEach(n => {
       const leaf = !(kids[n] || []).length;
-      gN.append(sv("circle", { cx: X(n), cy: Y[n], r: leaf ? 4 : 3, fill: "var(--ink)" }));
+      const ng = sv("g", { class: "fnode", "data-node": n });
+      ng.append(sv("circle", { class: "node-hit", cx: X(n), cy: Y[n], r: 14 }));
+      ng.append(sv("circle", { cx: X(n), cy: Y[n], r: leaf ? 4 : 3, fill: "var(--ink)" }));
+      gN.append(ng);
       const owners = (at[n] || []).filter(o => !OW[o].cable);
       if (leaf) {
         const t = sv("text", { x: X(n) + 9, y: Y[n] + 4, style: "font-size:12px" });
         t.append(sv("tspan", { style: "font-weight:600" }, T.nodes[n]));
-        if (owners.length) t.append(sv("tspan", { style: "font:500 10.5px var(--font-mono);fill:var(--ink-2)" }, "  " + owners.join(" ")));
+        if (owners.length) t.append(sv("tspan", { class: "fb-small", style: "font:500 10.5px var(--font-mono);fill:var(--ink-2)" }, "  " + owners.join(" ")));
         gT.append(t);
       } else if (owners.length || n === T.root) {
         const lx = X(n) + 3, ly = Y[n] + 11;
-        gT.append(sv("text", { x: lx, y: ly, transform: "rotate(38 " + lx + " " + ly + ")", style: "font:500 9.5px var(--font-mono);fill:var(--accent);paint-order:stroke;stroke:var(--sheet);stroke-width:3px" }, trunc(owners.join(" "), 30)));
+        gT.append(sv("text", { class: "fb-small", x: lx, y: ly, transform: "rotate(38 " + lx + " " + ly + ")", style: "font:500 9.5px var(--font-mono);fill:var(--accent);paint-order:stroke;stroke:var(--sheet);stroke-width:3px" }, trunc(owners.join(" "), 30)));
       }
     });
     svg.append(gL, gN, gT);
-    const segRows = order.slice(1).map(n => segOf[n]).map(s => h("tr", null, h("td", { class: "mono" }, s.a + " → " + s.b),
+    miniG.setAttribute("style", "color:var(--ink)");
+    const scale = h("div", { class: "vw-scale", "aria-hidden": "true" }, h("span"), h("i"));
+    const NICE = [10, 20, 50, 100, 200, 500, 1000, 2000];
+    const vw = createViewer({
+      label: "Formboard à l'échelle", lod: 0.45,
+      hint: "Glisser pour déplacer · pincer, Ctrl + molette ou double-toucher pour zoomer · touche un tronçon ou un nœud pour le détail",
+      onTap: ev => {
+        const g = ev.target.closest(".seg");
+        if (g) { selectSeg(g.dataset.seg, false); return; }
+        const nd = ev.target.closest(".fnode");
+        if (nd) { selectNode(nd.dataset.node); return; }
+        clear();
+      },
+      onEscape: () => { if (!vw.drawer.hidden) { clear(); return true; } return false; },
+      onView: v => {
+        const pxPerMm = SCALE / 1000 * v.k;
+        const mm = NICE.find(m => m * pxPerMm >= 60) || NICE[NICE.length - 1];
+        scale.firstChild.textContent = mm >= 1000 ? (mm / 1000) + " m" : mm + " mm";
+        scale.lastChild.style.width = Math.round(mm * pxPerMm) + "px";
+      },
+    });
+    vw.stage.append(scale);
+    function clear() { svg.querySelectorAll(".seg.hl").forEach(x => x.classList.remove("hl")); vw.setDrawer(false); }
+    function selectSeg(id, focus) {
+      const s = T.segments.find(x => x.id === id); if (!s) return;
+      svg.querySelectorAll(".seg").forEach(x => x.classList.toggle("hl", x.dataset.seg === id));
+      const ws = REAL.filter(w => (w.path || []).includes(id));
+      const cabs = H.cables.filter(c => (c.path || []).includes(id));
+      drawerContent(vw, [h("span", { class: "mono" }, s.a + " → " + s.b), " · " + Math.round(s.length * 1000) + " mm"],
+        s.wires + " fils · Ø " + dec(s.bundle_mm, 1) + " mm" + (s.sleeve ? " · " + s.sleeve : ""), [],
+        [h("p", { class: "muted", style: "margin:0 0 8px;font-size:13px" }, "Fils qui passent dans ce tronçon" + (cabs.length ? " (dont câbles " + cabs.map(c => c.id).join(", ") + ")" : "") + " :"),
+          h("div", { style: "display:flex;flex-wrap:wrap;gap:8px" }, ws.map(w => wireTag(w, () => { vw.setFull(false); goSheet(w.sheet, { wire: w.id }, "formboard"); })))],
+        clear);
+      if (focus) vw.focusBox(segBox[id], 1.6);
+    }
+    function selectNode(n) {
+      svg.querySelectorAll(".seg").forEach(x => x.classList.toggle("hl", x.dataset.seg.split("~").includes(n)));
+      const owners = (at[n] || []).filter(o => !OW[o].cable);
+      drawerContent(vw, [h("span", { class: "mono" }, n), " · " + T.nodes[n]], dec(dist[n], 2) + " m depuis l'ECU · " + owners.length + " élément(s)", [],
+        [h("div", { style: "display:flex;flex-wrap:wrap;gap:8px" }, owners.map(o => h("button", { class: "btn", onclick: () => { vw.setFull(false); if (isFiche(o)) openFiche(o, "formboard"); else if (bestSheet(o)) goSheet(bestSheet(o), { owner: o }, "formboard"); } },
+          h("span", { class: "mono" }, o), " ", OW[o].cat === "ecu" ? "" : trunc(OW[o].label, 28))))], clear);
+    }
+    vw.bar.append(vw.closeBtn, h("span", { class: "count grow" }, "Échelle 1 m = " + SCALE + " unités · " + T.segments.length + " tronçons · touche un tronçon pour ses fils"));
+    const segRows = order.slice(1).map(n => segOf[n]).map(s => h("tr", { class: "clickable", onclick: () => { scrollToEl(vw.root, 6); selectSeg(s.id, true); } },
+      h("td", { class: "mono" }, s.a + " → " + s.b),
       h("td", null, T.nodes[s.b]), h("td", { class: "num" }, Math.round(s.length * 1000) + " mm"), h("td", { class: "num" }, s.wires),
       h("td", { class: "num" }, s.bundle_mm ? dec(s.bundle_mm, 1) + " mm" : "—"), h("td", { class: "mono fn" }, s.sleeve || "—")));
     sec.append(h("h2", null, "Formboard"),
       h("p", { class: "lede" }, (T.estimated ? "Longueurs ESTIMÉES : mesure chaque tronçon sur la voiture (ficelle le long du trajet réel), reporte les valeurs dans la section topology du YAML et régénère : toutes les longueurs de coupe suivent. " : "") +
-        "Tracé à l'échelle (1 m = " + SCALE + " px) ; l'épaisseur des traits suit le diamètre estimé du toron."),
-      h("div", { class: "frame", style: "max-height:none" }, svg),
+        "Tracé à l'échelle ; l'épaisseur des traits suit le diamètre estimé du toron."),
+      vw.root,
       h("h3", { style: "margin-top:24px" }, "Tronçons, torons et gaine"),
       h("div", { class: "tbl-wrap" }, h("table", { class: "tbl" },
         h("thead", null, h("tr", null, ["Tronçon", "Vers", "Longueur", "Fils", "Ø toron", "Gaine conseillée"].map(t => h("th", null, t)))),
         h("tbody", null, segRows))));
+    vw.setContent(svg, W, Hh, miniG, null);
   };
 
   // ---------------------------------------------------------------- contrôles
   RENDER.controles = function (sec) {
-    const state = store("checks") || {};
     const blocks = H.checks.map((ph, pi) => {
       const counter = h("span", { class: "count" });
-      const upd = () => { const n = ph.items.filter((_, ii) => state[pi + "-" + ii]).length; counter.textContent = n + " / " + ph.items.length; };
+      const upd = () => { const n = ph.items.filter((_, ii) => CHECKS[pi + "-" + ii]).length; counter.textContent = n + " / " + ph.items.length; };
       const list = h("ol", null, ph.items.map((it, ii) => {
         const id = "chk-" + pi + "-" + ii;
-        const box = h("input", { type: "checkbox", id: id, checked: !!state[pi + "-" + ii] });
-        box.addEventListener("change", () => { state[pi + "-" + ii] = box.checked; store("checks", state); upd(); });
+        const box = h("input", { type: "checkbox", id: id, checked: !!CHECKS[pi + "-" + ii] });
+        box.addEventListener("change", () => { if (box.checked) CHECKS[pi + "-" + ii] = true; else delete CHECKS[pi + "-" + ii]; store("checks", CHECKS); upd(); updateBadge(); });
         return h("li", null, h("label", { for: id }, box, h("span", null, it)));
       }));
       upd();
@@ -1040,11 +2452,11 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     const reset = h("button", { class: "btn" }, "Tout décocher");
     reset.addEventListener("click", () => {
       if (!armed) { armed = true; reset.textContent = "Confirmer la remise à zéro"; setTimeout(() => { armed = false; reset.textContent = "Tout décocher"; }, 4000); return; }
-      Object.keys(state).forEach(k => delete state[k]); store("checks", state);
+      Object.keys(CHECKS).forEach(k => delete CHECKS[k]); store("checks", CHECKS); updateBadge();
       sec.replaceChildren(); RENDER.controles(sec);
     });
     sec.append(h("h2", null, "Contrôles"),
-      h("p", { class: "lede" }, "Trois passes : au banc avant de sertir, faisceau terminé avant de brancher l'ECU, puis première mise sous tension. Les cases restent cochées sur cet appareil."),
+      h("p", { class: "lede" }, "Trois passes : au banc avant de sertir, faisceau terminé avant de brancher l'ECU, puis première mise sous tension." + (STORE_OK ? " Les cases restent cochées sur cet appareil." : "")), storeWarn(),
       h("div", { class: "stack" }, blocks, h("div", null, reset)),
       h("h3", { style: "margin-top:28px" }, "Réglages MTune liés au câblage"),
       h("div", { class: "tbl-wrap" }, h("table", { class: "tbl" },
@@ -1065,9 +2477,27 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
             h("td", { class: "num" }, String(r.qty).replace(".", ",")), h("td", { class: "fn" }, r.unit), h("td", { class: "fn" }, r.detail)))])))));
   };
 
-  // ------------------------------------------------------------------- start
-  let first = "synthese";
-  try { const hsh = location.hash.replace("#", ""); if (sections[hsh]) first = hsh; else if (sections[store("tab")]) first = store("tab"); } catch (e) { /* ignore */ }
-  show(first);
+  // ------------------------------------------------------------------- routes
+  function route(tok, initial) {
+    try { tok = decodeURIComponent(tok || ""); } catch (e) { tok = tok || ""; }
+    const T = tok.toUpperCase();
+    const m = /^(planche|fil|fiche|comp)-(.+)$/.exec(tok || "");
+    if (m && m[1] === "planche" && H.sheets[m[2]]) {
+      if (rendered.planches) goSheet(m[2], {}); else { PL.sheet = m[2]; navigate("planches", { keepHash: true }); }
+      setHash("planche-" + m[2]);
+    } else if (m && m[1] === "fil" && WB[m[2]]) { goSheet(WB[m[2]].sheet, { wire: m[2] }); hideBack(); }
+    else if (m && (m[1] === "fiche" || m[1] === "comp") && OW[m[2]]) { openFiche(m[2]); hideBack(); }
+    else if (TAB[tok]) navigate(tok);
+    // Liens courts tapés à la main : #IGN-03, #COIL3, #SNS, #CMC1.A2
+    else if (WB[T]) { goSheet(WB[T].sheet, { wire: T }); hideBack(); }
+    else if (H.sheets[T]) route("planche-" + T);
+    else if (OW[T] && isFiche(T)) { openFiche(T); hideBack(); }
+    else if (H.ecu.pins.some(p => p.id === T)) { navigate("ecu"); openPin(T); }
+    else if (initial) navigate(TAB[store("tab")] ? store("tab") : "synthese");
+  }
+  window.addEventListener("hashchange", () => { try { route(location.hash.replace("#", ""), false); } catch (e) { /* */ } });
+  let start = "";
+  try { start = location.hash.replace("#", ""); } catch (e) { start = ""; }
+  route(start, true);
 })();
 </script>
