@@ -1,0 +1,1026 @@
+# =============================================================================
+#  Faisceau moteur BMW M50B25 VANOS Turbo — MaxxECU RACE Gen1 (REV9+)
+#  SOURCE UNIQUE DE VÉRITÉ : tout (planches, liste de coupe, nomenclature,
+#  contrôles) est généré depuis ce fichier par tools/build_harness.py
+#
+#  Repères d'extrémité :  CMC1.A2  = ECU connecteur 1 broche A2
+#                         COIL1.3  = composant COIL1 broche 3
+#                         SPL-xxx  = épissure (pas de broche)
+#                         C-xxx.SH = blindage du câble C-xxx
+# =============================================================================
+
+meta:
+  project: "Faisceau moteur M50B25 VANOS Turbo"
+  engine: "BMW M50B25 VANOS — turbo"
+  ecu: "MaxxECU RACE Gen1 (REV9+)"
+  revision: "A"
+  date: "2026-10-07"
+  status: "Étude — à valider sur véhicule"
+  assumptions:
+    - "ECU et boîte fusibles/relais (PDM) installés dans le boîtier électronique d'origine (E-box), côté passager, contre le tablier."
+    - "Longueurs de tronçons ESTIMÉES pour une baie M50 : à remplacer par des mesures à la ficelle (section topology)."
+    - "Pédale dans l'habitacle, raccordée par un connecteur de cloison Deutsch DT 12 voies (XINT)."
+    - "Pompe à essence et ventilateur pilotés par relais, alimentés en direct batterie (hors relais principal)."
+    - "Consommations pompe (15 A) et ventilateur (20 A) supposées : à ajuster selon tes modèles."
+  sources:
+    - {label: "MaxxECU RACE (REV9+) — schéma de câblage officiel", url: "https://www.maxxecu.com/files/Documentation/Wirings/MaxxECU%20RACE%20(REV9+)%20-%20Wiring-en.pdf"}
+    - {label: "MaxxECU — faisceau BMW M50 (note culasse VANOS / capteur 12141726590)", url: "https://maxxecu.com/webhelp/wirings-terminated_engine_harness-bmw_m50.html"}
+    - {label: "MaxxECU — brochages papillons électroniques (VDO BMW)", url: "https://maxxecu.com/webhelp/wirings-e-throttle_bodies.html"}
+    - {label: "MaxxECU — BMW M54 plug-in (papillon sur GPO11/12, TPS + AIN3/4/5)", url: "https://maxxecu.com/webhelp/wirings-pluginecu-bmw_m54.html"}
+    - {label: "MaxxECU RACE — caractéristiques (GPO 2 A, GPO9 5 A, INJ 8 A peak & hold, MAP 3 bar boost)", url: "https://maxxecu.com/products/race"}
+    - {label: "Bosch 0 261 544 01F — brochage 2 P / 3 +5V / 4 GND / 5 NTC", url: "https://en.oreca-store.com/bosch-0261-544-01f-u5g-fluid-pressure-and-temperature-sensor-0-10-bar-026154401fu5g.html"}
+    - {label: "Haltech — moteur BMW M50 (capteurs, VANOS)", url: "https://support.haltech.com/portal/en/kb/articles/m50-engine"}
+
+# -----------------------------------------------------------------------------
+# Code couleur (IEC 60757). Modifie librement : tout est recalculé.
+# -----------------------------------------------------------------------------
+colors:
+  RD: {name: "rouge", hex: "#d42a2a"}
+  BK: {name: "noir", hex: "#1d1d1f"}
+  BN: {name: "marron", hex: "#7a4a24"}
+  OG: {name: "orange", hex: "#ef7d14"}
+  YE: {name: "jaune", hex: "#f2cf1d"}
+  GN: {name: "vert", hex: "#2a9a48"}
+  BU: {name: "bleu", hex: "#2364c8"}
+  VT: {name: "violet", hex: "#8040b0"}
+  GY: {name: "gris", hex: "#8c9399"}
+  WH: {name: "blanc", hex: "#f7f7f5"}
+  PK: {name: "rose", hex: "#e874a8"}
+
+color_legend:
+  - {code: "RD", role: "+12 V permanent batterie (30), avant relais"}
+  - {code: "RD/WH", role: "+12 V commuté : sorties fusibles après relais principal"}
+  - {code: "VT", role: "+15 contact clé → bobine relais principal"}
+  - {code: "BK", role: "Masse puissance (culasse / caisse)"}
+  - {code: "BN", role: "Masses de référence ECU : Sensor GND, VR GND, Knock GND — JAMAIS à la caisse"}
+  - {code: "OG", role: "+5 V capteurs (CMC1 G1)"}
+  - {code: "YE", role: "Signaux température (NTC), rayure = capteur"}
+  - {code: "WH", role: "Signaux analogiques 0–5 V et signaux capteurs, rayure = fonction"}
+  - {code: "BU", role: "Commandes allumage IGN1→6"}
+  - {code: "GY", role: "Commandes injecteurs INJ1→6"}
+  - {code: "GN", role: "Sorties GPO (actionneurs, relais, chauffage lambda)"}
+  - {code: "PK", role: "Moteur papillon (PK = +, PK/BK = −)"}
+
+wire_rules:
+  insulation: "FLRY-B (ou Tefzel / M22759 pour le haut de gamme)"
+  slack_m: 0.10          # surlongueur ajoutée à chaque fil
+  termination_m: 0.03    # longueur de dénudage / reprise par extrémité
+  round_to_m: 0.05       # arrondi supérieur de la longueur de coupe
+  # Section mini admissible derrière un fusible (FLRY-B, toron en baie moteur)
+  fuse_min_mm2: {5: 0.35, 7.5: 0.5, 10: 0.75, 15: 1.0, 20: 1.5, 30: 2.5, 40: 4.0, 60: 6.0, 80: 10.0}
+  # Diamètre extérieur par section (mm) pour le calcul des torons
+  od_mm: {0.35: 1.3, 0.5: 1.6, 0.75: 1.9, 1.0: 2.1, 1.5: 2.4, 2.5: 3.0, 4.0: 3.7, 6.0: 4.3, 10.0: 5.6}
+  fuse_load_warn_ratio: 0.8
+  supply_v: 14.4
+
+# -----------------------------------------------------------------------------
+# Planches (un schéma par sous-système)
+# layout: ecu  = ECU à gauche, capteurs/actionneurs au centre, alim/masses à droite
+#         flow = mise en page en cascade depuis la racine indiquée
+# -----------------------------------------------------------------------------
+sheets:
+  PWR:  {short: "Alimentation", title: "Alimentation & relais principal", layout: flow, root: BATT}
+  GND:  {short: "Masses ECU", title: "Masses ECU", layout: ecu}
+  IGN:  {short: "Allumage", title: "Allumage — 6 bobines intelligentes", layout: ecu}
+  INJ:  {short: "Injection", title: "Injection — 6 × 870 cc", layout: ecu}
+  SYNC: {short: "PMH / AAC", title: "Synchronisation PMH / AAC & blindages", layout: ecu}
+  SNS:  {short: "Capteurs", title: "Capteurs température / pression & distribution 5 V / Sensor GND", layout: ecu}
+  DBW:  {short: "Papillon & pédale", title: "Papillon motorisé & pédale", layout: ecu}
+  WBO:  {short: "Lambda & EGT", title: "Lambda LSU 4.9 & EGT", layout: ecu}
+  KNK:  {short: "Cliquetis", title: "Cliquetis", layout: ecu}
+  ACT:  {short: "VANOS & boost", title: "VANOS & MAC valve (boost)", layout: ecu}
+  RLY:  {short: "Pompe & ventilo", title: "Pompe à essence & ventilateur", layout: flow, root: CMC1}
+  COM:  {short: "Habitacle", title: "Interface habitacle (compte-tours, CAN)", layout: ecu}
+
+systems:
+  PWR:  {label: "Alimentation"}
+  GND:  {label: "Masses"}
+  IGN:  {label: "Allumage"}
+  INJ:  {label: "Injection"}
+  SYNC: {label: "Synchro"}
+  SNS:  {label: "Capteurs"}
+  DBW:  {label: "Papillon / pédale"}
+  WBO:  {label: "Lambda / EGT"}
+  KNK:  {label: "Cliquetis"}
+  ACT:  {label: "Actionneurs"}
+  RLY:  {label: "Relais"}
+  COM:  {label: "Habitacle / CAN"}
+  REF:  {label: "Références ECU"}
+
+# -----------------------------------------------------------------------------
+# ECU — brochage officiel MaxxECU RACE REV9+ (vérifié sur le PDF constructeur)
+# kind → classe électrique utilisée par le contrôle de règles (ERC)
+# -----------------------------------------------------------------------------
+ecu:
+  name: "MaxxECU RACE Gen1"
+  node: ECU
+  load_a: 1.5
+  connectors:
+    CMC1:
+      title: "Connecteur 1 — Molex CMC 48 voies"
+      rows: [A, B, C, D, E, F, G, H, J, K, L, M]
+      cols: [1, 2, 3, 4]
+      pins:
+        A1: {fn: "GP OUT 5", kind: gpo, max_a: 2}
+        A2: {fn: "IGNITION CYL 1", kind: ign}
+        A3: {fn: "IGNITION CYL 2", kind: ign}
+        A4: {fn: "TACH / GP OUT 8", kind: gpo, max_a: 2}
+        B1: {fn: "GP OUT 6", kind: gpo, max_a: 2}
+        B2: {fn: "IGNITION CYL 3", kind: ign}
+        B3: {fn: "IGNITION CYL 4", kind: ign}
+        B4: {fn: "GP OUT 1", kind: gpo, max_a: 2}
+        C1: {fn: "GP OUT 7 / DIGITAL IN 3", kind: gpo, max_a: 2}
+        C2: {fn: "IGNITION CYL 5", kind: ign}
+        C3: {fn: "IGNITION CYL 6", kind: ign}
+        C4: {fn: "GP OUT 2", kind: gpo, max_a: 2}
+        D1: {fn: "WBO2 HTR (pin 3 LSU 4.9) / GP OUT 9", kind: gpo, max_a: 5}
+        D2: {fn: "IGNITION CYL 7", kind: ign}
+        D3: {fn: "IGNITION CYL 8", kind: ign}
+        D4: {fn: "GP OUT 3", kind: gpo, max_a: 2}
+        E1: {fn: "CAN H (120 Ω intégrée)", kind: can}
+        E2: {fn: "CAN L", kind: can}
+        E3: {fn: "SHIELD GND", kind: shield_gnd}
+        E4: {fn: "GP OUT 4", kind: gpo, max_a: 2}
+        F1: {fn: "COOLANT SENSOR (CLT)", kind: ain}
+        F2: {fn: "AIR TEMP SENSOR (IAT)", kind: ain}
+        F3: {fn: "WBO2 COM", kind: wbo}
+        F4: {fn: "WBO2 VS / O2 IN", kind: wbo}
+        G1: {fn: "+5 V SENSOR SUPPLY", kind: v5}
+        G2: {fn: "THROTTLE SENSOR (TPS)", kind: ain}
+        G3: {fn: "WBO2 IP", kind: wbo}
+        G4: {fn: "WBO2 RCAL", kind: wbo}
+        H1: {fn: "SENSOR GND", kind: sensor_gnd}
+        H2: {fn: "VR GND", kind: vr_gnd}
+        H3: {fn: "TRIGGER", kind: trig}
+        H4: {fn: "HOME / CAM", kind: trig}
+        J1: {fn: "ANALOG IN 1 (TEMP)", kind: ain}
+        J2: {fn: "ANALOG IN 2 (TEMP)", kind: ain}
+        J3: {fn: "ANALOG IN 3 (0-5 V)", kind: ain}
+        J4: {fn: "ANALOG IN 4 (0-5 V)", kind: ain}
+        K1: {fn: "INJECTOR CYL 1", kind: inj, max_a: 8}
+        K2: {fn: "INJECTOR CYL 2", kind: inj, max_a: 8}
+        K3: {fn: "DIGITAL IN 1", kind: din}
+        K4: {fn: "DIGITAL IN 2", kind: din}
+        L1: {fn: "INJECTOR CYL 8", kind: inj, max_a: 8}
+        L2: {fn: "INJECTOR CYL 7", kind: inj, max_a: 8}
+        L3: {fn: "INJECTOR CYL 6", kind: inj, max_a: 8}
+        L4: {fn: "ENGINE GROUND", kind: ecu_gnd}
+        M1: {fn: "INJECTOR CYL 3", kind: inj, max_a: 8}
+        M2: {fn: "INJECTOR CYL 4", kind: inj, max_a: 8}
+        M3: {fn: "INJECTOR CYL 5", kind: inj, max_a: 8}
+        M4: {fn: "+12 V ECU", kind: ecu_12v}
+    CMC2:
+      title: "Connecteur 2 — Molex CMC 32 voies"
+      rows: [A, B, C, D, E, F, G, H]
+      cols: [1, 2, 3, 4]
+      pins:
+        A1: {fn: "EGT5+", kind: egt}
+        A2: {fn: "EGT6+", kind: egt}
+        A3: {fn: "EGT7+", kind: egt}
+        A4: {fn: "EGT8+", kind: egt}
+        B1: {fn: "EGT5-", kind: egt}
+        B2: {fn: "EGT6-", kind: egt}
+        B3: {fn: "EGT7-", kind: egt}
+        B4: {fn: "EGT8-", kind: egt}
+        C1: {fn: "EGT1+", kind: egt}
+        C2: {fn: "EGT2+", kind: egt}
+        C3: {fn: "EGT3+", kind: egt}
+        C4: {fn: "EGT4+", kind: egt}
+        D1: {fn: "EGT1-", kind: egt}
+        D2: {fn: "EGT2-", kind: egt}
+        D3: {fn: "EGT3-", kind: egt}
+        D4: {fn: "EGT4-", kind: egt}
+        E1: {fn: "KNOCK GND", kind: knock_gnd}
+        E2: {fn: "KNOCK 1", kind: knock}
+        E3: {fn: "KNOCK 2", kind: knock}
+        E4: {fn: "ANALOG IN 6 (0-5 V)", kind: ain}
+        F1: {fn: "ANALOG IN 7 (0-5 V)", kind: ain}
+        F2: {fn: "ANALOG IN 8 (0-5 V)", kind: ain}
+        F3: {fn: "DIGITAL / VR IN 4", kind: din}
+        F4: {fn: "DIGITAL / VR IN 5", kind: din}
+        G1: {fn: "GP OUT 15 (+12 V, 2 A)", kind: gpo_hs, max_a: 2}
+        G2: {fn: "GP OUT 16 (+12 V, 2 A)", kind: gpo_hs, max_a: 2}
+        G3: {fn: "ANALOG IN 5 (0-5 V)", kind: ain}
+        G4: {fn: "ENGINE GROUND 2", kind: ecu_gnd}
+        H1: {fn: "MOTOR 2+ / GPO 14", kind: motor}
+        H2: {fn: "MOTOR 1- / GPO 11", kind: motor}
+        H3: {fn: "MOTOR 2- / GPO 13", kind: motor}
+        H4: {fn: "MOTOR 1+ / GPO 12", kind: motor}
+
+# -----------------------------------------------------------------------------
+# Composants. cls = classe électrique attendue sur la broche (ERC) :
+#   PWR12 (+12 V), V5 (+5 V), V15 (+15 clé), GND_PWR, GND_SENS, GND_VR,
+#   GND_KNOCK, GND_SHIELD. Sans cls = signal.
+# supply: true = broche d'alimentation de la charge (bilan fusibles)
+# -----------------------------------------------------------------------------
+components:
+  # ---------------- Capteurs température / pression ----------------
+  IAT:
+    label: "Température air admission"
+    ref: "Bosch 0 280 130 039"
+    type: "NTC 2 fils (≈ 2,5 kΩ à 20 °C)"
+    connector: "Bosch JPT 2 voies"
+    system: SNS
+    node: N_IAT
+    pins:
+      "1": {fn: "Signal NTC"}
+      "2": {fn: "Retour", cls: GND_SENS}
+    notes: "Pas de polarité. Calibration MTune : Bosch NTC."
+  CLT:
+    label: "Température eau"
+    ref: "Bosch 0 280 130 026"
+    type: "NTC 2 fils"
+    connector: "Bosch JPT 2 voies"
+    system: SNS
+    node: N_CLT
+    pins:
+      "1": {fn: "Signal NTC"}
+      "2": {fn: "Retour", cls: GND_SENS}
+    notes: "Pas de polarité."
+  OIL:
+    label: "Pression + température huile"
+    ref: "Bosch 0 261 544 01F"
+    type: "0–10 bar (0,5–4,5 V) + NTC, alim 5 V"
+    connector: "Connecteur Bosch du capteur (broche 1 non câblée)"
+    system: SNS
+    node: N_OIL
+    supply5_ma: 10
+    pins:
+      "1": {fn: "Non assignée", nc: true}
+      "2": {fn: "Pression 0,5–4,5 V"}
+      "3": {fn: "+5 V", cls: V5}
+      "4": {fn: "Masse capteur", cls: GND_SENS}
+      "5": {fn: "Température NTC"}
+    notes: "0,5 V = 0 bar ; 4,5 V = 10 bar. NTC : 44 864 Ω à −40 °C, 72 Ω à 140 °C."
+  FUEL:
+    label: "Pression + température essence"
+    ref: "Bosch 0 261 544 01F"
+    type: "0–10 bar (0,5–4,5 V) + NTC, alim 5 V"
+    connector: "Connecteur Bosch du capteur (broche 1 non câblée)"
+    system: SNS
+    node: N_FUEL
+    supply5_ma: 10
+    pins:
+      "1": {fn: "Non assignée", nc: true}
+      "2": {fn: "Pression 0,5–4,5 V"}
+      "3": {fn: "+5 V", cls: V5}
+      "4": {fn: "Masse capteur", cls: GND_SENS}
+      "5": {fn: "Température NTC"}
+    notes: "Permet la pression différentielle essence/MAP dans MTune."
+
+  # ---------------- Synchronisation ----------------
+  CRANK:
+    label: "Capteur PMH (vilebrequin)"
+    ref: "BMW 12141703277 (type M52)"
+    type: "Effet Hall 3 fils, alim 12 V"
+    connector: "BMW 3 voies (capteur M52)"
+    system: SYNC
+    node: N_CRANK
+    load_a: 0.02
+    pins:
+      "1": {fn: "+12 V", cls: PWR12, supply: true}
+      "2": {fn: "Signal Hall"}
+      "3": {fn: "Masse capteur", cls: GND_VR}
+    notes: "Lit la cible 60-2 avant du M50 : support et entrefer à valider. MTune : trigger en mode Hall / digital."
+    verify: "Brochage à confirmer sur le capteur avant sertissage (alim 1 / signal 2 / masse 3)."
+  CAM:
+    label: "Capteur AAC (arbre à cames)"
+    ref: "Delphi SS11198 / BMW 12141726590 / Bosch 0 261 210 053"
+    type: "Inductif (VR) — PAS de +12 V"
+    connector: "Bosch JPT 3 voies"
+    system: SYNC
+    node: N_CAM
+    pins:
+      "1": {fn: "Signal (+)"}
+      "2": {fn: "Retour (−)", cls: GND_VR}
+      "3": {fn: "Blindage", cls: GND_SHIELD}
+    notes: "Option recommandée par MaxxECU pour une culasse M50 VANOS. Si la synchro est instable : inverser 1 et 2 (polarité VR)."
+    verify: "Mesurer la continuité broche 3 ↔ corps du capteur : s'il y a continuité, NE PAS relier le blindage côté capteur."
+
+  # ---------------- Cliquetis ----------------
+  KS1:
+    label: "Capteur cliquetis 1 (cyl. 1-2-3)"
+    ref: "Bosch 0 261 231 195 / BMW 12141738667"
+    type: "Piézo 2 fils"
+    connector: "Bosch 2 voies"
+    system: KNK
+    node: N_KS1
+    pins:
+      "1": {fn: "Signal"}
+      "2": {fn: "Retour", cls: GND_KNOCK}
+    notes: "Pas de polarité (MaxxECU). Serrage 20 N·m, sans rondelle."
+  KS2:
+    label: "Capteur cliquetis 2 (cyl. 4-5-6)"
+    ref: "Bosch 0 261 231 195 / BMW 12141738667"
+    type: "Piézo 2 fils"
+    connector: "Bosch 2 voies"
+    system: KNK
+    node: N_KS2
+    pins:
+      "1": {fn: "Signal"}
+      "2": {fn: "Retour", cls: GND_KNOCK}
+    notes: "Pas de polarité. Serrage 20 N·m, sans rondelle."
+
+  # ---------------- Lambda / EGT ----------------
+  LSU:
+    label: "Sonde lambda large bande"
+    ref: "Bosch LSU 4.9 — 0 258 017 025"
+    type: "WBO2 6 fils (contrôleur interne RACE REV9+)"
+    connector: "LSU 4.9 6 voies (Bosch 1 928 404 682)"
+    system: WBO
+    node: N_LSU
+    load_a: 1.5
+    pins:
+      "1": {fn: "IP (pompe)"}
+      "2": {fn: "VM / COM"}
+      "3": {fn: "Chauffage −"}
+      "4": {fn: "Chauffage +12 V", cls: PWR12, supply: true}
+      "5": {fn: "RCAL (IA)"}
+      "6": {fn: "VS (UN / Nernst)"}
+    notes: "Brochage identique au schéma MaxxECU (LSU 4.9 vue côté câble). Capteur à sélectionner dans MTune avant usage."
+  EGT1:
+    label: "Sonde EGT"
+    ref: "Thermocouple type K"
+    type: "Thermocouple K, pointe isolée"
+    connector: "Mini-K (thermocouple)"
+    system: WBO
+    node: N_EGT
+    pins:
+      "+": {fn: "K+ (chromel)"}
+      "-": {fn: "K− (alumel)"}
+    notes: "Rallonge en câble thermocouple type K jusqu'au CMC2, aucun fil cuivre."
+
+  # ---------------- Papillon / pédale ----------------
+  ETB:
+    label: "Papillon motorisé"
+    ref: "BMW 13547502444 — VDO 408-238-425-004Z"
+    type: "DBW 6 fils (moteur + double piste)"
+    connector: "BMW 6 voies (papillon M54)"
+    system: DBW
+    node: N_TB
+    supply5_ma: 5
+    pins:
+      "1": {fn: "TPS 1"}
+      "2": {fn: "+5 V", cls: V5}
+      "3": {fn: "Moteur +"}
+      "4": {fn: "TPS 2"}
+      "5": {fn: "Moteur −"}
+      "6": {fn: "Masse capteur", cls: GND_SENS}
+    notes: "Brochage identique à la VDO 408-242 BMW documentée par MaxxECU. Si l'auto-calibration ferme le papillon au lieu de l'ouvrir : inverser H2/H4."
+    verify: "Au banc : R(3–5) ≈ quelques ohms (moteur) ; pistes 1 et 4 variables sous 5 V (2 +, 6 −)."
+  APP:
+    label: "Pédale d'accélérateur"
+    ref: "Pédale BMW marquage 25916010"
+    type: "Double piste (2 alims, 2 masses, 2 signaux)"
+    connector: "TE MQS 6 voies"
+    system: DBW
+    node: CAB_PEDAL
+    harness: CAB
+    supply5_ma: 20
+    pins:
+      "1": {fn: "Masse piste 1", cls: GND_SENS}
+      "2": {fn: "Masse piste 2", cls: GND_SENS}
+      "3": {fn: "+5 V piste 2", cls: V5}
+      "4": {fn: "Signal piste 1"}
+      "5": {fn: "+5 V piste 1", cls: V5}
+      "6": {fn: "Signal piste 2"}
+    notes: "Brochage pédale BMW E46 6 voies. Sur BMW, la piste 2 vaut ~ la moitié de la piste 1."
+    verify: "Au banc : 5 V sur 3 et 5, masse sur 1 et 2, mesurer 4 et 6 pédale relâchée / à fond."
+
+  # ---------------- Injecteurs ----------------
+  INJ1: &inj
+    label: "Injecteur cyl. 1"
+    ref: "870 cc Bosch EV1"
+    type: "Injecteur 2 fils"
+    connector: "Bosch EV1 / JPT 2 voies"
+    system: INJ
+    node: INT1
+    load_a: 1.0
+    pins:
+      "1": {fn: "+12 V", cls: PWR12, supply: true}
+      "2": {fn: "Commande ECU"}
+    notes: "Pas de polarité, mais câbler les 6 dans le même sens."
+    verify: "Mesurer la résistance : ≈ 12 Ω = haute impédance, ≈ 2–3 Ω = basse impédance (régler le type dans MTune)."
+  INJ2: {<<: *inj, label: "Injecteur cyl. 2", node: INT2}
+  INJ3: {<<: *inj, label: "Injecteur cyl. 3", node: INT3}
+  INJ4: {<<: *inj, label: "Injecteur cyl. 4", node: INT4}
+  INJ5: {<<: *inj, label: "Injecteur cyl. 5", node: INT5}
+  INJ6: {<<: *inj, label: "Injecteur cyl. 6", node: INT6}
+
+  # ---------------- Bobines ----------------
+  COIL1: &coil
+    label: "Bobine cyl. 1"
+    ref: "Bosch 0 221 604 800"
+    type: "Bobine crayon à allumeur intégré (commande 5 V)"
+    connector: "VAG 4 voies (1J0 973 724)"
+    system: IGN
+    node: TOP1
+    load_a: 1.0
+    pins:
+      "1": {fn: "+12 V", cls: PWR12, supply: true}
+      "2": {fn: "Masse électronique", cls: GND_PWR}
+      "3": {fn: "Commande IGN"}
+      "4": {fn: "Masse puissance", cls: GND_PWR}
+    notes: "Broches 2 et 4 jamais sur Sensor GND. Condensateur 10 µF près des bobines si parasites (préconisation MaxxECU)."
+    verify: "Confirmer le repérage 1-2-3-4 moulé sur le connecteur de la bobine."
+  COIL2: {<<: *coil, label: "Bobine cyl. 2", node: TOP2}
+  COIL3: {<<: *coil, label: "Bobine cyl. 3", node: TOP3}
+  COIL4: {<<: *coil, label: "Bobine cyl. 4", node: TOP4}
+  COIL5: {<<: *coil, label: "Bobine cyl. 5", node: TOP5}
+  COIL6: {<<: *coil, label: "Bobine cyl. 6", node: TOP6}
+
+  # ---------------- Actionneurs ----------------
+  MAC:
+    label: "Électrovanne de boost"
+    ref: "MAC 35A-ACA-DDBA-1BA 12 V"
+    type: "Électrovanne 3 voies 12 V (≈ 5,4 W)"
+    connector: "Superseal 1.5 2 voies (conseillé)"
+    system: ACT
+    node: N_MAC
+    load_a: 0.45
+    pins:
+      "1": {fn: "+12 V", cls: PWR12, supply: true}
+      "2": {fn: "Commande GPO1"}
+    notes: "Fréquence PWM typique 30 Hz (à régler dans MTune)."
+  VANOS:
+    label: "Électrovanne VANOS"
+    ref: "Électrovanne M50B25 VANOS"
+    type: "Électrovanne tout-ou-rien"
+    connector: "Bosch JPT 2 voies"
+    system: ACT
+    node: N_VANOS
+    r_ohm: [3.3, 12]
+    pins:
+      "1": {fn: "+12 V", cls: PWR12, supply: true}
+      "2": {fn: "Commande (masse)"}
+    notes: "Sur M50 : VANOS tout-ou-rien (sortie switchée)."
+    verify: "Mesurer la résistance : ≥ 7,5 Ω → GPO3 OK (≤ 2 A) ; < 7,5 Ω → passer la commande sur INJ7 (CMC1 L2, 8 A)."
+
+  # ---------------- Charges châssis ----------------
+  PUMP:
+    label: "Pompe à essence"
+    ref: "Selon pompe (à préciser)"
+    type: "Charge forte"
+    connector: "Selon pompe"
+    system: RLY
+    node: N_PUMP
+    harness: CHS
+    load_a: 15
+    pins:
+      "+": {fn: "+12 V", cls: PWR12, supply: true}
+      "-": {fn: "Masse", cls: GND_PWR}
+  FAN:
+    label: "Ventilateur électrique"
+    ref: "SPAL (à préciser)"
+    type: "Charge forte"
+    connector: "Selon ventilateur"
+    system: RLY
+    node: N_FAN
+    load_a: 20
+    pins:
+      "+": {fn: "+12 V", cls: PWR12, supply: true}
+      "-": {fn: "Masse", cls: GND_PWR}
+
+  # ---------------- Interface habitacle ----------------
+  XINT:
+    label: "Connecteur de cloison habitacle"
+    ref: "Deutsch DT 12 voies (DT04-12PA / DT06-12SA)"
+    type: "Connecteur de passage (traversant)"
+    connector: "Deutsch DT 12 voies"
+    system: COM
+    node: XINT
+    inline: true
+    pins:
+      "1": {fn: "+15 contact"}
+      "2": {fn: "Pédale masse 1"}
+      "3": {fn: "Pédale masse 2"}
+      "4": {fn: "Pédale +5 V (2)"}
+      "5": {fn: "Pédale signal 1"}
+      "6": {fn: "Pédale +5 V (1)"}
+      "7": {fn: "Pédale signal 2"}
+      "8": {fn: "Compte-tours"}
+      "9": {fn: "CAN H"}
+      "10": {fn: "CAN L"}
+      "11": {fn: "Réserve", nc: true}
+      "12": {fn: "Réserve", nc: true}
+  KEY:
+    label: "Contact clé (+15)"
+    ref: "Faisceau véhicule"
+    type: "Source externe"
+    connector: "Selon véhicule"
+    system: PWR
+    node: CAB_KEY
+    harness: CAB
+    external: true
+    pins:
+      "15": {fn: "+15 contact", cls: V15}
+  CLUSTER:
+    label: "Combiné (compte-tours)"
+    ref: "Combiné d'origine"
+    type: "Entrée compte-tours"
+    connector: "Selon véhicule"
+    system: COM
+    node: CAB_CLUSTER
+    harness: CAB
+    external: true
+    pins:
+      "TD": {fn: "Entrée régime"}
+    notes: "Si l'aiguille ne bouge pas : pull-up 1 kΩ / 1 W vers +12 V commuté sur ce fil."
+  CANDEV:
+    label: "Afficheur / logger CAN (option)"
+    ref: "Option"
+    type: "Bus CAN"
+    connector: "Selon appareil"
+    system: COM
+    node: CAB_DASH
+    harness: CAB
+    external: true
+    optional: true
+    pins:
+      "H": {fn: "CAN H"}
+      "L": {fn: "CAN L"}
+    notes: "Résistance 120 Ω déjà intégrée côté ECU : ajouter 120 Ω à l'autre extrémité du bus."
+
+  # ---------------- Distribution d'énergie (PDM) ----------------
+  BATT:
+    label: "Batterie / borne B+"
+    ref: "Borne +12 V (point de démarrage)"
+    type: "Source"
+    connector: "Cosse œillet M8"
+    system: PWR
+    node: BPLUS
+    harness: CHS
+    external: true
+    pins:
+      "+": {fn: "+12 V batterie", cls: PWR12}
+  F0:  {label: "Fusible général", ref: "MAXI 80 A", type: fuse, rating_a: 80, system: PWR, node: BPLUS, harness: CHS, connector: "Porte-fusible MAXI étanche", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
+  F10: {label: "Fusible relais principal", ref: "30 A", type: fuse, rating_a: 30, system: PWR, node: PDM, connector: "Boîte fusibles/relais étanche", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
+  F1:  {label: "Fusible ECU", ref: "15 A", type: fuse, rating_a: 15, system: PWR, node: PDM, connector: "Boîte fusibles/relais étanche", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
+  F2:  {label: "Fusible bobines", ref: "15 A", type: fuse, rating_a: 15, system: IGN, node: PDM, connector: "Boîte fusibles/relais étanche", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
+  F3:  {label: "Fusible injecteurs", ref: "10 A", type: fuse, rating_a: 10, system: INJ, node: PDM, connector: "Boîte fusibles/relais étanche", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
+  F4:  {label: "Fusible chauffage lambda", ref: "10 A", type: fuse, rating_a: 10, system: WBO, node: PDM, connector: "Boîte fusibles/relais étanche", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
+  F5:  {label: "Fusible actionneurs (VANOS, MAC)", ref: "10 A", type: fuse, rating_a: 10, system: ACT, node: PDM, connector: "Boîte fusibles/relais étanche", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
+  F6:  {label: "Fusible capteur PMH", ref: "5 A", type: fuse, rating_a: 5, system: SYNC, node: PDM, connector: "Boîte fusibles/relais étanche", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
+  F7:  {label: "Fusible bobines de relais", ref: "5 A", type: fuse, rating_a: 5, system: RLY, node: PDM, connector: "Boîte fusibles/relais étanche", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
+  F8:  {label: "Fusible pompe à essence", ref: "20 A", type: fuse, rating_a: 20, system: RLY, node: PDM, connector: "Boîte fusibles/relais étanche", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
+  F9:  {label: "Fusible ventilateur", ref: "30 A", type: fuse, rating_a: 30, system: RLY, node: PDM, connector: "Boîte fusibles/relais étanche", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
+  K1:
+    label: "Relais principal"
+    ref: "Relais ISO mini 40 A"
+    type: relay
+    rating_a: 40
+    system: PWR
+    node: PDM
+    connector: "Boîte fusibles/relais étanche"
+    load_a: 0.15
+    pins:
+      "30": {fn: "Contact — entrée"}
+      "87": {fn: "Contact — sortie"}
+      "86": {fn: "Bobine +", cls: V15, supply: true}
+      "85": {fn: "Bobine −", cls: GND_PWR}
+  K2:
+    label: "Relais pompe à essence"
+    ref: "Relais ISO mini 30/40 A"
+    type: relay
+    rating_a: 30
+    system: RLY
+    node: PDM
+    connector: "Boîte fusibles/relais étanche"
+    load_a: 0.15
+    pins:
+      "30": {fn: "Contact — entrée"}
+      "87": {fn: "Contact — sortie"}
+      "86": {fn: "Bobine +", cls: PWR12, supply: true}
+      "85": {fn: "Bobine − (GPO2)"}
+  K3:
+    label: "Relais ventilateur"
+    ref: "Relais ISO mini 40 A"
+    type: relay
+    rating_a: 40
+    system: RLY
+    node: PDM
+    connector: "Boîte fusibles/relais étanche"
+    load_a: 0.15
+    pins:
+      "30": {fn: "Contact — entrée"}
+      "87": {fn: "Contact — sortie"}
+      "86": {fn: "Bobine +", cls: PWR12, supply: true}
+      "85": {fn: "Bobine − (GPO6)"}
+
+# -----------------------------------------------------------------------------
+# Points de masse
+# -----------------------------------------------------------------------------
+grounds:
+  GP-HEAD: {label: "Masse moteur ECU (goujon arrière culasse)", node: GND_HEAD, kind: engine, notes: "CMC1 L4 et CMC2 G4 au MÊME point (exigence MaxxECU)."}
+  GP-COIL: {label: "Masse bobines (goujon culasse, voisin)", node: GND_HEAD, kind: engine}
+  GP-CH: {label: "Masse caisse E-box", node: PDM, kind: chassis}
+  GP-CH-AV: {label: "Masse caisse avant (ventilateur)", node: N_FAN, kind: chassis}
+  GP-CH-AR: {label: "Masse caisse arrière (pompe)", node: N_PUMP, kind: chassis, harness: CHS}
+
+# -----------------------------------------------------------------------------
+# Épissures / barrettes
+# -----------------------------------------------------------------------------
+splices:
+  SPL-5V-MAIN:   {label: "+5 V — départ ECU", node: ECU, cls: V5}
+  SPL-5V-ENG:    {label: "+5 V — branche moteur", node: T1, cls: V5}
+  SPL-SG-MAIN:   {label: "Sensor GND — départ ECU", node: ECU, cls: GND_SENS}
+  SPL-SG-ENG:    {label: "Sensor GND — branche moteur", node: T1, cls: GND_SENS}
+  SPL-VRG:       {label: "VR GND (PMH + AAC)", node: ECU, cls: GND_VR}
+  SPL-SHLD:      {label: "Blindages → Shield GND", node: ECU, cls: GND_SHIELD}
+  SPL-KGND:      {label: "Knock GND (2 capteurs)", node: ECU, cls: GND_KNOCK}
+  SPL-COIL12:    {label: "+12 V bobines", node: TOP4, cls: PWR12}
+  SPL-COIL-SGND: {label: "Masse électronique bobines (broches 2)", node: TOP4, cls: GND_PWR}
+  SPL-COIL-PGND: {label: "Masse puissance bobines (broches 4)", node: TOP4, cls: GND_PWR}
+  SPL-INJ12:     {label: "+12 V injecteurs", node: INT4, cls: PWR12}
+  SPL-ACT12:     {label: "+12 V actionneurs", node: FRONT, cls: PWR12}
+  SPL-RLY:       {label: "+12 V bobines relais", node: PDM, cls: PWR12}
+  BUS30:         {label: "Barrette +12 V permanent", node: PDM, cls: PWR12, busbar: true}
+  BUS87:         {label: "Barrette +12 V commuté (relais principal)", node: PDM, cls: PWR12, busbar: true}
+
+# -----------------------------------------------------------------------------
+# Câbles multi-conducteurs (blindés / thermocouple)
+# -----------------------------------------------------------------------------
+cables:
+  C-CRANK: {label: "Capteur PMH", type: "3 × 0,5 mm² torsadé blindé", od_mm: 5.0, shield: true}
+  C-CAM:   {label: "Capteur AAC", type: "2 × 0,5 mm² torsadé blindé", od_mm: 4.5, shield: true}
+  C-KS1:   {label: "Cliquetis 1", type: "2 × 0,5 mm² torsadé blindé", od_mm: 4.5, shield: true}
+  C-KS2:   {label: "Cliquetis 2", type: "2 × 0,5 mm² torsadé blindé", od_mm: 4.5, shield: true}
+  C-LSU:   {label: "Lambda signaux", type: "4 × 0,5 mm² blindé", od_mm: 5.5, shield: true}
+  C-EGT:   {label: "EGT", type: "Câble d'extension thermocouple type K (2 × 0,5)", od_mm: 4.0, shield: false}
+  C-ETBM:  {label: "Moteur papillon", type: "2 × 1,0 mm² torsadé", od_mm: 4.4, shield: false}
+  C-CAN:   {label: "CAN", type: "2 × 0,5 mm² torsadé (paire CAN)", od_mm: 3.4, shield: false}
+
+# -----------------------------------------------------------------------------
+# Fils. Champs : from, to, mm2, color, [cable], [harness ENG|PDM|CAB|CHS],
+#                [internal] (barrette, pas de coupe), [drain] (blindage du câble)
+# -----------------------------------------------------------------------------
+wires:
+  # ===== Alimentation & relais principal =====
+  - {sheet: PWR, from: BATT.+, to: F0.1, mm2: 10.0, color: RD, harness: CHS, note: "Fusible au plus près de la batterie / borne B+"}
+  - {sheet: PWR, from: F0.2, to: BUS30, mm2: 10.0, color: RD, harness: CHS}
+  - {sheet: PWR, from: BUS30, to: F10.1, internal: true}
+  - {sheet: PWR, from: BUS30, to: F8.1, internal: true}
+  - {sheet: PWR, from: BUS30, to: F9.1, internal: true}
+  - {sheet: PWR, from: F10.2, to: K1.30, mm2: 2.5, color: RD, harness: PDM}
+  - {sheet: PWR, from: K1.87, to: BUS87, mm2: 2.5, color: RD/WH, harness: PDM}
+  - {sheet: PWR, from: BUS87, to: F1.1, internal: true}
+  - {sheet: PWR, from: BUS87, to: F2.1, internal: true}
+  - {sheet: PWR, from: BUS87, to: F3.1, internal: true}
+  - {sheet: PWR, from: BUS87, to: F4.1, internal: true}
+  - {sheet: PWR, from: BUS87, to: F5.1, internal: true}
+  - {sheet: PWR, from: BUS87, to: F6.1, internal: true}
+  - {sheet: PWR, from: BUS87, to: F7.1, internal: true}
+  - {sheet: PWR, from: F1.2, to: CMC1.M4, mm2: 1.0, color: RD/WH, harness: PDM, note: "Alimentation ECU (15 A, préconisation MaxxECU)"}
+  - {sheet: PWR, from: KEY.15, to: XINT.1, mm2: 0.5, color: VT, harness: CAB}
+  - {sheet: PWR, from: XINT.1, to: K1.86, mm2: 0.5, color: VT, harness: PDM}
+  - {sheet: PWR, from: K1.85, to: GP-CH, mm2: 0.5, color: BK, harness: PDM}
+
+  # ===== Masses ECU =====
+  - {sheet: GND, from: CMC1.L4, to: GP-HEAD, mm2: 1.5, color: BK, note: "Même point que CMC2 G4"}
+  - {sheet: GND, from: CMC2.G4, to: GP-HEAD, mm2: 1.5, color: BK, note: "Obligatoire — même point que CMC1 L4"}
+
+  # ===== Allumage =====
+  - {sheet: IGN, from: CMC1.A2, to: COIL1.3, mm2: 0.5, color: BU}
+  - {sheet: IGN, from: CMC1.A3, to: COIL2.3, mm2: 0.5, color: BU}
+  - {sheet: IGN, from: CMC1.B2, to: COIL3.3, mm2: 0.5, color: BU}
+  - {sheet: IGN, from: CMC1.B3, to: COIL4.3, mm2: 0.5, color: BU}
+  - {sheet: IGN, from: CMC1.C2, to: COIL5.3, mm2: 0.5, color: BU}
+  - {sheet: IGN, from: CMC1.C3, to: COIL6.3, mm2: 0.5, color: BU}
+  - {sheet: IGN, from: F2.2, to: SPL-COIL12, mm2: 2.5, color: RD/WH}
+  - {sheet: IGN, from: SPL-COIL12, to: COIL1.1, mm2: 1.0, color: RD/WH}
+  - {sheet: IGN, from: SPL-COIL12, to: COIL2.1, mm2: 1.0, color: RD/WH}
+  - {sheet: IGN, from: SPL-COIL12, to: COIL3.1, mm2: 1.0, color: RD/WH}
+  - {sheet: IGN, from: SPL-COIL12, to: COIL4.1, mm2: 1.0, color: RD/WH}
+  - {sheet: IGN, from: SPL-COIL12, to: COIL5.1, mm2: 1.0, color: RD/WH}
+  - {sheet: IGN, from: SPL-COIL12, to: COIL6.1, mm2: 1.0, color: RD/WH}
+  - {sheet: IGN, from: COIL1.2, to: SPL-COIL-SGND, mm2: 0.75, color: BK}
+  - {sheet: IGN, from: COIL2.2, to: SPL-COIL-SGND, mm2: 0.75, color: BK}
+  - {sheet: IGN, from: COIL3.2, to: SPL-COIL-SGND, mm2: 0.75, color: BK}
+  - {sheet: IGN, from: COIL4.2, to: SPL-COIL-SGND, mm2: 0.75, color: BK}
+  - {sheet: IGN, from: COIL5.2, to: SPL-COIL-SGND, mm2: 0.75, color: BK}
+  - {sheet: IGN, from: COIL6.2, to: SPL-COIL-SGND, mm2: 0.75, color: BK}
+  - {sheet: IGN, from: SPL-COIL-SGND, to: GP-COIL, mm2: 1.5, color: BK}
+  - {sheet: IGN, from: COIL1.4, to: SPL-COIL-PGND, mm2: 1.0, color: BK}
+  - {sheet: IGN, from: COIL2.4, to: SPL-COIL-PGND, mm2: 1.0, color: BK}
+  - {sheet: IGN, from: COIL3.4, to: SPL-COIL-PGND, mm2: 1.0, color: BK}
+  - {sheet: IGN, from: COIL4.4, to: SPL-COIL-PGND, mm2: 1.0, color: BK}
+  - {sheet: IGN, from: COIL5.4, to: SPL-COIL-PGND, mm2: 1.0, color: BK}
+  - {sheet: IGN, from: COIL6.4, to: SPL-COIL-PGND, mm2: 1.0, color: BK}
+  - {sheet: IGN, from: SPL-COIL-PGND, to: GP-COIL, mm2: 2.5, color: BK}
+
+  # ===== Injection =====
+  - {sheet: INJ, from: CMC1.K1, to: INJ1.2, mm2: 0.75, color: GY}
+  - {sheet: INJ, from: CMC1.K2, to: INJ2.2, mm2: 0.75, color: GY}
+  - {sheet: INJ, from: CMC1.M1, to: INJ3.2, mm2: 0.75, color: GY}
+  - {sheet: INJ, from: CMC1.M2, to: INJ4.2, mm2: 0.75, color: GY}
+  - {sheet: INJ, from: CMC1.M3, to: INJ5.2, mm2: 0.75, color: GY}
+  - {sheet: INJ, from: CMC1.L3, to: INJ6.2, mm2: 0.75, color: GY}
+  - {sheet: INJ, from: F3.2, to: SPL-INJ12, mm2: 1.0, color: RD/WH}
+  - {sheet: INJ, from: SPL-INJ12, to: INJ1.1, mm2: 0.75, color: RD/WH}
+  - {sheet: INJ, from: SPL-INJ12, to: INJ2.1, mm2: 0.75, color: RD/WH}
+  - {sheet: INJ, from: SPL-INJ12, to: INJ3.1, mm2: 0.75, color: RD/WH}
+  - {sheet: INJ, from: SPL-INJ12, to: INJ4.1, mm2: 0.75, color: RD/WH}
+  - {sheet: INJ, from: SPL-INJ12, to: INJ5.1, mm2: 0.75, color: RD/WH}
+  - {sheet: INJ, from: SPL-INJ12, to: INJ6.1, mm2: 0.75, color: RD/WH}
+
+  # ===== Synchronisation PMH / AAC =====
+  - {sheet: SYNC, from: CMC1.H3, to: CRANK.2, mm2: 0.5, color: WH, cable: C-CRANK}
+  - {sheet: SYNC, from: SPL-VRG, to: CRANK.3, mm2: 0.5, color: BN, cable: C-CRANK}
+  - {sheet: SYNC, from: F6.2, to: CRANK.1, mm2: 0.5, color: RD, cable: C-CRANK, note: "Conducteur rouge du câble 3 voies, +12 V après relais"}
+  - {sheet: SYNC, from: CMC1.H4, to: CAM.1, mm2: 0.5, color: WH, cable: C-CAM}
+  - {sheet: SYNC, from: SPL-VRG, to: CAM.2, mm2: 0.5, color: BN, cable: C-CAM, note: "CORRIGÉ : retour AAC sur VR GND (H2), pas sur Sensor GND"}
+  - {sheet: SYNC, from: CMC1.H2, to: SPL-VRG, mm2: 0.5, color: BN}
+  - {sheet: SYNC, from: C-CRANK.SH, to: SPL-SHLD, drain: true}
+  - {sheet: SYNC, from: C-CAM.SH, to: SPL-SHLD, drain: true}
+  - {sheet: SYNC, from: C-CAM.SH, to: CAM.3, drain: true, note: "Seulement si la broche 3 est isolée du corps du capteur"}
+  - {sheet: SYNC, from: SPL-SHLD, to: CMC1.E3, mm2: 0.5, color: BK/WH, note: "Blindages reliés côté ECU uniquement"}
+
+  # ===== Capteurs température / pression + distribution =====
+  - {sheet: SNS, from: CMC1.G1, to: SPL-5V-MAIN, mm2: 0.5, color: OG}
+  - {sheet: SNS, from: SPL-5V-MAIN, to: SPL-5V-ENG, mm2: 0.5, color: OG}
+  - {sheet: SNS, from: SPL-5V-ENG, to: OIL.3, mm2: 0.5, color: OG}
+  - {sheet: SNS, from: SPL-5V-ENG, to: FUEL.3, mm2: 0.5, color: OG}
+  - {sheet: SNS, from: CMC1.H1, to: SPL-SG-MAIN, mm2: 0.5, color: BN}
+  - {sheet: SNS, from: SPL-SG-MAIN, to: SPL-SG-ENG, mm2: 0.5, color: BN}
+  - {sheet: SNS, from: SPL-SG-ENG, to: IAT.2, mm2: 0.5, color: BN}
+  - {sheet: SNS, from: SPL-SG-ENG, to: CLT.2, mm2: 0.5, color: BN}
+  - {sheet: SNS, from: SPL-SG-ENG, to: OIL.4, mm2: 0.5, color: BN}
+  - {sheet: SNS, from: SPL-SG-ENG, to: FUEL.4, mm2: 0.5, color: BN}
+  - {sheet: SNS, from: CMC1.F2, to: IAT.1, mm2: 0.5, color: YE/BK}
+  - {sheet: SNS, from: CMC1.F1, to: CLT.1, mm2: 0.5, color: YE}
+  - {sheet: SNS, from: CMC1.J1, to: OIL.5, mm2: 0.5, color: YE/BN}
+  - {sheet: SNS, from: CMC2.E4, to: OIL.2, mm2: 0.5, color: WH/BN}
+  - {sheet: SNS, from: CMC1.J2, to: FUEL.5, mm2: 0.5, color: YE/VT}
+  - {sheet: SNS, from: CMC2.F1, to: FUEL.2, mm2: 0.5, color: WH/VT}
+
+  # ===== Papillon motorisé & pédale =====
+  - {sheet: DBW, from: SPL-5V-ENG, to: ETB.2, mm2: 0.5, color: OG}
+  - {sheet: DBW, from: SPL-SG-ENG, to: ETB.6, mm2: 0.5, color: BN}
+  - {sheet: DBW, from: CMC1.G2, to: ETB.1, mm2: 0.5, color: WH}
+  - {sheet: DBW, from: CMC1.J3, to: ETB.4, mm2: 0.5, color: WH/BK}
+  - {sheet: DBW, from: CMC2.H4, to: ETB.3, mm2: 1.0, color: PK, cable: C-ETBM}
+  - {sheet: DBW, from: CMC2.H2, to: ETB.5, mm2: 1.0, color: PK/BK, cable: C-ETBM}
+  - {sheet: DBW, from: SPL-SG-MAIN, to: XINT.2, mm2: 0.5, color: BN}
+  - {sheet: DBW, from: SPL-SG-MAIN, to: XINT.3, mm2: 0.5, color: BN}
+  - {sheet: DBW, from: SPL-5V-MAIN, to: XINT.4, mm2: 0.5, color: OG}
+  - {sheet: DBW, from: CMC1.J4, to: XINT.5, mm2: 0.5, color: WH/BU}
+  - {sheet: DBW, from: SPL-5V-MAIN, to: XINT.6, mm2: 0.5, color: OG}
+  - {sheet: DBW, from: CMC2.G3, to: XINT.7, mm2: 0.5, color: WH/GN}
+  - {sheet: DBW, from: XINT.2, to: APP.1, mm2: 0.5, color: BN, harness: CAB}
+  - {sheet: DBW, from: XINT.3, to: APP.2, mm2: 0.5, color: BN, harness: CAB}
+  - {sheet: DBW, from: XINT.4, to: APP.3, mm2: 0.5, color: OG, harness: CAB}
+  - {sheet: DBW, from: XINT.5, to: APP.4, mm2: 0.5, color: WH/BU, harness: CAB}
+  - {sheet: DBW, from: XINT.6, to: APP.5, mm2: 0.5, color: OG, harness: CAB}
+  - {sheet: DBW, from: XINT.7, to: APP.6, mm2: 0.5, color: WH/GN, harness: CAB}
+
+  # ===== Lambda LSU 4.9 & EGT =====
+  - {sheet: WBO, from: CMC1.G3, to: LSU.1, mm2: 0.5, color: WH, cable: C-LSU}
+  - {sheet: WBO, from: CMC1.F3, to: LSU.2, mm2: 0.5, color: YE, cable: C-LSU}
+  - {sheet: WBO, from: CMC1.G4, to: LSU.5, mm2: 0.5, color: GN, cable: C-LSU}
+  - {sheet: WBO, from: CMC1.F4, to: LSU.6, mm2: 0.5, color: BN, cable: C-LSU}
+  - {sheet: WBO, from: C-LSU.SH, to: SPL-SHLD, drain: true}
+  - {sheet: WBO, from: CMC1.D1, to: LSU.3, mm2: 1.0, color: GN, note: "Chauffage − piloté par GPO9 (5 A)"}
+  - {sheet: WBO, from: F4.2, to: LSU.4, mm2: 1.0, color: RD/WH}
+  - {sheet: WBO, from: CMC2.C1, to: EGT1.+, mm2: 0.5, color: YE, cable: C-EGT, note: "Conducteur K+ (jaune en norme ANSI, vert en IEC)"}
+  - {sheet: WBO, from: CMC2.D1, to: EGT1.-, mm2: 0.5, color: RD, cable: C-EGT, note: "Conducteur K− (rouge en norme ANSI, blanc en IEC)"}
+
+  # ===== Cliquetis =====
+  - {sheet: KNK, from: CMC2.E2, to: KS1.1, mm2: 0.5, color: WH, cable: C-KS1}
+  - {sheet: KNK, from: SPL-KGND, to: KS1.2, mm2: 0.5, color: BN, cable: C-KS1}
+  - {sheet: KNK, from: CMC2.E3, to: KS2.1, mm2: 0.5, color: WH, cable: C-KS2}
+  - {sheet: KNK, from: SPL-KGND, to: KS2.2, mm2: 0.5, color: BN, cable: C-KS2}
+  - {sheet: KNK, from: CMC2.E1, to: SPL-KGND, mm2: 0.5, color: BN}
+  - {sheet: KNK, from: C-KS1.SH, to: SPL-SHLD, drain: true}
+  - {sheet: KNK, from: C-KS2.SH, to: SPL-SHLD, drain: true}
+
+  # ===== VANOS & MAC valve =====
+  - {sheet: ACT, from: CMC1.B4, to: MAC.2, mm2: 0.75, color: GN, note: "GPO1 = boost (préconisation MaxxECU M50)"}
+  - {sheet: ACT, from: CMC1.D4, to: VANOS.2, mm2: 0.75, color: GN, note: "GPO3 — voir contrôle de courant (alternative INJ7 / L2)"}
+  - {sheet: ACT, from: F5.2, to: SPL-ACT12, mm2: 1.0, color: RD/WH}
+  - {sheet: ACT, from: SPL-ACT12, to: MAC.1, mm2: 0.75, color: RD/WH}
+  - {sheet: ACT, from: SPL-ACT12, to: VANOS.1, mm2: 0.75, color: RD/WH}
+
+  # ===== Pompe & ventilateur =====
+  - {sheet: RLY, from: CMC1.C4, to: K2.85, mm2: 0.5, color: GN, harness: PDM, note: "GPO2 = pompe"}
+  - {sheet: RLY, from: CMC1.B1, to: K3.85, mm2: 0.5, color: GN, harness: PDM, note: "GPO6 = ventilateur"}
+  - {sheet: RLY, from: F7.2, to: SPL-RLY, mm2: 0.5, color: RD/WH, harness: PDM}
+  - {sheet: RLY, from: SPL-RLY, to: K2.86, mm2: 0.5, color: RD/WH, harness: PDM}
+  - {sheet: RLY, from: SPL-RLY, to: K3.86, mm2: 0.5, color: RD/WH, harness: PDM}
+  - {sheet: RLY, from: F8.2, to: K2.30, mm2: 2.5, color: RD, harness: PDM}
+  - {sheet: RLY, from: F9.2, to: K3.30, mm2: 4.0, color: RD, harness: PDM}
+  - {sheet: RLY, from: K2.87, to: PUMP.+, mm2: 2.5, color: RD/YE, harness: CHS}
+  - {sheet: RLY, from: PUMP.-, to: GP-CH-AR, mm2: 2.5, color: BK, harness: CHS}
+  - {sheet: RLY, from: K3.87, to: FAN.+, mm2: 4.0, color: RD/BU}
+  - {sheet: RLY, from: FAN.-, to: GP-CH-AV, mm2: 4.0, color: BK}
+
+  # ===== Interface habitacle =====
+  - {sheet: COM, from: CMC1.A4, to: XINT.8, mm2: 0.5, color: GN/WH, note: "GPO8 = compte-tours"}
+  - {sheet: COM, from: XINT.8, to: CLUSTER.TD, mm2: 0.5, color: GN/WH, harness: CAB}
+  - {sheet: COM, from: CMC1.E1, to: XINT.9, mm2: 0.5, color: YE/BK, cable: C-CAN}
+  - {sheet: COM, from: CMC1.E2, to: XINT.10, mm2: 0.5, color: GN/BK, cable: C-CAN}
+  - {sheet: COM, from: XINT.9, to: CANDEV.H, mm2: 0.5, color: YE/BK, harness: CAB}
+  - {sheet: COM, from: XINT.10, to: CANDEV.L, mm2: 0.5, color: GN/BK, harness: CAB}
+
+# -----------------------------------------------------------------------------
+# Topologie (formboard). Longueurs en mètres — ESTIMATIONS à mesurer.
+# Le calcul de coupe = chemin le plus court + 2 × terminaison + surlongueur.
+# -----------------------------------------------------------------------------
+topology:
+  estimated: true
+  root: ECU
+  nodes:
+    ECU: "ECU (E-box)"
+    PDM: "Boîte fusibles/relais (E-box)"
+    EB: "Sortie E-box"
+    BPLUS: "Borne B+ / fusible général"
+    T0: "Passe-fil tablier"
+    XINT: "Connecteur de cloison"
+    CAB_PEDAL: "Pédale"
+    CAB_CLUSTER: "Combiné"
+    CAB_DASH: "Afficheur CAN"
+    CAB_KEY: "Contact clé"
+    T1: "Arrière culasse (dérivation)"
+    GND_HEAD: "Goujons de masse culasse"
+    TOP6: "Bobine 6"
+    TOP5: "Bobine 5"
+    TOP4: "Bobine 4"
+    TOP3: "Bobine 3"
+    TOP2: "Bobine 2"
+    TOP1: "Bobine 1"
+    FRONT: "Avant culasse"
+    N_VANOS: "VANOS"
+    N_CAM: "Capteur AAC"
+    N_CLT: "Temp. eau"
+    N_CRANK: "Capteur PMH"
+    N_FAN: "Ventilateur"
+    INT6: "Injecteur 6"
+    INT5: "Injecteur 5"
+    INT4: "Injecteur 4"
+    INT3: "Injecteur 3"
+    INT2: "Injecteur 2"
+    INT1: "Injecteur 1"
+    N_TB: "Papillon"
+    N_IAT: "Temp. air"
+    N_MAC: "MAC valve"
+    N_KS1: "Cliquetis 1"
+    N_KS2: "Cliquetis 2"
+    N_OIL: "Huile P/T"
+    N_FUEL: "Essence P/T"
+    EXH: "Côté échappement"
+    TURBO: "Turbo"
+    N_EGT: "Sonde EGT"
+    N_LSU: "Sonde lambda"
+    N_PUMP: "Pompe à essence"
+  segments:
+    - [ECU, EB, 0.20]
+    - [PDM, EB, 0.20]
+    - [BPLUS, PDM, 0.50]
+    - [EB, T0, 0.30]
+    - [T0, XINT, 0.20]
+    - [XINT, CAB_PEDAL, 0.90]
+    - [XINT, CAB_KEY, 0.80]
+    - [XINT, CAB_CLUSTER, 1.30]
+    - [CAB_CLUSTER, CAB_DASH, 0.30]
+    - [T0, T1, 0.70]
+    - [T1, GND_HEAD, 0.05]
+    - [T1, TOP6, 0.15]
+    - [TOP6, TOP5, 0.091]
+    - [TOP5, TOP4, 0.091]
+    - [TOP4, TOP3, 0.091]
+    - [TOP3, TOP2, 0.091]
+    - [TOP2, TOP1, 0.091]
+    - [TOP1, FRONT, 0.20]
+    - [FRONT, N_VANOS, 0.10]
+    - [FRONT, N_CAM, 0.12]
+    - [FRONT, N_CLT, 0.15]
+    - [FRONT, N_CRANK, 0.45]
+    - [FRONT, N_FAN, 0.70]
+    - [T1, INT6, 0.25]
+    - [INT6, INT5, 0.091]
+    - [INT5, INT4, 0.091]
+    - [INT4, INT3, 0.091]
+    - [INT3, INT2, 0.091]
+    - [INT2, INT1, 0.091]
+    - [INT1, N_TB, 0.25]
+    - [N_TB, N_IAT, 0.20]
+    - [N_TB, N_MAC, 0.35]
+    - [INT2, N_KS1, 0.25]
+    - [INT5, N_KS2, 0.25]
+    - [INT3, N_OIL, 0.40]
+    - [INT6, N_FUEL, 0.20]
+    - [T0, EXH, 0.60]
+    - [EXH, TURBO, 0.40]
+    - [TURBO, N_EGT, 0.25]
+    - [TURBO, N_LSU, 0.60]
+    - [PDM, N_PUMP, 3.50]
+
+# -----------------------------------------------------------------------------
+# Audit du plan d'origine
+# sev : fix (corrigé), add (ajouté), warn (à vérifier), ok (validé)
+# -----------------------------------------------------------------------------
+audit:
+  - sev: fix
+    title: "Retour du capteur AAC sur VR GND (CMC1 H2), pas sur Sensor GND (H1)"
+    detail: "Sur le schéma officiel RACE REV9+, le capteur PMH et le capteur AAC (VR ou Hall) ont leur retour sur VR GND (H2) ; les blindages vont sur SHIELD GND (E3). Ton plan mettait la broche 2 de l'AAC sur H1. Les deux retours (PMH broche 3 + AAC broche 2) se rejoignent par l'épissure SPL-VRG au ras du connecteur."
+  - sev: add
+    title: "Alimentation et masses de l'ECU (absentes du plan)"
+    detail: "CMC1 M4 = +12 V ECU (fusible 15 A après relais principal). CMC1 L4 ET CMC2 G4 = masses moteur, toutes deux au MÊME goujon de culasse (exigence MaxxECU). Relais principal commandé par le +15 clé : la RACE Gen1 n'a pas de sortie de commande de relais principal."
+  - sev: add
+    title: "Boîte fusibles/relais complète (PDM)"
+    detail: "11 fusibles, 3 relais : chaque circuit a son fusible et chaque fil est protégé par un fusible adapté à sa section (contrôle automatique)."
+  - sev: fix
+    title: "Section des +12 V bobines : 1,0 mm² et non 0,75"
+    detail: "Le fusible bobines est à 15 A (préconisation MaxxECU). Un fil de 0,75 mm² n'est protégé que jusqu'à 10 A : chaque dérivation bobine passe en 1,0 mm². Masses broche 4 (puissance) en 1,0 mm², broche 2 (électronique) en 0,75 mm²."
+  - sev: warn
+    title: "VANOS sur GPO3 : limite 2 A"
+    detail: "Les GPO1-8 de la RACE sont donnés à 2 A. La résistance de l'électrovanne M50 varie selon les sources (3,3 à 12 Ω), soit jusqu'à 4,4 A. Mesure-la : ≥ 7,5 Ω → GPO3 OK ; sinon passe la commande sur INJ7 (CMC1 L2, sortie 8 A libre), un seul fil à déplacer."
+  - sev: add
+    title: "Épissures obligatoires"
+    detail: "Une alvéole CMC ne reçoit qu'un fil. +5 V, Sensor GND, VR GND, Knock GND et Shield GND passent par des épissures dédiées, placées au ras de l'ECU pour les références et sur la branche moteur pour les distributions."
+  - sev: ok
+    title: "Brochage ECU conforme au schéma officiel RACE REV9+"
+    detail: "IGN1→6 (A2, A3, B2, B3, C2, C3), INJ1→6 (K1, K2, M1, M2, M3, L3), GPO1/2/3/6/8 (B4, C4, D4, B1, A4), lambda (G3, F3, D1, G4, F4), cliquetis (CMC2 E1/E2/E3), EGT1 (CMC2 C1/D1), AIN5-7 (CMC2 G3, E4, F1), moteur papillon (CMC2 H4 + / H2 −) : tout est conforme."
+  - sev: ok
+    title: "Capteur AAC 12141726590 = bonne solution pour une culasse VANOS"
+    detail: "MaxxECU indique : capteur VANOS d'origine (Hall 12 V) incompatible avec son câblage, solution recommandée = capteur 12141726590 (broche 1 signal, 2 masse, 3 blindage). Aucun +12 V sur ce capteur."
+  - sev: ok
+    title: "Papillon et pédale : affectation identique au plug-in MaxxECU M54"
+    detail: "MaxxECU câble le M54 avec le papillon sur GPO11/12 (= Motor 1 −/+) et les pistes sur TPS + AIN3/4/5, exactement ton choix. Brochage papillon identique à la VDO 408-242 BMW documentée par MaxxECU."
+  - sev: ok
+    title: "Capteurs Bosch 0 261 544 01F"
+    detail: "Brochage confirmé : 1 non assignée, 2 pression (0,5–4,5 V = 0–10 bar), 3 +5 V, 4 masse, 5 NTC."
+  - sev: ok
+    title: "Lambda LSU 4.9 sur contrôleur interne"
+    detail: "Brochage conforme au schéma MaxxECU (vue côté câble) : 1 IP → G3, 2 COM → F3, 3 chauffage − → D1, 4 +12 V, 5 RCAL → G4, 6 VS → F4. Vérifie que ton boîtier est bien REV9 ou plus (étiquette)."
+  - sev: warn
+    title: "Capteur PMH Hall M52 sur cible 60-2 du M50"
+    detail: "Le M50 d'origine utilise un capteur inductif en face de la cible 60-2 avant. Le capteur M52 (Hall, 12 V) demande un support et un entrefer adaptés. Dans MTune : entrée trigger en mode Hall / digital."
+  - sev: warn
+    title: "Une seule alimentation +5 V et une seule Sensor GND"
+    detail: "La RACE Gen1 n'a qu'un +5 V (G1) et qu'une Sensor GND (H1) : pédale et papillon les partagent. C'est normal ; un court-circuit sur le +5 V fait passer le papillon en sécurité. Consommation totale estimée ≈ 45 mA."
+  - sev: warn
+    title: "Taille des alvéoles CMC à vérifier"
+    detail: "Les connecteurs Molex CMC mélangent des alvéoles 0,64 et 1,5. Vérifie la taille de chaque alvéole utilisée en 0,75 mm² et plus (injecteurs, M4, L4, G4) et prends le contact correspondant à la section."
+  - sev: ok
+    title: "Injecteurs 870 cc"
+    detail: "La RACE a 8 sorties injecteur peak & hold 8 A : haute ou basse impédance acceptées. Mesure la résistance pour régler le type dans MTune."
+  - sev: ok
+    title: "MAP interne"
+    detail: "Capteur interne MaxxECU RACE : jusqu'à 3 bar de pression de suralimentation. Durite directe depuis le plénum, aucun câblage."
+
+# -----------------------------------------------------------------------------
+# Réglages MTune liés au câblage
+# -----------------------------------------------------------------------------
+mtune:
+  - {item: "Trigger", value: "60-2 vilebrequin, capteur Hall (digital) sur TRIGGER H3"}
+  - {item: "Home / cam", value: "Capteur inductif (VR) sur HOME H4"}
+  - {item: "Injecteurs", value: "INJ1→6 séquentiel ; type selon résistance mesurée (haute / basse impédance)"}
+  - {item: "Allumage", value: "IGN1→6, bobines à allumeur intégré (sortie active 5 V) ; dwell selon doc bobine"}
+  - {item: "E-throttle", value: "Moteur sur Motor 1 (H4 + / H2 −) ; papillon TPS (G2) + AIN3 (J3) ; pédale AIN4 (J4) + AIN5 (CMC2 G3)"}
+  - {item: "CLT / IAT", value: "Courbes Bosch NTC"}
+  - {item: "AIN1 / AIN2 (temp.)", value: "Température huile / essence, NTC Bosch du 0 261 544 01F"}
+  - {item: "AIN6 / AIN7", value: "Pression huile / essence 0,5–4,5 V = 0–10 bar"}
+  - {item: "Knock", value: "Knock 1 (cyl. 1-2-3) et Knock 2 (cyl. 4-5-6)"}
+  - {item: "Lambda", value: "WBO2 interne, capteur Bosch LSU 4.9 sélectionné AVANT la première mise sous tension sonde montée"}
+  - {item: "EGT", value: "EGT1 type K"}
+  - {item: "GPO1", value: "Boost control (MAC), PWM ~30 Hz"}
+  - {item: "GPO2", value: "Fuel pump (relais K2)"}
+  - {item: "GPO3", value: "VANOS tout-ou-rien (ou INJ7 si résistance < 7,5 Ω)"}
+  - {item: "GPO6", value: "Engine fan (relais K3)"}
+  - {item: "GPO8", value: "Tachometer output"}
+
+# -----------------------------------------------------------------------------
+# Contrôles (cochables dans la page)
+# -----------------------------------------------------------------------------
+checks:
+  - phase: "Au banc, avant sertissage"
+    items:
+      - "Papillon : R entre broches 3 et 5 = quelques ohms (moteur) ; sous 5 V (2 +, 6 −), relever les tensions des pistes 1 et 4 fermé / ouvert à la main."
+      - "Pédale : 5 V sur 3 et 5, masse sur 1 et 2 ; relever 4 et 6 relâchée / à fond (piste 2 ≈ moitié de la piste 1)."
+      - "Électrovanne VANOS : mesurer la résistance → GPO3 si ≥ 7,5 Ω, sinon INJ7 (L2)."
+      - "Injecteurs : mesurer la résistance (≈ 12 Ω haute impédance / ≈ 2–3 Ω basse impédance)."
+      - "AAC : résistance 1–2 de quelques centaines d'ohms ; continuité broche 3 ↔ corps (décide du raccord du blindage côté capteur)."
+      - "IAT / CLT / NTC des capteurs huile et essence : ≈ 2–3 kΩ à 20 °C."
+      - "Capteur PMH : confirmer alim / signal / masse sur sa doc ou par essai (12 V + pull-up, passage d'une pièce acier)."
+      - "Bobines : confirmer le repérage 1-2-3-4 moulé sur le connecteur."
+      - "Vérifier l'étiquette de la RACE : REV9 ou plus (LSU 4.9)."
+  - phase: "Faisceau terminé, ECU débranchée"
+    items:
+      - "Continuité fil par fil avec la liste de coupe (chaque repère d'extrémité)."
+      - "Sensor GND (CMC1 H1) ↔ caisse : circuit ouvert."
+      - "VR GND (H2), Knock GND (CMC2 E1), Shield GND (E3) ↔ caisse : circuit ouvert."
+      - "+5 V (G1) ↔ toutes les masses : pas de court-circuit."
+      - "+12 V commuté (barrette 87) ↔ masse : pas de court-circuit."
+      - "CMC1 L4 et CMC2 G4 ↔ goujon culasse : < 0,1 Ω."
+      - "Tresse moteur ↔ caisse et câble batterie − ↔ moteur présents et serrés (≥ 25 mm²)."
+      - "Blindages : reliés uniquement côté ECU (aucune continuité vers le moteur)."
+  - phase: "Première mise sous tension (pompe et injecteurs débranchés)"
+    items:
+      - "Contact mis : relais principal colle, +12 V sur CMC1 M4."
+      - "5,0 V mesurés au connecteur papillon et aux capteurs de pression."
+      - "MTune : températures plausibles, pressions à 0 bar, TPS / pédale 0 → 100 %."
+      - "Calibration E-throttle : sens d'ouverture correct (sinon inverser H2/H4)."
+      - "Test des sorties : chaque injecteur claque, VANOS, MAC, relais pompe et ventilateur collent."
+      - "Test bobines : étincelle sur bougie à la masse, dans l'ordre 1-5-3-6-2-4."
+      - "Démarreur, bobines et injecteurs débranchés : signaux trigger / home propres dans l'oscilloscope MTune."
+      - "Premier démarrage : calage contrôlé à la lampe stroboscopique (offset trigger)."

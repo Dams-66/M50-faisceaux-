@@ -1,0 +1,1065 @@
+<title>Faisceau M50B25 Turbo</title>
+<meta name="description" content="Plan de fabrication du faisceau moteur BMW M50B25 VANOS turbo géré par MaxxECU RACE.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: engineering-drawing title block over a tabbed workshop binder; every drawing sits on its own bordered sheet. */
+:root {
+  color-scheme: light;
+  --paper: #eceff0;
+  --sheet: #fbfcfc;
+  --sheet-2: #f1f4f5;
+  --ink: #14202a;
+  --ink-2: #4a5864;
+  --muted: #74828d;
+  --rule: #d2dade;
+  --rule-strong: #9fb0ba;
+  --accent: #0f6b8c;
+  --accent-ink: #ffffff;
+  --tag: #f4cc2e;
+  --tag-ink: #1d1700;
+  --good: #0ca30c;
+  --warn: #fab219;
+  --bad: #d03b3b;
+  --good-ink: #0a6e0a;
+  --warn-ink: #8a5a00;
+  --bad-ink: #a92a2a;
+  --wire-edge: #26323b;
+  --fam-fire: #2a78d6;
+  --fam-wbo: #eb6834;
+  --fam-sens: #1baf7a;
+  --fam-dbw: #eda100;
+  --fam-out: #e87ba4;
+  --fam-pwr: #008300;
+  --fam-ref: #9fb0ba;
+  --font-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #0d1215; --sheet: #151c21; --sheet-2: #1b242a; --ink: #e4eaee; --ink-2: #a5b3bd;
+    --muted: #7f8d97; --rule: #28333b; --rule-strong: #3f4d57; --accent: #5ab8db; --accent-ink: #06202b;
+    --good-ink: #46cf5e; --warn-ink: #f4c04a; --bad-ink: #f07a74; --wire-edge: #a3b2bc;
+    --fam-fire: #3987e5; --fam-wbo: #d95926; --fam-sens: #199e70; --fam-dbw: #c98500; --fam-out: #d55181;
+    --fam-pwr: #008300; --fam-ref: #3f4d57;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #0d1215; --sheet: #151c21; --sheet-2: #1b242a; --ink: #e4eaee; --ink-2: #a5b3bd;
+  --muted: #7f8d97; --rule: #28333b; --rule-strong: #3f4d57; --accent: #5ab8db; --accent-ink: #06202b;
+  --good-ink: #46cf5e; --warn-ink: #f4c04a; --bad-ink: #f07a74; --wire-edge: #a3b2bc;
+  --fam-fire: #3987e5; --fam-wbo: #d95926; --fam-sens: #199e70; --fam-dbw: #c98500; --fam-out: #d55181;
+  --fam-pwr: #008300; --fam-ref: #3f4d57;
+}
+body { background: var(--paper); color: var(--ink); font: 15px/1.55 var(--font-body); }
+* { box-sizing: border-box; }
+a { color: var(--accent); }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 1320px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 56px; }
+@media (min-width: 900px) { .wrap { padding-inline: 28px; } }
+.mono { font-family: var(--font-mono); }
+.muted { color: var(--muted); }
+.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* ---------- Cartouche ---------- */
+.tb { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); border: 1.5px solid var(--ink); background: var(--sheet); }
+.tb-main { padding: 18px 20px 16px; border-right: 1.5px solid var(--ink); min-width: 0; }
+.eyebrow { font: 600 11.5px/1.2 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); }
+h1 { font: 700 clamp(30px, 5.4vw, 52px)/0.95 var(--font-display); text-transform: uppercase; letter-spacing: .01em; margin: 10px 0 8px; text-wrap: balance; }
+.tb-sub { margin: 0; color: var(--ink-2); }
+.tb-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; }
+.tb-grid > div { padding: 9px 12px; border-bottom: 1px solid var(--rule-strong); min-width: 0; }
+.tb-grid > div:nth-child(odd) { border-right: 1px solid var(--rule-strong); }
+.tb-grid > div:nth-last-child(-n+2) { border-bottom: 0; }
+.tb-grid dt { font: 600 10.5px/1.2 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.tb-grid dd { margin: 3px 0 0; font-weight: 600; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+@media (max-width: 780px) { .tb { grid-template-columns: 1fr; } .tb-main { border-right: 0; border-bottom: 1.5px solid var(--ink); } }
+
+/* ---------- Onglets ---------- */
+.tabs { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; background: var(--paper); border-bottom: 1.5px solid var(--ink); margin-top: 18px; }
+.tabs::-webkit-scrollbar { display: none; }
+.tabs button { font: 600 15.5px/1 var(--font-display); letter-spacing: .06em; text-transform: uppercase; padding: 13px 13px 11px; border: 0; border-bottom: 3px solid transparent; background: none; color: var(--ink-2); white-space: nowrap; cursor: pointer; }
+.tabs button:hover { color: var(--ink); }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.tab { padding-top: 22px; }
+h2 { font: 700 26px/1.05 var(--font-display); text-transform: uppercase; letter-spacing: .02em; margin: 0 0 12px; text-wrap: balance; }
+h3 { font: 600 19px/1.15 var(--font-display); text-transform: uppercase; letter-spacing: .03em; margin: 0 0 8px; }
+.lede { color: var(--ink-2); max-width: 70ch; margin: -4px 0 16px; }
+.stack { display: grid; gap: 22px; }
+.cols-2 { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); align-items: start; }
+.panel { background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; padding: 16px 18px; min-width: 0; }
+
+/* ---------- Puces ---------- */
+.chip { display: inline-flex; align-items: center; gap: 5px; font: 600 11px/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; padding: 4px 7px; border-radius: 3px; border: 1px solid currentColor; white-space: nowrap; }
+.chip.good { color: var(--good-ink); }
+.chip.warn { color: var(--warn-ink); }
+.chip.bad { color: var(--bad-ink); }
+.chip.fix { color: var(--accent); }
+.chip.add { color: var(--ink-2); }
+.chip.info { color: var(--muted); }
+.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; }
+
+/* ---------- Synthèse ---------- */
+.checklist-v { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.checklist-v li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: start; }
+.audit { display: grid; gap: 10px; }
+.audit article { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 14px; padding: 13px 16px; background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; }
+.audit article h3 { font: 600 16px/1.3 var(--font-body); text-transform: none; letter-spacing: 0; margin: 0 0 4px; }
+.audit article p { margin: 0; color: var(--ink-2); max-width: 82ch; }
+@media (max-width: 560px) { .audit article { grid-template-columns: 1fr; gap: 8px; } }
+ul.plain { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+
+/* ---------- Tableaux ---------- */
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 6px; background: var(--sheet); }
+.tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.tbl th { font: 600 10.5px/1.2 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 9px 10px; border-bottom: 1.5px solid var(--ink); white-space: nowrap; background: var(--sheet); position: sticky; top: 0; }
+.tbl td { padding: 7px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.tbl tr:last-child td { border-bottom: 0; }
+.tbl tr.group td { background: var(--sheet-2); font: 600 12px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+.tbl .fn { color: var(--ink-2); font-size: 12.5px; }
+.tbl tbody tr.clickable { cursor: pointer; }
+.tbl tbody tr.clickable:hover td { background: var(--sheet-2); }
+.sw { display: inline-block; width: 26px; height: 12px; border-radius: 3px; border: 1px solid var(--rule-strong); vertical-align: -1px; flex: none; }
+.cc { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.wid { font: 600 12.5px var(--font-mono); background: var(--tag); color: var(--tag-ink); padding: 1px 5px; border-radius: 2px; white-space: nowrap; }
+button.wid { border: 0; cursor: pointer; }
+
+/* ---------- Outils ---------- */
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; margin-bottom: 12px; }
+.seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg button, .btn { border: 1px solid var(--rule-strong); background: var(--sheet); border-radius: 4px; padding: 6px 10px; font-size: 13px; cursor: pointer; white-space: nowrap; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.btn:hover, .seg button:hover { border-color: var(--ink); }
+.field { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink-2); }
+input[type="search"], select { font: inherit; font-size: 14px; color: var(--ink); background: var(--sheet); border: 1px solid var(--rule-strong); border-radius: 4px; padding: 6px 9px; min-width: 0; }
+input[type="search"] { width: min(100%, 280px); }
+.count { font: 500 12.5px var(--font-mono); color: var(--muted); }
+
+/* ---------- Brochage ECU ---------- */
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--ink-2); margin-bottom: 14px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 14px; height: 14px; border-radius: 3px; display: inline-block; border: 1px solid var(--rule-strong); }
+.ecu-layout { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 430px), 1fr)); align-items: start; }
+.cmc-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.cmc { display: grid; grid-template-columns: 22px repeat(4, minmax(0, 1fr)); gap: 4px; }
+.cmc .lab { font: 600 12px var(--font-mono); color: var(--muted); display: grid; place-items: center; }
+.pin { --fam: var(--fam-ref); min-height: 56px; min-width: 0; border: 1px solid var(--rule); border-left: 4px solid var(--fam); background: color-mix(in srgb, var(--fam) 13%, var(--sheet)); border-radius: 3px; padding: 5px 6px; text-align: left; cursor: pointer; display: grid; align-content: start; gap: 1px; }
+.pin .pid { font: 600 13px/1.1 var(--font-mono); }
+.pin .pfn { font-size: 11px; line-height: 1.2; color: var(--ink-2); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow-wrap: anywhere; }
+.pin.free { --fam: var(--rule-strong); background: repeating-linear-gradient(135deg, transparent 0 6px, var(--rule) 6px 7px), var(--sheet); }
+.pin.free .pid, .pin.free .pfn { color: var(--muted); }
+.pin[aria-pressed="true"] { outline: 2px solid var(--accent); outline-offset: 1px; }
+.detail { border: 1.5px solid var(--ink); background: var(--sheet); border-radius: 6px; padding: 14px 16px; }
+.detail h3 { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; }
+.kv { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 14px; margin: 8px 0 0; font-size: 14px; }
+.kv dt { color: var(--muted); font: 600 11px/1.9 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; }
+.kv dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+
+/* ---------- Planches ---------- */
+.sheet-chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; }
+.sheet-chips button { border: 1px solid var(--rule-strong); background: var(--sheet); border-radius: 4px; padding: 7px 10px; cursor: pointer; white-space: nowrap; font-size: 13px; display: inline-flex; gap: 6px; align-items: center; }
+.sheet-chips button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.sheet-chips .n { font: 500 11px var(--font-mono); opacity: .7; }
+.frame { overflow: auto; border: 1.5px solid var(--ink); background: var(--sheet); border-radius: 4px; max-height: 80vh; -webkit-overflow-scrolling: touch; }
+.frame-cap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px 12px; font-size: 13px; color: var(--ink-2); padding: 8px 2px 0; }
+svg.schem, svg.formboard { display: block; }
+.schem text, .formboard text { fill: var(--ink); font-family: var(--font-body); }
+.schem .box-bg { fill: var(--sheet); stroke: var(--ink); stroke-width: 1.2; }
+.schem .box-head { fill: var(--sheet-2); }
+.schem .box-sep { stroke: var(--rule-strong); stroke-width: 1; }
+.schem .t-id { font: 600 12px var(--font-mono); }
+.schem .t-label { font-size: 11.5px; font-weight: 600; }
+.schem .t-ref, .schem .t-fn { font-size: 10.5px; fill: var(--ink-2); }
+.schem .t-pin { font: 600 11px var(--font-mono); }
+.schem .t-x { font: 500 10px var(--font-mono); fill: var(--accent); cursor: pointer; }
+.schem .node text, .schem .xref { paint-order: stroke; stroke: var(--sheet); stroke-width: 3.5px; stroke-linejoin: round; }
+.schem .port-dot { fill: var(--ink); }
+.schem .node-dot { fill: var(--ink); }
+.schem .node-ring { fill: none; stroke: var(--muted); stroke-dasharray: 3 2; }
+.schem .gnd line { stroke: var(--ink); stroke-width: 1.6; }
+.schem .w-halo { fill: none; stroke: var(--sheet); stroke-linecap: round; }
+.schem .w-edge { fill: none; stroke: var(--wire-edge); stroke-linecap: round; }
+.schem .w-core, .schem .w-stripe { fill: none; stroke-linecap: butt; }
+.schem .w-hit { fill: none; stroke: transparent; stroke-width: 14; cursor: pointer; }
+.schem .w-bus { fill: none; stroke: var(--muted); stroke-width: 4; stroke-dasharray: 2 4; stroke-linecap: round; }
+.schem .w-drain { fill: none; stroke: var(--muted); stroke-width: 1.4; stroke-dasharray: 5 3; }
+.schem .tag rect { fill: var(--tag); stroke: var(--tag-ink); stroke-opacity: .35; }
+.schem .tag text { font: 500 10px var(--font-mono); fill: var(--tag-ink); }
+.schem .box, .schem .node { cursor: pointer; }
+.schem.dim .wire:not(.hl), .schem.dim .tag:not(.hl) { opacity: .1; }
+.schem.dim .box:not(.hl), .schem.dim .node:not(.hl) { opacity: .4; }
+.schem .wire.hl .w-edge { stroke: var(--accent); }
+.hide-tags .tag { display: none; }
+
+/* ---------- Jauges énergie ---------- */
+.meters { display: grid; gap: 4px; }
+.meter-row { display: grid; grid-template-columns: 54px minmax(0, 1.2fr) minmax(90px, 1fr) 160px 104px; gap: 12px; align-items: center; padding: 8px 4px; border-bottom: 1px solid var(--rule); }
+.meter-row:last-child { border-bottom: 0; }
+.meter-row .id { font: 600 13px var(--font-mono); }
+.meter-row .lbl { min-width: 0; font-size: 13.5px; }
+.meter-row .lbl small { display: block; color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+.meter { position: relative; height: 10px; background: var(--sheet-2); border: 1px solid var(--rule); border-radius: 5px; overflow: hidden; }
+.meter .fill { position: absolute; inset: 0 auto 0 0; border-radius: 0 4px 4px 0; background: var(--good); }
+.meter .fill.warn { background: var(--warn); }
+.meter .fill.bad { background: var(--bad); }
+.meter .range { position: absolute; top: 0; bottom: 0; background: repeating-linear-gradient(135deg, var(--warn) 0 3px, transparent 3px 6px); }
+.meter-row .val { font: 500 12.5px var(--font-mono); text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.meter-row .st { justify-self: start; }
+@media (max-width: 700px) {
+  .meter-row { grid-template-columns: 46px minmax(0, 1fr) auto; }
+  .meter-row .meter { grid-column: 1 / -1; grid-row: 2; }
+  .meter-row .val { grid-column: 2; grid-row: 3; text-align: left; }
+  .meter-row .st { grid-column: 3; grid-row: 1; }
+}
+
+/* ---------- Connecteurs ---------- */
+.cards { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr)); align-items: start; }
+.card { background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; min-width: 0; }
+.card header { padding: 12px 14px 10px; border-bottom: 1px solid var(--rule); border-left: 4px solid var(--fam, var(--fam-ref)); }
+.card header .id { font: 600 13px var(--font-mono); }
+.card header h3 { font: 600 16px/1.25 var(--font-body); text-transform: none; letter-spacing: 0; margin: 2px 0 2px; }
+.card header p { margin: 0; font-size: 12.5px; color: var(--ink-2); }
+.card .note { margin: 0; padding: 8px 14px; font-size: 12.5px; color: var(--ink-2); border-bottom: 1px solid var(--rule); }
+.card .verify { margin: 0; padding: 8px 14px; font-size: 12.5px; border-bottom: 1px solid var(--rule); background: color-mix(in srgb, var(--warn) 14%, var(--sheet)); }
+.card .tbl { font-size: 12.5px; }
+.card .tbl td, .card .tbl th { padding: 6px 10px; }
+.card .tbl th { position: static; }
+
+/* ---------- Contrôles ---------- */
+.phase { background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; }
+.phase header { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--rule); }
+.phase header h3 { margin: 0; }
+.phase ol { list-style: none; margin: 0; padding: 4px 0; }
+.phase li label { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; padding: 8px 16px; cursor: pointer; align-items: start; }
+.phase li input { width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--accent); }
+.phase li input:checked + span { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--rule-strong); }
+
+footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink); font-size: 13px; color: var(--ink-2); display: flex; flex-wrap: wrap; gap: 6px 20px; justify-content: space-between; }
+@media (prefers-reduced-motion: no-preference) { .pin, .seg button, .tabs button { transition: background-color .12s, color .12s, border-color .12s; } }
+</style>
+
+<div class="wrap">
+  <header class="tb">
+    <div class="tb-main">
+      <div class="eyebrow">Faisceau moteur · plan de fabrication</div>
+      <h1 id="tb-title">Faisceau M50B25 Turbo</h1>
+      <p class="tb-sub" id="tb-sub"></p>
+    </div>
+    <dl class="tb-grid" id="tb-grid"></dl>
+  </header>
+  <nav class="tabs" id="tabs" role="tablist" aria-label="Sections du dossier"></nav>
+  <main id="main"></main>
+  <footer>
+    <span>Généré depuis <span class="mono">harness/m50b25_vanos_turbo.yaml</span> par <span class="mono">tools/build_harness.py</span>.</span>
+    <span id="foot-rev"></span>
+  </footer>
+</div>
+
+<script>const H = {"meta":{"project":"Faisceau moteur M50B25 VANOS Turbo","engine":"BMW M50B25 VANOS — turbo","ecu":"MaxxECU RACE Gen1 (REV9+)","revision":"A","date":"2026-10-07","status":"Étude — à valider sur véhicule","assumptions":["ECU et boîte fusibles/relais (PDM) installés dans le boîtier électronique d'origine (E-box), côté passager, contre le tablier.","Longueurs de tronçons ESTIMÉES pour une baie M50 : à remplacer par des mesures à la ficelle (section topology).","Pédale dans l'habitacle, raccordée par un connecteur de cloison Deutsch DT 12 voies (XINT).","Pompe à essence et ventilateur pilotés par relais, alimentés en direct batterie (hors relais principal).","Consommations pompe (15 A) et ventilateur (20 A) supposées : à ajuster selon tes modèles."],"sources":[{"label":"MaxxECU RACE (REV9+) — schéma de câblage officiel","url":"https://www.maxxecu.com/files/Documentation/Wirings/MaxxECU%20RACE%20(REV9+)%20-%20Wiring-en.pdf"},{"label":"MaxxECU — faisceau BMW M50 (note culasse VANOS / capteur 12141726590)","url":"https://maxxecu.com/webhelp/wirings-terminated_engine_harness-bmw_m50.html"},{"label":"MaxxECU — brochages papillons électroniques (VDO BMW)","url":"https://maxxecu.com/webhelp/wirings-e-throttle_bodies.html"},{"label":"MaxxECU — BMW M54 plug-in (papillon sur GPO11/12, TPS + AIN3/4/5)","url":"https://maxxecu.com/webhelp/wirings-pluginecu-bmw_m54.html"},{"label":"MaxxECU RACE — caractéristiques (GPO 2 A, GPO9 5 A, INJ 8 A peak & hold, MAP 3 bar boost)","url":"https://maxxecu.com/products/race"},{"label":"Bosch 0 261 544 01F — brochage 2 P / 3 +5V / 4 GND / 5 NTC","url":"https://en.oreca-store.com/bosch-0261-544-01f-u5g-fluid-pressure-and-temperature-sensor-0-10-bar-026154401fu5g.html"},{"label":"Haltech — moteur BMW M50 (capteurs, VANOS)","url":"https://support.haltech.com/portal/en/kb/articles/m50-engine"}]},"colors":{"RD":{"name":"rouge","hex":"#d42a2a"},"BK":{"name":"noir","hex":"#1d1d1f"},"BN":{"name":"marron","hex":"#7a4a24"},"OG":{"name":"orange","hex":"#ef7d14"},"YE":{"name":"jaune","hex":"#f2cf1d"},"GN":{"name":"vert","hex":"#2a9a48"},"BU":{"name":"bleu","hex":"#2364c8"},"VT":{"name":"violet","hex":"#8040b0"},"GY":{"name":"gris","hex":"#8c9399"},"WH":{"name":"blanc","hex":"#f7f7f5"},"PK":{"name":"rose","hex":"#e874a8"}},"color_legend":[{"code":"RD","role":"+12 V permanent batterie (30), avant relais"},{"code":"RD/WH","role":"+12 V commuté : sorties fusibles après relais principal"},{"code":"VT","role":"+15 contact clé → bobine relais principal"},{"code":"BK","role":"Masse puissance (culasse / caisse)"},{"code":"BN","role":"Masses de référence ECU : Sensor GND, VR GND, Knock GND — JAMAIS à la caisse"},{"code":"OG","role":"+5 V capteurs (CMC1 G1)"},{"code":"YE","role":"Signaux température (NTC), rayure = capteur"},{"code":"WH","role":"Signaux analogiques 0–5 V et signaux capteurs, rayure = fonction"},{"code":"BU","role":"Commandes allumage IGN1→6"},{"code":"GY","role":"Commandes injecteurs INJ1→6"},{"code":"GN","role":"Sorties GPO (actionneurs, relais, chauffage lambda)"},{"code":"PK","role":"Moteur papillon (PK = +, PK/BK = −)"}],"rules":{"insulation":"FLRY-B (ou Tefzel / M22759 pour le haut de gamme)","slack_m":0.1,"termination_m":0.03,"round_to_m":0.05},"sheets":{"PWR":{"short":"Alimentation","title":"Alimentation & relais principal","layout":"flow","root":"BATT"},"GND":{"short":"Masses ECU","title":"Masses ECU","layout":"ecu"},"IGN":{"short":"Allumage","title":"Allumage — 6 bobines intelligentes","layout":"ecu"},"INJ":{"short":"Injection","title":"Injection — 6 × 870 cc","layout":"ecu"},"SYNC":{"short":"PMH / AAC","title":"Synchronisation PMH / AAC & blindages","layout":"ecu"},"SNS":{"short":"Capteurs","title":"Capteurs température / pression & distribution 5 V / Sensor GND","layout":"ecu"},"DBW":{"short":"Papillon & pédale","title":"Papillon motorisé & pédale","layout":"ecu"},"WBO":{"short":"Lambda & EGT","title":"Lambda LSU 4.9 & EGT","layout":"ecu"},"KNK":{"short":"Cliquetis","title":"Cliquetis","layout":"ecu"},"ACT":{"short":"VANOS & boost","title":"VANOS & MAC valve (boost)","layout":"ecu"},"RLY":{"short":"Pompe & ventilo","title":"Pompe à essence & ventilateur","layout":"flow","root":"CMC1"},"COM":{"short":"Habitacle","title":"Interface habitacle (compte-tours, CAN)","layout":"ecu"}},"systems":{"PWR":{"label":"Alimentation"},"GND":{"label":"Masses"},"IGN":{"label":"Allumage"},"INJ":{"label":"Injection"},"SYNC":{"label":"Synchro"},"SNS":{"label":"Capteurs"},"DBW":{"label":"Papillon / pédale"},"WBO":{"label":"Lambda / EGT"},"KNK":{"label":"Cliquetis"},"ACT":{"label":"Actionneurs"},"RLY":{"label":"Relais"},"COM":{"label":"Habitacle / CAN"},"REF":{"label":"Références ECU"}},"ecu":{"name":"MaxxECU RACE Gen1","connectors":{"CMC1":{"title":"Connecteur 1 — Molex CMC 48 voies","rows":["A","B","C","D","E","F","G","H","J","K","L","M"],"cols":[1,2,3,4]},"CMC2":{"title":"Connecteur 2 — Molex CMC 32 voies","rows":["A","B","C","D","E","F","G","H"],"cols":[1,2,3,4]}},"pins":[{"id":"CMC1.A1","conn":"CMC1","pin":"A1","fn":"GP OUT 5","kind":"gpo","max_a":2,"wires":[],"sheet":null},{"id":"CMC1.A2","conn":"CMC1","pin":"A2","fn":"IGNITION CYL 1","kind":"ign","max_a":null,"wires":["IGN-01"],"sheet":"IGN"},{"id":"CMC1.A3","conn":"CMC1","pin":"A3","fn":"IGNITION CYL 2","kind":"ign","max_a":null,"wires":["IGN-02"],"sheet":"IGN"},{"id":"CMC1.A4","conn":"CMC1","pin":"A4","fn":"TACH / GP OUT 8","kind":"gpo","max_a":2,"wires":["COM-01"],"sheet":"COM"},{"id":"CMC1.B1","conn":"CMC1","pin":"B1","fn":"GP OUT 6","kind":"gpo","max_a":2,"wires":["RLY-02"],"sheet":"RLY"},{"id":"CMC1.B2","conn":"CMC1","pin":"B2","fn":"IGNITION CYL 3","kind":"ign","max_a":null,"wires":["IGN-03"],"sheet":"IGN"},{"id":"CMC1.B3","conn":"CMC1","pin":"B3","fn":"IGNITION CYL 4","kind":"ign","max_a":null,"wires":["IGN-04"],"sheet":"IGN"},{"id":"CMC1.B4","conn":"CMC1","pin":"B4","fn":"GP OUT 1","kind":"gpo","max_a":2,"wires":["ACT-01"],"sheet":"ACT"},{"id":"CMC1.C1","conn":"CMC1","pin":"C1","fn":"GP OUT 7 / DIGITAL IN 3","kind":"gpo","max_a":2,"wires":[],"sheet":null},{"id":"CMC1.C2","conn":"CMC1","pin":"C2","fn":"IGNITION CYL 5","kind":"ign","max_a":null,"wires":["IGN-05"],"sheet":"IGN"},{"id":"CMC1.C3","conn":"CMC1","pin":"C3","fn":"IGNITION CYL 6","kind":"ign","max_a":null,"wires":["IGN-06"],"sheet":"IGN"},{"id":"CMC1.C4","conn":"CMC1","pin":"C4","fn":"GP OUT 2","kind":"gpo","max_a":2,"wires":["RLY-01"],"sheet":"RLY"},{"id":"CMC1.D1","conn":"CMC1","pin":"D1","fn":"WBO2 HTR (pin 3 LSU 4.9) / GP OUT 9","kind":"gpo","max_a":5,"wires":["WBO-05"],"sheet":"WBO"},{"id":"CMC1.D2","conn":"CMC1","pin":"D2","fn":"IGNITION CYL 7","kind":"ign","max_a":null,"wires":[],"sheet":null},{"id":"CMC1.D3","conn":"CMC1","pin":"D3","fn":"IGNITION CYL 8","kind":"ign","max_a":null,"wires":[],"sheet":null},{"id":"CMC1.D4","conn":"CMC1","pin":"D4","fn":"GP OUT 3","kind":"gpo","max_a":2,"wires":["ACT-02"],"sheet":"ACT"},{"id":"CMC1.E1","conn":"CMC1","pin":"E1","fn":"CAN H (120 Ω intégrée)","kind":"can","max_a":null,"wires":["COM-03"],"sheet":"COM"},{"id":"CMC1.E2","conn":"CMC1","pin":"E2","fn":"CAN L","kind":"can","max_a":null,"wires":["COM-04"],"sheet":"COM"},{"id":"CMC1.E3","conn":"CMC1","pin":"E3","fn":"SHIELD GND","kind":"shield_gnd","max_a":null,"wires":["SYNC-07"],"sheet":"SYNC"},{"id":"CMC1.E4","conn":"CMC1","pin":"E4","fn":"GP OUT 4","kind":"gpo","max_a":2,"wires":[],"sheet":null},{"id":"CMC1.F1","conn":"CMC1","pin":"F1","fn":"COOLANT SENSOR (CLT)","kind":"ain","max_a":null,"wires":["SNS-12"],"sheet":"SNS"},{"id":"CMC1.F2","conn":"CMC1","pin":"F2","fn":"AIR TEMP SENSOR (IAT)","kind":"ain","max_a":null,"wires":["SNS-11"],"sheet":"SNS"},{"id":"CMC1.F3","conn":"CMC1","pin":"F3","fn":"WBO2 COM","kind":"wbo","max_a":null,"wires":["WBO-02"],"sheet":"WBO"},{"id":"CMC1.F4","conn":"CMC1","pin":"F4","fn":"WBO2 VS / O2 IN","kind":"wbo","max_a":null,"wires":["WBO-04"],"sheet":"WBO"},{"id":"CMC1.G1","conn":"CMC1","pin":"G1","fn":"+5 V SENSOR SUPPLY","kind":"v5","max_a":null,"wires":["SNS-01"],"sheet":"SNS"},{"id":"CMC1.G2","conn":"CMC1","pin":"G2","fn":"THROTTLE SENSOR (TPS)","kind":"ain","max_a":null,"wires":["DBW-03"],"sheet":"DBW"},{"id":"CMC1.G3","conn":"CMC1","pin":"G3","fn":"WBO2 IP","kind":"wbo","max_a":null,"wires":["WBO-01"],"sheet":"WBO"},{"id":"CMC1.G4","conn":"CMC1","pin":"G4","fn":"WBO2 RCAL","kind":"wbo","max_a":null,"wires":["WBO-03"],"sheet":"WBO"},{"id":"CMC1.H1","conn":"CMC1","pin":"H1","fn":"SENSOR GND","kind":"sensor_gnd","max_a":null,"wires":["SNS-05"],"sheet":"SNS"},{"id":"CMC1.H2","conn":"CMC1","pin":"H2","fn":"VR GND","kind":"vr_gnd","max_a":null,"wires":["SYNC-06"],"sheet":"SYNC"},{"id":"CMC1.H3","conn":"CMC1","pin":"H3","fn":"TRIGGER","kind":"trig","max_a":null,"wires":["SYNC-01"],"sheet":"SYNC"},{"id":"CMC1.H4","conn":"CMC1","pin":"H4","fn":"HOME / CAM","kind":"trig","max_a":null,"wires":["SYNC-04"],"sheet":"SYNC"},{"id":"CMC1.J1","conn":"CMC1","pin":"J1","fn":"ANALOG IN 1 (TEMP)","kind":"ain","max_a":null,"wires":["SNS-13"],"sheet":"SNS"},{"id":"CMC1.J2","conn":"CMC1","pin":"J2","fn":"ANALOG IN 2 (TEMP)","kind":"ain","max_a":null,"wires":["SNS-15"],"sheet":"SNS"},{"id":"CMC1.J3","conn":"CMC1","pin":"J3","fn":"ANALOG IN 3 (0-5 V)","kind":"ain","max_a":null,"wires":["DBW-04"],"sheet":"DBW"},{"id":"CMC1.J4","conn":"CMC1","pin":"J4","fn":"ANALOG IN 4 (0-5 V)","kind":"ain","max_a":null,"wires":["DBW-10"],"sheet":"DBW"},{"id":"CMC1.K1","conn":"CMC1","pin":"K1","fn":"INJECTOR CYL 1","kind":"inj","max_a":8,"wires":["INJ-01"],"sheet":"INJ"},{"id":"CMC1.K2","conn":"CMC1","pin":"K2","fn":"INJECTOR CYL 2","kind":"inj","max_a":8,"wires":["INJ-02"],"sheet":"INJ"},{"id":"CMC1.K3","conn":"CMC1","pin":"K3","fn":"DIGITAL IN 1","kind":"din","max_a":null,"wires":[],"sheet":null},{"id":"CMC1.K4","conn":"CMC1","pin":"K4","fn":"DIGITAL IN 2","kind":"din","max_a":null,"wires":[],"sheet":null},{"id":"CMC1.L1","conn":"CMC1","pin":"L1","fn":"INJECTOR CYL 8","kind":"inj","max_a":8,"wires":[],"sheet":null},{"id":"CMC1.L2","conn":"CMC1","pin":"L2","fn":"INJECTOR CYL 7","kind":"inj","max_a":8,"wires":[],"sheet":null},{"id":"CMC1.L3","conn":"CMC1","pin":"L3","fn":"INJECTOR CYL 6","kind":"inj","max_a":8,"wires":["INJ-06"],"sheet":"INJ"},{"id":"CMC1.L4","conn":"CMC1","pin":"L4","fn":"ENGINE GROUND","kind":"ecu_gnd","max_a":null,"wires":["GND-01"],"sheet":"GND"},{"id":"CMC1.M1","conn":"CMC1","pin":"M1","fn":"INJECTOR CYL 3","kind":"inj","max_a":8,"wires":["INJ-03"],"sheet":"INJ"},{"id":"CMC1.M2","conn":"CMC1","pin":"M2","fn":"INJECTOR CYL 4","kind":"inj","max_a":8,"wires":["INJ-04"],"sheet":"INJ"},{"id":"CMC1.M3","conn":"CMC1","pin":"M3","fn":"INJECTOR CYL 5","kind":"inj","max_a":8,"wires":["INJ-05"],"sheet":"INJ"},{"id":"CMC1.M4","conn":"CMC1","pin":"M4","fn":"+12 V ECU","kind":"ecu_12v","max_a":null,"wires":["PWR-05"],"sheet":"PWR"},{"id":"CMC2.A1","conn":"CMC2","pin":"A1","fn":"EGT5+","kind":"egt","max_a":null,"wires":[],"sheet":null},{"id":"CMC2.A2","conn":"CMC2","pin":"A2","fn":"EGT6+","kind":"egt","max_a":null,"wires":[],"sheet":null},{"id":"CMC2.A3","conn":"CMC2","pin":"A3","fn":"EGT7+","kind":"egt","max_a":null,"wires":[],"sheet":null},{"id":"CMC2.A4","conn":"CMC2","pin":"A4","fn":"EGT8+","kind":"egt","max_a":null,"wires":[],"sheet":null},{"id":"CMC2.B1","conn":"CMC2","pin":"B1","fn":"EGT5-","kind":"egt","max_a":null,"wires":[],"sheet":null},{"id":"CMC2.B2","conn":"CMC2","pin":"B2","fn":"EGT6-","kind":"egt","max_a":null,"wires":[],"sheet":null},{"id":"CMC2.B3","conn":"CMC2","pin":"B3","fn":"EGT7-","kind":"egt","max_a":null,"wires":[],"sheet":null},{"id":"CMC2.B4","conn":"CMC2","pin":"B4","fn":"EGT8-","kind":"egt","max_a":null,"wires":[],"sheet":null},{"id":"CMC2.C1","conn":"CMC2","pin":"C1","fn":"EGT1+","kind":"egt","max_a":null,"wires":["WBO-07"],"sheet":"WBO"},{"id":"CMC2.C2","conn":"CMC2","pin":"C2","fn":"EGT2+","kind":"egt","max_a":null,"wires":[],"sheet":null},{"id":"CMC2.C3","conn":"CMC2","pin":"C3","fn":"EGT3+","kind":"egt","max_a":null,"wires":[],"sheet":null},{"id":"CMC2.C4","conn":"CMC2","pin":"C4","fn":"EGT4+","kind":"egt","max_a":null,"wires":[],"sheet":null},{"id":"CMC2.D1","conn":"CMC2","pin":"D1","fn":"EGT1-","kind":"egt","max_a":null,"wires":["WBO-08"],"sheet":"WBO"},{"id":"CMC2.D2","conn":"CMC2","pin":"D2","fn":"EGT2-","kind":"egt","max_a":null,"wires":[],"sheet":null},{"id":"CMC2.D3","conn":"CMC2","pin":"D3","fn":"EGT3-","kind":"egt","max_a":null,"wires":[],"sheet":null},{"id":"CMC2.D4","conn":"CMC2","pin":"D4","fn":"EGT4-","kind":"egt","max_a":null,"wires":[],"sheet":null},{"id":"CMC2.E1","conn":"CMC2","pin":"E1","fn":"KNOCK GND","kind":"knock_gnd","max_a":null,"wires":["KNK-05"],"sheet":"KNK"},{"id":"CMC2.E2","conn":"CMC2","pin":"E2","fn":"KNOCK 1","kind":"knock","max_a":null,"wires":["KNK-01"],"sheet":"KNK"},{"id":"CMC2.E3","conn":"CMC2","pin":"E3","fn":"KNOCK 2","kind":"knock","max_a":null,"wires":["KNK-03"],"sheet":"KNK"},{"id":"CMC2.E4","conn":"CMC2","pin":"E4","fn":"ANALOG IN 6 (0-5 V)","kind":"ain","max_a":null,"wires":["SNS-14"],"sheet":"SNS"},{"id":"CMC2.F1","conn":"CMC2","pin":"F1","fn":"ANALOG IN 7 (0-5 V)","kind":"ain","max_a":null,"wires":["SNS-16"],"sheet":"SNS"},{"id":"CMC2.F2","conn":"CMC2","pin":"F2","fn":"ANALOG IN 8 (0-5 V)","kind":"ain","max_a":null,"wires":[],"sheet":null},{"id":"CMC2.F3","conn":"CMC2","pin":"F3","fn":"DIGITAL / VR IN 4","kind":"din","max_a":null,"wires":[],"sheet":null},{"id":"CMC2.F4","conn":"CMC2","pin":"F4","fn":"DIGITAL / VR IN 5","kind":"din","max_a":null,"wires":[],"sheet":null},{"id":"CMC2.G1","conn":"CMC2","pin":"G1","fn":"GP OUT 15 (+12 V, 2 A)","kind":"gpo_hs","max_a":2,"wires":[],"sheet":null},{"id":"CMC2.G2","conn":"CMC2","pin":"G2","fn":"GP OUT 16 (+12 V, 2 A)","kind":"gpo_hs","max_a":2,"wires":[],"sheet":null},{"id":"CMC2.G3","conn":"CMC2","pin":"G3","fn":"ANALOG IN 5 (0-5 V)","kind":"ain","max_a":null,"wires":["DBW-12"],"sheet":"DBW"},{"id":"CMC2.G4","conn":"CMC2","pin":"G4","fn":"ENGINE GROUND 2","kind":"ecu_gnd","max_a":null,"wires":["GND-02"],"sheet":"GND"},{"id":"CMC2.H1","conn":"CMC2","pin":"H1","fn":"MOTOR 2+ / GPO 14","kind":"motor","max_a":null,"wires":[],"sheet":null},{"id":"CMC2.H2","conn":"CMC2","pin":"H2","fn":"MOTOR 1- / GPO 11","kind":"motor","max_a":null,"wires":["DBW-06"],"sheet":"DBW"},{"id":"CMC2.H3","conn":"CMC2","pin":"H3","fn":"MOTOR 2- / GPO 13","kind":"motor","max_a":null,"wires":[],"sheet":null},{"id":"CMC2.H4","conn":"CMC2","pin":"H4","fn":"MOTOR 1+ / GPO 12","kind":"motor","max_a":null,"wires":["DBW-05"],"sheet":"DBW"}]},"owners":{"CMC1":{"cat":"ecu","label":"MaxxECU RACE Gen1 — CMC1","title":"Connecteur 1 — Molex CMC 48 voies","node":"ECU","system":"REF"},"CMC2":{"cat":"ecu","label":"MaxxECU RACE Gen1 — CMC2","title":"Connecteur 2 — Molex CMC 32 voies","node":"ECU","system":"REF"},"IAT":{"cat":"comp","label":"Température air admission","ref":"Bosch 0 280 130 039","type":"NTC 2 fils (≈ 2,5 kΩ à 20 °C)","connector":"Bosch JPT 2 voies","node":"N_IAT","system":"SNS","harness":null,"notes":"Pas de polarité. Calibration MTune : Bosch NTC.","verify":"","rating_a":null,"load_a":null,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"CLT":{"cat":"comp","label":"Température eau","ref":"Bosch 0 280 130 026","type":"NTC 2 fils","connector":"Bosch JPT 2 voies","node":"N_CLT","system":"SNS","harness":null,"notes":"Pas de polarité.","verify":"","rating_a":null,"load_a":null,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"OIL":{"cat":"comp","label":"Pression + température huile","ref":"Bosch 0 261 544 01F","type":"0–10 bar (0,5–4,5 V) + NTC, alim 5 V","connector":"Connecteur Bosch du capteur (broche 1 non câblée)","node":"N_OIL","system":"SNS","harness":null,"notes":"0,5 V = 0 bar ; 4,5 V = 10 bar. NTC : 44 864 Ω à −40 °C, 72 Ω à 140 °C.","verify":"","rating_a":null,"load_a":null,"r_ohm":null,"supply5_ma":10,"external":false,"optional":false},"FUEL":{"cat":"comp","label":"Pression + température essence","ref":"Bosch 0 261 544 01F","type":"0–10 bar (0,5–4,5 V) + NTC, alim 5 V","connector":"Connecteur Bosch du capteur (broche 1 non câblée)","node":"N_FUEL","system":"SNS","harness":null,"notes":"Permet la pression différentielle essence/MAP dans MTune.","verify":"","rating_a":null,"load_a":null,"r_ohm":null,"supply5_ma":10,"external":false,"optional":false},"CRANK":{"cat":"comp","label":"Capteur PMH (vilebrequin)","ref":"BMW 12141703277 (type M52)","type":"Effet Hall 3 fils, alim 12 V","connector":"BMW 3 voies (capteur M52)","node":"N_CRANK","system":"SYNC","harness":null,"notes":"Lit la cible 60-2 avant du M50 : support et entrefer à valider. MTune : trigger en mode Hall / digital.","verify":"Brochage à confirmer sur le capteur avant sertissage (alim 1 / signal 2 / masse 3).","rating_a":null,"load_a":0.02,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"CAM":{"cat":"comp","label":"Capteur AAC (arbre à cames)","ref":"Delphi SS11198 / BMW 12141726590 / Bosch 0 261 210 053","type":"Inductif (VR) — PAS de +12 V","connector":"Bosch JPT 3 voies","node":"N_CAM","system":"SYNC","harness":null,"notes":"Option recommandée par MaxxECU pour une culasse M50 VANOS. Si la synchro est instable : inverser 1 et 2 (polarité VR).","verify":"Mesurer la continuité broche 3 ↔ corps du capteur : s'il y a continuité, NE PAS relier le blindage côté capteur.","rating_a":null,"load_a":null,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"KS1":{"cat":"comp","label":"Capteur cliquetis 1 (cyl. 1-2-3)","ref":"Bosch 0 261 231 195 / BMW 12141738667","type":"Piézo 2 fils","connector":"Bosch 2 voies","node":"N_KS1","system":"KNK","harness":null,"notes":"Pas de polarité (MaxxECU). Serrage 20 N·m, sans rondelle.","verify":"","rating_a":null,"load_a":null,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"KS2":{"cat":"comp","label":"Capteur cliquetis 2 (cyl. 4-5-6)","ref":"Bosch 0 261 231 195 / BMW 12141738667","type":"Piézo 2 fils","connector":"Bosch 2 voies","node":"N_KS2","system":"KNK","harness":null,"notes":"Pas de polarité. Serrage 20 N·m, sans rondelle.","verify":"","rating_a":null,"load_a":null,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"LSU":{"cat":"comp","label":"Sonde lambda large bande","ref":"Bosch LSU 4.9 — 0 258 017 025","type":"WBO2 6 fils (contrôleur interne RACE REV9+)","connector":"LSU 4.9 6 voies (Bosch 1 928 404 682)","node":"N_LSU","system":"WBO","harness":null,"notes":"Brochage identique au schéma MaxxECU (LSU 4.9 vue côté câble). Capteur à sélectionner dans MTune avant usage.","verify":"","rating_a":null,"load_a":1.5,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"EGT1":{"cat":"comp","label":"Sonde EGT","ref":"Thermocouple type K","type":"Thermocouple K, pointe isolée","connector":"Mini-K (thermocouple)","node":"N_EGT","system":"WBO","harness":null,"notes":"Rallonge en câble thermocouple type K jusqu'au CMC2, aucun fil cuivre.","verify":"","rating_a":null,"load_a":null,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"ETB":{"cat":"comp","label":"Papillon motorisé","ref":"BMW 13547502444 — VDO 408-238-425-004Z","type":"DBW 6 fils (moteur + double piste)","connector":"BMW 6 voies (papillon M54)","node":"N_TB","system":"DBW","harness":null,"notes":"Brochage identique à la VDO 408-242 BMW documentée par MaxxECU. Si l'auto-calibration ferme le papillon au lieu de l'ouvrir : inverser H2/H4.","verify":"Au banc : R(3–5) ≈ quelques ohms (moteur) ; pistes 1 et 4 variables sous 5 V (2 +, 6 −).","rating_a":null,"load_a":null,"r_ohm":null,"supply5_ma":5,"external":false,"optional":false},"APP":{"cat":"comp","label":"Pédale d'accélérateur","ref":"Pédale BMW marquage 25916010","type":"Double piste (2 alims, 2 masses, 2 signaux)","connector":"TE MQS 6 voies","node":"CAB_PEDAL","system":"DBW","harness":"CAB","notes":"Brochage pédale BMW E46 6 voies. Sur BMW, la piste 2 vaut ~ la moitié de la piste 1.","verify":"Au banc : 5 V sur 3 et 5, masse sur 1 et 2, mesurer 4 et 6 pédale relâchée / à fond.","rating_a":null,"load_a":null,"r_ohm":null,"supply5_ma":20,"external":false,"optional":false},"INJ1":{"cat":"comp","label":"Injecteur cyl. 1","ref":"870 cc Bosch EV1","type":"Injecteur 2 fils","connector":"Bosch EV1 / JPT 2 voies","node":"INT1","system":"INJ","harness":null,"notes":"Pas de polarité, mais câbler les 6 dans le même sens.","verify":"Mesurer la résistance : ≈ 12 Ω = haute impédance, ≈ 2–3 Ω = basse impédance (régler le type dans MTune).","rating_a":null,"load_a":1.0,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"INJ2":{"cat":"comp","label":"Injecteur cyl. 2","ref":"870 cc Bosch EV1","type":"Injecteur 2 fils","connector":"Bosch EV1 / JPT 2 voies","node":"INT2","system":"INJ","harness":null,"notes":"Pas de polarité, mais câbler les 6 dans le même sens.","verify":"Mesurer la résistance : ≈ 12 Ω = haute impédance, ≈ 2–3 Ω = basse impédance (régler le type dans MTune).","rating_a":null,"load_a":1.0,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"INJ3":{"cat":"comp","label":"Injecteur cyl. 3","ref":"870 cc Bosch EV1","type":"Injecteur 2 fils","connector":"Bosch EV1 / JPT 2 voies","node":"INT3","system":"INJ","harness":null,"notes":"Pas de polarité, mais câbler les 6 dans le même sens.","verify":"Mesurer la résistance : ≈ 12 Ω = haute impédance, ≈ 2–3 Ω = basse impédance (régler le type dans MTune).","rating_a":null,"load_a":1.0,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"INJ4":{"cat":"comp","label":"Injecteur cyl. 4","ref":"870 cc Bosch EV1","type":"Injecteur 2 fils","connector":"Bosch EV1 / JPT 2 voies","node":"INT4","system":"INJ","harness":null,"notes":"Pas de polarité, mais câbler les 6 dans le même sens.","verify":"Mesurer la résistance : ≈ 12 Ω = haute impédance, ≈ 2–3 Ω = basse impédance (régler le type dans MTune).","rating_a":null,"load_a":1.0,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"INJ5":{"cat":"comp","label":"Injecteur cyl. 5","ref":"870 cc Bosch EV1","type":"Injecteur 2 fils","connector":"Bosch EV1 / JPT 2 voies","node":"INT5","system":"INJ","harness":null,"notes":"Pas de polarité, mais câbler les 6 dans le même sens.","verify":"Mesurer la résistance : ≈ 12 Ω = haute impédance, ≈ 2–3 Ω = basse impédance (régler le type dans MTune).","rating_a":null,"load_a":1.0,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"INJ6":{"cat":"comp","label":"Injecteur cyl. 6","ref":"870 cc Bosch EV1","type":"Injecteur 2 fils","connector":"Bosch EV1 / JPT 2 voies","node":"INT6","system":"INJ","harness":null,"notes":"Pas de polarité, mais câbler les 6 dans le même sens.","verify":"Mesurer la résistance : ≈ 12 Ω = haute impédance, ≈ 2–3 Ω = basse impédance (régler le type dans MTune).","rating_a":null,"load_a":1.0,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"COIL1":{"cat":"comp","label":"Bobine cyl. 1","ref":"Bosch 0 221 604 800","type":"Bobine crayon à allumeur intégré (commande 5 V)","connector":"VAG 4 voies (1J0 973 724)","node":"TOP1","system":"IGN","harness":null,"notes":"Broches 2 et 4 jamais sur Sensor GND. Condensateur 10 µF près des bobines si parasites (préconisation MaxxECU).","verify":"Confirmer le repérage 1-2-3-4 moulé sur le connecteur de la bobine.","rating_a":null,"load_a":1.0,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"COIL2":{"cat":"comp","label":"Bobine cyl. 2","ref":"Bosch 0 221 604 800","type":"Bobine crayon à allumeur intégré (commande 5 V)","connector":"VAG 4 voies (1J0 973 724)","node":"TOP2","system":"IGN","harness":null,"notes":"Broches 2 et 4 jamais sur Sensor GND. Condensateur 10 µF près des bobines si parasites (préconisation MaxxECU).","verify":"Confirmer le repérage 1-2-3-4 moulé sur le connecteur de la bobine.","rating_a":null,"load_a":1.0,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"COIL3":{"cat":"comp","label":"Bobine cyl. 3","ref":"Bosch 0 221 604 800","type":"Bobine crayon à allumeur intégré (commande 5 V)","connector":"VAG 4 voies (1J0 973 724)","node":"TOP3","system":"IGN","harness":null,"notes":"Broches 2 et 4 jamais sur Sensor GND. Condensateur 10 µF près des bobines si parasites (préconisation MaxxECU).","verify":"Confirmer le repérage 1-2-3-4 moulé sur le connecteur de la bobine.","rating_a":null,"load_a":1.0,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"COIL4":{"cat":"comp","label":"Bobine cyl. 4","ref":"Bosch 0 221 604 800","type":"Bobine crayon à allumeur intégré (commande 5 V)","connector":"VAG 4 voies (1J0 973 724)","node":"TOP4","system":"IGN","harness":null,"notes":"Broches 2 et 4 jamais sur Sensor GND. Condensateur 10 µF près des bobines si parasites (préconisation MaxxECU).","verify":"Confirmer le repérage 1-2-3-4 moulé sur le connecteur de la bobine.","rating_a":null,"load_a":1.0,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"COIL5":{"cat":"comp","label":"Bobine cyl. 5","ref":"Bosch 0 221 604 800","type":"Bobine crayon à allumeur intégré (commande 5 V)","connector":"VAG 4 voies (1J0 973 724)","node":"TOP5","system":"IGN","harness":null,"notes":"Broches 2 et 4 jamais sur Sensor GND. Condensateur 10 µF près des bobines si parasites (préconisation MaxxECU).","verify":"Confirmer le repérage 1-2-3-4 moulé sur le connecteur de la bobine.","rating_a":null,"load_a":1.0,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"COIL6":{"cat":"comp","label":"Bobine cyl. 6","ref":"Bosch 0 221 604 800","type":"Bobine crayon à allumeur intégré (commande 5 V)","connector":"VAG 4 voies (1J0 973 724)","node":"TOP6","system":"IGN","harness":null,"notes":"Broches 2 et 4 jamais sur Sensor GND. Condensateur 10 µF près des bobines si parasites (préconisation MaxxECU).","verify":"Confirmer le repérage 1-2-3-4 moulé sur le connecteur de la bobine.","rating_a":null,"load_a":1.0,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"MAC":{"cat":"comp","label":"Électrovanne de boost","ref":"MAC 35A-ACA-DDBA-1BA 12 V","type":"Électrovanne 3 voies 12 V (≈ 5,4 W)","connector":"Superseal 1.5 2 voies (conseillé)","node":"N_MAC","system":"ACT","harness":null,"notes":"Fréquence PWM typique 30 Hz (à régler dans MTune).","verify":"","rating_a":null,"load_a":0.45,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"VANOS":{"cat":"comp","label":"Électrovanne VANOS","ref":"Électrovanne M50B25 VANOS","type":"Électrovanne tout-ou-rien","connector":"Bosch JPT 2 voies","node":"N_VANOS","system":"ACT","harness":null,"notes":"Sur M50 : VANOS tout-ou-rien (sortie switchée).","verify":"Mesurer la résistance : ≥ 7,5 Ω → GPO3 OK (≤ 2 A) ; < 7,5 Ω → passer la commande sur INJ7 (CMC1 L2, 8 A).","rating_a":null,"load_a":null,"r_ohm":[3.3,12],"supply5_ma":null,"external":false,"optional":false},"PUMP":{"cat":"comp","label":"Pompe à essence","ref":"Selon pompe (à préciser)","type":"Charge forte","connector":"Selon pompe","node":"N_PUMP","system":"RLY","harness":"CHS","notes":"","verify":"","rating_a":null,"load_a":15,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"FAN":{"cat":"comp","label":"Ventilateur électrique","ref":"SPAL (à préciser)","type":"Charge forte","connector":"Selon ventilateur","node":"N_FAN","system":"RLY","harness":null,"notes":"","verify":"","rating_a":null,"load_a":20,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"XINT":{"cat":"inline","label":"Connecteur de cloison habitacle","ref":"Deutsch DT 12 voies (DT04-12PA / DT06-12SA)","type":"Connecteur de passage (traversant)","connector":"Deutsch DT 12 voies","node":"XINT","system":"COM","harness":null,"notes":"","verify":"","rating_a":null,"load_a":null,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"KEY":{"cat":"comp","label":"Contact clé (+15)","ref":"Faisceau véhicule","type":"Source externe","connector":"Selon véhicule","node":"CAB_KEY","system":"PWR","harness":"CAB","notes":"","verify":"","rating_a":null,"load_a":null,"r_ohm":null,"supply5_ma":null,"external":true,"optional":false},"CLUSTER":{"cat":"comp","label":"Combiné (compte-tours)","ref":"Combiné d'origine","type":"Entrée compte-tours","connector":"Selon véhicule","node":"CAB_CLUSTER","system":"COM","harness":"CAB","notes":"Si l'aiguille ne bouge pas : pull-up 1 kΩ / 1 W vers +12 V commuté sur ce fil.","verify":"","rating_a":null,"load_a":null,"r_ohm":null,"supply5_ma":null,"external":true,"optional":false},"CANDEV":{"cat":"comp","label":"Afficheur / logger CAN (option)","ref":"Option","type":"Bus CAN","connector":"Selon appareil","node":"CAB_DASH","system":"COM","harness":"CAB","notes":"Résistance 120 Ω déjà intégrée côté ECU : ajouter 120 Ω à l'autre extrémité du bus.","verify":"","rating_a":null,"load_a":null,"r_ohm":null,"supply5_ma":null,"external":true,"optional":true},"BATT":{"cat":"comp","label":"Batterie / borne B+","ref":"Borne +12 V (point de démarrage)","type":"Source","connector":"Cosse œillet M8","node":"BPLUS","system":"PWR","harness":"CHS","notes":"","verify":"","rating_a":null,"load_a":null,"r_ohm":null,"supply5_ma":null,"external":true,"optional":false},"F0":{"cat":"fuse","label":"Fusible général","ref":"MAXI 80 A","type":"fuse","connector":"Porte-fusible MAXI étanche","node":"BPLUS","system":"PWR","harness":"CHS","notes":"","verify":"","rating_a":80,"load_a":null,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"F10":{"cat":"fuse","label":"Fusible relais principal","ref":"30 A","type":"fuse","connector":"Boîte fusibles/relais étanche","node":"PDM","system":"PWR","harness":null,"notes":"","verify":"","rating_a":30,"load_a":null,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"F1":{"cat":"fuse","label":"Fusible ECU","ref":"15 A","type":"fuse","connector":"Boîte fusibles/relais étanche","node":"PDM","system":"PWR","harness":null,"notes":"","verify":"","rating_a":15,"load_a":null,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"F2":{"cat":"fuse","label":"Fusible bobines","ref":"15 A","type":"fuse","connector":"Boîte fusibles/relais étanche","node":"PDM","system":"IGN","harness":null,"notes":"","verify":"","rating_a":15,"load_a":null,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"F3":{"cat":"fuse","label":"Fusible injecteurs","ref":"10 A","type":"fuse","connector":"Boîte fusibles/relais étanche","node":"PDM","system":"INJ","harness":null,"notes":"","verify":"","rating_a":10,"load_a":null,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"F4":{"cat":"fuse","label":"Fusible chauffage lambda","ref":"10 A","type":"fuse","connector":"Boîte fusibles/relais étanche","node":"PDM","system":"WBO","harness":null,"notes":"","verify":"","rating_a":10,"load_a":null,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"F5":{"cat":"fuse","label":"Fusible actionneurs (VANOS, MAC)","ref":"10 A","type":"fuse","connector":"Boîte fusibles/relais étanche","node":"PDM","system":"ACT","harness":null,"notes":"","verify":"","rating_a":10,"load_a":null,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"F6":{"cat":"fuse","label":"Fusible capteur PMH","ref":"5 A","type":"fuse","connector":"Boîte fusibles/relais étanche","node":"PDM","system":"SYNC","harness":null,"notes":"","verify":"","rating_a":5,"load_a":null,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"F7":{"cat":"fuse","label":"Fusible bobines de relais","ref":"5 A","type":"fuse","connector":"Boîte fusibles/relais étanche","node":"PDM","system":"RLY","harness":null,"notes":"","verify":"","rating_a":5,"load_a":null,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"F8":{"cat":"fuse","label":"Fusible pompe à essence","ref":"20 A","type":"fuse","connector":"Boîte fusibles/relais étanche","node":"PDM","system":"RLY","harness":null,"notes":"","verify":"","rating_a":20,"load_a":null,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"F9":{"cat":"fuse","label":"Fusible ventilateur","ref":"30 A","type":"fuse","connector":"Boîte fusibles/relais étanche","node":"PDM","system":"RLY","harness":null,"notes":"","verify":"","rating_a":30,"load_a":null,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"K1":{"cat":"relay","label":"Relais principal","ref":"Relais ISO mini 40 A","type":"relay","connector":"Boîte fusibles/relais étanche","node":"PDM","system":"PWR","harness":null,"notes":"","verify":"","rating_a":40,"load_a":0.15,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"K2":{"cat":"relay","label":"Relais pompe à essence","ref":"Relais ISO mini 30/40 A","type":"relay","connector":"Boîte fusibles/relais étanche","node":"PDM","system":"RLY","harness":null,"notes":"","verify":"","rating_a":30,"load_a":0.15,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"K3":{"cat":"relay","label":"Relais ventilateur","ref":"Relais ISO mini 40 A","type":"relay","connector":"Boîte fusibles/relais étanche","node":"PDM","system":"RLY","harness":null,"notes":"","verify":"","rating_a":40,"load_a":0.15,"r_ohm":null,"supply5_ma":null,"external":false,"optional":false},"GP-HEAD":{"cat":"ground","label":"Masse moteur ECU (goujon arrière culasse)","node":"GND_HEAD","system":"GND","ground_kind":"engine","harness":null,"notes":"CMC1 L4 et CMC2 G4 au MÊME point (exigence MaxxECU)."},"GP-COIL":{"cat":"ground","label":"Masse bobines (goujon culasse, voisin)","node":"GND_HEAD","system":"GND","ground_kind":"engine","harness":null,"notes":""},"GP-CH":{"cat":"ground","label":"Masse caisse E-box","node":"PDM","system":"GND","ground_kind":"chassis","harness":null,"notes":""},"GP-CH-AV":{"cat":"ground","label":"Masse caisse avant (ventilateur)","node":"N_FAN","system":"GND","ground_kind":"chassis","harness":null,"notes":""},"GP-CH-AR":{"cat":"ground","label":"Masse caisse arrière (pompe)","node":"N_PUMP","system":"GND","ground_kind":"chassis","harness":"CHS","notes":""},"SPL-5V-MAIN":{"cat":"splice","label":"+5 V — départ ECU","node":"ECU","system":"REF","busbar":false,"wires":4,"csa":2.0},"SPL-5V-ENG":{"cat":"splice","label":"+5 V — branche moteur","node":"T1","system":"REF","busbar":false,"wires":4,"csa":2.0},"SPL-SG-MAIN":{"cat":"splice","label":"Sensor GND — départ ECU","node":"ECU","system":"REF","busbar":false,"wires":4,"csa":2.0},"SPL-SG-ENG":{"cat":"splice","label":"Sensor GND — branche moteur","node":"T1","system":"REF","busbar":false,"wires":6,"csa":3.0},"SPL-VRG":{"cat":"splice","label":"VR GND (PMH + AAC)","node":"ECU","system":"REF","busbar":false,"wires":3,"csa":1.5},"SPL-SHLD":{"cat":"splice","label":"Blindages → Shield GND","node":"ECU","system":"REF","busbar":false,"wires":6,"csa":0.5},"SPL-KGND":{"cat":"splice","label":"Knock GND (2 capteurs)","node":"ECU","system":"REF","busbar":false,"wires":3,"csa":1.5},"SPL-COIL12":{"cat":"splice","label":"+12 V bobines","node":"TOP4","system":"REF","busbar":false,"wires":7,"csa":8.5},"SPL-COIL-SGND":{"cat":"splice","label":"Masse électronique bobines (broches 2)","node":"TOP4","system":"REF","busbar":false,"wires":7,"csa":6.0},"SPL-COIL-PGND":{"cat":"splice","label":"Masse puissance bobines (broches 4)","node":"TOP4","system":"REF","busbar":false,"wires":7,"csa":8.5},"SPL-INJ12":{"cat":"splice","label":"+12 V injecteurs","node":"INT4","system":"REF","busbar":false,"wires":7,"csa":5.5},"SPL-ACT12":{"cat":"splice","label":"+12 V actionneurs","node":"FRONT","system":"REF","busbar":false,"wires":3,"csa":2.5},"SPL-RLY":{"cat":"splice","label":"+12 V bobines relais","node":"PDM","system":"REF","busbar":false,"wires":3,"csa":1.5},"BUS30":{"cat":"splice","label":"Barrette +12 V permanent","node":"PDM","system":"REF","busbar":true,"wires":1,"csa":10.0},"BUS87":{"cat":"splice","label":"Barrette +12 V commuté (relais principal)","node":"PDM","system":"REF","busbar":true,"wires":1,"csa":2.5},"C-CRANK.SH":{"cat":"shield","label":"Blindage C-CRANK","node":"ECU","system":"REF","cable":"C-CRANK"},"C-CAM.SH":{"cat":"shield","label":"Blindage C-CAM","node":"ECU","system":"REF","cable":"C-CAM"},"C-KS1.SH":{"cat":"shield","label":"Blindage C-KS1","node":"ECU","system":"REF","cable":"C-KS1"},"C-KS2.SH":{"cat":"shield","label":"Blindage C-KS2","node":"ECU","system":"REF","cable":"C-KS2"},"C-LSU.SH":{"cat":"shield","label":"Blindage C-LSU","node":"ECU","system":"REF","cable":"C-LSU"}},"endpoints":{"CMC1.A1":{"owner":"CMC1","pin":"A1","cat":"ecu","fn":"GP OUT 5","kind":"gpo","max_a":2},"CMC1.A2":{"owner":"CMC1","pin":"A2","cat":"ecu","fn":"IGNITION CYL 1","kind":"ign"},"CMC1.A3":{"owner":"CMC1","pin":"A3","cat":"ecu","fn":"IGNITION CYL 2","kind":"ign"},"CMC1.A4":{"owner":"CMC1","pin":"A4","cat":"ecu","fn":"TACH / GP OUT 8","kind":"gpo","max_a":2},"CMC1.B1":{"owner":"CMC1","pin":"B1","cat":"ecu","fn":"GP OUT 6","kind":"gpo","max_a":2},"CMC1.B2":{"owner":"CMC1","pin":"B2","cat":"ecu","fn":"IGNITION CYL 3","kind":"ign"},"CMC1.B3":{"owner":"CMC1","pin":"B3","cat":"ecu","fn":"IGNITION CYL 4","kind":"ign"},"CMC1.B4":{"owner":"CMC1","pin":"B4","cat":"ecu","fn":"GP OUT 1","kind":"gpo","max_a":2},"CMC1.C1":{"owner":"CMC1","pin":"C1","cat":"ecu","fn":"GP OUT 7 / DIGITAL IN 3","kind":"gpo","max_a":2},"CMC1.C2":{"owner":"CMC1","pin":"C2","cat":"ecu","fn":"IGNITION CYL 5","kind":"ign"},"CMC1.C3":{"owner":"CMC1","pin":"C3","cat":"ecu","fn":"IGNITION CYL 6","kind":"ign"},"CMC1.C4":{"owner":"CMC1","pin":"C4","cat":"ecu","fn":"GP OUT 2","kind":"gpo","max_a":2},"CMC1.D1":{"owner":"CMC1","pin":"D1","cat":"ecu","fn":"WBO2 HTR (pin 3 LSU 4.9) / GP OUT 9","kind":"gpo","max_a":5},"CMC1.D2":{"owner":"CMC1","pin":"D2","cat":"ecu","fn":"IGNITION CYL 7","kind":"ign"},"CMC1.D3":{"owner":"CMC1","pin":"D3","cat":"ecu","fn":"IGNITION CYL 8","kind":"ign"},"CMC1.D4":{"owner":"CMC1","pin":"D4","cat":"ecu","fn":"GP OUT 3","kind":"gpo","max_a":2},"CMC1.E1":{"owner":"CMC1","pin":"E1","cat":"ecu","fn":"CAN H (120 Ω intégrée)","kind":"can"},"CMC1.E2":{"owner":"CMC1","pin":"E2","cat":"ecu","fn":"CAN L","kind":"can"},"CMC1.E3":{"owner":"CMC1","pin":"E3","cat":"ecu","fn":"SHIELD GND","kind":"shield_gnd","cls":"GND_SHIELD"},"CMC1.E4":{"owner":"CMC1","pin":"E4","cat":"ecu","fn":"GP OUT 4","kind":"gpo","max_a":2},"CMC1.F1":{"owner":"CMC1","pin":"F1","cat":"ecu","fn":"COOLANT SENSOR (CLT)","kind":"ain"},"CMC1.F2":{"owner":"CMC1","pin":"F2","cat":"ecu","fn":"AIR TEMP SENSOR (IAT)","kind":"ain"},"CMC1.F3":{"owner":"CMC1","pin":"F3","cat":"ecu","fn":"WBO2 COM","kind":"wbo"},"CMC1.F4":{"owner":"CMC1","pin":"F4","cat":"ecu","fn":"WBO2 VS / O2 IN","kind":"wbo"},"CMC1.G1":{"owner":"CMC1","pin":"G1","cat":"ecu","fn":"+5 V SENSOR SUPPLY","kind":"v5","cls":"V5"},"CMC1.G2":{"owner":"CMC1","pin":"G2","cat":"ecu","fn":"THROTTLE SENSOR (TPS)","kind":"ain"},"CMC1.G3":{"owner":"CMC1","pin":"G3","cat":"ecu","fn":"WBO2 IP","kind":"wbo"},"CMC1.G4":{"owner":"CMC1","pin":"G4","cat":"ecu","fn":"WBO2 RCAL","kind":"wbo"},"CMC1.H1":{"owner":"CMC1","pin":"H1","cat":"ecu","fn":"SENSOR GND","kind":"sensor_gnd","cls":"GND_SENS"},"CMC1.H2":{"owner":"CMC1","pin":"H2","cat":"ecu","fn":"VR GND","kind":"vr_gnd","cls":"GND_VR"},"CMC1.H3":{"owner":"CMC1","pin":"H3","cat":"ecu","fn":"TRIGGER","kind":"trig"},"CMC1.H4":{"owner":"CMC1","pin":"H4","cat":"ecu","fn":"HOME / CAM","kind":"trig"},"CMC1.J1":{"owner":"CMC1","pin":"J1","cat":"ecu","fn":"ANALOG IN 1 (TEMP)","kind":"ain"},"CMC1.J2":{"owner":"CMC1","pin":"J2","cat":"ecu","fn":"ANALOG IN 2 (TEMP)","kind":"ain"},"CMC1.J3":{"owner":"CMC1","pin":"J3","cat":"ecu","fn":"ANALOG IN 3 (0-5 V)","kind":"ain"},"CMC1.J4":{"owner":"CMC1","pin":"J4","cat":"ecu","fn":"ANALOG IN 4 (0-5 V)","kind":"ain"},"CMC1.K1":{"owner":"CMC1","pin":"K1","cat":"ecu","fn":"INJECTOR CYL 1","kind":"inj","max_a":8},"CMC1.K2":{"owner":"CMC1","pin":"K2","cat":"ecu","fn":"INJECTOR CYL 2","kind":"inj","max_a":8},"CMC1.K3":{"owner":"CMC1","pin":"K3","cat":"ecu","fn":"DIGITAL IN 1","kind":"din"},"CMC1.K4":{"owner":"CMC1","pin":"K4","cat":"ecu","fn":"DIGITAL IN 2","kind":"din"},"CMC1.L1":{"owner":"CMC1","pin":"L1","cat":"ecu","fn":"INJECTOR CYL 8","kind":"inj","max_a":8},"CMC1.L2":{"owner":"CMC1","pin":"L2","cat":"ecu","fn":"INJECTOR CYL 7","kind":"inj","max_a":8},"CMC1.L3":{"owner":"CMC1","pin":"L3","cat":"ecu","fn":"INJECTOR CYL 6","kind":"inj","max_a":8},"CMC1.L4":{"owner":"CMC1","pin":"L4","cat":"ecu","fn":"ENGINE GROUND","kind":"ecu_gnd","cls":"GND_PWR"},"CMC1.M1":{"owner":"CMC1","pin":"M1","cat":"ecu","fn":"INJECTOR CYL 3","kind":"inj","max_a":8},"CMC1.M2":{"owner":"CMC1","pin":"M2","cat":"ecu","fn":"INJECTOR CYL 4","kind":"inj","max_a":8},"CMC1.M3":{"owner":"CMC1","pin":"M3","cat":"ecu","fn":"INJECTOR CYL 5","kind":"inj","max_a":8},"CMC1.M4":{"owner":"CMC1","pin":"M4","cat":"ecu","fn":"+12 V ECU","kind":"ecu_12v","cls":"PWR12"},"CMC2.A1":{"owner":"CMC2","pin":"A1","cat":"ecu","fn":"EGT5+","kind":"egt"},"CMC2.A2":{"owner":"CMC2","pin":"A2","cat":"ecu","fn":"EGT6+","kind":"egt"},"CMC2.A3":{"owner":"CMC2","pin":"A3","cat":"ecu","fn":"EGT7+","kind":"egt"},"CMC2.A4":{"owner":"CMC2","pin":"A4","cat":"ecu","fn":"EGT8+","kind":"egt"},"CMC2.B1":{"owner":"CMC2","pin":"B1","cat":"ecu","fn":"EGT5-","kind":"egt"},"CMC2.B2":{"owner":"CMC2","pin":"B2","cat":"ecu","fn":"EGT6-","kind":"egt"},"CMC2.B3":{"owner":"CMC2","pin":"B3","cat":"ecu","fn":"EGT7-","kind":"egt"},"CMC2.B4":{"owner":"CMC2","pin":"B4","cat":"ecu","fn":"EGT8-","kind":"egt"},"CMC2.C1":{"owner":"CMC2","pin":"C1","cat":"ecu","fn":"EGT1+","kind":"egt"},"CMC2.C2":{"owner":"CMC2","pin":"C2","cat":"ecu","fn":"EGT2+","kind":"egt"},"CMC2.C3":{"owner":"CMC2","pin":"C3","cat":"ecu","fn":"EGT3+","kind":"egt"},"CMC2.C4":{"owner":"CMC2","pin":"C4","cat":"ecu","fn":"EGT4+","kind":"egt"},"CMC2.D1":{"owner":"CMC2","pin":"D1","cat":"ecu","fn":"EGT1-","kind":"egt"},"CMC2.D2":{"owner":"CMC2","pin":"D2","cat":"ecu","fn":"EGT2-","kind":"egt"},"CMC2.D3":{"owner":"CMC2","pin":"D3","cat":"ecu","fn":"EGT3-","kind":"egt"},"CMC2.D4":{"owner":"CMC2","pin":"D4","cat":"ecu","fn":"EGT4-","kind":"egt"},"CMC2.E1":{"owner":"CMC2","pin":"E1","cat":"ecu","fn":"KNOCK GND","kind":"knock_gnd","cls":"GND_KNOCK"},"CMC2.E2":{"owner":"CMC2","pin":"E2","cat":"ecu","fn":"KNOCK 1","kind":"knock"},"CMC2.E3":{"owner":"CMC2","pin":"E3","cat":"ecu","fn":"KNOCK 2","kind":"knock"},"CMC2.E4":{"owner":"CMC2","pin":"E4","cat":"ecu","fn":"ANALOG IN 6 (0-5 V)","kind":"ain"},"CMC2.F1":{"owner":"CMC2","pin":"F1","cat":"ecu","fn":"ANALOG IN 7 (0-5 V)","kind":"ain"},"CMC2.F2":{"owner":"CMC2","pin":"F2","cat":"ecu","fn":"ANALOG IN 8 (0-5 V)","kind":"ain"},"CMC2.F3":{"owner":"CMC2","pin":"F3","cat":"ecu","fn":"DIGITAL / VR IN 4","kind":"din"},"CMC2.F4":{"owner":"CMC2","pin":"F4","cat":"ecu","fn":"DIGITAL / VR IN 5","kind":"din"},"CMC2.G1":{"owner":"CMC2","pin":"G1","cat":"ecu","fn":"GP OUT 15 (+12 V, 2 A)","kind":"gpo_hs","max_a":2},"CMC2.G2":{"owner":"CMC2","pin":"G2","cat":"ecu","fn":"GP OUT 16 (+12 V, 2 A)","kind":"gpo_hs","max_a":2},"CMC2.G3":{"owner":"CMC2","pin":"G3","cat":"ecu","fn":"ANALOG IN 5 (0-5 V)","kind":"ain"},"CMC2.G4":{"owner":"CMC2","pin":"G4","cat":"ecu","fn":"ENGINE GROUND 2","kind":"ecu_gnd","cls":"GND_PWR"},"CMC2.H1":{"owner":"CMC2","pin":"H1","cat":"ecu","fn":"MOTOR 2+ / GPO 14","kind":"motor"},"CMC2.H2":{"owner":"CMC2","pin":"H2","cat":"ecu","fn":"MOTOR 1- / GPO 11","kind":"motor"},"CMC2.H3":{"owner":"CMC2","pin":"H3","cat":"ecu","fn":"MOTOR 2- / GPO 13","kind":"motor"},"CMC2.H4":{"owner":"CMC2","pin":"H4","cat":"ecu","fn":"MOTOR 1+ / GPO 12","kind":"motor"},"IAT.1":{"owner":"IAT","pin":"1","cat":"comp","fn":"Signal NTC"},"IAT.2":{"owner":"IAT","pin":"2","cat":"comp","fn":"Retour","cls":"GND_SENS"},"CLT.1":{"owner":"CLT","pin":"1","cat":"comp","fn":"Signal NTC"},"CLT.2":{"owner":"CLT","pin":"2","cat":"comp","fn":"Retour","cls":"GND_SENS"},"OIL.1":{"owner":"OIL","pin":"1","cat":"comp","fn":"Non assignée","nc":true},"OIL.2":{"owner":"OIL","pin":"2","cat":"comp","fn":"Pression 0,5–4,5 V"},"OIL.3":{"owner":"OIL","pin":"3","cat":"comp","fn":"+5 V","cls":"V5"},"OIL.4":{"owner":"OIL","pin":"4","cat":"comp","fn":"Masse capteur","cls":"GND_SENS"},"OIL.5":{"owner":"OIL","pin":"5","cat":"comp","fn":"Température NTC"},"FUEL.1":{"owner":"FUEL","pin":"1","cat":"comp","fn":"Non assignée","nc":true},"FUEL.2":{"owner":"FUEL","pin":"2","cat":"comp","fn":"Pression 0,5–4,5 V"},"FUEL.3":{"owner":"FUEL","pin":"3","cat":"comp","fn":"+5 V","cls":"V5"},"FUEL.4":{"owner":"FUEL","pin":"4","cat":"comp","fn":"Masse capteur","cls":"GND_SENS"},"FUEL.5":{"owner":"FUEL","pin":"5","cat":"comp","fn":"Température NTC"},"CRANK.1":{"owner":"CRANK","pin":"1","cat":"comp","fn":"+12 V","cls":"PWR12","supply":true},"CRANK.2":{"owner":"CRANK","pin":"2","cat":"comp","fn":"Signal Hall"},"CRANK.3":{"owner":"CRANK","pin":"3","cat":"comp","fn":"Masse capteur","cls":"GND_VR"},"CAM.1":{"owner":"CAM","pin":"1","cat":"comp","fn":"Signal (+)"},"CAM.2":{"owner":"CAM","pin":"2","cat":"comp","fn":"Retour (−)","cls":"GND_VR"},"CAM.3":{"owner":"CAM","pin":"3","cat":"comp","fn":"Blindage","cls":"GND_SHIELD"},"KS1.1":{"owner":"KS1","pin":"1","cat":"comp","fn":"Signal"},"KS1.2":{"owner":"KS1","pin":"2","cat":"comp","fn":"Retour","cls":"GND_KNOCK"},"KS2.1":{"owner":"KS2","pin":"1","cat":"comp","fn":"Signal"},"KS2.2":{"owner":"KS2","pin":"2","cat":"comp","fn":"Retour","cls":"GND_KNOCK"},"LSU.1":{"owner":"LSU","pin":"1","cat":"comp","fn":"IP (pompe)"},"LSU.2":{"owner":"LSU","pin":"2","cat":"comp","fn":"VM / COM"},"LSU.3":{"owner":"LSU","pin":"3","cat":"comp","fn":"Chauffage −"},"LSU.4":{"owner":"LSU","pin":"4","cat":"comp","fn":"Chauffage +12 V","cls":"PWR12","supply":true},"LSU.5":{"owner":"LSU","pin":"5","cat":"comp","fn":"RCAL (IA)"},"LSU.6":{"owner":"LSU","pin":"6","cat":"comp","fn":"VS (UN / Nernst)"},"EGT1.+":{"owner":"EGT1","pin":"+","cat":"comp","fn":"K+ (chromel)"},"EGT1.-":{"owner":"EGT1","pin":"-","cat":"comp","fn":"K− (alumel)"},"ETB.1":{"owner":"ETB","pin":"1","cat":"comp","fn":"TPS 1"},"ETB.2":{"owner":"ETB","pin":"2","cat":"comp","fn":"+5 V","cls":"V5"},"ETB.3":{"owner":"ETB","pin":"3","cat":"comp","fn":"Moteur +"},"ETB.4":{"owner":"ETB","pin":"4","cat":"comp","fn":"TPS 2"},"ETB.5":{"owner":"ETB","pin":"5","cat":"comp","fn":"Moteur −"},"ETB.6":{"owner":"ETB","pin":"6","cat":"comp","fn":"Masse capteur","cls":"GND_SENS"},"APP.1":{"owner":"APP","pin":"1","cat":"comp","fn":"Masse piste 1","cls":"GND_SENS"},"APP.2":{"owner":"APP","pin":"2","cat":"comp","fn":"Masse piste 2","cls":"GND_SENS"},"APP.3":{"owner":"APP","pin":"3","cat":"comp","fn":"+5 V piste 2","cls":"V5"},"APP.4":{"owner":"APP","pin":"4","cat":"comp","fn":"Signal piste 1"},"APP.5":{"owner":"APP","pin":"5","cat":"comp","fn":"+5 V piste 1","cls":"V5"},"APP.6":{"owner":"APP","pin":"6","cat":"comp","fn":"Signal piste 2"},"INJ1.1":{"owner":"INJ1","pin":"1","cat":"comp","fn":"+12 V","cls":"PWR12","supply":true},"INJ1.2":{"owner":"INJ1","pin":"2","cat":"comp","fn":"Commande ECU"},"INJ2.1":{"owner":"INJ2","pin":"1","cat":"comp","fn":"+12 V","cls":"PWR12","supply":true},"INJ2.2":{"owner":"INJ2","pin":"2","cat":"comp","fn":"Commande ECU"},"INJ3.1":{"owner":"INJ3","pin":"1","cat":"comp","fn":"+12 V","cls":"PWR12","supply":true},"INJ3.2":{"owner":"INJ3","pin":"2","cat":"comp","fn":"Commande ECU"},"INJ4.1":{"owner":"INJ4","pin":"1","cat":"comp","fn":"+12 V","cls":"PWR12","supply":true},"INJ4.2":{"owner":"INJ4","pin":"2","cat":"comp","fn":"Commande ECU"},"INJ5.1":{"owner":"INJ5","pin":"1","cat":"comp","fn":"+12 V","cls":"PWR12","supply":true},"INJ5.2":{"owner":"INJ5","pin":"2","cat":"comp","fn":"Commande ECU"},"INJ6.1":{"owner":"INJ6","pin":"1","cat":"comp","fn":"+12 V","cls":"PWR12","supply":true},"INJ6.2":{"owner":"INJ6","pin":"2","cat":"comp","fn":"Commande ECU"},"COIL1.1":{"owner":"COIL1","pin":"1","cat":"comp","fn":"+12 V","cls":"PWR12","supply":true},"COIL1.2":{"owner":"COIL1","pin":"2","cat":"comp","fn":"Masse électronique","cls":"GND_PWR"},"COIL1.3":{"owner":"COIL1","pin":"3","cat":"comp","fn":"Commande IGN"},"COIL1.4":{"owner":"COIL1","pin":"4","cat":"comp","fn":"Masse puissance","cls":"GND_PWR"},"COIL2.1":{"owner":"COIL2","pin":"1","cat":"comp","fn":"+12 V","cls":"PWR12","supply":true},"COIL2.2":{"owner":"COIL2","pin":"2","cat":"comp","fn":"Masse électronique","cls":"GND_PWR"},"COIL2.3":{"owner":"COIL2","pin":"3","cat":"comp","fn":"Commande IGN"},"COIL2.4":{"owner":"COIL2","pin":"4","cat":"comp","fn":"Masse puissance","cls":"GND_PWR"},"COIL3.1":{"owner":"COIL3","pin":"1","cat":"comp","fn":"+12 V","cls":"PWR12","supply":true},"COIL3.2":{"owner":"COIL3","pin":"2","cat":"comp","fn":"Masse électronique","cls":"GND_PWR"},"COIL3.3":{"owner":"COIL3","pin":"3","cat":"comp","fn":"Commande IGN"},"COIL3.4":{"owner":"COIL3","pin":"4","cat":"comp","fn":"Masse puissance","cls":"GND_PWR"},"COIL4.1":{"owner":"COIL4","pin":"1","cat":"comp","fn":"+12 V","cls":"PWR12","supply":true},"COIL4.2":{"owner":"COIL4","pin":"2","cat":"comp","fn":"Masse électronique","cls":"GND_PWR"},"COIL4.3":{"owner":"COIL4","pin":"3","cat":"comp","fn":"Commande IGN"},"COIL4.4":{"owner":"COIL4","pin":"4","cat":"comp","fn":"Masse puissance","cls":"GND_PWR"},"COIL5.1":{"owner":"COIL5","pin":"1","cat":"comp","fn":"+12 V","cls":"PWR12","supply":true},"COIL5.2":{"owner":"COIL5","pin":"2","cat":"comp","fn":"Masse électronique","cls":"GND_PWR"},"COIL5.3":{"owner":"COIL5","pin":"3","cat":"comp","fn":"Commande IGN"},"COIL5.4":{"owner":"COIL5","pin":"4","cat":"comp","fn":"Masse puissance","cls":"GND_PWR"},"COIL6.1":{"owner":"COIL6","pin":"1","cat":"comp","fn":"+12 V","cls":"PWR12","supply":true},"COIL6.2":{"owner":"COIL6","pin":"2","cat":"comp","fn":"Masse électronique","cls":"GND_PWR"},"COIL6.3":{"owner":"COIL6","pin":"3","cat":"comp","fn":"Commande IGN"},"COIL6.4":{"owner":"COIL6","pin":"4","cat":"comp","fn":"Masse puissance","cls":"GND_PWR"},"MAC.1":{"owner":"MAC","pin":"1","cat":"comp","fn":"+12 V","cls":"PWR12","supply":true},"MAC.2":{"owner":"MAC","pin":"2","cat":"comp","fn":"Commande GPO1"},"VANOS.1":{"owner":"VANOS","pin":"1","cat":"comp","fn":"+12 V","cls":"PWR12","supply":true},"VANOS.2":{"owner":"VANOS","pin":"2","cat":"comp","fn":"Commande (masse)"},"PUMP.+":{"owner":"PUMP","pin":"+","cat":"comp","fn":"+12 V","cls":"PWR12","supply":true},"PUMP.-":{"owner":"PUMP","pin":"-","cat":"comp","fn":"Masse","cls":"GND_PWR"},"FAN.+":{"owner":"FAN","pin":"+","cat":"comp","fn":"+12 V","cls":"PWR12","supply":true},"FAN.-":{"owner":"FAN","pin":"-","cat":"comp","fn":"Masse","cls":"GND_PWR"},"XINT.1":{"owner":"XINT","pin":"1","cat":"inline","fn":"+15 contact"},"XINT.2":{"owner":"XINT","pin":"2","cat":"inline","fn":"Pédale masse 1"},"XINT.3":{"owner":"XINT","pin":"3","cat":"inline","fn":"Pédale masse 2"},"XINT.4":{"owner":"XINT","pin":"4","cat":"inline","fn":"Pédale +5 V (2)"},"XINT.5":{"owner":"XINT","pin":"5","cat":"inline","fn":"Pédale signal 1"},"XINT.6":{"owner":"XINT","pin":"6","cat":"inline","fn":"Pédale +5 V (1)"},"XINT.7":{"owner":"XINT","pin":"7","cat":"inline","fn":"Pédale signal 2"},"XINT.8":{"owner":"XINT","pin":"8","cat":"inline","fn":"Compte-tours"},"XINT.9":{"owner":"XINT","pin":"9","cat":"inline","fn":"CAN H"},"XINT.10":{"owner":"XINT","pin":"10","cat":"inline","fn":"CAN L"},"XINT.11":{"owner":"XINT","pin":"11","cat":"inline","fn":"Réserve","nc":true},"XINT.12":{"owner":"XINT","pin":"12","cat":"inline","fn":"Réserve","nc":true},"KEY.15":{"owner":"KEY","pin":"15","cat":"comp","fn":"+15 contact","cls":"V15"},"CLUSTER.TD":{"owner":"CLUSTER","pin":"TD","cat":"comp","fn":"Entrée régime"},"CANDEV.H":{"owner":"CANDEV","pin":"H","cat":"comp","fn":"CAN H"},"CANDEV.L":{"owner":"CANDEV","pin":"L","cat":"comp","fn":"CAN L"},"BATT.+":{"owner":"BATT","pin":"+","cat":"comp","fn":"+12 V batterie","cls":"PWR12"},"F0.1":{"owner":"F0","pin":"1","cat":"fuse","fn":"Entrée","cls":"PWR12"},"F0.2":{"owner":"F0","pin":"2","cat":"fuse","fn":"Sortie","cls":"PWR12"},"F10.1":{"owner":"F10","pin":"1","cat":"fuse","fn":"Entrée","cls":"PWR12"},"F10.2":{"owner":"F10","pin":"2","cat":"fuse","fn":"Sortie","cls":"PWR12"},"F1.1":{"owner":"F1","pin":"1","cat":"fuse","fn":"Entrée","cls":"PWR12"},"F1.2":{"owner":"F1","pin":"2","cat":"fuse","fn":"Sortie","cls":"PWR12"},"F2.1":{"owner":"F2","pin":"1","cat":"fuse","fn":"Entrée","cls":"PWR12"},"F2.2":{"owner":"F2","pin":"2","cat":"fuse","fn":"Sortie","cls":"PWR12"},"F3.1":{"owner":"F3","pin":"1","cat":"fuse","fn":"Entrée","cls":"PWR12"},"F3.2":{"owner":"F3","pin":"2","cat":"fuse","fn":"Sortie","cls":"PWR12"},"F4.1":{"owner":"F4","pin":"1","cat":"fuse","fn":"Entrée","cls":"PWR12"},"F4.2":{"owner":"F4","pin":"2","cat":"fuse","fn":"Sortie","cls":"PWR12"},"F5.1":{"owner":"F5","pin":"1","cat":"fuse","fn":"Entrée","cls":"PWR12"},"F5.2":{"owner":"F5","pin":"2","cat":"fuse","fn":"Sortie","cls":"PWR12"},"F6.1":{"owner":"F6","pin":"1","cat":"fuse","fn":"Entrée","cls":"PWR12"},"F6.2":{"owner":"F6","pin":"2","cat":"fuse","fn":"Sortie","cls":"PWR12"},"F7.1":{"owner":"F7","pin":"1","cat":"fuse","fn":"Entrée","cls":"PWR12"},"F7.2":{"owner":"F7","pin":"2","cat":"fuse","fn":"Sortie","cls":"PWR12"},"F8.1":{"owner":"F8","pin":"1","cat":"fuse","fn":"Entrée","cls":"PWR12"},"F8.2":{"owner":"F8","pin":"2","cat":"fuse","fn":"Sortie","cls":"PWR12"},"F9.1":{"owner":"F9","pin":"1","cat":"fuse","fn":"Entrée","cls":"PWR12"},"F9.2":{"owner":"F9","pin":"2","cat":"fuse","fn":"Sortie","cls":"PWR12"},"K1.30":{"owner":"K1","pin":"30","cat":"relay","fn":"Contact — entrée","cls":"PWR12"},"K1.87":{"owner":"K1","pin":"87","cat":"relay","fn":"Contact — sortie","cls":"PWR12"},"K1.86":{"owner":"K1","pin":"86","cat":"relay","fn":"Bobine +","cls":"V15","supply":true},"K1.85":{"owner":"K1","pin":"85","cat":"relay","fn":"Bobine −","cls":"GND_PWR"},"K2.30":{"owner":"K2","pin":"30","cat":"relay","fn":"Contact — entrée","cls":"PWR12"},"K2.87":{"owner":"K2","pin":"87","cat":"relay","fn":"Contact — sortie","cls":"PWR12"},"K2.86":{"owner":"K2","pin":"86","cat":"relay","fn":"Bobine +","cls":"PWR12","supply":true},"K2.85":{"owner":"K2","pin":"85","cat":"relay","fn":"Bobine − (GPO2)"},"K3.30":{"owner":"K3","pin":"30","cat":"relay","fn":"Contact — entrée","cls":"PWR12"},"K3.87":{"owner":"K3","pin":"87","cat":"relay","fn":"Contact — sortie","cls":"PWR12"},"K3.86":{"owner":"K3","pin":"86","cat":"relay","fn":"Bobine +","cls":"PWR12","supply":true},"K3.85":{"owner":"K3","pin":"85","cat":"relay","fn":"Bobine − (GPO6)"},"GP-HEAD":{"owner":"GP-HEAD","cat":"ground","fn":"Masse moteur ECU (goujon arrière culasse)","cls":"GND_PWR"},"GP-COIL":{"owner":"GP-COIL","cat":"ground","fn":"Masse bobines (goujon culasse, voisin)","cls":"GND_PWR"},"GP-CH":{"owner":"GP-CH","cat":"ground","fn":"Masse caisse E-box","cls":"GND_PWR"},"GP-CH-AV":{"owner":"GP-CH-AV","cat":"ground","fn":"Masse caisse avant (ventilateur)","cls":"GND_PWR"},"GP-CH-AR":{"owner":"GP-CH-AR","cat":"ground","fn":"Masse caisse arrière (pompe)","cls":"GND_PWR"},"SPL-5V-MAIN":{"owner":"SPL-5V-MAIN","cat":"splice","fn":"+5 V — départ ECU","cls":"V5"},"SPL-5V-ENG":{"owner":"SPL-5V-ENG","cat":"splice","fn":"+5 V — branche moteur","cls":"V5"},"SPL-SG-MAIN":{"owner":"SPL-SG-MAIN","cat":"splice","fn":"Sensor GND — départ ECU","cls":"GND_SENS"},"SPL-SG-ENG":{"owner":"SPL-SG-ENG","cat":"splice","fn":"Sensor GND — branche moteur","cls":"GND_SENS"},"SPL-VRG":{"owner":"SPL-VRG","cat":"splice","fn":"VR GND (PMH + AAC)","cls":"GND_VR"},"SPL-SHLD":{"owner":"SPL-SHLD","cat":"splice","fn":"Blindages → Shield GND","cls":"GND_SHIELD"},"SPL-KGND":{"owner":"SPL-KGND","cat":"splice","fn":"Knock GND (2 capteurs)","cls":"GND_KNOCK"},"SPL-COIL12":{"owner":"SPL-COIL12","cat":"splice","fn":"+12 V bobines","cls":"PWR12"},"SPL-COIL-SGND":{"owner":"SPL-COIL-SGND","cat":"splice","fn":"Masse électronique bobines (broches 2)","cls":"GND_PWR"},"SPL-COIL-PGND":{"owner":"SPL-COIL-PGND","cat":"splice","fn":"Masse puissance bobines (broches 4)","cls":"GND_PWR"},"SPL-INJ12":{"owner":"SPL-INJ12","cat":"splice","fn":"+12 V injecteurs","cls":"PWR12"},"SPL-ACT12":{"owner":"SPL-ACT12","cat":"splice","fn":"+12 V actionneurs","cls":"PWR12"},"SPL-RLY":{"owner":"SPL-RLY","cat":"splice","fn":"+12 V bobines relais","cls":"PWR12"},"BUS30":{"owner":"BUS30","cat":"splice","fn":"Barrette +12 V permanent","cls":"PWR12"},"BUS87":{"owner":"BUS87","cat":"splice","fn":"Barrette +12 V commuté (relais principal)","cls":"PWR12"},"C-CRANK.SH":{"owner":"C-CRANK.SH","cat":"shield","fn":"Blindage Capteur PMH","cls":"GND_SHIELD"},"C-CAM.SH":{"owner":"C-CAM.SH","cat":"shield","fn":"Blindage Capteur AAC","cls":"GND_SHIELD"},"C-KS1.SH":{"owner":"C-KS1.SH","cat":"shield","fn":"Blindage Cliquetis 1","cls":"GND_SHIELD"},"C-KS2.SH":{"owner":"C-KS2.SH","cat":"shield","fn":"Blindage Cliquetis 2","cls":"GND_SHIELD"},"C-LSU.SH":{"owner":"C-LSU.SH","cat":"shield","fn":"Blindage Lambda signaux","cls":"GND_SHIELD"}},"wires":[{"id":"PWR-01","from":"BATT.+","to":"F0.1","sheet":"PWR","mm2":10.0,"color":"RD","cable":null,"harness":"CHS","internal":false,"drain":false,"note":"Fusible au plus près de la batterie / borne B+","net":"N061","route_m":0.0,"length_m":0.2,"path":[]},{"id":"PWR-02","from":"F0.2","to":"BUS30","sheet":"PWR","mm2":10.0,"color":"RD","cable":null,"harness":"CHS","internal":false,"drain":false,"note":"","net":"N062","fuse":"F0","route_m":0.5,"length_m":0.7,"path":["BPLUS~PDM"]},{"id":"BUS-01","from":"BUS30","to":"F10.1","sheet":"PWR","mm2":null,"color":null,"cable":null,"harness":"ENG","internal":true,"drain":false,"note":"","net":"N062","length_m":0,"path":[]},{"id":"BUS-02","from":"BUS30","to":"F8.1","sheet":"PWR","mm2":null,"color":null,"cable":null,"harness":"ENG","internal":true,"drain":false,"note":"","net":"N062","length_m":0,"path":[]},{"id":"BUS-03","from":"BUS30","to":"F9.1","sheet":"PWR","mm2":null,"color":null,"cable":null,"harness":"ENG","internal":true,"drain":false,"note":"","net":"N062","length_m":0,"path":[]},{"id":"PWR-03","from":"F10.2","to":"K1.30","sheet":"PWR","mm2":2.5,"color":"RD","cable":null,"harness":"PDM","internal":false,"drain":false,"note":"","net":"N063","fuse":"F10","route_m":0.0,"length_m":0.2,"path":[]},{"id":"PWR-04","from":"K1.87","to":"BUS87","sheet":"PWR","mm2":2.5,"color":"RD/WH","cable":null,"harness":"PDM","internal":false,"drain":false,"note":"","net":"N064","fuse":"F10","route_m":0.0,"length_m":0.2,"path":[]},{"id":"BUS-04","from":"BUS87","to":"F1.1","sheet":"PWR","mm2":null,"color":null,"cable":null,"harness":"ENG","internal":true,"drain":false,"note":"","net":"N064","length_m":0,"path":[]},{"id":"BUS-05","from":"BUS87","to":"F2.1","sheet":"PWR","mm2":null,"color":null,"cable":null,"harness":"ENG","internal":true,"drain":false,"note":"","net":"N064","length_m":0,"path":[]},{"id":"BUS-06","from":"BUS87","to":"F3.1","sheet":"PWR","mm2":null,"color":null,"cable":null,"harness":"ENG","internal":true,"drain":false,"note":"","net":"N064","length_m":0,"path":[]},{"id":"BUS-07","from":"BUS87","to":"F4.1","sheet":"PWR","mm2":null,"color":null,"cable":null,"harness":"ENG","internal":true,"drain":false,"note":"","net":"N064","length_m":0,"path":[]},{"id":"BUS-08","from":"BUS87","to":"F5.1","sheet":"PWR","mm2":null,"color":null,"cable":null,"harness":"ENG","internal":true,"drain":false,"note":"","net":"N064","length_m":0,"path":[]},{"id":"BUS-09","from":"BUS87","to":"F6.1","sheet":"PWR","mm2":null,"color":null,"cable":null,"harness":"ENG","internal":true,"drain":false,"note":"","net":"N064","length_m":0,"path":[]},{"id":"BUS-10","from":"BUS87","to":"F7.1","sheet":"PWR","mm2":null,"color":null,"cable":null,"harness":"ENG","internal":true,"drain":false,"note":"","net":"N064","length_m":0,"path":[]},{"id":"PWR-05","from":"F1.2","to":"CMC1.M4","sheet":"PWR","mm2":1.0,"color":"RD/WH","cable":null,"harness":"PDM","internal":false,"drain":false,"note":"Alimentation ECU (15 A, préconisation MaxxECU)","net":"N039","fuse":"F1","route_m":0.4,"length_m":0.6,"path":["PDM~EB","ECU~EB"]},{"id":"PWR-06","from":"KEY.15","to":"XINT.1","sheet":"PWR","mm2":0.5,"color":"VT","cable":null,"harness":"CAB","internal":false,"drain":false,"note":"","net":"N060","route_m":0.8,"length_m":1.0,"path":["XINT~CAB_KEY"]},{"id":"PWR-07","from":"XINT.1","to":"K1.86","sheet":"PWR","mm2":0.5,"color":"VT","cable":null,"harness":"PDM","internal":false,"drain":false,"note":"","net":"N060","route_m":0.7,"length_m":0.9,"path":["T0~XINT","EB~T0","PDM~EB"]},{"id":"PWR-08","from":"K1.85","to":"GP-CH","sheet":"PWR","mm2":0.5,"color":"BK","cable":null,"harness":"PDM","internal":false,"drain":false,"note":"","net":"N068","route_m":0.0,"length_m":0.2,"path":[]},{"id":"GND-01","from":"CMC1.L4","to":"GP-HEAD","sheet":"GND","mm2":1.5,"color":"BK","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"Même point que CMC2 G4","net":"N035","route_m":1.25,"length_m":1.45,"path":["ECU~EB","EB~T0","T0~T1","T1~GND_HEAD"]},{"id":"GND-02","from":"CMC2.G4","to":"GP-HEAD","sheet":"GND","mm2":1.5,"color":"BK","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"Obligatoire — même point que CMC1 L4","net":"N035","route_m":1.25,"length_m":1.45,"path":["ECU~EB","EB~T0","T0~T1","T1~GND_HEAD"]},{"id":"IGN-01","from":"CMC1.A2","to":"COIL1.3","sheet":"IGN","mm2":0.5,"color":"BU","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N001","route_m":1.805,"length_m":2.0,"path":["ECU~EB","EB~T0","T0~T1","T1~TOP6","TOP6~TOP5","TOP5~TOP4","TOP4~TOP3","TOP3~TOP2","TOP2~TOP1"]},{"id":"IGN-02","from":"CMC1.A3","to":"COIL2.3","sheet":"IGN","mm2":0.5,"color":"BU","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N002","route_m":1.714,"length_m":1.9,"path":["ECU~EB","EB~T0","T0~T1","T1~TOP6","TOP6~TOP5","TOP5~TOP4","TOP4~TOP3","TOP3~TOP2"]},{"id":"IGN-03","from":"CMC1.B2","to":"COIL3.3","sheet":"IGN","mm2":0.5,"color":"BU","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N005","route_m":1.623,"length_m":1.8,"path":["ECU~EB","EB~T0","T0~T1","T1~TOP6","TOP6~TOP5","TOP5~TOP4","TOP4~TOP3"]},{"id":"IGN-04","from":"CMC1.B3","to":"COIL4.3","sheet":"IGN","mm2":0.5,"color":"BU","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N006","route_m":1.532,"length_m":1.7,"path":["ECU~EB","EB~T0","T0~T1","T1~TOP6","TOP6~TOP5","TOP5~TOP4"]},{"id":"IGN-05","from":"CMC1.C2","to":"COIL5.3","sheet":"IGN","mm2":0.5,"color":"BU","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N008","route_m":1.441,"length_m":1.65,"path":["ECU~EB","EB~T0","T0~T1","T1~TOP6","TOP6~TOP5"]},{"id":"IGN-06","from":"CMC1.C3","to":"COIL6.3","sheet":"IGN","mm2":0.5,"color":"BU","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N009","route_m":1.35,"length_m":1.55,"path":["ECU~EB","EB~T0","T0~T1","T1~TOP6"]},{"id":"IGN-07","from":"F2.2","to":"SPL-COIL12","sheet":"IGN","mm2":2.5,"color":"RD/WH","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N053","fuse":"F2","route_m":1.532,"length_m":1.7,"path":["PDM~EB","EB~T0","T0~T1","T1~TOP6","TOP6~TOP5","TOP5~TOP4"]},{"id":"IGN-08","from":"SPL-COIL12","to":"COIL1.1","sheet":"IGN","mm2":1.0,"color":"RD/WH","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N053","fuse":"F2","route_m":0.273,"length_m":0.45,"path":["TOP4~TOP3","TOP3~TOP2","TOP2~TOP1"]},{"id":"IGN-09","from":"SPL-COIL12","to":"COIL2.1","sheet":"IGN","mm2":1.0,"color":"RD/WH","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N053","fuse":"F2","route_m":0.182,"length_m":0.35,"path":["TOP4~TOP3","TOP3~TOP2"]},{"id":"IGN-10","from":"SPL-COIL12","to":"COIL3.1","sheet":"IGN","mm2":1.0,"color":"RD/WH","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N053","fuse":"F2","route_m":0.091,"length_m":0.3,"path":["TOP4~TOP3"]},{"id":"IGN-11","from":"SPL-COIL12","to":"COIL4.1","sheet":"IGN","mm2":1.0,"color":"RD/WH","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N053","fuse":"F2","route_m":0.0,"length_m":0.2,"path":[]},{"id":"IGN-12","from":"SPL-COIL12","to":"COIL5.1","sheet":"IGN","mm2":1.0,"color":"RD/WH","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N053","fuse":"F2","route_m":0.091,"length_m":0.3,"path":["TOP5~TOP4"]},{"id":"IGN-13","from":"SPL-COIL12","to":"COIL6.1","sheet":"IGN","mm2":1.0,"color":"RD/WH","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N053","fuse":"F2","route_m":0.182,"length_m":0.35,"path":["TOP5~TOP4","TOP6~TOP5"]},{"id":"IGN-14","from":"COIL1.2","to":"SPL-COIL-SGND","sheet":"IGN","mm2":0.75,"color":"BK","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N054","route_m":0.273,"length_m":0.45,"path":["TOP2~TOP1","TOP3~TOP2","TOP4~TOP3"]},{"id":"IGN-15","from":"COIL2.2","to":"SPL-COIL-SGND","sheet":"IGN","mm2":0.75,"color":"BK","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N054","route_m":0.182,"length_m":0.35,"path":["TOP3~TOP2","TOP4~TOP3"]},{"id":"IGN-16","from":"COIL3.2","to":"SPL-COIL-SGND","sheet":"IGN","mm2":0.75,"color":"BK","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N054","route_m":0.091,"length_m":0.3,"path":["TOP4~TOP3"]},{"id":"IGN-17","from":"COIL4.2","to":"SPL-COIL-SGND","sheet":"IGN","mm2":0.75,"color":"BK","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N054","route_m":0.0,"length_m":0.2,"path":[]},{"id":"IGN-18","from":"COIL5.2","to":"SPL-COIL-SGND","sheet":"IGN","mm2":0.75,"color":"BK","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N054","route_m":0.091,"length_m":0.3,"path":["TOP5~TOP4"]},{"id":"IGN-19","from":"COIL6.2","to":"SPL-COIL-SGND","sheet":"IGN","mm2":0.75,"color":"BK","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N054","route_m":0.182,"length_m":0.35,"path":["TOP6~TOP5","TOP5~TOP4"]},{"id":"IGN-20","from":"SPL-COIL-SGND","to":"GP-COIL","sheet":"IGN","mm2":1.5,"color":"BK","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N054","route_m":0.382,"length_m":0.55,"path":["TOP5~TOP4","TOP6~TOP5","T1~TOP6","T1~GND_HEAD"]},{"id":"IGN-21","from":"COIL1.4","to":"SPL-COIL-PGND","sheet":"IGN","mm2":1.0,"color":"BK","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N054","route_m":0.273,"length_m":0.45,"path":["TOP2~TOP1","TOP3~TOP2","TOP4~TOP3"]},{"id":"IGN-22","from":"COIL2.4","to":"SPL-COIL-PGND","sheet":"IGN","mm2":1.0,"color":"BK","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N054","route_m":0.182,"length_m":0.35,"path":["TOP3~TOP2","TOP4~TOP3"]},{"id":"IGN-23","from":"COIL3.4","to":"SPL-COIL-PGND","sheet":"IGN","mm2":1.0,"color":"BK","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N054","route_m":0.091,"length_m":0.3,"path":["TOP4~TOP3"]},{"id":"IGN-24","from":"COIL4.4","to":"SPL-COIL-PGND","sheet":"IGN","mm2":1.0,"color":"BK","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N054","route_m":0.0,"length_m":0.2,"path":[]},{"id":"IGN-25","from":"COIL5.4","to":"SPL-COIL-PGND","sheet":"IGN","mm2":1.0,"color":"BK","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N054","route_m":0.091,"length_m":0.3,"path":["TOP5~TOP4"]},{"id":"IGN-26","from":"COIL6.4","to":"SPL-COIL-PGND","sheet":"IGN","mm2":1.0,"color":"BK","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N054","route_m":0.182,"length_m":0.35,"path":["TOP6~TOP5","TOP5~TOP4"]},{"id":"IGN-27","from":"SPL-COIL-PGND","to":"GP-COIL","sheet":"IGN","mm2":2.5,"color":"BK","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N054","route_m":0.382,"length_m":0.55,"path":["TOP5~TOP4","TOP6~TOP5","T1~TOP6","T1~GND_HEAD"]},{"id":"INJ-01","from":"CMC1.K1","to":"INJ1.2","sheet":"INJ","mm2":0.75,"color":"GY","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N032","route_m":1.905,"length_m":2.1,"path":["ECU~EB","EB~T0","T0~T1","T1~INT6","INT6~INT5","INT5~INT4","INT4~INT3","INT3~INT2","INT2~INT1"]},{"id":"INJ-02","from":"CMC1.K2","to":"INJ2.2","sheet":"INJ","mm2":0.75,"color":"GY","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N033","route_m":1.814,"length_m":2.0,"path":["ECU~EB","EB~T0","T0~T1","T1~INT6","INT6~INT5","INT5~INT4","INT4~INT3","INT3~INT2"]},{"id":"INJ-03","from":"CMC1.M1","to":"INJ3.2","sheet":"INJ","mm2":0.75,"color":"GY","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N036","route_m":1.723,"length_m":1.9,"path":["ECU~EB","EB~T0","T0~T1","T1~INT6","INT6~INT5","INT5~INT4","INT4~INT3"]},{"id":"INJ-04","from":"CMC1.M2","to":"INJ4.2","sheet":"INJ","mm2":0.75,"color":"GY","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N037","route_m":1.632,"length_m":1.8,"path":["ECU~EB","EB~T0","T0~T1","T1~INT6","INT6~INT5","INT5~INT4"]},{"id":"INJ-05","from":"CMC1.M3","to":"INJ5.2","sheet":"INJ","mm2":0.75,"color":"GY","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N038","route_m":1.541,"length_m":1.75,"path":["ECU~EB","EB~T0","T0~T1","T1~INT6","INT6~INT5"]},{"id":"INJ-06","from":"CMC1.L3","to":"INJ6.2","sheet":"INJ","mm2":0.75,"color":"GY","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N034","route_m":1.45,"length_m":1.65,"path":["ECU~EB","EB~T0","T0~T1","T1~INT6"]},{"id":"INJ-07","from":"F3.2","to":"SPL-INJ12","sheet":"INJ","mm2":1.0,"color":"RD/WH","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N052","fuse":"F3","route_m":1.632,"length_m":1.8,"path":["PDM~EB","EB~T0","T0~T1","T1~INT6","INT6~INT5","INT5~INT4"]},{"id":"INJ-08","from":"SPL-INJ12","to":"INJ1.1","sheet":"INJ","mm2":0.75,"color":"RD/WH","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N052","fuse":"F3","route_m":0.273,"length_m":0.45,"path":["INT4~INT3","INT3~INT2","INT2~INT1"]},{"id":"INJ-09","from":"SPL-INJ12","to":"INJ2.1","sheet":"INJ","mm2":0.75,"color":"RD/WH","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N052","fuse":"F3","route_m":0.182,"length_m":0.35,"path":["INT4~INT3","INT3~INT2"]},{"id":"INJ-10","from":"SPL-INJ12","to":"INJ3.1","sheet":"INJ","mm2":0.75,"color":"RD/WH","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N052","fuse":"F3","route_m":0.091,"length_m":0.3,"path":["INT4~INT3"]},{"id":"INJ-11","from":"SPL-INJ12","to":"INJ4.1","sheet":"INJ","mm2":0.75,"color":"RD/WH","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N052","fuse":"F3","route_m":0.0,"length_m":0.2,"path":[]},{"id":"INJ-12","from":"SPL-INJ12","to":"INJ5.1","sheet":"INJ","mm2":0.75,"color":"RD/WH","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N052","fuse":"F3","route_m":0.091,"length_m":0.3,"path":["INT5~INT4"]},{"id":"INJ-13","from":"SPL-INJ12","to":"INJ6.1","sheet":"INJ","mm2":0.75,"color":"RD/WH","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N052","fuse":"F3","route_m":0.182,"length_m":0.35,"path":["INT5~INT4","INT6~INT5"]},{"id":"SYNC-01","from":"CMC1.H3","to":"CRANK.2","sheet":"SYNC","mm2":0.5,"color":"WH","cable":"C-CRANK","harness":"ENG","internal":false,"drain":false,"note":"","net":"N026","route_m":2.455,"length_m":2.65,"path":["ECU~EB","EB~T0","T0~T1","T1~TOP6","TOP6~TOP5","TOP5~TOP4","TOP4~TOP3","TOP3~TOP2","TOP2~TOP1","TOP1~FRONT","FRONT~N_CRANK"]},{"id":"SYNC-02","from":"SPL-VRG","to":"CRANK.3","sheet":"SYNC","mm2":0.5,"color":"BN","cable":"C-CRANK","harness":"ENG","internal":false,"drain":false,"note":"","net":"N025","route_m":2.455,"length_m":2.65,"path":["ECU~EB","EB~T0","T0~T1","T1~TOP6","TOP6~TOP5","TOP5~TOP4","TOP4~TOP3","TOP3~TOP2","TOP2~TOP1","TOP1~FRONT","FRONT~N_CRANK"]},{"id":"SYNC-03","from":"F6.2","to":"CRANK.1","sheet":"SYNC","mm2":0.5,"color":"RD","cable":"C-CRANK","harness":"ENG","internal":false,"drain":false,"note":"Conducteur rouge du câble 3 voies, +12 V après relais","net":"N050","fuse":"F6","route_m":2.455,"length_m":2.65,"path":["PDM~EB","EB~T0","T0~T1","T1~TOP6","TOP6~TOP5","TOP5~TOP4","TOP4~TOP3","TOP3~TOP2","TOP2~TOP1","TOP1~FRONT","FRONT~N_CRANK"]},{"id":"SYNC-04","from":"CMC1.H4","to":"CAM.1","sheet":"SYNC","mm2":0.5,"color":"WH","cable":"C-CAM","harness":"ENG","internal":false,"drain":false,"note":"","net":"N027","route_m":2.125,"length_m":2.3,"path":["ECU~EB","EB~T0","T0~T1","T1~TOP6","TOP6~TOP5","TOP5~TOP4","TOP4~TOP3","TOP3~TOP2","TOP2~TOP1","TOP1~FRONT","FRONT~N_CAM"]},{"id":"SYNC-05","from":"SPL-VRG","to":"CAM.2","sheet":"SYNC","mm2":0.5,"color":"BN","cable":"C-CAM","harness":"ENG","internal":false,"drain":false,"note":"CORRIGÉ : retour AAC sur VR GND (H2), pas sur Sensor GND","net":"N025","route_m":2.125,"length_m":2.3,"path":["ECU~EB","EB~T0","T0~T1","T1~TOP6","TOP6~TOP5","TOP5~TOP4","TOP4~TOP3","TOP3~TOP2","TOP2~TOP1","TOP1~FRONT","FRONT~N_CAM"]},{"id":"SYNC-06","from":"CMC1.H2","to":"SPL-VRG","sheet":"SYNC","mm2":0.5,"color":"BN","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N025","route_m":0.0,"length_m":0.2,"path":[]},{"id":"SH-01","from":"C-CRANK.SH","to":"SPL-SHLD","sheet":"SYNC","mm2":null,"color":null,"cable":null,"harness":"ENG","internal":false,"drain":true,"note":"","net":"N015","length_m":0,"path":[]},{"id":"SH-02","from":"C-CAM.SH","to":"SPL-SHLD","sheet":"SYNC","mm2":null,"color":null,"cable":null,"harness":"ENG","internal":false,"drain":true,"note":"","net":"N015","length_m":0,"path":[]},{"id":"SH-03","from":"C-CAM.SH","to":"CAM.3","sheet":"SYNC","mm2":null,"color":null,"cable":null,"harness":"ENG","internal":false,"drain":true,"note":"Seulement si la broche 3 est isolée du corps du capteur","net":"N015","length_m":0,"path":[]},{"id":"SYNC-07","from":"SPL-SHLD","to":"CMC1.E3","sheet":"SYNC","mm2":0.5,"color":"BK/WH","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"Blindages reliés côté ECU uniquement","net":"N015","route_m":0.0,"length_m":0.2,"path":[]},{"id":"SNS-01","from":"CMC1.G1","to":"SPL-5V-MAIN","sheet":"SNS","mm2":0.5,"color":"OG","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N020","route_m":0.0,"length_m":0.2,"path":[]},{"id":"SNS-02","from":"SPL-5V-MAIN","to":"SPL-5V-ENG","sheet":"SNS","mm2":0.5,"color":"OG","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N020","route_m":1.2,"length_m":1.4,"path":["ECU~EB","EB~T0","T0~T1"]},{"id":"SNS-03","from":"SPL-5V-ENG","to":"OIL.3","sheet":"SNS","mm2":0.5,"color":"OG","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N020","route_m":0.923,"length_m":1.1,"path":["T1~INT6","INT6~INT5","INT5~INT4","INT4~INT3","INT3~N_OIL"]},{"id":"SNS-04","from":"SPL-5V-ENG","to":"FUEL.3","sheet":"SNS","mm2":0.5,"color":"OG","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N020","route_m":0.45,"length_m":0.65,"path":["T1~INT6","INT6~N_FUEL"]},{"id":"SNS-05","from":"CMC1.H1","to":"SPL-SG-MAIN","sheet":"SNS","mm2":0.5,"color":"BN","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N024","route_m":0.0,"length_m":0.2,"path":[]},{"id":"SNS-06","from":"SPL-SG-MAIN","to":"SPL-SG-ENG","sheet":"SNS","mm2":0.5,"color":"BN","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N024","route_m":1.2,"length_m":1.4,"path":["ECU~EB","EB~T0","T0~T1"]},{"id":"SNS-07","from":"SPL-SG-ENG","to":"IAT.2","sheet":"SNS","mm2":0.5,"color":"BN","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N024","route_m":1.155,"length_m":1.35,"path":["T1~INT6","INT6~INT5","INT5~INT4","INT4~INT3","INT3~INT2","INT2~INT1","INT1~N_TB","N_TB~N_IAT"]},{"id":"SNS-08","from":"SPL-SG-ENG","to":"CLT.2","sheet":"SNS","mm2":0.5,"color":"BN","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N024","route_m":0.955,"length_m":1.15,"path":["T1~TOP6","TOP6~TOP5","TOP5~TOP4","TOP4~TOP3","TOP3~TOP2","TOP2~TOP1","TOP1~FRONT","FRONT~N_CLT"]},{"id":"SNS-09","from":"SPL-SG-ENG","to":"OIL.4","sheet":"SNS","mm2":0.5,"color":"BN","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N024","route_m":0.923,"length_m":1.1,"path":["T1~INT6","INT6~INT5","INT5~INT4","INT4~INT3","INT3~N_OIL"]},{"id":"SNS-10","from":"SPL-SG-ENG","to":"FUEL.4","sheet":"SNS","mm2":0.5,"color":"BN","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N024","route_m":0.45,"length_m":0.65,"path":["T1~INT6","INT6~N_FUEL"]},{"id":"SNS-11","from":"CMC1.F2","to":"IAT.1","sheet":"SNS","mm2":0.5,"color":"YE/BK","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N017","route_m":2.355,"length_m":2.55,"path":["ECU~EB","EB~T0","T0~T1","T1~INT6","INT6~INT5","INT5~INT4","INT4~INT3","INT3~INT2","INT2~INT1","INT1~N_TB","N_TB~N_IAT"]},{"id":"SNS-12","from":"CMC1.F1","to":"CLT.1","sheet":"SNS","mm2":0.5,"color":"YE","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N016","route_m":2.155,"length_m":2.35,"path":["ECU~EB","EB~T0","T0~T1","T1~TOP6","TOP6~TOP5","TOP5~TOP4","TOP4~TOP3","TOP3~TOP2","TOP2~TOP1","TOP1~FRONT","FRONT~N_CLT"]},{"id":"SNS-13","from":"CMC1.J1","to":"OIL.5","sheet":"SNS","mm2":0.5,"color":"YE/BN","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N028","route_m":2.123,"length_m":2.3,"path":["ECU~EB","EB~T0","T0~T1","T1~INT6","INT6~INT5","INT5~INT4","INT4~INT3","INT3~N_OIL"]},{"id":"SNS-14","from":"CMC2.E4","to":"OIL.2","sheet":"SNS","mm2":0.5,"color":"WH/BN","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N045","route_m":2.123,"length_m":2.3,"path":["ECU~EB","EB~T0","T0~T1","T1~INT6","INT6~INT5","INT5~INT4","INT4~INT3","INT3~N_OIL"]},{"id":"SNS-15","from":"CMC1.J2","to":"FUEL.5","sheet":"SNS","mm2":0.5,"color":"YE/VT","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N029","route_m":1.65,"length_m":1.85,"path":["ECU~EB","EB~T0","T0~T1","T1~INT6","INT6~N_FUEL"]},{"id":"SNS-16","from":"CMC2.F1","to":"FUEL.2","sheet":"SNS","mm2":0.5,"color":"WH/VT","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N046","route_m":1.65,"length_m":1.85,"path":["ECU~EB","EB~T0","T0~T1","T1~INT6","INT6~N_FUEL"]},{"id":"DBW-01","from":"SPL-5V-ENG","to":"ETB.2","sheet":"DBW","mm2":0.5,"color":"OG","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N020","route_m":0.955,"length_m":1.15,"path":["T1~INT6","INT6~INT5","INT5~INT4","INT4~INT3","INT3~INT2","INT2~INT1","INT1~N_TB"]},{"id":"DBW-02","from":"SPL-SG-ENG","to":"ETB.6","sheet":"DBW","mm2":0.5,"color":"BN","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N024","route_m":0.955,"length_m":1.15,"path":["T1~INT6","INT6~INT5","INT5~INT4","INT4~INT3","INT3~INT2","INT2~INT1","INT1~N_TB"]},{"id":"DBW-03","from":"CMC1.G2","to":"ETB.1","sheet":"DBW","mm2":0.5,"color":"WH","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N021","route_m":2.155,"length_m":2.35,"path":["ECU~EB","EB~T0","T0~T1","T1~INT6","INT6~INT5","INT5~INT4","INT4~INT3","INT3~INT2","INT2~INT1","INT1~N_TB"]},{"id":"DBW-04","from":"CMC1.J3","to":"ETB.4","sheet":"DBW","mm2":0.5,"color":"WH/BK","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N030","route_m":2.155,"length_m":2.35,"path":["ECU~EB","EB~T0","T0~T1","T1~INT6","INT6~INT5","INT5~INT4","INT4~INT3","INT3~INT2","INT2~INT1","INT1~N_TB"]},{"id":"DBW-05","from":"CMC2.H4","to":"ETB.3","sheet":"DBW","mm2":1.0,"color":"PK","cable":"C-ETBM","harness":"ENG","internal":false,"drain":false,"note":"","net":"N049","route_m":2.155,"length_m":2.35,"path":["ECU~EB","EB~T0","T0~T1","T1~INT6","INT6~INT5","INT5~INT4","INT4~INT3","INT3~INT2","INT2~INT1","INT1~N_TB"]},{"id":"DBW-06","from":"CMC2.H2","to":"ETB.5","sheet":"DBW","mm2":1.0,"color":"PK/BK","cable":"C-ETBM","harness":"ENG","internal":false,"drain":false,"note":"","net":"N048","route_m":2.155,"length_m":2.35,"path":["ECU~EB","EB~T0","T0~T1","T1~INT6","INT6~INT5","INT5~INT4","INT4~INT3","INT3~INT2","INT2~INT1","INT1~N_TB"]},{"id":"DBW-07","from":"SPL-SG-MAIN","to":"XINT.2","sheet":"DBW","mm2":0.5,"color":"BN","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N024","route_m":0.7,"length_m":0.9,"path":["ECU~EB","EB~T0","T0~XINT"]},{"id":"DBW-08","from":"SPL-SG-MAIN","to":"XINT.3","sheet":"DBW","mm2":0.5,"color":"BN","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N024","route_m":0.7,"length_m":0.9,"path":["ECU~EB","EB~T0","T0~XINT"]},{"id":"DBW-09","from":"SPL-5V-MAIN","to":"XINT.4","sheet":"DBW","mm2":0.5,"color":"OG","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N020","route_m":0.7,"length_m":0.9,"path":["ECU~EB","EB~T0","T0~XINT"]},{"id":"DBW-10","from":"CMC1.J4","to":"XINT.5","sheet":"DBW","mm2":0.5,"color":"WH/BU","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N031","route_m":0.7,"length_m":0.9,"path":["ECU~EB","EB~T0","T0~XINT"]},{"id":"DBW-11","from":"SPL-5V-MAIN","to":"XINT.6","sheet":"DBW","mm2":0.5,"color":"OG","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N020","route_m":0.7,"length_m":0.9,"path":["ECU~EB","EB~T0","T0~XINT"]},{"id":"DBW-12","from":"CMC2.G3","to":"XINT.7","sheet":"DBW","mm2":0.5,"color":"WH/GN","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N047","route_m":0.7,"length_m":0.9,"path":["ECU~EB","EB~T0","T0~XINT"]},{"id":"DBW-13","from":"XINT.2","to":"APP.1","sheet":"DBW","mm2":0.5,"color":"BN","cable":null,"harness":"CAB","internal":false,"drain":false,"note":"","net":"N024","route_m":0.9,"length_m":1.1,"path":["XINT~CAB_PEDAL"]},{"id":"DBW-14","from":"XINT.3","to":"APP.2","sheet":"DBW","mm2":0.5,"color":"BN","cable":null,"harness":"CAB","internal":false,"drain":false,"note":"","net":"N024","route_m":0.9,"length_m":1.1,"path":["XINT~CAB_PEDAL"]},{"id":"DBW-15","from":"XINT.4","to":"APP.3","sheet":"DBW","mm2":0.5,"color":"OG","cable":null,"harness":"CAB","internal":false,"drain":false,"note":"","net":"N020","route_m":0.9,"length_m":1.1,"path":["XINT~CAB_PEDAL"]},{"id":"DBW-16","from":"XINT.5","to":"APP.4","sheet":"DBW","mm2":0.5,"color":"WH/BU","cable":null,"harness":"CAB","internal":false,"drain":false,"note":"","net":"N031","route_m":0.9,"length_m":1.1,"path":["XINT~CAB_PEDAL"]},{"id":"DBW-17","from":"XINT.6","to":"APP.5","sheet":"DBW","mm2":0.5,"color":"OG","cable":null,"harness":"CAB","internal":false,"drain":false,"note":"","net":"N020","route_m":0.9,"length_m":1.1,"path":["XINT~CAB_PEDAL"]},{"id":"DBW-18","from":"XINT.7","to":"APP.6","sheet":"DBW","mm2":0.5,"color":"WH/GN","cable":null,"harness":"CAB","internal":false,"drain":false,"note":"","net":"N047","route_m":0.9,"length_m":1.1,"path":["XINT~CAB_PEDAL"]},{"id":"WBO-01","from":"CMC1.G3","to":"LSU.1","sheet":"WBO","mm2":0.5,"color":"WH","cable":"C-LSU","harness":"ENG","internal":false,"drain":false,"note":"","net":"N022","route_m":2.1,"length_m":2.3,"path":["ECU~EB","EB~T0","T0~EXH","EXH~TURBO","TURBO~N_LSU"]},{"id":"WBO-02","from":"CMC1.F3","to":"LSU.2","sheet":"WBO","mm2":0.5,"color":"YE","cable":"C-LSU","harness":"ENG","internal":false,"drain":false,"note":"","net":"N018","route_m":2.1,"length_m":2.3,"path":["ECU~EB","EB~T0","T0~EXH","EXH~TURBO","TURBO~N_LSU"]},{"id":"WBO-03","from":"CMC1.G4","to":"LSU.5","sheet":"WBO","mm2":0.5,"color":"GN","cable":"C-LSU","harness":"ENG","internal":false,"drain":false,"note":"","net":"N023","route_m":2.1,"length_m":2.3,"path":["ECU~EB","EB~T0","T0~EXH","EXH~TURBO","TURBO~N_LSU"]},{"id":"WBO-04","from":"CMC1.F4","to":"LSU.6","sheet":"WBO","mm2":0.5,"color":"BN","cable":"C-LSU","harness":"ENG","internal":false,"drain":false,"note":"","net":"N019","route_m":2.1,"length_m":2.3,"path":["ECU~EB","EB~T0","T0~EXH","EXH~TURBO","TURBO~N_LSU"]},{"id":"SH-04","from":"C-LSU.SH","to":"SPL-SHLD","sheet":"WBO","mm2":null,"color":null,"cable":null,"harness":"ENG","internal":false,"drain":true,"note":"","net":"N015","length_m":0,"path":[]},{"id":"WBO-05","from":"CMC1.D1","to":"LSU.3","sheet":"WBO","mm2":1.0,"color":"GN","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"Chauffage − piloté par GPO9 (5 A)","net":"N011","route_m":2.1,"length_m":2.3,"path":["ECU~EB","EB~T0","T0~EXH","EXH~TURBO","TURBO~N_LSU"]},{"id":"WBO-06","from":"F4.2","to":"LSU.4","sheet":"WBO","mm2":1.0,"color":"RD/WH","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N051","fuse":"F4","route_m":2.1,"length_m":2.3,"path":["PDM~EB","EB~T0","T0~EXH","EXH~TURBO","TURBO~N_LSU"]},{"id":"WBO-07","from":"CMC2.C1","to":"EGT1.+","sheet":"WBO","mm2":0.5,"color":"YE","cable":"C-EGT","harness":"ENG","internal":false,"drain":false,"note":"Conducteur K+ (jaune en norme ANSI, vert en IEC)","net":"N040","route_m":1.75,"length_m":1.95,"path":["ECU~EB","EB~T0","T0~EXH","EXH~TURBO","TURBO~N_EGT"]},{"id":"WBO-08","from":"CMC2.D1","to":"EGT1.-","sheet":"WBO","mm2":0.5,"color":"RD","cable":"C-EGT","harness":"ENG","internal":false,"drain":false,"note":"Conducteur K− (rouge en norme ANSI, blanc en IEC)","net":"N041","route_m":1.75,"length_m":1.95,"path":["ECU~EB","EB~T0","T0~EXH","EXH~TURBO","TURBO~N_EGT"]},{"id":"KNK-01","from":"CMC2.E2","to":"KS1.1","sheet":"KNK","mm2":0.5,"color":"WH","cable":"C-KS1","harness":"ENG","internal":false,"drain":false,"note":"","net":"N043","route_m":2.064,"length_m":2.25,"path":["ECU~EB","EB~T0","T0~T1","T1~INT6","INT6~INT5","INT5~INT4","INT4~INT3","INT3~INT2","INT2~N_KS1"]},{"id":"KNK-02","from":"SPL-KGND","to":"KS1.2","sheet":"KNK","mm2":0.5,"color":"BN","cable":"C-KS1","harness":"ENG","internal":false,"drain":false,"note":"","net":"N042","route_m":2.064,"length_m":2.25,"path":["ECU~EB","EB~T0","T0~T1","T1~INT6","INT6~INT5","INT5~INT4","INT4~INT3","INT3~INT2","INT2~N_KS1"]},{"id":"KNK-03","from":"CMC2.E3","to":"KS2.1","sheet":"KNK","mm2":0.5,"color":"WH","cable":"C-KS2","harness":"ENG","internal":false,"drain":false,"note":"","net":"N044","route_m":1.791,"length_m":2.0,"path":["ECU~EB","EB~T0","T0~T1","T1~INT6","INT6~INT5","INT5~N_KS2"]},{"id":"KNK-04","from":"SPL-KGND","to":"KS2.2","sheet":"KNK","mm2":0.5,"color":"BN","cable":"C-KS2","harness":"ENG","internal":false,"drain":false,"note":"","net":"N042","route_m":1.791,"length_m":2.0,"path":["ECU~EB","EB~T0","T0~T1","T1~INT6","INT6~INT5","INT5~N_KS2"]},{"id":"KNK-05","from":"CMC2.E1","to":"SPL-KGND","sheet":"KNK","mm2":0.5,"color":"BN","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N042","route_m":0.0,"length_m":0.2,"path":[]},{"id":"SH-05","from":"C-KS1.SH","to":"SPL-SHLD","sheet":"KNK","mm2":null,"color":null,"cable":null,"harness":"ENG","internal":false,"drain":true,"note":"","net":"N015","length_m":0,"path":[]},{"id":"SH-06","from":"C-KS2.SH","to":"SPL-SHLD","sheet":"KNK","mm2":null,"color":null,"cable":null,"harness":"ENG","internal":false,"drain":true,"note":"","net":"N015","length_m":0,"path":[]},{"id":"ACT-01","from":"CMC1.B4","to":"MAC.2","sheet":"ACT","mm2":0.75,"color":"GN","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"GPO1 = boost (préconisation MaxxECU M50)","net":"N007","route_m":2.505,"length_m":2.7,"path":["ECU~EB","EB~T0","T0~T1","T1~INT6","INT6~INT5","INT5~INT4","INT4~INT3","INT3~INT2","INT2~INT1","INT1~N_TB","N_TB~N_MAC"]},{"id":"ACT-02","from":"CMC1.D4","to":"VANOS.2","sheet":"ACT","mm2":0.75,"color":"GN","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"GPO3 — voir contrôle de courant (alternative INJ7 / L2)","net":"N012","route_m":2.105,"length_m":2.3,"path":["ECU~EB","EB~T0","T0~T1","T1~TOP6","TOP6~TOP5","TOP5~TOP4","TOP4~TOP3","TOP3~TOP2","TOP2~TOP1","TOP1~FRONT","FRONT~N_VANOS"]},{"id":"ACT-03","from":"F5.2","to":"SPL-ACT12","sheet":"ACT","mm2":1.0,"color":"RD/WH","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N055","fuse":"F5","route_m":2.005,"length_m":2.2,"path":["PDM~EB","EB~T0","T0~T1","T1~TOP6","TOP6~TOP5","TOP5~TOP4","TOP4~TOP3","TOP3~TOP2","TOP2~TOP1","TOP1~FRONT"]},{"id":"ACT-04","from":"SPL-ACT12","to":"MAC.1","sheet":"ACT","mm2":0.75,"color":"RD/WH","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N055","fuse":"F5","route_m":2.11,"length_m":2.3,"path":["TOP1~FRONT","TOP2~TOP1","TOP3~TOP2","TOP4~TOP3","TOP5~TOP4","TOP6~TOP5","T1~TOP6","T1~INT6","INT6~INT5","INT5~INT4","INT4~INT3","INT3~INT2","INT2~INT1","INT1~N_TB","N_TB~N_MAC"]},{"id":"ACT-05","from":"SPL-ACT12","to":"VANOS.1","sheet":"ACT","mm2":0.75,"color":"RD/WH","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N055","fuse":"F5","route_m":0.1,"length_m":0.3,"path":["FRONT~N_VANOS"]},{"id":"RLY-01","from":"CMC1.C4","to":"K2.85","sheet":"RLY","mm2":0.5,"color":"GN","cable":null,"harness":"PDM","internal":false,"drain":false,"note":"GPO2 = pompe","net":"N010","route_m":0.4,"length_m":0.6,"path":["ECU~EB","PDM~EB"]},{"id":"RLY-02","from":"CMC1.B1","to":"K3.85","sheet":"RLY","mm2":0.5,"color":"GN","cable":null,"harness":"PDM","internal":false,"drain":false,"note":"GPO6 = ventilateur","net":"N004","route_m":0.4,"length_m":0.6,"path":["ECU~EB","PDM~EB"]},{"id":"RLY-03","from":"F7.2","to":"SPL-RLY","sheet":"RLY","mm2":0.5,"color":"RD/WH","cable":null,"harness":"PDM","internal":false,"drain":false,"note":"","net":"N065","fuse":"F7","route_m":0.0,"length_m":0.2,"path":[]},{"id":"RLY-04","from":"SPL-RLY","to":"K2.86","sheet":"RLY","mm2":0.5,"color":"RD/WH","cable":null,"harness":"PDM","internal":false,"drain":false,"note":"","net":"N065","fuse":"F7","route_m":0.0,"length_m":0.2,"path":[]},{"id":"RLY-05","from":"SPL-RLY","to":"K3.86","sheet":"RLY","mm2":0.5,"color":"RD/WH","cable":null,"harness":"PDM","internal":false,"drain":false,"note":"","net":"N065","fuse":"F7","route_m":0.0,"length_m":0.2,"path":[]},{"id":"RLY-06","from":"F8.2","to":"K2.30","sheet":"RLY","mm2":2.5,"color":"RD","cable":null,"harness":"PDM","internal":false,"drain":false,"note":"","net":"N066","fuse":"F8","route_m":0.0,"length_m":0.2,"path":[]},{"id":"RLY-07","from":"F9.2","to":"K3.30","sheet":"RLY","mm2":4.0,"color":"RD","cable":null,"harness":"PDM","internal":false,"drain":false,"note":"","net":"N067","fuse":"F9","route_m":0.0,"length_m":0.2,"path":[]},{"id":"RLY-08","from":"K2.87","to":"PUMP.+","sheet":"RLY","mm2":2.5,"color":"RD/YE","cable":null,"harness":"CHS","internal":false,"drain":false,"note":"","net":"N056","fuse":"F8","route_m":3.5,"length_m":3.7,"path":["PDM~N_PUMP"]},{"id":"RLY-09","from":"PUMP.-","to":"GP-CH-AR","sheet":"RLY","mm2":2.5,"color":"BK","cable":null,"harness":"CHS","internal":false,"drain":false,"note":"","net":"N057","route_m":0.0,"length_m":0.2,"path":[]},{"id":"RLY-10","from":"K3.87","to":"FAN.+","sheet":"RLY","mm2":4.0,"color":"RD/BU","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N058","fuse":"F9","route_m":2.705,"length_m":2.9,"path":["PDM~EB","EB~T0","T0~T1","T1~TOP6","TOP6~TOP5","TOP5~TOP4","TOP4~TOP3","TOP3~TOP2","TOP2~TOP1","TOP1~FRONT","FRONT~N_FAN"]},{"id":"RLY-11","from":"FAN.-","to":"GP-CH-AV","sheet":"RLY","mm2":4.0,"color":"BK","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"","net":"N059","route_m":0.0,"length_m":0.2,"path":[]},{"id":"COM-01","from":"CMC1.A4","to":"XINT.8","sheet":"COM","mm2":0.5,"color":"GN/WH","cable":null,"harness":"ENG","internal":false,"drain":false,"note":"GPO8 = compte-tours","net":"N003","route_m":0.7,"length_m":0.9,"path":["ECU~EB","EB~T0","T0~XINT"]},{"id":"COM-02","from":"XINT.8","to":"CLUSTER.TD","sheet":"COM","mm2":0.5,"color":"GN/WH","cable":null,"harness":"CAB","internal":false,"drain":false,"note":"","net":"N003","route_m":1.3,"length_m":1.5,"path":["XINT~CAB_CLUSTER"]},{"id":"COM-03","from":"CMC1.E1","to":"XINT.9","sheet":"COM","mm2":0.5,"color":"YE/BK","cable":"C-CAN","harness":"ENG","internal":false,"drain":false,"note":"","net":"N013","route_m":0.7,"length_m":0.9,"path":["ECU~EB","EB~T0","T0~XINT"]},{"id":"COM-04","from":"CMC1.E2","to":"XINT.10","sheet":"COM","mm2":0.5,"color":"GN/BK","cable":"C-CAN","harness":"ENG","internal":false,"drain":false,"note":"","net":"N014","route_m":0.7,"length_m":0.9,"path":["ECU~EB","EB~T0","T0~XINT"]},{"id":"COM-05","from":"XINT.9","to":"CANDEV.H","sheet":"COM","mm2":0.5,"color":"YE/BK","cable":null,"harness":"CAB","internal":false,"drain":false,"note":"","net":"N013","route_m":1.6,"length_m":1.8,"path":["XINT~CAB_CLUSTER","CAB_CLUSTER~CAB_DASH"]},{"id":"COM-06","from":"XINT.10","to":"CANDEV.L","sheet":"COM","mm2":0.5,"color":"GN/BK","cable":null,"harness":"CAB","internal":false,"drain":false,"note":"","net":"N014","route_m":1.6,"length_m":1.8,"path":["XINT~CAB_CLUSTER","CAB_CLUSTER~CAB_DASH"]}],"nets":[{"id":"N055","members":["F5.2","MAC.1","SPL-ACT12","VANOS.1"],"name":"+12 V actionneurs"},{"id":"N053","members":["COIL1.1","COIL2.1","COIL3.1","COIL4.1","COIL5.1","COIL6.1","F2.2","SPL-COIL12"],"name":"+12 V bobines"},{"id":"N065","members":["F7.2","K2.86","K3.86","SPL-RLY"],"name":"+12 V bobines relais"},{"id":"N052","members":["F3.2","INJ1.1","INJ2.1","INJ3.1","INJ4.1","INJ5.1","INJ6.1","SPL-INJ12"],"name":"+12 V injecteurs"},{"id":"N061","members":["BATT.+","F0.1"],"name":"BATT.+"},{"id":"N064","members":["BUS87","F1.1","F2.1","F3.1","F4.1","F5.1","F6.1","F7.1","K1.87"],"name":"Barrette +12 V commuté (relais principal)"},{"id":"N062","members":["BUS30","F0.2","F8.1","F9.1","F10.1"],"name":"Barrette +12 V permanent"},{"id":"N001","members":["CMC1.A2","COIL1.3"],"name":"CMC1.A2 IGNITION CYL 1"},{"id":"N002","members":["CMC1.A3","COIL2.3"],"name":"CMC1.A3 IGNITION CYL 2"},{"id":"N003","members":["CLUSTER.TD","CMC1.A4","XINT.8"],"name":"CMC1.A4 TACH / GP OUT 8"},{"id":"N004","members":["CMC1.B1","K3.85"],"name":"CMC1.B1 GP OUT 6"},{"id":"N005","members":["CMC1.B2","COIL3.3"],"name":"CMC1.B2 IGNITION CYL 3"},{"id":"N006","members":["CMC1.B3","COIL4.3"],"name":"CMC1.B3 IGNITION CYL 4"},{"id":"N007","members":["CMC1.B4","MAC.2"],"name":"CMC1.B4 GP OUT 1"},{"id":"N008","members":["CMC1.C2","COIL5.3"],"name":"CMC1.C2 IGNITION CYL 5"},{"id":"N009","members":["CMC1.C3","COIL6.3"],"name":"CMC1.C3 IGNITION CYL 6"},{"id":"N010","members":["CMC1.C4","K2.85"],"name":"CMC1.C4 GP OUT 2"},{"id":"N011","members":["CMC1.D1","LSU.3"],"name":"CMC1.D1 WBO2 HTR (pin 3 LSU 4.9) / GP OUT 9"},{"id":"N012","members":["CMC1.D4","VANOS.2"],"name":"CMC1.D4 GP OUT 3"},{"id":"N013","members":["CANDEV.H","CMC1.E1","XINT.9"],"name":"CMC1.E1 CAN H (120 Ω intégrée)"},{"id":"N014","members":["CANDEV.L","CMC1.E2","XINT.10"],"name":"CMC1.E2 CAN L"},{"id":"N015","members":["C-CAM.SH","C-CRANK.SH","C-KS1.SH","C-KS2.SH","C-LSU.SH","CAM.3","CMC1.E3","SPL-SHLD"],"name":"CMC1.E3 SHIELD GND"},{"id":"N016","members":["CLT.1","CMC1.F1"],"name":"CMC1.F1 COOLANT SENSOR (CLT)"},{"id":"N017","members":["CMC1.F2","IAT.1"],"name":"CMC1.F2 AIR TEMP SENSOR (IAT)"},{"id":"N018","members":["CMC1.F3","LSU.2"],"name":"CMC1.F3 WBO2 COM"},{"id":"N019","members":["CMC1.F4","LSU.6"],"name":"CMC1.F4 WBO2 VS / O2 IN"},{"id":"N020","members":["APP.3","APP.5","CMC1.G1","ETB.2","FUEL.3","OIL.3","SPL-5V-ENG","SPL-5V-MAIN","XINT.4","XINT.6"],"name":"CMC1.G1 +5 V SENSOR SUPPLY"},{"id":"N021","members":["CMC1.G2","ETB.1"],"name":"CMC1.G2 THROTTLE SENSOR (TPS)"},{"id":"N022","members":["CMC1.G3","LSU.1"],"name":"CMC1.G3 WBO2 IP"},{"id":"N023","members":["CMC1.G4","LSU.5"],"name":"CMC1.G4 WBO2 RCAL"},{"id":"N024","members":["APP.1","APP.2","CLT.2","CMC1.H1","ETB.6","FUEL.4","IAT.2","OIL.4","SPL-SG-ENG","SPL-SG-MAIN","XINT.2","XINT.3"],"name":"CMC1.H1 SENSOR GND"},{"id":"N025","members":["CAM.2","CMC1.H2","CRANK.3","SPL-VRG"],"name":"CMC1.H2 VR GND"},{"id":"N026","members":["CMC1.H3","CRANK.2"],"name":"CMC1.H3 TRIGGER"},{"id":"N027","members":["CAM.1","CMC1.H4"],"name":"CMC1.H4 HOME / CAM"},{"id":"N028","members":["CMC1.J1","OIL.5"],"name":"CMC1.J1 ANALOG IN 1 (TEMP)"},{"id":"N029","members":["CMC1.J2","FUEL.5"],"name":"CMC1.J2 ANALOG IN 2 (TEMP)"},{"id":"N030","members":["CMC1.J3","ETB.4"],"name":"CMC1.J3 ANALOG IN 3 (0-5 V)"},{"id":"N031","members":["APP.4","CMC1.J4","XINT.5"],"name":"CMC1.J4 ANALOG IN 4 (0-5 V)"},{"id":"N032","members":["CMC1.K1","INJ1.2"],"name":"CMC1.K1 INJECTOR CYL 1"},{"id":"N033","members":["CMC1.K2","INJ2.2"],"name":"CMC1.K2 INJECTOR CYL 2"},{"id":"N034","members":["CMC1.L3","INJ6.2"],"name":"CMC1.L3 INJECTOR CYL 6"},{"id":"N035","members":["CMC1.L4","CMC2.G4","GP-HEAD"],"name":"CMC1.L4 ENGINE GROUND"},{"id":"N036","members":["CMC1.M1","INJ3.2"],"name":"CMC1.M1 INJECTOR CYL 3"},{"id":"N037","members":["CMC1.M2","INJ4.2"],"name":"CMC1.M2 INJECTOR CYL 4"},{"id":"N038","members":["CMC1.M3","INJ5.2"],"name":"CMC1.M3 INJECTOR CYL 5"},{"id":"N039","members":["CMC1.M4","F1.2"],"name":"CMC1.M4 +12 V ECU"},{"id":"N040","members":["CMC2.C1","EGT1.+"],"name":"CMC2.C1 EGT1+"},{"id":"N041","members":["CMC2.D1","EGT1.-"],"name":"CMC2.D1 EGT1-"},{"id":"N042","members":["CMC2.E1","KS1.2","KS2.2","SPL-KGND"],"name":"CMC2.E1 KNOCK GND"},{"id":"N043","members":["CMC2.E2","KS1.1"],"name":"CMC2.E2 KNOCK 1"},{"id":"N044","members":["CMC2.E3","KS2.1"],"name":"CMC2.E3 KNOCK 2"},{"id":"N045","members":["CMC2.E4","OIL.2"],"name":"CMC2.E4 ANALOG IN 6 (0-5 V)"},{"id":"N046","members":["CMC2.F1","FUEL.2"],"name":"CMC2.F1 ANALOG IN 7 (0-5 V)"},{"id":"N047","members":["APP.6","CMC2.G3","XINT.7"],"name":"CMC2.G3 ANALOG IN 5 (0-5 V)"},{"id":"N048","members":["CMC2.H2","ETB.5"],"name":"CMC2.H2 MOTOR 1- / GPO 11"},{"id":"N049","members":["CMC2.H4","ETB.3"],"name":"CMC2.H4 MOTOR 1+ / GPO 12"},{"id":"N060","members":["K1.86","KEY.15","XINT.1"],"name":"K1.86 Bobine +"},{"id":"N056","members":["K2.87","PUMP.+"],"name":"K2.87 Contact — sortie"},{"id":"N058","members":["FAN.+","K3.87"],"name":"K3.87 Contact — sortie"},{"id":"N068","members":["GP-CH","K1.85"],"name":"Masse caisse E-box"},{"id":"N057","members":["GP-CH-AR","PUMP.-"],"name":"Masse caisse arrière (pompe)"},{"id":"N059","members":["FAN.-","GP-CH-AV"],"name":"Masse caisse avant (ventilateur)"},{"id":"N054","members":["COIL1.2","COIL1.4","COIL2.2","COIL2.4","COIL3.2","COIL3.4","COIL4.2","COIL4.4","COIL5.2","COIL5.4","COIL6.2","COIL6.4","GP-COIL","SPL-COIL-PGND","SPL-COIL-SGND"],"name":"Masse puissance bobines (broches 4)"},{"id":"N051","members":["F4.2","LSU.4"],"name":"Sortie F4"},{"id":"N050","members":["CRANK.1","F6.2"],"name":"Sortie F6"},{"id":"N066","members":["F8.2","K2.30"],"name":"Sortie F8"},{"id":"N067","members":["F9.2","K3.30"],"name":"Sortie F9"},{"id":"N063","members":["F10.2","K1.30"],"name":"Sortie F10"}],"cables":[{"id":"C-CRANK","label":"Capteur PMH","type":"3 × 0,5 mm² torsadé blindé","od_mm":5.0,"length_m":2.65,"cores":["SYNC-01","SYNC-02","SYNC-03"],"path":["EB~T0","ECU~EB","FRONT~N_CRANK","PDM~EB","T0~T1","T1~TOP6","TOP1~FRONT","TOP2~TOP1","TOP3~TOP2","TOP4~TOP3","TOP5~TOP4","TOP6~TOP5"],"shield":true},{"id":"C-CAM","label":"Capteur AAC","type":"2 × 0,5 mm² torsadé blindé","od_mm":4.5,"length_m":2.3,"cores":["SYNC-04","SYNC-05"],"path":["EB~T0","ECU~EB","FRONT~N_CAM","T0~T1","T1~TOP6","TOP1~FRONT","TOP2~TOP1","TOP3~TOP2","TOP4~TOP3","TOP5~TOP4","TOP6~TOP5"],"shield":true},{"id":"C-KS1","label":"Cliquetis 1","type":"2 × 0,5 mm² torsadé blindé","od_mm":4.5,"length_m":2.25,"cores":["KNK-01","KNK-02"],"path":["EB~T0","ECU~EB","INT2~N_KS1","INT3~INT2","INT4~INT3","INT5~INT4","INT6~INT5","T0~T1","T1~INT6"],"shield":true},{"id":"C-KS2","label":"Cliquetis 2","type":"2 × 0,5 mm² torsadé blindé","od_mm":4.5,"length_m":2.0,"cores":["KNK-03","KNK-04"],"path":["EB~T0","ECU~EB","INT5~N_KS2","INT6~INT5","T0~T1","T1~INT6"],"shield":true},{"id":"C-LSU","label":"Lambda signaux","type":"4 × 0,5 mm² blindé","od_mm":5.5,"length_m":2.3,"cores":["WBO-01","WBO-02","WBO-03","WBO-04"],"path":["EB~T0","ECU~EB","EXH~TURBO","T0~EXH","TURBO~N_LSU"],"shield":true},{"id":"C-EGT","label":"EGT","type":"Câble d'extension thermocouple type K (2 × 0,5)","od_mm":4.0,"length_m":1.95,"cores":["WBO-07","WBO-08"],"path":["EB~T0","ECU~EB","EXH~TURBO","T0~EXH","TURBO~N_EGT"],"shield":false},{"id":"C-ETBM","label":"Moteur papillon","type":"2 × 1,0 mm² torsadé","od_mm":4.4,"length_m":2.35,"cores":["DBW-05","DBW-06"],"path":["EB~T0","ECU~EB","INT1~N_TB","INT2~INT1","INT3~INT2","INT4~INT3","INT5~INT4","INT6~INT5","T0~T1","T1~INT6"],"shield":false},{"id":"C-CAN","label":"CAN","type":"2 × 0,5 mm² torsadé (paire CAN)","od_mm":3.4,"length_m":0.9,"cores":["COM-03","COM-04"],"path":["EB~T0","ECU~EB","T0~XINT"],"shield":false}],"topology":{"root":"ECU","estimated":true,"nodes":{"ECU":"ECU (E-box)","PDM":"Boîte fusibles/relais (E-box)","EB":"Sortie E-box","BPLUS":"Borne B+ / fusible général","T0":"Passe-fil tablier","XINT":"Connecteur de cloison","CAB_PEDAL":"Pédale","CAB_CLUSTER":"Combiné","CAB_DASH":"Afficheur CAN","CAB_KEY":"Contact clé","T1":"Arrière culasse (dérivation)","GND_HEAD":"Goujons de masse culasse","TOP6":"Bobine 6","TOP5":"Bobine 5","TOP4":"Bobine 4","TOP3":"Bobine 3","TOP2":"Bobine 2","TOP1":"Bobine 1","FRONT":"Avant culasse","N_VANOS":"VANOS","N_CAM":"Capteur AAC","N_CLT":"Temp. eau","N_CRANK":"Capteur PMH","N_FAN":"Ventilateur","INT6":"Injecteur 6","INT5":"Injecteur 5","INT4":"Injecteur 4","INT3":"Injecteur 3","INT2":"Injecteur 2","INT1":"Injecteur 1","N_TB":"Papillon","N_IAT":"Temp. air","N_MAC":"MAC valve","N_KS1":"Cliquetis 1","N_KS2":"Cliquetis 2","N_OIL":"Huile P/T","N_FUEL":"Essence P/T","EXH":"Côté échappement","TURBO":"Turbo","N_EGT":"Sonde EGT","N_LSU":"Sonde lambda","N_PUMP":"Pompe à essence"},"segments":[{"id":"ECU~EB","a":"ECU","b":"EB","length":0.2,"wires":55,"bundle_mm":19.1,"sleeve":"DR-25 25.4/12.7 mm"},{"id":"PDM~EB","a":"PDM","b":"EB","length":0.2,"wires":10,"bundle_mm":9.8,"sleeve":"DR-25 12.7/6.4 mm"},{"id":"BPLUS~PDM","a":"BPLUS","b":"PDM","length":0.5,"wires":1,"bundle_mm":5.6,"sleeve":"DR-25 9.5/4.8 mm"},{"id":"EB~T0","a":"EB","b":"T0","length":0.3,"wires":59,"bundle_mm":20.1,"sleeve":"DR-25 25.4/12.7 mm"},{"id":"T0~XINT","a":"T0","b":"XINT","length":0.2,"wires":10,"bundle_mm":6.5,"sleeve":"DR-25 9.5/4.8 mm"},{"id":"XINT~CAB_PEDAL","a":"XINT","b":"CAB_PEDAL","length":0.9,"wires":6,"bundle_mm":4.5,"sleeve":"DR-25 6.4/3.2 mm"},{"id":"XINT~CAB_KEY","a":"XINT","b":"CAB_KEY","length":0.8,"wires":1,"bundle_mm":1.6,"sleeve":"DR-25 3.2/1.6 mm"},{"id":"XINT~CAB_CLUSTER","a":"XINT","b":"CAB_CLUSTER","length":1.3,"wires":3,"bundle_mm":3.2,"sleeve":"DR-25 4.8/2.4 mm"},{"id":"CAB_CLUSTER~CAB_DASH","a":"CAB_CLUSTER","b":"CAB_DASH","length":0.3,"wires":2,"bundle_mm":2.6,"sleeve":"DR-25 3.2/1.6 mm"},{"id":"T0~T1","a":"T0","b":"T1","length":0.7,"wires":41,"bundle_mm":17.0,"sleeve":"DR-25 25.4/12.7 mm"},{"id":"T1~GND_HEAD","a":"T1","b":"GND_HEAD","length":0.05,"wires":4,"bundle_mm":5.9,"sleeve":"DR-25 9.5/4.8 mm"},{"id":"T1~TOP6","a":"T1","b":"TOP6","length":0.15,"wires":20,"bundle_mm":12.3,"sleeve":"DR-25 19.1/9.5 mm"},{"id":"TOP6~TOP5","a":"TOP6","b":"TOP5","length":0.091,"wires":22,"bundle_mm":12.8,"sleeve":"DR-25 19.1/9.5 mm"},{"id":"TOP5~TOP4","a":"TOP5","b":"TOP4","length":0.091,"wires":24,"bundle_mm":13.3,"sleeve":"DR-25 19.1/9.5 mm"},{"id":"TOP4~TOP3","a":"TOP4","b":"TOP3","length":0.091,"wires":23,"bundle_mm":12.6,"sleeve":"DR-25 19.1/9.5 mm"},{"id":"TOP3~TOP2","a":"TOP3","b":"TOP2","length":0.091,"wires":19,"bundle_mm":11.8,"sleeve":"DR-25 19.1/9.5 mm"},{"id":"TOP2~TOP1","a":"TOP2","b":"TOP1","length":0.091,"wires":15,"bundle_mm":11.0,"sleeve":"DR-25 19.1/9.5 mm"},{"id":"TOP1~FRONT","a":"TOP1","b":"FRONT","length":0.2,"wires":11,"bundle_mm":10.0,"sleeve":"DR-25 12.7/6.4 mm"},{"id":"FRONT~N_VANOS","a":"FRONT","b":"N_VANOS","length":0.1,"wires":2,"bundle_mm":3.1,"sleeve":"DR-25 4.8/2.4 mm"},{"id":"FRONT~N_CAM","a":"FRONT","b":"N_CAM","length":0.12,"wires":2,"bundle_mm":4.5,"sleeve":"DR-25 6.4/3.2 mm"},{"id":"FRONT~N_CLT","a":"FRONT","b":"N_CLT","length":0.15,"wires":2,"bundle_mm":2.6,"sleeve":"DR-25 3.2/1.6 mm"},{"id":"FRONT~N_CRANK","a":"FRONT","b":"N_CRANK","length":0.45,"wires":3,"bundle_mm":5.0,"sleeve":"DR-25 6.4/3.2 mm"},{"id":"FRONT~N_FAN","a":"FRONT","b":"N_FAN","length":0.7,"wires":1,"bundle_mm":3.7,"sleeve":"DR-25 4.8/2.4 mm"},{"id":"T1~INT6","a":"T1","b":"INT6","length":0.25,"wires":29,"bundle_mm":13.1,"sleeve":"DR-25 19.1/9.5 mm"},{"id":"INT6~INT5","a":"INT6","b":"INT5","length":0.091,"wires":25,"bundle_mm":12.5,"sleeve":"DR-25 19.1/9.5 mm"},{"id":"INT5~INT4","a":"INT5","b":"INT4","length":0.091,"wires":23,"bundle_mm":11.4,"sleeve":"DR-25 19.1/9.5 mm"},{"id":"INT4~INT3","a":"INT4","b":"INT3","length":0.091,"wires":22,"bundle_mm":11.2,"sleeve":"DR-25 19.1/9.5 mm"},{"id":"INT3~INT2","a":"INT3","b":"INT2","length":0.091,"wires":16,"bundle_mm":10.1,"sleeve":"DR-25 12.7/6.4 mm"},{"id":"INT2~INT1","a":"INT2","b":"INT1","length":0.091,"wires":12,"bundle_mm":8.1,"sleeve":"DR-25 12.7/6.4 mm"},{"id":"INT1~N_TB","a":"INT1","b":"N_TB","length":0.25,"wires":10,"bundle_mm":7.4,"sleeve":"DR-25 9.5/4.8 mm"},{"id":"N_TB~N_IAT","a":"N_TB","b":"N_IAT","length":0.2,"wires":2,"bundle_mm":2.6,"sleeve":"DR-25 3.2/1.6 mm"},{"id":"N_TB~N_MAC","a":"N_TB","b":"N_MAC","length":0.35,"wires":2,"bundle_mm":3.1,"sleeve":"DR-25 4.8/2.4 mm"},{"id":"INT2~N_KS1","a":"INT2","b":"N_KS1","length":0.25,"wires":2,"bundle_mm":4.5,"sleeve":"DR-25 6.4/3.2 mm"},{"id":"INT5~N_KS2","a":"INT5","b":"N_KS2","length":0.25,"wires":2,"bundle_mm":4.5,"sleeve":"DR-25 6.4/3.2 mm"},{"id":"INT3~N_OIL","a":"INT3","b":"N_OIL","length":0.4,"wires":4,"bundle_mm":3.7,"sleeve":"DR-25 4.8/2.4 mm"},{"id":"INT6~N_FUEL","a":"INT6","b":"N_FUEL","length":0.2,"wires":4,"bundle_mm":3.7,"sleeve":"DR-25 4.8/2.4 mm"},{"id":"T0~EXH","a":"T0","b":"EXH","length":0.6,"wires":8,"bundle_mm":8.5,"sleeve":"DR-25 12.7/6.4 mm"},{"id":"EXH~TURBO","a":"EXH","b":"TURBO","length":0.4,"wires":8,"bundle_mm":8.5,"sleeve":"DR-25 12.7/6.4 mm"},{"id":"TURBO~N_EGT","a":"TURBO","b":"N_EGT","length":0.25,"wires":2,"bundle_mm":4.0,"sleeve":"DR-25 4.8/2.4 mm"},{"id":"TURBO~N_LSU","a":"TURBO","b":"N_LSU","length":0.6,"wires":6,"bundle_mm":7.2,"sleeve":"DR-25 9.5/4.8 mm"},{"id":"PDM~N_PUMP","a":"PDM","b":"N_PUMP","length":3.5,"wires":1,"bundle_mm":3.0,"sleeve":"DR-25 4.8/2.4 mm"}]},"fuses":[{"id":"F0","label":"Fusible général","rating":80,"min_mm2":10.0,"load":55.13,"ratio":0.69,"status":"ok","loads":[{"id":"F8","a":15.0},{"id":"F9","a":20.0},{"id":"F10","a":20.13}]},{"id":"F1","label":"Fusible ECU","rating":15,"min_mm2":1.0,"load":1.5,"ratio":0.1,"status":"ok","loads":[{"id":"ECU","a":1.5}]},{"id":"F2","label":"Fusible bobines","rating":15,"min_mm2":1.0,"load":6.0,"ratio":0.4,"status":"ok","loads":[{"id":"COIL1","a":1.0},{"id":"COIL2","a":1.0},{"id":"COIL3","a":1.0},{"id":"COIL4","a":1.0},{"id":"COIL5","a":1.0},{"id":"COIL6","a":1.0}]},{"id":"F3","label":"Fusible injecteurs","rating":10,"min_mm2":0.75,"load":6.0,"ratio":0.6,"status":"ok","loads":[{"id":"INJ1","a":1.0},{"id":"INJ2","a":1.0},{"id":"INJ3","a":1.0},{"id":"INJ4","a":1.0},{"id":"INJ5","a":1.0},{"id":"INJ6","a":1.0}]},{"id":"F4","label":"Fusible chauffage lambda","rating":10,"min_mm2":0.75,"load":1.5,"ratio":0.15,"status":"ok","loads":[{"id":"LSU","a":1.5}]},{"id":"F5","label":"Fusible actionneurs (VANOS, MAC)","rating":10,"min_mm2":0.75,"load":4.81,"ratio":0.48,"status":"ok","loads":[{"id":"MAC","a":0.45},{"id":"VANOS","a":4.36}]},{"id":"F6","label":"Fusible capteur PMH","rating":5,"min_mm2":0.35,"load":0.02,"ratio":0.0,"status":"ok","loads":[{"id":"CRANK","a":0.02}]},{"id":"F7","label":"Fusible bobines de relais","rating":5,"min_mm2":0.35,"load":0.3,"ratio":0.06,"status":"ok","loads":[{"id":"K2","a":0.15},{"id":"K3","a":0.15}]},{"id":"F8","label":"Fusible pompe à essence","rating":20,"min_mm2":1.5,"load":15.0,"ratio":0.75,"status":"ok","loads":[{"id":"PUMP","a":15}]},{"id":"F9","label":"Fusible ventilateur","rating":30,"min_mm2":2.5,"load":20.0,"ratio":0.67,"status":"ok","loads":[{"id":"FAN","a":20}]},{"id":"F10","label":"Fusible relais principal","rating":30,"min_mm2":2.5,"load":20.13,"ratio":0.67,"status":"ok","loads":[{"id":"F1","a":1.5},{"id":"F2","a":6.0},{"id":"F3","a":6.0},{"id":"F4","a":1.5},{"id":"F5","a":4.81},{"id":"F6","a":0.02},{"id":"F7","a":0.3}]}],"outputs":[{"pin":"CMC1.A2","fn":"IGNITION CYL 1","loads":["COIL1"],"max_a":null,"a_min":1.0,"a_max":1.0,"status":"ok"},{"pin":"CMC1.A3","fn":"IGNITION CYL 2","loads":["COIL2"],"max_a":null,"a_min":1.0,"a_max":1.0,"status":"ok"},{"pin":"CMC1.A4","fn":"TACH / GP OUT 8","loads":["CLUSTER"],"max_a":2,"a_min":0.0,"a_max":0.0,"status":"ok"},{"pin":"CMC1.B1","fn":"GP OUT 6","loads":["K3"],"max_a":2,"a_min":0.15,"a_max":0.15,"status":"ok"},{"pin":"CMC1.B2","fn":"IGNITION CYL 3","loads":["COIL3"],"max_a":null,"a_min":1.0,"a_max":1.0,"status":"ok"},{"pin":"CMC1.B3","fn":"IGNITION CYL 4","loads":["COIL4"],"max_a":null,"a_min":1.0,"a_max":1.0,"status":"ok"},{"pin":"CMC1.B4","fn":"GP OUT 1","loads":["MAC"],"max_a":2,"a_min":0.45,"a_max":0.45,"status":"ok"},{"pin":"CMC1.C2","fn":"IGNITION CYL 5","loads":["COIL5"],"max_a":null,"a_min":1.0,"a_max":1.0,"status":"ok"},{"pin":"CMC1.C3","fn":"IGNITION CYL 6","loads":["COIL6"],"max_a":null,"a_min":1.0,"a_max":1.0,"status":"ok"},{"pin":"CMC1.C4","fn":"GP OUT 2","loads":["K2"],"max_a":2,"a_min":0.15,"a_max":0.15,"status":"ok"},{"pin":"CMC1.D1","fn":"WBO2 HTR (pin 3 LSU 4.9) / GP OUT 9","loads":["LSU"],"max_a":5,"a_min":1.5,"a_max":1.5,"status":"ok"},{"pin":"CMC1.D4","fn":"GP OUT 3","loads":["VANOS"],"max_a":2,"a_min":1.2,"a_max":4.36,"status":"warn"},{"pin":"CMC1.K1","fn":"INJECTOR CYL 1","loads":["INJ1"],"max_a":8,"a_min":1.0,"a_max":1.0,"status":"ok"},{"pin":"CMC1.K2","fn":"INJECTOR CYL 2","loads":["INJ2"],"max_a":8,"a_min":1.0,"a_max":1.0,"status":"ok"},{"pin":"CMC1.L3","fn":"INJECTOR CYL 6","loads":["INJ6"],"max_a":8,"a_min":1.0,"a_max":1.0,"status":"ok"},{"pin":"CMC1.M1","fn":"INJECTOR CYL 3","loads":["INJ3"],"max_a":8,"a_min":1.0,"a_max":1.0,"status":"ok"},{"pin":"CMC1.M2","fn":"INJECTOR CYL 4","loads":["INJ4"],"max_a":8,"a_min":1.0,"a_max":1.0,"status":"ok"},{"pin":"CMC1.M3","fn":"INJECTOR CYL 5","loads":["INJ5"],"max_a":8,"a_min":1.0,"a_max":1.0,"status":"ok"},{"pin":"CMC2.H2","fn":"MOTOR 1- / GPO 11","loads":["ETB"],"max_a":null,"a_min":0.0,"a_max":0.0,"status":"ok"},{"pin":"CMC2.H4","fn":"MOTOR 1+ / GPO 12","loads":["ETB"],"max_a":null,"a_min":0.0,"a_max":0.0,"status":"ok"}],"five_v_ma":45,"audit":[{"sev":"fix","title":"Retour du capteur AAC sur VR GND (CMC1 H2), pas sur Sensor GND (H1)","detail":"Sur le schéma officiel RACE REV9+, le capteur PMH et le capteur AAC (VR ou Hall) ont leur retour sur VR GND (H2) ; les blindages vont sur SHIELD GND (E3). Ton plan mettait la broche 2 de l'AAC sur H1. Les deux retours (PMH broche 3 + AAC broche 2) se rejoignent par l'épissure SPL-VRG au ras du connecteur."},{"sev":"add","title":"Alimentation et masses de l'ECU (absentes du plan)","detail":"CMC1 M4 = +12 V ECU (fusible 15 A après relais principal). CMC1 L4 ET CMC2 G4 = masses moteur, toutes deux au MÊME goujon de culasse (exigence MaxxECU). Relais principal commandé par le +15 clé : la RACE Gen1 n'a pas de sortie de commande de relais principal."},{"sev":"add","title":"Boîte fusibles/relais complète (PDM)","detail":"11 fusibles, 3 relais : chaque circuit a son fusible et chaque fil est protégé par un fusible adapté à sa section (contrôle automatique)."},{"sev":"fix","title":"Section des +12 V bobines : 1,0 mm² et non 0,75","detail":"Le fusible bobines est à 15 A (préconisation MaxxECU). Un fil de 0,75 mm² n'est protégé que jusqu'à 10 A : chaque dérivation bobine passe en 1,0 mm². Masses broche 4 (puissance) en 1,0 mm², broche 2 (électronique) en 0,75 mm²."},{"sev":"warn","title":"VANOS sur GPO3 : limite 2 A","detail":"Les GPO1-8 de la RACE sont donnés à 2 A. La résistance de l'électrovanne M50 varie selon les sources (3,3 à 12 Ω), soit jusqu'à 4,4 A. Mesure-la : ≥ 7,5 Ω → GPO3 OK ; sinon passe la commande sur INJ7 (CMC1 L2, sortie 8 A libre), un seul fil à déplacer."},{"sev":"add","title":"Épissures obligatoires","detail":"Une alvéole CMC ne reçoit qu'un fil. +5 V, Sensor GND, VR GND, Knock GND et Shield GND passent par des épissures dédiées, placées au ras de l'ECU pour les références et sur la branche moteur pour les distributions."},{"sev":"ok","title":"Brochage ECU conforme au schéma officiel RACE REV9+","detail":"IGN1→6 (A2, A3, B2, B3, C2, C3), INJ1→6 (K1, K2, M1, M2, M3, L3), GPO1/2/3/6/8 (B4, C4, D4, B1, A4), lambda (G3, F3, D1, G4, F4), cliquetis (CMC2 E1/E2/E3), EGT1 (CMC2 C1/D1), AIN5-7 (CMC2 G3, E4, F1), moteur papillon (CMC2 H4 + / H2 −) : tout est conforme."},{"sev":"ok","title":"Capteur AAC 12141726590 = bonne solution pour une culasse VANOS","detail":"MaxxECU indique : capteur VANOS d'origine (Hall 12 V) incompatible avec son câblage, solution recommandée = capteur 12141726590 (broche 1 signal, 2 masse, 3 blindage). Aucun +12 V sur ce capteur."},{"sev":"ok","title":"Papillon et pédale : affectation identique au plug-in MaxxECU M54","detail":"MaxxECU câble le M54 avec le papillon sur GPO11/12 (= Motor 1 −/+) et les pistes sur TPS + AIN3/4/5, exactement ton choix. Brochage papillon identique à la VDO 408-242 BMW documentée par MaxxECU."},{"sev":"ok","title":"Capteurs Bosch 0 261 544 01F","detail":"Brochage confirmé : 1 non assignée, 2 pression (0,5–4,5 V = 0–10 bar), 3 +5 V, 4 masse, 5 NTC."},{"sev":"ok","title":"Lambda LSU 4.9 sur contrôleur interne","detail":"Brochage conforme au schéma MaxxECU (vue côté câble) : 1 IP → G3, 2 COM → F3, 3 chauffage − → D1, 4 +12 V, 5 RCAL → G4, 6 VS → F4. Vérifie que ton boîtier est bien REV9 ou plus (étiquette)."},{"sev":"warn","title":"Capteur PMH Hall M52 sur cible 60-2 du M50","detail":"Le M50 d'origine utilise un capteur inductif en face de la cible 60-2 avant. Le capteur M52 (Hall, 12 V) demande un support et un entrefer adaptés. Dans MTune : entrée trigger en mode Hall / digital."},{"sev":"warn","title":"Une seule alimentation +5 V et une seule Sensor GND","detail":"La RACE Gen1 n'a qu'un +5 V (G1) et qu'une Sensor GND (H1) : pédale et papillon les partagent. C'est normal ; un court-circuit sur le +5 V fait passer le papillon en sécurité. Consommation totale estimée ≈ 45 mA."},{"sev":"warn","title":"Taille des alvéoles CMC à vérifier","detail":"Les connecteurs Molex CMC mélangent des alvéoles 0,64 et 1,5. Vérifie la taille de chaque alvéole utilisée en 0,75 mm² et plus (injecteurs, M4, L4, G4) et prends le contact correspondant à la section."},{"sev":"ok","title":"Injecteurs 870 cc","detail":"La RACE a 8 sorties injecteur peak & hold 8 A : haute ou basse impédance acceptées. Mesure la résistance pour régler le type dans MTune."},{"sev":"ok","title":"MAP interne","detail":"Capteur interne MaxxECU RACE : jusqu'à 3 bar de pression de suralimentation. Durite directe depuis le plénum, aucun câblage."}],"mtune":[{"item":"Trigger","value":"60-2 vilebrequin, capteur Hall (digital) sur TRIGGER H3"},{"item":"Home / cam","value":"Capteur inductif (VR) sur HOME H4"},{"item":"Injecteurs","value":"INJ1→6 séquentiel ; type selon résistance mesurée (haute / basse impédance)"},{"item":"Allumage","value":"IGN1→6, bobines à allumeur intégré (sortie active 5 V) ; dwell selon doc bobine"},{"item":"E-throttle","value":"Moteur sur Motor 1 (H4 + / H2 −) ; papillon TPS (G2) + AIN3 (J3) ; pédale AIN4 (J4) + AIN5 (CMC2 G3)"},{"item":"CLT / IAT","value":"Courbes Bosch NTC"},{"item":"AIN1 / AIN2 (temp.)","value":"Température huile / essence, NTC Bosch du 0 261 544 01F"},{"item":"AIN6 / AIN7","value":"Pression huile / essence 0,5–4,5 V = 0–10 bar"},{"item":"Knock","value":"Knock 1 (cyl. 1-2-3) et Knock 2 (cyl. 4-5-6)"},{"item":"Lambda","value":"WBO2 interne, capteur Bosch LSU 4.9 sélectionné AVANT la première mise sous tension sonde montée"},{"item":"EGT","value":"EGT1 type K"},{"item":"GPO1","value":"Boost control (MAC), PWM ~30 Hz"},{"item":"GPO2","value":"Fuel pump (relais K2)"},{"item":"GPO3","value":"VANOS tout-ou-rien (ou INJ7 si résistance < 7,5 Ω)"},{"item":"GPO6","value":"Engine fan (relais K3)"},{"item":"GPO8","value":"Tachometer output"}],"checks":[{"phase":"Au banc, avant sertissage","items":["Papillon : R entre broches 3 et 5 = quelques ohms (moteur) ; sous 5 V (2 +, 6 −), relever les tensions des pistes 1 et 4 fermé / ouvert à la main.","Pédale : 5 V sur 3 et 5, masse sur 1 et 2 ; relever 4 et 6 relâchée / à fond (piste 2 ≈ moitié de la piste 1).","Électrovanne VANOS : mesurer la résistance → GPO3 si ≥ 7,5 Ω, sinon INJ7 (L2).","Injecteurs : mesurer la résistance (≈ 12 Ω haute impédance / ≈ 2–3 Ω basse impédance).","AAC : résistance 1–2 de quelques centaines d'ohms ; continuité broche 3 ↔ corps (décide du raccord du blindage côté capteur).","IAT / CLT / NTC des capteurs huile et essence : ≈ 2–3 kΩ à 20 °C.","Capteur PMH : confirmer alim / signal / masse sur sa doc ou par essai (12 V + pull-up, passage d'une pièce acier).","Bobines : confirmer le repérage 1-2-3-4 moulé sur le connecteur.","Vérifier l'étiquette de la RACE : REV9 ou plus (LSU 4.9)."]},{"phase":"Faisceau terminé, ECU débranchée","items":["Continuité fil par fil avec la liste de coupe (chaque repère d'extrémité).","Sensor GND (CMC1 H1) ↔ caisse : circuit ouvert.","VR GND (H2), Knock GND (CMC2 E1), Shield GND (E3) ↔ caisse : circuit ouvert.","+5 V (G1) ↔ toutes les masses : pas de court-circuit.","+12 V commuté (barrette 87) ↔ masse : pas de court-circuit.","CMC1 L4 et CMC2 G4 ↔ goujon culasse : < 0,1 Ω.","Tresse moteur ↔ caisse et câble batterie − ↔ moteur présents et serrés (≥ 25 mm²).","Blindages : reliés uniquement côté ECU (aucune continuité vers le moteur)."]},{"phase":"Première mise sous tension (pompe et injecteurs débranchés)","items":["Contact mis : relais principal colle, +12 V sur CMC1 M4.","5,0 V mesurés au connecteur papillon et aux capteurs de pression.","MTune : températures plausibles, pressions à 0 bar, TPS / pédale 0 → 100 %.","Calibration E-throttle : sens d'ouverture correct (sinon inverser H2/H4).","Test des sorties : chaque injecteur claque, VANOS, MAC, relais pompe et ventilateur collent.","Test bobines : étincelle sur bougie à la masse, dans l'ordre 1-5-3-6-2-4.","Démarreur, bobines et injecteurs débranchés : signaux trigger / home propres dans l'oscilloscope MTune.","Premier démarrage : calage contrôlé à la lampe stroboscopique (offset trigger)."]}],"bom":[{"cat":"Connecteurs","item":"Connecteur 1 — Molex CMC 48 voies","qty":1,"detail":"39 contacts utilisés / 48","unit":"pc"},{"cat":"Connecteurs","item":"Connecteur 2 — Molex CMC 32 voies","qty":1,"detail":"11 contacts utilisés / 32","unit":"pc"},{"cat":"Connecteurs","item":"BMW 3 voies (capteur M52)","qty":1,"detail":"CRANK — 3 contacts","unit":"pc"},{"cat":"Connecteurs","item":"BMW 6 voies (papillon M54)","qty":1,"detail":"ETB — 6 contacts","unit":"pc"},{"cat":"Connecteurs","item":"Bosch 2 voies","qty":2,"detail":"KS1, KS2 — 4 contacts","unit":"pc"},{"cat":"Connecteurs","item":"Bosch EV1 / JPT 2 voies","qty":6,"detail":"INJ1, INJ2, INJ3, INJ4, INJ5, INJ6 — 12 contacts","unit":"pc"},{"cat":"Connecteurs","item":"Bosch JPT 2 voies","qty":3,"detail":"IAT, CLT, VANOS — 6 contacts","unit":"pc"},{"cat":"Connecteurs","item":"Bosch JPT 3 voies","qty":1,"detail":"CAM — 3 contacts","unit":"pc"},{"cat":"Connecteurs","item":"Connecteur Bosch du capteur (broche 1 non câblée)","qty":2,"detail":"OIL, FUEL — 8 contacts","unit":"pc"},{"cat":"Connecteurs","item":"Deutsch DT 12 voies","qty":2,"detail":"XINT — 10 contacts","unit":"pc"},{"cat":"Connecteurs","item":"LSU 4.9 6 voies (Bosch 1 928 404 682)","qty":1,"detail":"LSU — 6 contacts","unit":"pc"},{"cat":"Connecteurs","item":"Mini-K (thermocouple)","qty":1,"detail":"EGT1 — 2 contacts","unit":"pc"},{"cat":"Connecteurs","item":"Selon pompe","qty":1,"detail":"PUMP — 2 contacts","unit":"pc"},{"cat":"Connecteurs","item":"Selon ventilateur","qty":1,"detail":"FAN — 2 contacts","unit":"pc"},{"cat":"Connecteurs","item":"Superseal 1.5 2 voies (conseillé)","qty":1,"detail":"MAC — 2 contacts","unit":"pc"},{"cat":"Connecteurs","item":"TE MQS 6 voies","qty":1,"detail":"APP — 6 contacts","unit":"pc"},{"cat":"Connecteurs","item":"VAG 4 voies (1J0 973 724)","qty":6,"detail":"COIL1, COIL2, COIL3, COIL4, COIL5, COIL6 — 24 contacts","unit":"pc"},{"cat":"Protection","item":"Fusible 5 A","qty":2,"detail":"","unit":"pc"},{"cat":"Protection","item":"Fusible 10 A","qty":3,"detail":"","unit":"pc"},{"cat":"Protection","item":"Fusible 15 A","qty":2,"detail":"","unit":"pc"},{"cat":"Protection","item":"Fusible 20 A","qty":1,"detail":"","unit":"pc"},{"cat":"Protection","item":"Fusible 30 A","qty":2,"detail":"","unit":"pc"},{"cat":"Protection","item":"Fusible MAXI 80 A","qty":1,"detail":"","unit":"pc"},{"cat":"Protection","item":"Relais ISO mini 40 A","qty":2,"detail":"","unit":"pc"},{"cat":"Protection","item":"Relais ISO mini 30/40 A","qty":1,"detail":"","unit":"pc"},{"cat":"Protection","item":"Boîte fusibles/relais étanche avec barrettes (ex. Bussmann RTMR)","qty":1,"detail":"2 barrettes : +12 V permanent (BUS30), +12 V commuté (BUS87)","unit":"pc"},{"cat":"Épissures","item":"Épissure sertie ou à souder + thermo à colle (ex. Raychem D-436)","qty":13,"detail":"SPL-5V-MAIN, SPL-5V-ENG, SPL-SG-MAIN, SPL-SG-ENG, SPL-VRG, SPL-SHLD, SPL-KGND, SPL-COIL12, SPL-COIL-SGND, SPL-COIL-PGND, SPL-INJ12, SPL-ACT12, SPL-RLY","unit":"pc"},{"cat":"Masses","item":"Cosse œillet M8 étamée — GP-HEAD","qty":2,"detail":"Masse moteur ECU (goujon arrière culasse)","unit":"pc"},{"cat":"Masses","item":"Cosse œillet M8 étamée — GP-COIL","qty":2,"detail":"Masse bobines (goujon culasse, voisin)","unit":"pc"},{"cat":"Masses","item":"Cosse œillet M8 étamée — GP-CH","qty":1,"detail":"Masse caisse E-box","unit":"pc"},{"cat":"Masses","item":"Cosse œillet M8 étamée — GP-CH-AV","qty":1,"detail":"Masse caisse avant (ventilateur)","unit":"pc"},{"cat":"Masses","item":"Cosse œillet M8 étamée — GP-CH-AR","qty":1,"detail":"Masse caisse arrière (pompe)","unit":"pc"},{"cat":"Fil","item":"FLRY-B 0,5 mm² BK","qty":0.2,"unit":"m","detail":"coupe 0,20 m + 10 %"},{"cat":"Fil","item":"FLRY-B 0,5 mm² BK/WH","qty":0.2,"unit":"m","detail":"coupe 0,20 m + 10 %"},{"cat":"Fil","item":"FLRY-B 0,5 mm² BN","qty":12.5,"unit":"m","detail":"coupe 11,40 m + 10 %"},{"cat":"Fil","item":"FLRY-B 0,5 mm² BU","qty":11.7,"unit":"m","detail":"coupe 10,60 m + 10 %"},{"cat":"Fil","item":"FLRY-B 0,5 mm² GN","qty":1.3,"unit":"m","detail":"coupe 1,20 m + 10 %"},{"cat":"Fil","item":"FLRY-B 0,5 mm² GN/BK","qty":2.0,"unit":"m","detail":"coupe 1,80 m + 10 %"},{"cat":"Fil","item":"FLRY-B 0,5 mm² GN/WH","qty":2.6,"unit":"m","detail":"coupe 2,40 m + 10 %"},{"cat":"Fil","item":"FLRY-B 0,5 mm² OG","qty":9.4,"unit":"m","detail":"coupe 8,50 m + 10 %"},{"cat":"Fil","item":"FLRY-B 0,5 mm² RD/WH","qty":0.7,"unit":"m","detail":"coupe 0,60 m + 10 %"},{"cat":"Fil","item":"FLRY-B 0,5 mm² VT","qty":2.1,"unit":"m","detail":"coupe 1,90 m + 10 %"},{"cat":"Fil","item":"FLRY-B 0,5 mm² WH","qty":2.6,"unit":"m","detail":"coupe 2,35 m + 10 %"},{"cat":"Fil","item":"FLRY-B 0,5 mm² WH/BK","qty":2.6,"unit":"m","detail":"coupe 2,35 m + 10 %"},{"cat":"Fil","item":"FLRY-B 0,5 mm² WH/BN","qty":2.5,"unit":"m","detail":"coupe 2,30 m + 10 %"},{"cat":"Fil","item":"FLRY-B 0,5 mm² WH/BU","qty":2.2,"unit":"m","detail":"coupe 2,00 m + 10 %"},{"cat":"Fil","item":"FLRY-B 0,5 mm² WH/GN","qty":2.2,"unit":"m","detail":"coupe 2,00 m + 10 %"},{"cat":"Fil","item":"FLRY-B 0,5 mm² WH/VT","qty":2.0,"unit":"m","detail":"coupe 1,85 m + 10 %"},{"cat":"Fil","item":"FLRY-B 0,5 mm² YE","qty":2.6,"unit":"m","detail":"coupe 2,35 m + 10 %"},{"cat":"Fil","item":"FLRY-B 0,5 mm² YE/BK","qty":4.8,"unit":"m","detail":"coupe 4,35 m + 10 %"},{"cat":"Fil","item":"FLRY-B 0,5 mm² YE/BN","qty":2.5,"unit":"m","detail":"coupe 2,30 m + 10 %"},{"cat":"Fil","item":"FLRY-B 0,5 mm² YE/VT","qty":2.0,"unit":"m","detail":"coupe 1,85 m + 10 %"},{"cat":"Fil","item":"FLRY-B 0,75 mm² BK","qty":2.1,"unit":"m","detail":"coupe 1,95 m + 10 %"},{"cat":"Fil","item":"FLRY-B 0,75 mm² GN","qty":5.5,"unit":"m","detail":"coupe 5,00 m + 10 %"},{"cat":"Fil","item":"FLRY-B 0,75 mm² GY","qty":12.3,"unit":"m","detail":"coupe 11,20 m + 10 %"},{"cat":"Fil","item":"FLRY-B 0,75 mm² RD/WH","qty":5.0,"unit":"m","detail":"coupe 4,55 m + 10 %"},{"cat":"Fil","item":"FLRY-B 1 mm² BK","qty":2.1,"unit":"m","detail":"coupe 1,95 m + 10 %"},{"cat":"Fil","item":"FLRY-B 1 mm² GN","qty":2.5,"unit":"m","detail":"coupe 2,30 m + 10 %"},{"cat":"Fil","item":"FLRY-B 1 mm² RD/WH","qty":9.7,"unit":"m","detail":"coupe 8,85 m + 10 %"},{"cat":"Fil","item":"FLRY-B 1,5 mm² BK","qty":3.8,"unit":"m","detail":"coupe 3,45 m + 10 %"},{"cat":"Fil","item":"FLRY-B 2,5 mm² BK","qty":0.8,"unit":"m","detail":"coupe 0,75 m + 10 %"},{"cat":"Fil","item":"FLRY-B 2,5 mm² RD","qty":0.4,"unit":"m","detail":"coupe 0,40 m + 10 %"},{"cat":"Fil","item":"FLRY-B 2,5 mm² RD/WH","qty":2.1,"unit":"m","detail":"coupe 1,90 m + 10 %"},{"cat":"Fil","item":"FLRY-B 2,5 mm² RD/YE","qty":4.1,"unit":"m","detail":"coupe 3,70 m + 10 %"},{"cat":"Fil","item":"FLRY-B 4 mm² BK","qty":0.2,"unit":"m","detail":"coupe 0,20 m + 10 %"},{"cat":"Fil","item":"FLRY-B 4 mm² RD","qty":0.2,"unit":"m","detail":"coupe 0,20 m + 10 %"},{"cat":"Fil","item":"FLRY-B 4 mm² RD/BU","qty":3.2,"unit":"m","detail":"coupe 2,90 m + 10 %"},{"cat":"Fil","item":"FLRY-B 10 mm² RD","qty":1.0,"unit":"m","detail":"coupe 0,90 m + 10 %"},{"cat":"Câble","item":"3 × 0,5 mm² torsadé blindé","qty":2.9,"unit":"m","detail":"C-CRANK — Capteur PMH"},{"cat":"Câble","item":"2 × 0,5 mm² torsadé blindé","qty":2.5,"unit":"m","detail":"C-CAM — Capteur AAC"},{"cat":"Câble","item":"2 × 0,5 mm² torsadé blindé","qty":2.5,"unit":"m","detail":"C-KS1 — Cliquetis 1"},{"cat":"Câble","item":"2 × 0,5 mm² torsadé blindé","qty":2.2,"unit":"m","detail":"C-KS2 — Cliquetis 2"},{"cat":"Câble","item":"4 × 0,5 mm² blindé","qty":2.5,"unit":"m","detail":"C-LSU — Lambda signaux"},{"cat":"Câble","item":"Câble d'extension thermocouple type K (2 × 0,5)","qty":2.1,"unit":"m","detail":"C-EGT — EGT"},{"cat":"Câble","item":"2 × 1,0 mm² torsadé","qty":2.6,"unit":"m","detail":"C-ETBM — Moteur papillon"},{"cat":"Câble","item":"2 × 0,5 mm² torsadé (paire CAN)","qty":1.0,"unit":"m","detail":"C-CAN — CAN"},{"cat":"Gaine","item":"DR-25 12.7/6.4 mm","qty":1.7,"unit":"m","detail":"selon tronçons du formboard"},{"cat":"Gaine","item":"DR-25 19.1/9.5 mm","qty":1.2,"unit":"m","detail":"selon tronçons du formboard"},{"cat":"Gaine","item":"DR-25 25.4/12.7 mm","qty":1.3,"unit":"m","detail":"selon tronçons du formboard"},{"cat":"Gaine","item":"DR-25 3.2/1.6 mm","qty":1.6,"unit":"m","detail":"selon tronçons du formboard"},{"cat":"Gaine","item":"DR-25 4.8/2.4 mm","qty":7.5,"unit":"m","detail":"selon tronçons du formboard"},{"cat":"Gaine","item":"DR-25 6.4/3.2 mm","qty":2.2,"unit":"m","detail":"selon tronçons du formboard"},{"cat":"Gaine","item":"DR-25 9.5/4.8 mm","qty":1.8,"unit":"m","detail":"selon tronçons du formboard"},{"cat":"Repérage","item":"Étiquettes thermo imprimables (repère de fil)","qty":252,"detail":"une à chaque extrémité","unit":"pc"}],"validation":{"errors":[],"warnings":["CMC1.D4 (GP OUT 3) → VANOS : 1.2–4.4 A selon la résistance réelle, limite 2 A — mesurer avant de figer"],"infos":["PWR-01 : liaison batterie → fusible général, garder la plus courte possible"]}};</script>
+<script>
+(function () {
+  "use strict";
+  if (!H) { document.getElementById("main").textContent = "Données du faisceau absentes : lancer tools/build_harness.py."; return; }
+
+  // ------------------------------------------------------------------ utils
+  function h(tag, props) {
+    const el = document.createElement(tag);
+    if (props) for (const k in props) {
+      const v = props[k];
+      if (v == null || v === false) continue;
+      if (k === "class") el.className = v;
+      else if (k === "text") el.textContent = v;
+      else if (k.slice(0, 2) === "on") el.addEventListener(k.slice(2), v);
+      else if (k === "dataset") Object.assign(el.dataset, v);
+      else el.setAttribute(k, v === true ? "" : v);
+    }
+    for (let i = 2; i < arguments.length; i++) append(el, arguments[i]);
+    return el;
+  }
+  function fill(el) { el.replaceChildren(); for (let i = 1; i < arguments.length; i++) append(el, arguments[i]); return el; }
+  function append(el, kid) {
+    if (kid == null || kid === false) return;
+    if (Array.isArray(kid)) { kid.forEach(k => append(el, k)); return; }
+    el.append(kid instanceof Node ? kid : String(kid));
+  }
+  const SVGNS = "http://www.w3.org/2000/svg";
+  function sv(tag, attrs, text) {
+    const el = document.createElementNS(SVGNS, tag);
+    if (attrs) for (const k in attrs) if (attrs[k] != null) el.setAttribute(k, attrs[k]);
+    if (text != null) el.textContent = text;
+    return el;
+  }
+  const dec = (n, d) => Number(n).toFixed(d == null ? 2 : d).replace(".", ",");
+  const mm2 = v => String(v).replace(".", ",");
+  const natural = (a, b) => String(a).localeCompare(String(b), "fr", { numeric: true });
+  const trunc = (s, n) => (s = String(s || ""), s.length > n ? s.slice(0, Math.max(1, n - 1)) + "…" : s);
+  function store(key, val) {
+    try {
+      if (val === undefined) return JSON.parse(localStorage.getItem("m50h:" + key));
+      localStorage.setItem("m50h:" + key, JSON.stringify(val));
+    } catch (e) { return null; }
+  }
+
+  // ------------------------------------------------------------------- data
+  const WIRES = H.wires;
+  const REAL = WIRES.filter(w => !w.internal && !w.drain);
+  const WB = {}; WIRES.forEach(w => { WB[w.id] = w; });
+  const NETS = {}; H.nets.forEach(n => { NETS[n.id] = n; });
+  const EP = H.endpoints, OW = H.owners;
+  const ownerOf = e => EP[e].owner;
+  const wiresAt = {};
+  const ownerSheets = {};
+  WIRES.forEach(w => [w.from, w.to].forEach(e => {
+    (wiresAt[e] = wiresAt[e] || []).push(w);
+    (ownerSheets[ownerOf(e)] = ownerSheets[ownerOf(e)] || new Set()).add(w.sheet);
+  }));
+  const FAM = { PWR: "pwr", GND: "pwr", IGN: "fire", INJ: "fire", SYNC: "sens", SNS: "sens", KNK: "sens", DBW: "dbw", WBO: "wbo", ACT: "out", RLY: "out", COM: "out", REF: "ref" };
+  const FAM_LABEL = { fire: "Allumage & injection", wbo: "Lambda & EGT", sens: "Capteurs & synchro", dbw: "Papillon & pédale", out: "Sorties & habitacle", pwr: "Alimentation & masses" };
+  const FAM_ORDER = ["fire", "wbo", "sens", "dbw", "out", "pwr"];
+  const famVar = f => "var(--fam-" + (f || "ref") + ")";
+  const SHEET_IDS = Object.keys(H.sheets);
+  const sheetTitle = id => H.sheets[id] ? H.sheets[id].title : id;
+
+  function colorHex(code) { return String(code || "").split("/").map(c => (H.colors[c] || {}).hex || "#999"); }
+  function colorName(code) { return String(code || "").split("/").map(c => (H.colors[c] || {}).name || c).join(" / "); }
+  function swatch(code) {
+    const p = colorHex(code);
+    const bg = p[1] ? "linear-gradient(180deg," + p[0] + " 0 33%," + p[1] + " 33% 67%," + p[0] + " 67%)" : p[0];
+    return h("span", { class: "sw", style: "background:" + bg, title: colorName(code) });
+  }
+  const colorChip = code => h("span", { class: "cc" }, swatch(code), h("span", { class: "mono" }, code));
+  function epLabel(eid) {
+    const e = EP[eid]; const o = OW[e.owner];
+    return { id: eid, fn: e.fn, owner: o ? o.label : "" };
+  }
+  function otherEnd(w, eid) { return w.from === eid ? w.to : w.from; }
+  const wireTag = (w, onclick) => h(onclick ? "button" : "span", { class: "wid", onclick: onclick, title: onclick ? "Voir sur la planche" : null }, w.id);
+
+  // ---------------------------------------------------------------- header
+  const V = H.validation;
+  const ecuUsed = H.ecu.pins.filter(p => p.wires.length).length;
+  const meters = REAL.reduce((s, w) => s + w.length_m, 0);
+  document.getElementById("tb-title").textContent = H.meta.project;
+  document.getElementById("tb-sub").textContent = H.meta.engine + " · " + H.meta.ecu;
+  document.getElementById("foot-rev").textContent = "Révision " + H.meta.revision + " · " + H.meta.date;
+  function statusChip() {
+    if (V.errors.length) return h("span", { class: "chip bad" }, "✕ " + V.errors.length + " erreur" + (V.errors.length > 1 ? "s" : ""));
+    if (V.warnings.length) return h("span", { class: "chip warn" }, "! " + V.warnings.length + " point" + (V.warnings.length > 1 ? "s" : "") + " à mesurer");
+    return h("span", { class: "chip good" }, "✓ conforme");
+  }
+  const tb = document.getElementById("tb-grid");
+  [["Révision", H.meta.revision + " · " + H.meta.date],
+   ["Statut", H.meta.status],
+   ["Contrôle ERC", statusChip()],
+   ["Fils", REAL.length + " fils · " + dec(meters, 1) + " m"],
+   ["Broches ECU", ecuUsed + " / " + H.ecu.pins.length + " utilisées"],
+   ["Distribution", Object.values(OW).filter(o => o.cat === "splice").length + " épissures/barrettes · " + H.fuses.length + " fusibles"]
+  ].forEach(([k, v]) => tb.append(h("div", null, h("dt", null, k), h("dd", null, v))));
+
+  // ------------------------------------------------------------------ tabs
+  const TABS = [["synthese", "Synthèse"], ["ecu", "Brochage ECU"], ["planches", "Planches"], ["coupe", "Liste de coupe"],
+    ["connecteurs", "Connecteurs"], ["energie", "Énergie"], ["formboard", "Formboard"], ["controles", "Contrôles"], ["nomenclature", "Nomenclature"]];
+  const main = document.getElementById("main");
+  const nav = document.getElementById("tabs");
+  const sections = {}, rendered = {};
+  const RENDER = {};
+  TABS.forEach(([id, label]) => {
+    nav.append(h("button", { role: "tab", id: "tab-" + id, "aria-controls": "t-" + id, "aria-selected": "false", onclick: () => show(id) }, label));
+    const sec = h("section", { class: "tab", id: "t-" + id, role: "tabpanel", "aria-labelledby": "tab-" + id });
+    sec.hidden = true;
+    sections[id] = sec; main.append(sec);
+  });
+  function show(id) {
+    if (!sections[id]) id = "synthese";
+    if (!rendered[id]) { RENDER[id](sections[id]); rendered[id] = true; }
+    TABS.forEach(([t]) => { sections[t].hidden = t !== id; document.getElementById("tab-" + t).setAttribute("aria-selected", t === id ? "true" : "false"); });
+    store("tab", id);
+    try { history.replaceState(null, "", "#" + id); } catch (e) { /* cadre restreint */ }
+  }
+
+  // -------------------------------------------------------------- synthèse
+  const SEV = { fix: ["fix", "✎ Corrigé"], add: ["add", "+ Ajouté"], warn: ["warn", "! À vérifier"], ok: ["good", "✓ Validé"] };
+  RENDER.synthese = function (sec) {
+    const nE = V.errors.length, nW = V.warnings.length;
+    const items = [].concat(
+      V.errors.map(t => ["bad", "Erreur", t]), V.warnings.map(t => ["warn", "Alerte", t]), V.infos.map(t => ["info", "Info", t]));
+    sec.append(h("div", { class: "stack" },
+      h("div", { class: "panel" },
+        h("h2", null, "Contrôle automatique du faisceau"),
+        h("p", { class: "lede" }, "Chaque génération vérifie les règles électriques : une broche ECU = un fil, aucune masse de référence reliée à la caisse, aucun mélange +5 V / +12 V / masses, chaque fil protégé par un fusible adapté à sa section, courant de chaque sortie ECU sous sa limite. " +
+          (nE ? nE + " erreur(s) bloquante(s)." : "Aucune erreur bloquante.") + (nW ? " " + nW + " point(s) dépendent d'une mesure sur tes pièces." : "")),
+        items.length ? h("ul", { class: "checklist-v" }, items.map(([c, l, t]) => h("li", null, h("span", { class: "chip " + c }, l), h("span", null, t)))) : h("p", null, "Aucun point.")),
+      h("div", null,
+        h("h2", null, "Audit de ton plan"),
+        h("p", { class: "lede" }, "Ton plan d'origine confronté au schéma officiel MaxxECU RACE REV9+ et aux brochages constructeur. Les corrections sont déjà intégrées dans toutes les planches."),
+        h("div", { class: "audit" }, ["fix", "add", "warn", "ok"].flatMap(s => H.audit.filter(a => a.sev === s)).map(a =>
+          h("article", null, h("div", null, h("span", { class: "chip " + SEV[a.sev][0] }, SEV[a.sev][1])),
+            h("div", null, h("h3", null, a.title), h("p", null, a.detail)))))),
+      h("div", { class: "cols-2" },
+        h("div", { class: "panel" }, h("h3", null, "Hypothèses de l'étude"),
+          h("ul", { class: "plain" }, H.meta.assumptions.map(a => h("li", null, a)))),
+        h("div", { class: "panel" }, h("h3", null, "Code couleur des fils"),
+          h("div", { class: "tbl-wrap", style: "border:0" }, h("table", { class: "tbl" },
+            h("tbody", null, H.color_legend.map(c => h("tr", null, h("td", null, colorChip(c.code)), h("td", null, c.role)))))))),
+      h("div", { class: "panel" }, h("h3", null, "Sources vérifiées"),
+        h("ul", { class: "plain" }, H.meta.sources.map(s => h("li", null, h("a", { href: s.url, target: "_blank", rel: "noopener" }, s.label)))))
+    ));
+  };
+
+  // ------------------------------------------------------------ brochage ECU
+  RENDER.ecu = function (sec) {
+    const byId = {}; H.ecu.pins.forEach(p => { byId[p.id] = p; });
+    const detail = h("div", { class: "detail", "aria-live": "polite" });
+    let pressed = null;
+    function select(p, btn) {
+      if (pressed) pressed.setAttribute("aria-pressed", "false");
+      pressed = btn; if (btn) btn.setAttribute("aria-pressed", "true");
+      fill(detail,
+        h("h3", null, h("span", { class: "mono" }, p.id), h("span", null, p.fn)),
+        h("dl", { class: "kv" },
+          h("dt", null, "Type"), h("dd", null, p.kind + (p.max_a ? " · " + p.max_a + " A max" : "")),
+          h("dt", null, "Usage"), h("dd", null, p.wires.length ? sheetTitle(p.sheet) : "Libre — disponible pour une évolution")),
+        p.wires.map(wid => {
+          const w = WB[wid]; const o = epLabel(otherEnd(w, p.id));
+          return h("div", { style: "margin-top:10px;display:grid;gap:6px" },
+            h("div", { class: "cc" }, wireTag(w), colorChip(w.color), h("span", { class: "mono" }, mm2(w.mm2) + " mm² · " + dec(w.length_m) + " m"), w.cable ? h("span", { class: "muted mono" }, w.cable) : null),
+            h("div", null, "→ ", h("span", { class: "mono" }, o.id), " ", h("span", { class: "muted" }, o.fn + " · " + o.owner)),
+            w.note ? h("div", { class: "muted", style: "font-size:13px" }, w.note) : null,
+            h("div", null, h("button", { class: "btn", onclick: () => goSheet(w.sheet, w.net) }, "Voir sur la planche " + w.sheet)));
+        }));
+    }
+    const legend = h("div", { class: "legend" }, FAM_ORDER.map(f => h("span", null, h("i", { style: "background:" + famVar(f) }), FAM_LABEL[f])),
+      h("span", null, h("i", { style: "background:repeating-linear-gradient(135deg,transparent 0 3px,var(--rule-strong) 3px 4px)" }), "Libre"));
+    const grids = Object.keys(H.ecu.connectors).map(cid => {
+      const c = H.ecu.connectors[cid];
+      const pins = H.ecu.pins.filter(p => p.conn === cid);
+      const used = pins.filter(p => p.wires.length).length;
+      const grid = h("div", { class: "cmc", role: "group", "aria-label": c.title });
+      grid.append(h("span"));
+      c.cols.forEach(n => grid.append(h("span", { class: "lab" }, n)));
+      c.rows.forEach(r => {
+        grid.append(h("span", { class: "lab" }, r));
+        c.cols.forEach(n => {
+          const p = byId[cid + "." + r + n];
+          const fam = p.sheet ? FAM[p.sheet] : null;
+          const btn = h("button", { class: "pin" + (p.wires.length ? "" : " free"), "aria-pressed": "false", style: fam ? "--fam:" + famVar(fam) : null,
+            title: p.id + " — " + p.fn }, h("span", { class: "pid" }, r + n), h("span", { class: "pfn" }, p.fn));
+          btn.addEventListener("click", () => select(p, btn));
+          if (p.id === "CMC1.H2") setTimeout(() => select(p, btn));
+          grid.append(btn);
+        });
+      });
+      return h("div", { class: "panel" },
+        h("div", { class: "cmc-head" }, h("h3", { style: "margin:0" }, cid), h("span", { class: "count" }, used + " / " + pins.length + " broches utilisées")),
+        h("p", { class: "muted", style: "margin:0 0 10px;font-size:13px" }, c.title + " — repérage logique lettre/chiffre, vérifier le marquage moulé du connecteur."),
+        grid);
+    });
+    // Table complète
+    let filter = "used";
+    const tbody = h("tbody");
+    function fillTable() {
+      tbody.replaceChildren();
+      H.ecu.pins.filter(p => filter === "all" || (filter === "used") === (p.wires.length > 0)).forEach(p => {
+        if (!p.wires.length) { tbody.append(h("tr", null, h("td", { class: "mono" }, p.id), h("td", null, p.fn), h("td", { colspan: 4, class: "muted" }, "libre"))); return; }
+        p.wires.forEach(wid => {
+          const w = WB[wid]; const o = epLabel(otherEnd(w, p.id));
+          tbody.append(h("tr", { class: "clickable", onclick: () => goSheet(w.sheet, w.net) },
+            h("td", { class: "mono" }, p.id), h("td", null, p.fn), h("td", null, wireTag(w)),
+            h("td", null, colorChip(w.color)), h("td", { class: "num" }, mm2(w.mm2)),
+            h("td", null, h("span", { class: "mono" }, o.id), h("div", { class: "fn" }, o.fn + " · " + o.owner))));
+        });
+      });
+    }
+    const seg = h("div", { class: "seg", role: "group", "aria-label": "Filtrer les broches" });
+    [["used", "Utilisées"], ["free", "Libres"], ["all", "Toutes"]].forEach(([k, l]) => {
+      const b = h("button", { "aria-pressed": k === filter ? "true" : "false" }, l);
+      b.addEventListener("click", () => { filter = k; seg.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false")); fillTable(); });
+      seg.append(b);
+    });
+    fillTable();
+    sec.append(h("h2", null, "Brochage MaxxECU RACE"),
+      h("p", { class: "lede" }, "Touche une broche pour voir son fil, sa section, sa longueur de coupe et sa destination. La couleur indique le sous-système ; les cases hachurées sont libres."),
+      legend, h("div", { class: "ecu-layout" }, grids, h("div", { style: "display:grid;gap:16px;align-content:start" }, detail)),
+      h("div", { style: "margin-top:26px" }, h("div", { class: "toolbar" }, h("h3", { style: "margin:0 12px 0 0" }, "Table des broches"), seg),
+        h("div", { class: "tbl-wrap" }, h("table", { class: "tbl" },
+          h("thead", null, h("tr", null, ["Broche", "Fonction MaxxECU", "Fil", "Couleur", "mm²", "Destination"].map(t => h("th", null, t)))), tbody))));
+  };
+
+  // ------------------------------------------------------------- planches
+  const ROW = 22, HEAD = 42, NODE_H = 58, GAP_Y = 14, GAP_X = 150, PAD = 24;
+  const ADJ = {};
+  WIRES.forEach(w => {
+    const a = ownerOf(w.from), b = ownerOf(w.to);
+    if (a === b) return;
+    (ADJ[a] = ADJ[a] || new Set()).add(b); (ADJ[b] = ADJ[b] || new Set()).add(a);
+  });
+  const catOf = o => OW[o].cat;
+  const isNode = o => ["splice", "shield", "ground"].includes(catOf(o));
+  function hopsTo(start, pred) {
+    const seen = new Set([start]); let frontier = [start]; let d = 0;
+    while (frontier.length) {
+      d++; const next = [];
+      for (const o of frontier) for (const n of (ADJ[o] || [])) {
+        if (seen.has(n)) continue; seen.add(n);
+        if (pred(n)) return d;
+        if (["splice", "shield"].includes(catOf(n))) next.push(n);
+      }
+      frontier = next;
+    }
+    return Infinity;
+  }
+  const isEcu = o => catOf(o) === "ecu";
+  const isPdm = o => ["fuse", "relay", "ground"].includes(catOf(o));
+  function colRank(o) {
+    const c = catOf(o);
+    if (c === "ecu") return 0;
+    if (c === "splice" || c === "shield") {
+      const dE = hopsTo(o, isEcu), dP = hopsTo(o, isPdm);
+      return dE <= dP ? dE : 300 + (10 - Math.min(dP, 9));
+    }
+    if (c === "inline") return 100;
+    if (c === "comp") return 200;
+    return 400;
+  }
+  function boxWidth(o) {
+    const c = catOf(o);
+    if (isNode(o)) return 150;
+    if (c === "ecu" || c === "comp") return 250;
+    return 186;
+  }
+
+  function layoutSheet(sheetId) {
+    const sheet = H.sheets[sheetId];
+    const wires = WIRES.filter(w => w.sheet === sheetId);
+    const boxes = new Map();
+    const ownerOrder = Object.keys(OW);
+    wires.forEach(w => [w.from, w.to].forEach(e => {
+      const o = ownerOf(e);
+      if (!boxes.has(o)) boxes.set(o, { o: o, ports: [], idx: {} });
+      const b = boxes.get(o);
+      if (b.idx[e] == null) { b.idx[e] = b.ports.length; b.ports.push({ e: e, wires: [] }); }
+      b.ports[b.idx[e]].wires.push(w);
+    }));
+    // colonnes
+    const rank = new Map();
+    if (sheet.layout === "flow") {
+      const adj = {};
+      wires.forEach(w => { const a = ownerOf(w.from), b = ownerOf(w.to); (adj[a] = adj[a] || []).push(b); (adj[b] = adj[b] || []).push(a); });
+      const root = boxes.has(sheet.root) ? sheet.root : boxes.keys().next().value;
+      rank.set(root, 0); let q = [root];
+      while (q.length) { const n = []; q.forEach(o => (adj[o] || []).forEach(m => { if (!rank.has(m)) { rank.set(m, rank.get(o) + 1); n.push(m); } })); q = n; }
+      boxes.forEach((b, o) => { if (!rank.has(o)) rank.set(o, 0); });
+    } else {
+      boxes.forEach((b, o) => rank.set(o, colRank(o)));
+    }
+    const ranks = [...new Set(rank.values())].sort((a, b) => a - b);
+    const cols = ranks.map(() => []);
+    [...boxes.values()].sort((a, b) => ownerOrder.indexOf(a.o) - ownerOrder.indexOf(b.o)).forEach(b => {
+      b.col = ranks.indexOf(rank.get(b.o)); cols[b.col].push(b);
+    });
+    const reindex = b => { b.idx = {}; b.ports.forEach((p, i) => { b.idx[p.e] = i; }); };
+    boxes.forEach(b => {
+      b.node = isNode(b.o);
+      if (!b.node && catOf(b.o) !== "ecu") { b.ports.sort((p, q) => natural(EP[p.e].pin, EP[q.e].pin)); reindex(b); }
+      b.w = boxWidth(b.o);
+      const xs = [...(ownerSheets[b.o] || [])].filter(s => s !== sheetId);
+      b.xref = catOf(b.o) === "ecu" ? [] : xs;
+      b.h = b.node ? NODE_H + (b.xref.length ? 12 : 0) : HEAD + b.ports.length * ROW + 6 + (b.xref.length ? 16 : 0);
+    });
+    // abscisses
+    let x = PAD;
+    const colX = cols.map(col => { const cx = x; const w = Math.max(...col.map(b => b.w)); x += w + GAP_X; return { x: cx, w: w }; });
+    cols.forEach((col, i) => col.forEach(b => { b.x = colX[i].x + (colX[i].w - b.w) / 2; }));
+    const portY = (b, e) => b.node ? b.y + 30 : b.y + HEAD + b.idx[e] * ROW + ROW / 2;
+    function stack(col) { let y = PAD; col.forEach(b => { b.y = y; y += b.h + GAP_Y; }); }
+    cols.forEach(stack);
+    const heights = cols.map(col => col.reduce((s, b) => s + b.h + GAP_Y, 0));
+    const anchor = heights.indexOf(Math.max(...heights));
+    function bary(b) {
+      let s = 0, n = 0;
+      b.ports.forEach(p => p.wires.forEach(w => {
+        const oe = otherEnd(w, p.e); const ob = boxes.get(ownerOf(oe));
+        if (ob && ob !== b) { s += portY(ob, oe); n++; }
+      }));
+      return n ? s / n : b.y + b.h / 2;
+    }
+    function portBary(b, p) {
+      let s = 0, n = 0;
+      p.wires.forEach(w => { const oe = otherEnd(w, p.e); const ob = boxes.get(ownerOf(oe)); if (ob && ob !== b) { s += portY(ob, oe); n++; } });
+      return n ? s / n : 0;
+    }
+    for (let it = 0; it < 6; it++) {
+      const order = it % 2 ? cols.map((c, i) => i).reverse() : cols.map((c, i) => i);
+      order.forEach(ci => {
+        const col = cols[ci];
+        col.forEach(b => {
+          if (catOf(b.o) === "ecu" && it > 0) {
+            const pb = new Map(b.ports.map(p => [p, portBary(b, p)]));
+            b.ports.sort((p, q) => pb.get(p) - pb.get(q)); reindex(b);
+          }
+          b._c = bary(b);
+        });
+        col.sort((a, b) => a._c - b._c);
+        if (ci === anchor) { stack(col); return; }
+        let prev = PAD;
+        col.forEach(b => { b.y = Math.max(prev, b._c - (b.node ? 30 : b.h / 2)); prev = b.y + b.h + GAP_Y; });
+      });
+    }
+    let minY = Infinity; boxes.forEach(b => { minY = Math.min(minY, b.y); });
+    boxes.forEach(b => { b.y += PAD - minY; });
+    let maxY = 0; boxes.forEach(b => { maxY = Math.max(maxY, b.y + b.h); });
+    const loops = wires.some(w => boxes.get(ownerOf(w.from)).col === boxes.get(ownerOf(w.to)).col);
+    return { wires: wires, boxes: boxes, width: x - GAP_X + PAD + (loops ? 90 : 0), height: maxY + PAD, portY: portY };
+  }
+
+  function drawSheet(sheetId) {
+    const L = layoutSheet(sheetId);
+    const svg = sv("svg", { class: "schem", viewBox: "0 0 " + L.width + " " + L.height, width: L.width, height: L.height, role: "img", "aria-label": "Planche " + sheetTitle(sheetId) });
+    const gW = sv("g"), gB = sv("g"), gT = sv("g");
+    // boîtes
+    L.boxes.forEach(b => {
+      const o = OW[b.o];
+      const fam = FAM[o.system] || "ref";
+      if (b.node) {
+        const g = sv("g", { class: "node", "data-owner": b.o, transform: "translate(" + b.x + "," + b.y + ")" });
+        const cx = b.w / 2;
+        g.append(sv("text", { class: "t-id", x: cx, y: 12, "text-anchor": "middle" }, b.o));
+        g.append(sv("text", { class: "t-fn", x: cx, y: 54, "text-anchor": "middle" }, trunc(o.label, 26)));
+        if (o.cat === "ground") {
+          const gg = sv("g", { class: "gnd", transform: "translate(" + cx + ",30)" });
+          gg.append(sv("line", { x1: 0, y1: 0, x2: 0, y2: 8 }), sv("line", { x1: -9, y1: 8, x2: 9, y2: 8 }), sv("line", { x1: -6, y1: 12, x2: 6, y2: 12 }), sv("line", { x1: -3, y1: 16, x2: 3, y2: 16 }));
+          g.append(gg);
+        }
+        if (o.cat === "shield") g.append(sv("ellipse", { class: "node-ring", cx: cx, cy: 30, rx: 14, ry: 9 }));
+        g.append(sv("circle", { class: "node-dot", cx: cx, cy: 30, r: o.cat === "splice" ? 5 : 3.5 }));
+        if (b.xref.length) xref(g, cx, 66, b.xref, "middle");
+        gB.append(g);
+        return;
+      }
+      const g = sv("g", { class: "box", "data-owner": b.o, transform: "translate(" + b.x + "," + b.y + ")" });
+      const bodyH = HEAD + b.ports.length * ROW + 6;
+      g.append(sv("rect", { class: "box-bg", width: b.w, height: bodyH, rx: 3 }));
+      g.append(sv("rect", { class: "box-head", x: 0.6, y: 0.6, width: b.w - 1.2, height: HEAD - 6, rx: 3 }));
+      g.append(sv("rect", { x: 0, y: 0, width: 4, height: bodyH, fill: famVar(fam), rx: 1 }));
+      g.append(sv("line", { class: "box-sep", x1: 0, y1: HEAD - 5, x2: b.w, y2: HEAD - 5 }));
+      const idW = b.o.length * 7.4 + 8;
+      g.append(sv("text", { class: "t-id", x: 12, y: 16 }, b.o));
+      const label = o.cat === "ecu" ? H.ecu.name : o.label;
+      g.append(sv("text", { class: "t-label", x: 12 + idW, y: 16 }, trunc(label, Math.floor((b.w - 20 - idW) / 6.2))));
+      const ref = o.cat === "ecu" ? o.title : (o.ref || "");
+      g.append(sv("text", { class: "t-ref", x: 12, y: 31 }, trunc(ref, Math.floor((b.w - 18) / 5.6))));
+      b.ports.forEach((p, i) => {
+        const e = EP[p.e]; const y = HEAD + i * ROW + 15;
+        const pg = sv("g", { class: "port", "data-ep": p.e });
+        pg.append(sv("text", { class: "t-pin", x: 12, y: y }, e.pin));
+        const off = o.cat === "ecu" ? 40 : 34;
+        pg.append(sv("text", { class: "t-fn", x: 12 + off, y: y }, trunc(e.fn, Math.floor((b.w - 18 - off) / 5.7))));
+        const hasL = p.wires.some(w => sideOf(L, b, w) === "L"), hasR = p.wires.some(w => sideOf(L, b, w) === "R");
+        if (hasL) pg.append(sv("circle", { class: "port-dot", cx: 0, cy: y - 4, r: 2.6 }));
+        if (hasR) pg.append(sv("circle", { class: "port-dot", cx: b.w, cy: y - 4, r: 2.6 }));
+        g.append(pg);
+      });
+      if (b.xref.length) xref(g, 4, bodyH + 13, b.xref, "start");
+      gB.append(g);
+    });
+    function xref(g, x, y, list, anchor) {
+      const t = sv("text", { x: x, y: y, "text-anchor": anchor, class: "t-fn" });
+      t.append(document.createTextNode("aussi "));
+      list.forEach((s, i) => {
+        const ts = sv("tspan", { class: "t-x", "data-goto": s }, s);
+        const tt = sv("title", null, sheetTitle(s)); ts.append(tt);
+        t.append(ts); if (i < list.length - 1) t.append(document.createTextNode(" · "));
+      });
+      g.append(t);
+    }
+    // fils
+    L.wires.forEach(w => {
+      const a = L.boxes.get(ownerOf(w.from)), b = L.boxes.get(ownerOf(w.to));
+      let A = { b: a, e: w.from }, B = { b: b, e: w.to };
+      if (a.col > b.col) { const t = A; A = B; B = t; }
+      const same = A.b.col === B.b.col;
+      const pt = (P, side) => [P.b.node ? P.b.x + P.b.w / 2 : (side === "L" ? P.b.x : P.b.x + P.b.w), L.portY(P.b, P.e)];
+      const [x1, y1] = pt(A, "R"), [x2, y2] = same ? pt(B, "R") : pt(B, "L");
+      let d;
+      if (same) { const bx = Math.max(x1, x2) + 70; d = "M" + x1 + "," + y1 + " C" + bx + "," + y1 + " " + bx + "," + y2 + " " + x2 + "," + y2; }
+      else { const dx = Math.max(36, (x2 - x1) * 0.5); d = "M" + x1 + "," + y1 + " C" + (x1 + dx) + "," + y1 + " " + (x2 - dx) + "," + y2 + " " + x2 + "," + y2; }
+      const g = sv("g", { class: "wire", "data-w": w.id, "data-net": w.net });
+      if (w.internal) { g.append(sv("path", { class: "w-bus", d: d })); }
+      else if (w.drain) { g.append(sv("path", { class: "w-drain", d: d })); }
+      else {
+        const sw = 1.6 + Math.sqrt(w.mm2) * 1.6;
+        const [c1, c2] = colorHex(w.color);
+        g.append(sv("path", { class: "w-halo", d: d, "stroke-width": sw + 5 }));
+        g.append(sv("path", { class: "w-edge", d: d, "stroke-width": sw + 1.6 }));
+        g.append(sv("path", { class: "w-core", d: d, stroke: c1, "stroke-width": sw }));
+        if (c2) g.append(sv("path", { class: "w-stripe", d: d, stroke: c2, "stroke-width": Math.max(1.2, sw * 0.42), "stroke-dasharray": "7 6" }));
+        // repère
+        const label = w.id + " · " + mm2(w.mm2);
+        const tw = label.length * 6.05 + 8;
+        let tx, ty;
+        if (!A.b.node) { tx = x1 + 9; ty = y1; }
+        else if (!B.b.node) { tx = x2 - 9 - tw; ty = y2; }
+        else { tx = (x1 + x2) / 2 - tw / 2; ty = (y1 + y2) / 2; }
+        const tg = sv("g", { class: "tag", "data-w": w.id, "data-net": w.net });
+        tg.append(sv("rect", { x: tx, y: ty - 7, width: tw, height: 14, rx: 2 }));
+        tg.append(sv("text", { x: tx + 4, y: ty + 3.6 }, label));
+        gT.append(tg);
+      }
+      g.append(sv("path", { class: "w-hit", d: d }));
+      const ttl = sv("title", null, w.id + " — " + w.from + " → " + w.to + (w.internal ? " (barrette)" : w.drain ? " (blindage)" : " — " + mm2(w.mm2) + " mm² " + w.color));
+      g.append(ttl);
+      gW.append(g);
+    });
+    svg.append(gW, gB, gT);
+    return { svg: svg, layout: L };
+  }
+  function sideOf(L, box, w) {
+    const a = L.boxes.get(ownerOf(w.from)), b = L.boxes.get(ownerOf(w.to));
+    const other = a === box ? b : a;
+    if (other.col === box.col) return "R";
+    return other.col < box.col ? "L" : "R";
+  }
+
+  const PL = { sheet: store("sheet") || "SYNC", zoom: 1, tags: true, fit: false };
+  let goSheetImpl = null;
+  function goSheet(id, net) {
+    if (!rendered.planches) { RENDER.planches(sections.planches); rendered.planches = true; }
+    goSheetImpl(id, net);
+  }
+  RENDER.planches = function (sec) {
+    if (!H.sheets[PL.sheet]) PL.sheet = SHEET_IDS[0];
+    const chips = h("div", { class: "sheet-chips", role: "group", "aria-label": "Choisir la planche" });
+    SHEET_IDS.forEach(id => {
+      const n = REAL.filter(w => w.sheet === id).length;
+      const b = h("button", { "aria-pressed": "false", dataset: { sheet: id }, title: sheetTitle(id) }, h("span", { class: "mono" }, id), h("span", null, H.sheets[id].short || sheetTitle(id)), h("span", { class: "n" }, n));
+      b.addEventListener("click", () => open(id));
+      chips.append(b);
+    });
+    const frame = h("div", { class: "frame" });
+    const cap = h("div", { class: "frame-cap" });
+    const detail = h("div", { class: "detail", style: "margin-top:14px" });
+    const zoomOut = h("button", { class: "btn", onclick: () => setZoom(PL.zoom / 1.25), "aria-label": "Zoom arrière" }, "−");
+    const zoomFit = h("button", { class: "btn", onclick: () => { PL.fit = !PL.fit; applyZoom(); } }, "Ajuster");
+    const zoomIn = h("button", { class: "btn", onclick: () => setZoom(PL.zoom * 1.25), "aria-label": "Zoom avant" }, "+");
+    const tagBox = h("input", { type: "checkbox", id: "pl-tags", checked: true });
+    tagBox.addEventListener("change", () => { PL.tags = tagBox.checked; frame.classList.toggle("hide-tags", !PL.tags); });
+    let current = null;
+    function setZoom(z) { PL.fit = false; PL.zoom = Math.min(2.5, Math.max(0.3, z)); applyZoom(); }
+    function applyZoom() {
+      if (!current) return;
+      const svg = current.svg;
+      zoomFit.setAttribute("aria-pressed", PL.fit ? "true" : "false");
+      if (PL.fit) { svg.style.width = "100%"; svg.style.height = "auto"; }
+      else { svg.style.width = (current.layout.width * PL.zoom) + "px"; svg.style.height = (current.layout.height * PL.zoom) + "px"; }
+    }
+    function open(id, net) {
+      PL.sheet = id; store("sheet", id);
+      chips.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.sheet === id ? "true" : "false"));
+      current = drawSheet(id);
+      frame.replaceChildren(current.svg);
+      applyZoom();
+      const ws = REAL.filter(w => w.sheet === id);
+      fill(cap, h("span", null, h("strong", null, id + " · " + sheetTitle(id))),
+        h("span", { class: "mono" }, ws.length + " fils · " + dec(ws.reduce((s, w) => s + w.length_m, 0), 1) + " m"));
+      clearSel();
+      if (net) selectNet(new Set([net]));
+    }
+    function clearSel() {
+      if (!current) return;
+      current.svg.classList.remove("dim");
+      current.svg.querySelectorAll(".hl").forEach(n => n.classList.remove("hl"));
+      fill(detail, h("h3", null, "Lecture de la planche"),
+        h("p", { style: "margin:0;color:var(--ink-2)" }, "À gauche l'ECU, au centre les capteurs et actionneurs, à droite l'alimentation et les masses. Chaque fil porte son repère (étiquette jaune) et sa section ; son tracé reprend la couleur d'isolant, rayure comprise. Touche un fil, une broche ou un composant pour isoler son réseau. Pointillés gris épais : barrette interne ; pointillés fins : blindage."));
+    }
+    function selectNet(nets, ownerId) {
+      const svg = current.svg;
+      svg.classList.add("dim");
+      svg.querySelectorAll(".wire, .tag").forEach(g => g.classList.toggle("hl", nets.has(g.dataset.net)));
+      svg.querySelectorAll(".box, .node").forEach(g => {
+        const b = current.layout.boxes.get(g.dataset.owner);
+        g.classList.toggle("hl", g.dataset.owner === ownerId || b.ports.some(p => p.wires.some(w => nets.has(w.net))));
+      });
+      const ws = REAL.filter(w => nets.has(w.net));
+      const drains = WIRES.filter(w => nets.has(w.net) && (w.internal || w.drain));
+      const head = ownerId ? ownerDetail(ownerId) : [h("h3", null, "Réseau ", h("span", { class: "mono" }, [...nets].map(n => NETS[n].name).join(", ")))];
+      fill(detail, head,
+        h("div", { class: "tbl-wrap", style: "margin-top:10px" }, h("table", { class: "tbl" },
+          h("thead", null, h("tr", null, ["Fil", "Couleur", "mm²", "Coupe", "De", "Vers", "Note"].map(t => h("th", null, t)))),
+          h("tbody", null, ws.map(w => h("tr", null, h("td", null, wireTag(w)), h("td", null, colorChip(w.color)), h("td", { class: "num" }, mm2(w.mm2)),
+            h("td", { class: "num" }, dec(w.length_m) + " m"), h("td", null, h("span", { class: "mono" }, w.from), h("div", { class: "fn" }, EP[w.from].fn)),
+            h("td", null, h("span", { class: "mono" }, w.to), h("div", { class: "fn" }, EP[w.to].fn)), h("td", { class: "fn" }, [w.cable ? w.cable + " " : "", w.note])))))),
+        drains.length ? h("p", { class: "muted", style: "margin:8px 0 0;font-size:13px" }, drains.length + " liaison(s) sans coupe (barrette ou blindage).") : null);
+    }
+    function ownerDetail(oid) {
+      const o = OW[oid];
+      return [h("h3", null, h("span", { class: "mono" }, oid), h("span", null, o.cat === "ecu" ? o.title : o.label)),
+        h("dl", { class: "kv" },
+          o.ref ? [h("dt", null, "Référence"), h("dd", null, o.ref)] : null,
+          o.connector ? [h("dt", null, "Connecteur"), h("dd", null, o.connector)] : null,
+          o.notes ? [h("dt", null, "Notes"), h("dd", null, o.notes)] : null,
+          o.verify ? [h("dt", null, "À vérifier"), h("dd", null, o.verify)] : null)];
+    }
+    frame.addEventListener("click", ev => {
+      const go = ev.target.closest("[data-goto]");
+      if (go) { open(go.getAttribute("data-goto")); return; }
+      const wg = ev.target.closest(".wire, .tag");
+      if (wg) { selectNet(new Set([wg.dataset.net])); return; }
+      const port = ev.target.closest(".port");
+      if (port) { const net = (wiresAt[port.dataset.ep] || [])[0]; if (net) selectNet(new Set([net.net])); return; }
+      const box = ev.target.closest(".box, .node");
+      if (box) {
+        const b = current.layout.boxes.get(box.dataset.owner);
+        selectNet(new Set(b.ports.flatMap(p => p.wires.map(w => w.net))), box.dataset.owner); return;
+      }
+      clearSel();
+    });
+    goSheetImpl = function (id, net) {
+      show("planches"); open(id, net);
+      const smooth = !(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+      frame.scrollIntoView({ block: "start", behavior: smooth ? "smooth" : "auto" });
+    };
+    sec.append(h("h2", null, "Planches de câblage"),
+      h("p", { class: "lede" }, "Un schéma par sous-système, tracé automatiquement depuis la définition du faisceau : rien n'est dessiné à la main, donc rien ne peut diverger de la liste de coupe."),
+      chips,
+      h("div", { class: "toolbar", style: "margin-top:10px" }, h("div", { class: "seg" }, zoomOut, zoomFit, zoomIn),
+        h("label", { class: "field", for: "pl-tags" }, tagBox, "Afficher les repères")),
+      frame, cap, detail);
+    open(PL.sheet);
+  };
+
+  // ----------------------------------------------------------- liste de coupe
+  RENDER.coupe = function (sec) {
+    const q = h("input", { type: "search", id: "cut-q", placeholder: "Repère, broche, fonction, couleur…", "aria-label": "Rechercher un fil" });
+    const harn = h("select", { id: "cut-h", "aria-label": "Faisceau" }, h("option", { value: "" }, "Tous les faisceaux"),
+      [["ENG", "Moteur"], ["PDM", "Boîte fusibles/relais"], ["CAB", "Habitacle"], ["CHS", "Châssis"]].map(([v, l]) => h("option", { value: v }, l)));
+    const sh = h("select", { id: "cut-s", "aria-label": "Planche" }, h("option", { value: "" }, "Toutes les planches"), SHEET_IDS.map(id => h("option", { value: id }, id + " · " + sheetTitle(id))));
+    const sort = h("select", { id: "cut-o", "aria-label": "Ordre" }, h("option", { value: "cut" }, "Ordre de coupe (section, couleur)"), h("option", { value: "id" }, "Par repère"), h("option", { value: "len" }, "Par longueur"));
+    const count = h("span", { class: "count" });
+    const tbody = h("tbody");
+    const HN = { ENG: "Moteur", PDM: "PDM", CAB: "Habitacle", CHS: "Châssis" };
+    function fillRows() {
+      const t = q.value.trim().toLowerCase();
+      let rows = REAL.filter(w => (!harn.value || w.harness === harn.value) && (!sh.value || w.sheet === sh.value) &&
+        (!t || [w.id, w.from, w.to, EP[w.from].fn, EP[w.to].fn, w.color, w.cable, w.note, mm2(w.mm2)].join(" ").toLowerCase().includes(t)));
+      if (sort.value === "cut") rows.sort((a, b) => b.mm2 - a.mm2 || natural(a.color, b.color) || natural(a.id, b.id));
+      else if (sort.value === "len") rows.sort((a, b) => b.length_m - a.length_m || natural(a.id, b.id));
+      else rows.sort((a, b) => SHEET_IDS.indexOf(a.sheet) - SHEET_IDS.indexOf(b.sheet) || natural(a.id, b.id));
+      count.textContent = rows.length + " fils · " + dec(rows.reduce((s, w) => s + w.length_m, 0), 1) + " m";
+      tbody.replaceChildren(...rows.map(w => h("tr", { class: "clickable", onclick: () => goSheet(w.sheet, w.net) },
+        h("td", null, wireTag(w)), h("td", { class: "num" }, mm2(w.mm2)), h("td", null, colorChip(w.color)),
+        h("td", { class: "num" }, dec(w.length_m)), h("td", null, h("span", { class: "mono" }, w.from), h("div", { class: "fn" }, EP[w.from].fn)),
+        h("td", null, h("span", { class: "mono" }, w.to), h("div", { class: "fn" }, EP[w.to].fn)),
+        h("td", { class: "mono fn" }, w.cable || ""), h("td", { class: "fn" }, HN[w.harness] || w.harness), h("td", { class: "fn" }, w.note))));
+    }
+    [q, harn, sh, sort].forEach(el => el.addEventListener("input", fillRows));
+    fillRows();
+    const cables = h("div", { class: "tbl-wrap" }, h("table", { class: "tbl" },
+      h("thead", null, h("tr", null, ["Câble", "Fonction", "Type", "Ø ext.", "Coupe", "Conducteurs"].map(t => h("th", null, t)))),
+      h("tbody", null, H.cables.map(c => h("tr", null, h("td", { class: "mono" }, c.id), h("td", null, c.label), h("td", null, c.type),
+        h("td", { class: "num" }, dec(c.od_mm, 1) + " mm"), h("td", { class: "num" }, dec(c.length_m) + " m"), h("td", { class: "mono fn" }, c.cores.join(" ")))))));
+    sec.append(h("h2", null, "Liste de coupe"),
+      h("p", { class: "lede" }, "Longueur de coupe = trajet sur le formboard + " + dec(H.rules.termination_m * 100, 0) + " cm par extrémité + " + dec(H.rules.slack_m * 100, 0) + " cm de surlongueur, arrondie aux " + dec(H.rules.round_to_m * 100, 0) + " cm supérieurs. Les trajets sont estimés tant que le formboard n'est pas mesuré sur la voiture. Touche une ligne pour la voir sur sa planche."),
+      h("div", { class: "toolbar" }, q, harn, sh, sort, count),
+      h("div", { class: "tbl-wrap", style: "max-height:72vh" }, h("table", { class: "tbl" },
+        h("thead", null, h("tr", null, ["Repère", "mm²", "Couleur", "Coupe m", "De", "Vers", "Câble", "Faisceau", "Note"].map(t => h("th", null, t)))), tbody)),
+      h("h3", { style: "margin-top:26px" }, "Câbles multiconducteurs"),
+      h("p", { class: "lede", style: "margin-top:0" }, "Les conducteurs listés ci-dessus avec un repère de câble sont les âmes de ces câbles : couper le câble une fois, à la longueur indiquée."),
+      cables);
+  };
+
+  // ------------------------------------------------------------ connecteurs
+  RENDER.connecteurs = function (sec) {
+    const owners = Object.keys(OW).filter(o => ["comp", "inline"].includes(OW[o].cat));
+    const cards = owners.map(oid => {
+      const o = OW[oid];
+      const pins = Object.keys(EP).filter(e => EP[e].owner === oid).sort((a, b) => natural(EP[a].pin, EP[b].pin));
+      return h("article", { class: "card", style: "--fam:" + famVar(FAM[o.system]) },
+        h("header", null, h("div", { class: "id" }, oid), h("h3", null, o.label), h("p", null, [o.ref, o.type].filter(Boolean).join(" · ")),
+          h("p", null, h("span", { class: "muted" }, "Connecteur : "), o.connector)),
+        o.notes ? h("p", { class: "note" }, o.notes) : null,
+        o.verify ? h("p", { class: "verify" }, h("strong", null, "À vérifier : "), o.verify) : null,
+        h("div", { class: "tbl-wrap", style: "border:0;border-radius:0" }, h("table", { class: "tbl" },
+          h("thead", null, h("tr", null, ["Br.", "Fonction", "Fil", "Vers"].map(t => h("th", null, t)))),
+          h("tbody", null, pins.map(e => {
+            const ws = wiresAt[e] || [];
+            if (!ws.length) return h("tr", null, h("td", { class: "mono" }, EP[e].pin), h("td", null, EP[e].fn), h("td", { colspan: 2, class: "muted" }, EP[e].nc ? "non câblée" : "non raccordée"));
+            return ws.map(w => h("tr", null, h("td", { class: "mono" }, EP[e].pin), h("td", null, EP[e].fn),
+              h("td", null, w.internal || w.drain ? h("span", { class: "muted mono" }, w.drain ? "blindage" : "barrette") : h("span", { class: "cc" }, wireTag(w, () => goSheet(w.sheet, w.net)), swatch(w.color), h("span", { class: "mono" }, mm2(w.mm2)))),
+              h("td", null, h("span", { class: "mono" }, otherEnd(w, e)), h("div", { class: "fn" }, EP[otherEnd(w, e)].fn))));
+          })))));
+    });
+    sec.append(h("h2", null, "Connecteurs et brochages composants"),
+      h("p", { class: "lede" }, "Une fiche par composant : référence, connecteur, brochage et fil de chaque broche. Les encadrés jaunes listent ce qui doit être confirmé au multimètre avant de sertir."),
+      h("div", { class: "cards" }, cards));
+  };
+
+  // ----------------------------------------------------------------- énergie
+  RENDER.energie = function (sec) {
+    const st = s => s === "bad" ? h("span", { class: "chip bad st" }, "✕ dépasse") : s === "warn" ? h("span", { class: "chip warn st" }, "! à mesurer") : h("span", { class: "chip good st" }, "✓ OK");
+    const fuseRows = H.fuses.map(f => h("div", { class: "meter-row", title: f.loads.map(l => l.id + " " + dec(l.a) + " A").join(" · ") },
+      h("span", { class: "id" }, f.id),
+      h("span", { class: "lbl" }, f.label, h("small", null, "Section mini " + mm2(f.min_mm2) + " mm² · " + f.loads.map(l => l.id).join(", "))),
+      h("div", { class: "meter", role: "img", "aria-label": f.id + " : " + dec(f.load, 1) + " A sur " + f.rating + " A" },
+        h("span", { class: "fill " + (f.status === "ok" ? "" : f.status), style: "width:" + Math.min(100, f.ratio * 100) + "%" })),
+      h("span", { class: "val" }, dec(f.load, 1) + " / " + f.rating + " A · " + Math.round(f.ratio * 100) + " %"),
+      st(f.status)));
+    const outRows = H.outputs.filter(o => o.max_a && o.a_max > 0).map(o => {
+      const pmin = Math.min(100, o.a_min / o.max_a * 100), pmax = Math.min(100, o.a_max / o.max_a * 100);
+      return h("div", { class: "meter-row" },
+        h("span", { class: "id" }, o.pin.split(".")[1]),
+        h("span", { class: "lbl" }, o.fn, h("small", null, o.pin + " → " + o.loads.join(", "))),
+        h("div", { class: "meter", role: "img", "aria-label": o.pin + " : " + dec(o.a_min) + " à " + dec(o.a_max) + " A sur " + o.max_a + " A" },
+          h("span", { class: "fill " + (o.status === "ok" ? "" : o.status === "bad" ? "bad" : ""), style: "width:" + pmin + "%" }),
+          pmax > pmin ? h("span", { class: "range", style: "left:" + pmin + "%;width:" + (pmax - pmin) + "%" }) : null),
+        h("span", { class: "val" }, (o.a_min === o.a_max ? dec(o.a_max) : dec(o.a_min) + "–" + dec(o.a_max)) + " / " + o.max_a + " A"),
+        st(o.status));
+    });
+    const relays = Object.keys(OW).filter(o => OW[o].cat === "relay");
+    sec.append(h("h2", null, "Énergie : fusibles, relais, sorties"),
+      h("p", { class: "lede" }, "Charges estimées en régime établi (consommations indiquées dans la définition). Une jauge au-delà de 80 % passe en alerte. Survole une ligne pour le détail des consommateurs."),
+      h("div", { class: "stack" },
+        h("div", { class: "panel" }, h("h3", null, "Fusibles"), h("div", { class: "meters" }, fuseRows)),
+        h("div", { class: "panel" }, h("h3", null, "Sorties ECU sous charge"),
+          h("p", { class: "muted", style: "margin:-2px 0 8px;font-size:13px" }, "Partie hachurée : plage d'incertitude tant que la résistance réelle n'est pas mesurée."),
+          h("div", { class: "meters" }, outRows)),
+        h("div", { class: "cols-2" },
+          h("div", { class: "panel" }, h("h3", null, "Alimentation capteurs +5 V"),
+            h("p", { style: "margin:0" }, "Consommation estimée sur CMC1 G1 : ", h("strong", { class: "mono" }, H.five_v_ma + " mA"), " (pressions huile/essence, papillon, pédale). Une seule alimentation 5 V sur la RACE Gen1 : pédale et papillon la partagent.")),
+          h("div", { class: "panel" }, h("h3", null, "Relais"),
+            h("div", { class: "tbl-wrap", style: "border:0" }, h("table", { class: "tbl" },
+              h("thead", null, h("tr", null, ["Relais", "Fonction", "Calibre", "Bobine"].map(t => h("th", null, t)))),
+              h("tbody", null, relays.map(r => h("tr", null, h("td", { class: "mono" }, r), h("td", null, OW[r].label), h("td", { class: "num" }, OW[r].rating_a + " A"),
+                h("td", { class: "fn" }, (wiresAt[r + ".86"] || []).map(w => otherEnd(w, r + ".86")).join(", ") + " / " + (wiresAt[r + ".85"] || []).map(w => otherEnd(w, r + ".85")).join(", "))))))))))
+    );
+  };
+
+  // --------------------------------------------------------------- formboard
+  RENDER.formboard = function (sec) {
+    const T = H.topology;
+    const kids = {}, segOf = {};
+    const adj = {};
+    T.segments.forEach(s => { (adj[s.a] = adj[s.a] || []).push([s.b, s]); (adj[s.b] = adj[s.b] || []).push([s.a, s]); });
+    const dist = {}, parent = {};
+    dist[T.root] = 0;
+    const order = [T.root];
+    for (let i = 0; i < order.length; i++) {
+      const n = order[i];
+      (adj[n] || []).forEach(([m, s]) => { if (dist[m] == null) { dist[m] = dist[n] + s.length; parent[m] = n; segOf[m] = s; (kids[n] = kids[n] || []).push(m); order.push(m); } });
+    }
+    const at = {}; Object.keys(OW).forEach(o => { if (OW[o].node) (at[OW[o].node] = at[OW[o].node] || []).push(o); });
+    const SCALE = 300, X0 = 40, RH = 34;
+    let leafRow = 0; const Y = {};
+    (function place(n) {
+      const k = kids[n] || [];
+      if (!k.length) { Y[n] = 40 + leafRow++ * RH; return; }
+      k.forEach(place);
+      Y[n] = (Y[k[0]] + Y[k[k.length - 1]]) / 2;
+    })(T.root);
+    const X = n => X0 + dist[n] * SCALE;
+    const maxX = Math.max(...Object.keys(dist).map(X));
+    const W = maxX + 330, Hh = 40 + leafRow * RH + 90;
+    const svg = sv("svg", { class: "formboard", viewBox: "0 0 " + W + " " + Hh, width: W, height: Hh, role: "img", "aria-label": "Formboard du faisceau à l'échelle" });
+    const gL = sv("g"), gN = sv("g"), gT = sv("g");
+    // règle d'échelle
+    const meters = Math.ceil((maxX - X0) / SCALE);
+    for (let m = 0; m <= meters; m++) {
+      const x = X0 + m * SCALE;
+      gL.append(sv("line", { x1: x, y1: 14, x2: x, y2: Hh - 6, stroke: "var(--rule)", "stroke-width": 1 }));
+      gT.append(sv("text", { x: x + 3, y: 12, style: "font:500 10px var(--font-mono);fill:var(--muted)" }, m + " m"));
+    }
+    order.slice(1).forEach(n => {
+      const p = parent[n], s = segOf[n];
+      const w = s.bundle_mm ? 1.5 + s.bundle_mm * 0.32 : 1;
+      const d = "M" + X(p) + "," + Y[p] + " V" + Y[n] + " H" + X(n);
+      const g = sv("g");
+      g.append(sv("path", { d: d, fill: "none", stroke: "var(--sheet)", "stroke-width": w + 4 }));
+      g.append(sv("path", { d: d, fill: "none", stroke: "var(--ink)", "stroke-width": w, "stroke-linejoin": "round" }));
+      g.append(sv("title", null, s.a + " → " + s.b + " · " + dec(s.length) + " m · " + s.wires + " fils · Ø " + dec(s.bundle_mm, 1) + " mm" + (s.sleeve ? " · " + s.sleeve : "")));
+      gL.append(g);
+      const span = X(n) - X(p);
+      if (span >= 34) gT.append(sv("text", { x: (X(p) + X(n)) / 2, y: Y[n] - w / 2 - 4, "text-anchor": "middle", style: "font:500 10px var(--font-mono);fill:var(--ink-2)" },
+        Math.round(s.length * 1000) + (span >= 90 && s.bundle_mm ? " · Ø" + dec(s.bundle_mm, 0) : "")));
+    });
+    order.forEach(n => {
+      const leaf = !(kids[n] || []).length;
+      gN.append(sv("circle", { cx: X(n), cy: Y[n], r: leaf ? 4 : 3, fill: "var(--ink)" }));
+      const owners = (at[n] || []).filter(o => !OW[o].cable);
+      if (leaf) {
+        const t = sv("text", { x: X(n) + 9, y: Y[n] + 4, style: "font-size:12px" });
+        t.append(sv("tspan", { style: "font-weight:600" }, T.nodes[n]));
+        if (owners.length) t.append(sv("tspan", { style: "font:500 10.5px var(--font-mono);fill:var(--ink-2)" }, "  " + owners.join(" ")));
+        gT.append(t);
+      } else if (owners.length || n === T.root) {
+        const lx = X(n) + 3, ly = Y[n] + 11;
+        gT.append(sv("text", { x: lx, y: ly, transform: "rotate(38 " + lx + " " + ly + ")", style: "font:500 9.5px var(--font-mono);fill:var(--accent);paint-order:stroke;stroke:var(--sheet);stroke-width:3px" }, trunc(owners.join(" "), 30)));
+      }
+    });
+    svg.append(gL, gN, gT);
+    const segRows = order.slice(1).map(n => segOf[n]).map(s => h("tr", null, h("td", { class: "mono" }, s.a + " → " + s.b),
+      h("td", null, T.nodes[s.b]), h("td", { class: "num" }, Math.round(s.length * 1000) + " mm"), h("td", { class: "num" }, s.wires),
+      h("td", { class: "num" }, s.bundle_mm ? dec(s.bundle_mm, 1) + " mm" : "—"), h("td", { class: "mono fn" }, s.sleeve || "—")));
+    sec.append(h("h2", null, "Formboard"),
+      h("p", { class: "lede" }, (T.estimated ? "Longueurs ESTIMÉES : mesure chaque tronçon sur la voiture (ficelle le long du trajet réel), reporte les valeurs dans la section topology du YAML et régénère : toutes les longueurs de coupe suivent. " : "") +
+        "Tracé à l'échelle (1 m = " + SCALE + " px) ; l'épaisseur des traits suit le diamètre estimé du toron."),
+      h("div", { class: "frame", style: "max-height:none" }, svg),
+      h("h3", { style: "margin-top:24px" }, "Tronçons, torons et gaine"),
+      h("div", { class: "tbl-wrap" }, h("table", { class: "tbl" },
+        h("thead", null, h("tr", null, ["Tronçon", "Vers", "Longueur", "Fils", "Ø toron", "Gaine conseillée"].map(t => h("th", null, t)))),
+        h("tbody", null, segRows))));
+  };
+
+  // ---------------------------------------------------------------- contrôles
+  RENDER.controles = function (sec) {
+    const state = store("checks") || {};
+    const blocks = H.checks.map((ph, pi) => {
+      const counter = h("span", { class: "count" });
+      const upd = () => { const n = ph.items.filter((_, ii) => state[pi + "-" + ii]).length; counter.textContent = n + " / " + ph.items.length; };
+      const list = h("ol", null, ph.items.map((it, ii) => {
+        const id = "chk-" + pi + "-" + ii;
+        const box = h("input", { type: "checkbox", id: id, checked: !!state[pi + "-" + ii] });
+        box.addEventListener("change", () => { state[pi + "-" + ii] = box.checked; store("checks", state); upd(); });
+        return h("li", null, h("label", { for: id }, box, h("span", null, it)));
+      }));
+      upd();
+      return h("div", { class: "phase" }, h("header", null, h("h3", null, ph.phase), counter), list);
+    });
+    let armed = false;
+    const reset = h("button", { class: "btn" }, "Tout décocher");
+    reset.addEventListener("click", () => {
+      if (!armed) { armed = true; reset.textContent = "Confirmer la remise à zéro"; setTimeout(() => { armed = false; reset.textContent = "Tout décocher"; }, 4000); return; }
+      Object.keys(state).forEach(k => delete state[k]); store("checks", state);
+      sec.replaceChildren(); RENDER.controles(sec);
+    });
+    sec.append(h("h2", null, "Contrôles"),
+      h("p", { class: "lede" }, "Trois passes : au banc avant de sertir, faisceau terminé avant de brancher l'ECU, puis première mise sous tension. Les cases restent cochées sur cet appareil."),
+      h("div", { class: "stack" }, blocks, h("div", null, reset)),
+      h("h3", { style: "margin-top:28px" }, "Réglages MTune liés au câblage"),
+      h("div", { class: "tbl-wrap" }, h("table", { class: "tbl" },
+        h("thead", null, h("tr", null, h("th", null, "Fonction"), h("th", null, "Réglage"))),
+        h("tbody", null, H.mtune.map(t => h("tr", null, h("td", null, h("strong", null, t.item)), h("td", null, t.value)))))));
+  };
+
+  // ------------------------------------------------------------- nomenclature
+  RENDER.nomenclature = function (sec) {
+    const cats = [...new Set(H.bom.map(r => r.cat))];
+    sec.append(h("h2", null, "Nomenclature"),
+      h("p", { class: "lede" }, "Quantités calculées depuis le faisceau : contacts réellement utilisés, mètres de fil par section et couleur (+10 % de marge), gaine par tronçon du formboard, deux étiquettes par fil."),
+      h("div", { class: "tbl-wrap" }, h("table", { class: "tbl" },
+        h("thead", null, h("tr", null, ["Article", "Qté", "Unité", "Détail"].map(t => h("th", null, t)))),
+        h("tbody", null, cats.map(c => [h("tr", { class: "group" }, h("td", { colspan: 4 }, c)),
+          H.bom.filter(r => r.cat === c).map(r => h("tr", null,
+            h("td", null, r.cat === "Fil" ? h("span", { class: "cc" }, swatch(r.item.split(" ").pop()), r.item) : r.item),
+            h("td", { class: "num" }, String(r.qty).replace(".", ",")), h("td", { class: "fn" }, r.unit), h("td", { class: "fn" }, r.detail)))])))));
+  };
+
+  // ------------------------------------------------------------------- start
+  let first = "synthese";
+  try { const hsh = location.hash.replace("#", ""); if (sections[hsh]) first = hsh; else if (sections[store("tab")]) first = store("tab"); } catch (e) { /* ignore */ }
+  show(first);
+})();
+</script>

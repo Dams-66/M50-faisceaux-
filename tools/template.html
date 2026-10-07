@@ -1,0 +1,1065 @@
+<title>Faisceau M50B25 Turbo</title>
+<meta name="description" content="Plan de fabrication du faisceau moteur BMW M50B25 VANOS turbo géré par MaxxECU RACE.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: engineering-drawing title block over a tabbed workshop binder; every drawing sits on its own bordered sheet. */
+:root {
+  color-scheme: light;
+  --paper: #eceff0;
+  --sheet: #fbfcfc;
+  --sheet-2: #f1f4f5;
+  --ink: #14202a;
+  --ink-2: #4a5864;
+  --muted: #74828d;
+  --rule: #d2dade;
+  --rule-strong: #9fb0ba;
+  --accent: #0f6b8c;
+  --accent-ink: #ffffff;
+  --tag: #f4cc2e;
+  --tag-ink: #1d1700;
+  --good: #0ca30c;
+  --warn: #fab219;
+  --bad: #d03b3b;
+  --good-ink: #0a6e0a;
+  --warn-ink: #8a5a00;
+  --bad-ink: #a92a2a;
+  --wire-edge: #26323b;
+  --fam-fire: #2a78d6;
+  --fam-wbo: #eb6834;
+  --fam-sens: #1baf7a;
+  --fam-dbw: #eda100;
+  --fam-out: #e87ba4;
+  --fam-pwr: #008300;
+  --fam-ref: #9fb0ba;
+  --font-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #0d1215; --sheet: #151c21; --sheet-2: #1b242a; --ink: #e4eaee; --ink-2: #a5b3bd;
+    --muted: #7f8d97; --rule: #28333b; --rule-strong: #3f4d57; --accent: #5ab8db; --accent-ink: #06202b;
+    --good-ink: #46cf5e; --warn-ink: #f4c04a; --bad-ink: #f07a74; --wire-edge: #a3b2bc;
+    --fam-fire: #3987e5; --fam-wbo: #d95926; --fam-sens: #199e70; --fam-dbw: #c98500; --fam-out: #d55181;
+    --fam-pwr: #008300; --fam-ref: #3f4d57;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #0d1215; --sheet: #151c21; --sheet-2: #1b242a; --ink: #e4eaee; --ink-2: #a5b3bd;
+  --muted: #7f8d97; --rule: #28333b; --rule-strong: #3f4d57; --accent: #5ab8db; --accent-ink: #06202b;
+  --good-ink: #46cf5e; --warn-ink: #f4c04a; --bad-ink: #f07a74; --wire-edge: #a3b2bc;
+  --fam-fire: #3987e5; --fam-wbo: #d95926; --fam-sens: #199e70; --fam-dbw: #c98500; --fam-out: #d55181;
+  --fam-pwr: #008300; --fam-ref: #3f4d57;
+}
+body { background: var(--paper); color: var(--ink); font: 15px/1.55 var(--font-body); }
+* { box-sizing: border-box; }
+a { color: var(--accent); }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 1320px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 56px; }
+@media (min-width: 900px) { .wrap { padding-inline: 28px; } }
+.mono { font-family: var(--font-mono); }
+.muted { color: var(--muted); }
+.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* ---------- Cartouche ---------- */
+.tb { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); border: 1.5px solid var(--ink); background: var(--sheet); }
+.tb-main { padding: 18px 20px 16px; border-right: 1.5px solid var(--ink); min-width: 0; }
+.eyebrow { font: 600 11.5px/1.2 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); }
+h1 { font: 700 clamp(30px, 5.4vw, 52px)/0.95 var(--font-display); text-transform: uppercase; letter-spacing: .01em; margin: 10px 0 8px; text-wrap: balance; }
+.tb-sub { margin: 0; color: var(--ink-2); }
+.tb-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; }
+.tb-grid > div { padding: 9px 12px; border-bottom: 1px solid var(--rule-strong); min-width: 0; }
+.tb-grid > div:nth-child(odd) { border-right: 1px solid var(--rule-strong); }
+.tb-grid > div:nth-last-child(-n+2) { border-bottom: 0; }
+.tb-grid dt { font: 600 10.5px/1.2 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.tb-grid dd { margin: 3px 0 0; font-weight: 600; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+@media (max-width: 780px) { .tb { grid-template-columns: 1fr; } .tb-main { border-right: 0; border-bottom: 1.5px solid var(--ink); } }
+
+/* ---------- Onglets ---------- */
+.tabs { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; background: var(--paper); border-bottom: 1.5px solid var(--ink); margin-top: 18px; }
+.tabs::-webkit-scrollbar { display: none; }
+.tabs button { font: 600 15.5px/1 var(--font-display); letter-spacing: .06em; text-transform: uppercase; padding: 13px 13px 11px; border: 0; border-bottom: 3px solid transparent; background: none; color: var(--ink-2); white-space: nowrap; cursor: pointer; }
+.tabs button:hover { color: var(--ink); }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.tab { padding-top: 22px; }
+h2 { font: 700 26px/1.05 var(--font-display); text-transform: uppercase; letter-spacing: .02em; margin: 0 0 12px; text-wrap: balance; }
+h3 { font: 600 19px/1.15 var(--font-display); text-transform: uppercase; letter-spacing: .03em; margin: 0 0 8px; }
+.lede { color: var(--ink-2); max-width: 70ch; margin: -4px 0 16px; }
+.stack { display: grid; gap: 22px; }
+.cols-2 { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); align-items: start; }
+.panel { background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; padding: 16px 18px; min-width: 0; }
+
+/* ---------- Puces ---------- */
+.chip { display: inline-flex; align-items: center; gap: 5px; font: 600 11px/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; padding: 4px 7px; border-radius: 3px; border: 1px solid currentColor; white-space: nowrap; }
+.chip.good { color: var(--good-ink); }
+.chip.warn { color: var(--warn-ink); }
+.chip.bad { color: var(--bad-ink); }
+.chip.fix { color: var(--accent); }
+.chip.add { color: var(--ink-2); }
+.chip.info { color: var(--muted); }
+.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; }
+
+/* ---------- Synthèse ---------- */
+.checklist-v { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.checklist-v li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: start; }
+.audit { display: grid; gap: 10px; }
+.audit article { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 14px; padding: 13px 16px; background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; }
+.audit article h3 { font: 600 16px/1.3 var(--font-body); text-transform: none; letter-spacing: 0; margin: 0 0 4px; }
+.audit article p { margin: 0; color: var(--ink-2); max-width: 82ch; }
+@media (max-width: 560px) { .audit article { grid-template-columns: 1fr; gap: 8px; } }
+ul.plain { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+
+/* ---------- Tableaux ---------- */
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 6px; background: var(--sheet); }
+.tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.tbl th { font: 600 10.5px/1.2 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 9px 10px; border-bottom: 1.5px solid var(--ink); white-space: nowrap; background: var(--sheet); position: sticky; top: 0; }
+.tbl td { padding: 7px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.tbl tr:last-child td { border-bottom: 0; }
+.tbl tr.group td { background: var(--sheet-2); font: 600 12px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+.tbl .fn { color: var(--ink-2); font-size: 12.5px; }
+.tbl tbody tr.clickable { cursor: pointer; }
+.tbl tbody tr.clickable:hover td { background: var(--sheet-2); }
+.sw { display: inline-block; width: 26px; height: 12px; border-radius: 3px; border: 1px solid var(--rule-strong); vertical-align: -1px; flex: none; }
+.cc { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.wid { font: 600 12.5px var(--font-mono); background: var(--tag); color: var(--tag-ink); padding: 1px 5px; border-radius: 2px; white-space: nowrap; }
+button.wid { border: 0; cursor: pointer; }
+
+/* ---------- Outils ---------- */
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; margin-bottom: 12px; }
+.seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg button, .btn { border: 1px solid var(--rule-strong); background: var(--sheet); border-radius: 4px; padding: 6px 10px; font-size: 13px; cursor: pointer; white-space: nowrap; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.btn:hover, .seg button:hover { border-color: var(--ink); }
+.field { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink-2); }
+input[type="search"], select { font: inherit; font-size: 14px; color: var(--ink); background: var(--sheet); border: 1px solid var(--rule-strong); border-radius: 4px; padding: 6px 9px; min-width: 0; }
+input[type="search"] { width: min(100%, 280px); }
+.count { font: 500 12.5px var(--font-mono); color: var(--muted); }
+
+/* ---------- Brochage ECU ---------- */
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--ink-2); margin-bottom: 14px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 14px; height: 14px; border-radius: 3px; display: inline-block; border: 1px solid var(--rule-strong); }
+.ecu-layout { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 430px), 1fr)); align-items: start; }
+.cmc-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.cmc { display: grid; grid-template-columns: 22px repeat(4, minmax(0, 1fr)); gap: 4px; }
+.cmc .lab { font: 600 12px var(--font-mono); color: var(--muted); display: grid; place-items: center; }
+.pin { --fam: var(--fam-ref); min-height: 56px; min-width: 0; border: 1px solid var(--rule); border-left: 4px solid var(--fam); background: color-mix(in srgb, var(--fam) 13%, var(--sheet)); border-radius: 3px; padding: 5px 6px; text-align: left; cursor: pointer; display: grid; align-content: start; gap: 1px; }
+.pin .pid { font: 600 13px/1.1 var(--font-mono); }
+.pin .pfn { font-size: 11px; line-height: 1.2; color: var(--ink-2); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow-wrap: anywhere; }
+.pin.free { --fam: var(--rule-strong); background: repeating-linear-gradient(135deg, transparent 0 6px, var(--rule) 6px 7px), var(--sheet); }
+.pin.free .pid, .pin.free .pfn { color: var(--muted); }
+.pin[aria-pressed="true"] { outline: 2px solid var(--accent); outline-offset: 1px; }
+.detail { border: 1.5px solid var(--ink); background: var(--sheet); border-radius: 6px; padding: 14px 16px; }
+.detail h3 { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; }
+.kv { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 14px; margin: 8px 0 0; font-size: 14px; }
+.kv dt { color: var(--muted); font: 600 11px/1.9 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; }
+.kv dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+
+/* ---------- Planches ---------- */
+.sheet-chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; }
+.sheet-chips button { border: 1px solid var(--rule-strong); background: var(--sheet); border-radius: 4px; padding: 7px 10px; cursor: pointer; white-space: nowrap; font-size: 13px; display: inline-flex; gap: 6px; align-items: center; }
+.sheet-chips button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.sheet-chips .n { font: 500 11px var(--font-mono); opacity: .7; }
+.frame { overflow: auto; border: 1.5px solid var(--ink); background: var(--sheet); border-radius: 4px; max-height: 80vh; -webkit-overflow-scrolling: touch; }
+.frame-cap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px 12px; font-size: 13px; color: var(--ink-2); padding: 8px 2px 0; }
+svg.schem, svg.formboard { display: block; }
+.schem text, .formboard text { fill: var(--ink); font-family: var(--font-body); }
+.schem .box-bg { fill: var(--sheet); stroke: var(--ink); stroke-width: 1.2; }
+.schem .box-head { fill: var(--sheet-2); }
+.schem .box-sep { stroke: var(--rule-strong); stroke-width: 1; }
+.schem .t-id { font: 600 12px var(--font-mono); }
+.schem .t-label { font-size: 11.5px; font-weight: 600; }
+.schem .t-ref, .schem .t-fn { font-size: 10.5px; fill: var(--ink-2); }
+.schem .t-pin { font: 600 11px var(--font-mono); }
+.schem .t-x { font: 500 10px var(--font-mono); fill: var(--accent); cursor: pointer; }
+.schem .node text, .schem .xref { paint-order: stroke; stroke: var(--sheet); stroke-width: 3.5px; stroke-linejoin: round; }
+.schem .port-dot { fill: var(--ink); }
+.schem .node-dot { fill: var(--ink); }
+.schem .node-ring { fill: none; stroke: var(--muted); stroke-dasharray: 3 2; }
+.schem .gnd line { stroke: var(--ink); stroke-width: 1.6; }
+.schem .w-halo { fill: none; stroke: var(--sheet); stroke-linecap: round; }
+.schem .w-edge { fill: none; stroke: var(--wire-edge); stroke-linecap: round; }
+.schem .w-core, .schem .w-stripe { fill: none; stroke-linecap: butt; }
+.schem .w-hit { fill: none; stroke: transparent; stroke-width: 14; cursor: pointer; }
+.schem .w-bus { fill: none; stroke: var(--muted); stroke-width: 4; stroke-dasharray: 2 4; stroke-linecap: round; }
+.schem .w-drain { fill: none; stroke: var(--muted); stroke-width: 1.4; stroke-dasharray: 5 3; }
+.schem .tag rect { fill: var(--tag); stroke: var(--tag-ink); stroke-opacity: .35; }
+.schem .tag text { font: 500 10px var(--font-mono); fill: var(--tag-ink); }
+.schem .box, .schem .node { cursor: pointer; }
+.schem.dim .wire:not(.hl), .schem.dim .tag:not(.hl) { opacity: .1; }
+.schem.dim .box:not(.hl), .schem.dim .node:not(.hl) { opacity: .4; }
+.schem .wire.hl .w-edge { stroke: var(--accent); }
+.hide-tags .tag { display: none; }
+
+/* ---------- Jauges énergie ---------- */
+.meters { display: grid; gap: 4px; }
+.meter-row { display: grid; grid-template-columns: 54px minmax(0, 1.2fr) minmax(90px, 1fr) 160px 104px; gap: 12px; align-items: center; padding: 8px 4px; border-bottom: 1px solid var(--rule); }
+.meter-row:last-child { border-bottom: 0; }
+.meter-row .id { font: 600 13px var(--font-mono); }
+.meter-row .lbl { min-width: 0; font-size: 13.5px; }
+.meter-row .lbl small { display: block; color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+.meter { position: relative; height: 10px; background: var(--sheet-2); border: 1px solid var(--rule); border-radius: 5px; overflow: hidden; }
+.meter .fill { position: absolute; inset: 0 auto 0 0; border-radius: 0 4px 4px 0; background: var(--good); }
+.meter .fill.warn { background: var(--warn); }
+.meter .fill.bad { background: var(--bad); }
+.meter .range { position: absolute; top: 0; bottom: 0; background: repeating-linear-gradient(135deg, var(--warn) 0 3px, transparent 3px 6px); }
+.meter-row .val { font: 500 12.5px var(--font-mono); text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.meter-row .st { justify-self: start; }
+@media (max-width: 700px) {
+  .meter-row { grid-template-columns: 46px minmax(0, 1fr) auto; }
+  .meter-row .meter { grid-column: 1 / -1; grid-row: 2; }
+  .meter-row .val { grid-column: 2; grid-row: 3; text-align: left; }
+  .meter-row .st { grid-column: 3; grid-row: 1; }
+}
+
+/* ---------- Connecteurs ---------- */
+.cards { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr)); align-items: start; }
+.card { background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; min-width: 0; }
+.card header { padding: 12px 14px 10px; border-bottom: 1px solid var(--rule); border-left: 4px solid var(--fam, var(--fam-ref)); }
+.card header .id { font: 600 13px var(--font-mono); }
+.card header h3 { font: 600 16px/1.25 var(--font-body); text-transform: none; letter-spacing: 0; margin: 2px 0 2px; }
+.card header p { margin: 0; font-size: 12.5px; color: var(--ink-2); }
+.card .note { margin: 0; padding: 8px 14px; font-size: 12.5px; color: var(--ink-2); border-bottom: 1px solid var(--rule); }
+.card .verify { margin: 0; padding: 8px 14px; font-size: 12.5px; border-bottom: 1px solid var(--rule); background: color-mix(in srgb, var(--warn) 14%, var(--sheet)); }
+.card .tbl { font-size: 12.5px; }
+.card .tbl td, .card .tbl th { padding: 6px 10px; }
+.card .tbl th { position: static; }
+
+/* ---------- Contrôles ---------- */
+.phase { background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; }
+.phase header { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--rule); }
+.phase header h3 { margin: 0; }
+.phase ol { list-style: none; margin: 0; padding: 4px 0; }
+.phase li label { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; padding: 8px 16px; cursor: pointer; align-items: start; }
+.phase li input { width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--accent); }
+.phase li input:checked + span { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--rule-strong); }
+
+footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink); font-size: 13px; color: var(--ink-2); display: flex; flex-wrap: wrap; gap: 6px 20px; justify-content: space-between; }
+@media (prefers-reduced-motion: no-preference) { .pin, .seg button, .tabs button { transition: background-color .12s, color .12s, border-color .12s; } }
+</style>
+
+<div class="wrap">
+  <header class="tb">
+    <div class="tb-main">
+      <div class="eyebrow">Faisceau moteur · plan de fabrication</div>
+      <h1 id="tb-title">Faisceau M50B25 Turbo</h1>
+      <p class="tb-sub" id="tb-sub"></p>
+    </div>
+    <dl class="tb-grid" id="tb-grid"></dl>
+  </header>
+  <nav class="tabs" id="tabs" role="tablist" aria-label="Sections du dossier"></nav>
+  <main id="main"></main>
+  <footer>
+    <span>Généré depuis <span class="mono">harness/m50b25_vanos_turbo.yaml</span> par <span class="mono">tools/build_harness.py</span>.</span>
+    <span id="foot-rev"></span>
+  </footer>
+</div>
+
+<script>const H = /*__HARNESS_DATA__*/null;</script>
+<script>
+(function () {
+  "use strict";
+  if (!H) { document.getElementById("main").textContent = "Données du faisceau absentes : lancer tools/build_harness.py."; return; }
+
+  // ------------------------------------------------------------------ utils
+  function h(tag, props) {
+    const el = document.createElement(tag);
+    if (props) for (const k in props) {
+      const v = props[k];
+      if (v == null || v === false) continue;
+      if (k === "class") el.className = v;
+      else if (k === "text") el.textContent = v;
+      else if (k.slice(0, 2) === "on") el.addEventListener(k.slice(2), v);
+      else if (k === "dataset") Object.assign(el.dataset, v);
+      else el.setAttribute(k, v === true ? "" : v);
+    }
+    for (let i = 2; i < arguments.length; i++) append(el, arguments[i]);
+    return el;
+  }
+  function fill(el) { el.replaceChildren(); for (let i = 1; i < arguments.length; i++) append(el, arguments[i]); return el; }
+  function append(el, kid) {
+    if (kid == null || kid === false) return;
+    if (Array.isArray(kid)) { kid.forEach(k => append(el, k)); return; }
+    el.append(kid instanceof Node ? kid : String(kid));
+  }
+  const SVGNS = "http://www.w3.org/2000/svg";
+  function sv(tag, attrs, text) {
+    const el = document.createElementNS(SVGNS, tag);
+    if (attrs) for (const k in attrs) if (attrs[k] != null) el.setAttribute(k, attrs[k]);
+    if (text != null) el.textContent = text;
+    return el;
+  }
+  const dec = (n, d) => Number(n).toFixed(d == null ? 2 : d).replace(".", ",");
+  const mm2 = v => String(v).replace(".", ",");
+  const natural = (a, b) => String(a).localeCompare(String(b), "fr", { numeric: true });
+  const trunc = (s, n) => (s = String(s || ""), s.length > n ? s.slice(0, Math.max(1, n - 1)) + "…" : s);
+  function store(key, val) {
+    try {
+      if (val === undefined) return JSON.parse(localStorage.getItem("m50h:" + key));
+      localStorage.setItem("m50h:" + key, JSON.stringify(val));
+    } catch (e) { return null; }
+  }
+
+  // ------------------------------------------------------------------- data
+  const WIRES = H.wires;
+  const REAL = WIRES.filter(w => !w.internal && !w.drain);
+  const WB = {}; WIRES.forEach(w => { WB[w.id] = w; });
+  const NETS = {}; H.nets.forEach(n => { NETS[n.id] = n; });
+  const EP = H.endpoints, OW = H.owners;
+  const ownerOf = e => EP[e].owner;
+  const wiresAt = {};
+  const ownerSheets = {};
+  WIRES.forEach(w => [w.from, w.to].forEach(e => {
+    (wiresAt[e] = wiresAt[e] || []).push(w);
+    (ownerSheets[ownerOf(e)] = ownerSheets[ownerOf(e)] || new Set()).add(w.sheet);
+  }));
+  const FAM = { PWR: "pwr", GND: "pwr", IGN: "fire", INJ: "fire", SYNC: "sens", SNS: "sens", KNK: "sens", DBW: "dbw", WBO: "wbo", ACT: "out", RLY: "out", COM: "out", REF: "ref" };
+  const FAM_LABEL = { fire: "Allumage & injection", wbo: "Lambda & EGT", sens: "Capteurs & synchro", dbw: "Papillon & pédale", out: "Sorties & habitacle", pwr: "Alimentation & masses" };
+  const FAM_ORDER = ["fire", "wbo", "sens", "dbw", "out", "pwr"];
+  const famVar = f => "var(--fam-" + (f || "ref") + ")";
+  const SHEET_IDS = Object.keys(H.sheets);
+  const sheetTitle = id => H.sheets[id] ? H.sheets[id].title : id;
+
+  function colorHex(code) { return String(code || "").split("/").map(c => (H.colors[c] || {}).hex || "#999"); }
+  function colorName(code) { return String(code || "").split("/").map(c => (H.colors[c] || {}).name || c).join(" / "); }
+  function swatch(code) {
+    const p = colorHex(code);
+    const bg = p[1] ? "linear-gradient(180deg," + p[0] + " 0 33%," + p[1] + " 33% 67%," + p[0] + " 67%)" : p[0];
+    return h("span", { class: "sw", style: "background:" + bg, title: colorName(code) });
+  }
+  const colorChip = code => h("span", { class: "cc" }, swatch(code), h("span", { class: "mono" }, code));
+  function epLabel(eid) {
+    const e = EP[eid]; const o = OW[e.owner];
+    return { id: eid, fn: e.fn, owner: o ? o.label : "" };
+  }
+  function otherEnd(w, eid) { return w.from === eid ? w.to : w.from; }
+  const wireTag = (w, onclick) => h(onclick ? "button" : "span", { class: "wid", onclick: onclick, title: onclick ? "Voir sur la planche" : null }, w.id);
+
+  // ---------------------------------------------------------------- header
+  const V = H.validation;
+  const ecuUsed = H.ecu.pins.filter(p => p.wires.length).length;
+  const meters = REAL.reduce((s, w) => s + w.length_m, 0);
+  document.getElementById("tb-title").textContent = H.meta.project;
+  document.getElementById("tb-sub").textContent = H.meta.engine + " · " + H.meta.ecu;
+  document.getElementById("foot-rev").textContent = "Révision " + H.meta.revision + " · " + H.meta.date;
+  function statusChip() {
+    if (V.errors.length) return h("span", { class: "chip bad" }, "✕ " + V.errors.length + " erreur" + (V.errors.length > 1 ? "s" : ""));
+    if (V.warnings.length) return h("span", { class: "chip warn" }, "! " + V.warnings.length + " point" + (V.warnings.length > 1 ? "s" : "") + " à mesurer");
+    return h("span", { class: "chip good" }, "✓ conforme");
+  }
+  const tb = document.getElementById("tb-grid");
+  [["Révision", H.meta.revision + " · " + H.meta.date],
+   ["Statut", H.meta.status],
+   ["Contrôle ERC", statusChip()],
+   ["Fils", REAL.length + " fils · " + dec(meters, 1) + " m"],
+   ["Broches ECU", ecuUsed + " / " + H.ecu.pins.length + " utilisées"],
+   ["Distribution", Object.values(OW).filter(o => o.cat === "splice").length + " épissures/barrettes · " + H.fuses.length + " fusibles"]
+  ].forEach(([k, v]) => tb.append(h("div", null, h("dt", null, k), h("dd", null, v))));
+
+  // ------------------------------------------------------------------ tabs
+  const TABS = [["synthese", "Synthèse"], ["ecu", "Brochage ECU"], ["planches", "Planches"], ["coupe", "Liste de coupe"],
+    ["connecteurs", "Connecteurs"], ["energie", "Énergie"], ["formboard", "Formboard"], ["controles", "Contrôles"], ["nomenclature", "Nomenclature"]];
+  const main = document.getElementById("main");
+  const nav = document.getElementById("tabs");
+  const sections = {}, rendered = {};
+  const RENDER = {};
+  TABS.forEach(([id, label]) => {
+    nav.append(h("button", { role: "tab", id: "tab-" + id, "aria-controls": "t-" + id, "aria-selected": "false", onclick: () => show(id) }, label));
+    const sec = h("section", { class: "tab", id: "t-" + id, role: "tabpanel", "aria-labelledby": "tab-" + id });
+    sec.hidden = true;
+    sections[id] = sec; main.append(sec);
+  });
+  function show(id) {
+    if (!sections[id]) id = "synthese";
+    if (!rendered[id]) { RENDER[id](sections[id]); rendered[id] = true; }
+    TABS.forEach(([t]) => { sections[t].hidden = t !== id; document.getElementById("tab-" + t).setAttribute("aria-selected", t === id ? "true" : "false"); });
+    store("tab", id);
+    try { history.replaceState(null, "", "#" + id); } catch (e) { /* cadre restreint */ }
+  }
+
+  // -------------------------------------------------------------- synthèse
+  const SEV = { fix: ["fix", "✎ Corrigé"], add: ["add", "+ Ajouté"], warn: ["warn", "! À vérifier"], ok: ["good", "✓ Validé"] };
+  RENDER.synthese = function (sec) {
+    const nE = V.errors.length, nW = V.warnings.length;
+    const items = [].concat(
+      V.errors.map(t => ["bad", "Erreur", t]), V.warnings.map(t => ["warn", "Alerte", t]), V.infos.map(t => ["info", "Info", t]));
+    sec.append(h("div", { class: "stack" },
+      h("div", { class: "panel" },
+        h("h2", null, "Contrôle automatique du faisceau"),
+        h("p", { class: "lede" }, "Chaque génération vérifie les règles électriques : une broche ECU = un fil, aucune masse de référence reliée à la caisse, aucun mélange +5 V / +12 V / masses, chaque fil protégé par un fusible adapté à sa section, courant de chaque sortie ECU sous sa limite. " +
+          (nE ? nE + " erreur(s) bloquante(s)." : "Aucune erreur bloquante.") + (nW ? " " + nW + " point(s) dépendent d'une mesure sur tes pièces." : "")),
+        items.length ? h("ul", { class: "checklist-v" }, items.map(([c, l, t]) => h("li", null, h("span", { class: "chip " + c }, l), h("span", null, t)))) : h("p", null, "Aucun point.")),
+      h("div", null,
+        h("h2", null, "Audit de ton plan"),
+        h("p", { class: "lede" }, "Ton plan d'origine confronté au schéma officiel MaxxECU RACE REV9+ et aux brochages constructeur. Les corrections sont déjà intégrées dans toutes les planches."),
+        h("div", { class: "audit" }, ["fix", "add", "warn", "ok"].flatMap(s => H.audit.filter(a => a.sev === s)).map(a =>
+          h("article", null, h("div", null, h("span", { class: "chip " + SEV[a.sev][0] }, SEV[a.sev][1])),
+            h("div", null, h("h3", null, a.title), h("p", null, a.detail)))))),
+      h("div", { class: "cols-2" },
+        h("div", { class: "panel" }, h("h3", null, "Hypothèses de l'étude"),
+          h("ul", { class: "plain" }, H.meta.assumptions.map(a => h("li", null, a)))),
+        h("div", { class: "panel" }, h("h3", null, "Code couleur des fils"),
+          h("div", { class: "tbl-wrap", style: "border:0" }, h("table", { class: "tbl" },
+            h("tbody", null, H.color_legend.map(c => h("tr", null, h("td", null, colorChip(c.code)), h("td", null, c.role)))))))),
+      h("div", { class: "panel" }, h("h3", null, "Sources vérifiées"),
+        h("ul", { class: "plain" }, H.meta.sources.map(s => h("li", null, h("a", { href: s.url, target: "_blank", rel: "noopener" }, s.label)))))
+    ));
+  };
+
+  // ------------------------------------------------------------ brochage ECU
+  RENDER.ecu = function (sec) {
+    const byId = {}; H.ecu.pins.forEach(p => { byId[p.id] = p; });
+    const detail = h("div", { class: "detail", "aria-live": "polite" });
+    let pressed = null;
+    function select(p, btn) {
+      if (pressed) pressed.setAttribute("aria-pressed", "false");
+      pressed = btn; if (btn) btn.setAttribute("aria-pressed", "true");
+      fill(detail,
+        h("h3", null, h("span", { class: "mono" }, p.id), h("span", null, p.fn)),
+        h("dl", { class: "kv" },
+          h("dt", null, "Type"), h("dd", null, p.kind + (p.max_a ? " · " + p.max_a + " A max" : "")),
+          h("dt", null, "Usage"), h("dd", null, p.wires.length ? sheetTitle(p.sheet) : "Libre — disponible pour une évolution")),
+        p.wires.map(wid => {
+          const w = WB[wid]; const o = epLabel(otherEnd(w, p.id));
+          return h("div", { style: "margin-top:10px;display:grid;gap:6px" },
+            h("div", { class: "cc" }, wireTag(w), colorChip(w.color), h("span", { class: "mono" }, mm2(w.mm2) + " mm² · " + dec(w.length_m) + " m"), w.cable ? h("span", { class: "muted mono" }, w.cable) : null),
+            h("div", null, "→ ", h("span", { class: "mono" }, o.id), " ", h("span", { class: "muted" }, o.fn + " · " + o.owner)),
+            w.note ? h("div", { class: "muted", style: "font-size:13px" }, w.note) : null,
+            h("div", null, h("button", { class: "btn", onclick: () => goSheet(w.sheet, w.net) }, "Voir sur la planche " + w.sheet)));
+        }));
+    }
+    const legend = h("div", { class: "legend" }, FAM_ORDER.map(f => h("span", null, h("i", { style: "background:" + famVar(f) }), FAM_LABEL[f])),
+      h("span", null, h("i", { style: "background:repeating-linear-gradient(135deg,transparent 0 3px,var(--rule-strong) 3px 4px)" }), "Libre"));
+    const grids = Object.keys(H.ecu.connectors).map(cid => {
+      const c = H.ecu.connectors[cid];
+      const pins = H.ecu.pins.filter(p => p.conn === cid);
+      const used = pins.filter(p => p.wires.length).length;
+      const grid = h("div", { class: "cmc", role: "group", "aria-label": c.title });
+      grid.append(h("span"));
+      c.cols.forEach(n => grid.append(h("span", { class: "lab" }, n)));
+      c.rows.forEach(r => {
+        grid.append(h("span", { class: "lab" }, r));
+        c.cols.forEach(n => {
+          const p = byId[cid + "." + r + n];
+          const fam = p.sheet ? FAM[p.sheet] : null;
+          const btn = h("button", { class: "pin" + (p.wires.length ? "" : " free"), "aria-pressed": "false", style: fam ? "--fam:" + famVar(fam) : null,
+            title: p.id + " — " + p.fn }, h("span", { class: "pid" }, r + n), h("span", { class: "pfn" }, p.fn));
+          btn.addEventListener("click", () => select(p, btn));
+          if (p.id === "CMC1.H2") setTimeout(() => select(p, btn));
+          grid.append(btn);
+        });
+      });
+      return h("div", { class: "panel" },
+        h("div", { class: "cmc-head" }, h("h3", { style: "margin:0" }, cid), h("span", { class: "count" }, used + " / " + pins.length + " broches utilisées")),
+        h("p", { class: "muted", style: "margin:0 0 10px;font-size:13px" }, c.title + " — repérage logique lettre/chiffre, vérifier le marquage moulé du connecteur."),
+        grid);
+    });
+    // Table complète
+    let filter = "used";
+    const tbody = h("tbody");
+    function fillTable() {
+      tbody.replaceChildren();
+      H.ecu.pins.filter(p => filter === "all" || (filter === "used") === (p.wires.length > 0)).forEach(p => {
+        if (!p.wires.length) { tbody.append(h("tr", null, h("td", { class: "mono" }, p.id), h("td", null, p.fn), h("td", { colspan: 4, class: "muted" }, "libre"))); return; }
+        p.wires.forEach(wid => {
+          const w = WB[wid]; const o = epLabel(otherEnd(w, p.id));
+          tbody.append(h("tr", { class: "clickable", onclick: () => goSheet(w.sheet, w.net) },
+            h("td", { class: "mono" }, p.id), h("td", null, p.fn), h("td", null, wireTag(w)),
+            h("td", null, colorChip(w.color)), h("td", { class: "num" }, mm2(w.mm2)),
+            h("td", null, h("span", { class: "mono" }, o.id), h("div", { class: "fn" }, o.fn + " · " + o.owner))));
+        });
+      });
+    }
+    const seg = h("div", { class: "seg", role: "group", "aria-label": "Filtrer les broches" });
+    [["used", "Utilisées"], ["free", "Libres"], ["all", "Toutes"]].forEach(([k, l]) => {
+      const b = h("button", { "aria-pressed": k === filter ? "true" : "false" }, l);
+      b.addEventListener("click", () => { filter = k; seg.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false")); fillTable(); });
+      seg.append(b);
+    });
+    fillTable();
+    sec.append(h("h2", null, "Brochage MaxxECU RACE"),
+      h("p", { class: "lede" }, "Touche une broche pour voir son fil, sa section, sa longueur de coupe et sa destination. La couleur indique le sous-système ; les cases hachurées sont libres."),
+      legend, h("div", { class: "ecu-layout" }, grids, h("div", { style: "display:grid;gap:16px;align-content:start" }, detail)),
+      h("div", { style: "margin-top:26px" }, h("div", { class: "toolbar" }, h("h3", { style: "margin:0 12px 0 0" }, "Table des broches"), seg),
+        h("div", { class: "tbl-wrap" }, h("table", { class: "tbl" },
+          h("thead", null, h("tr", null, ["Broche", "Fonction MaxxECU", "Fil", "Couleur", "mm²", "Destination"].map(t => h("th", null, t)))), tbody))));
+  };
+
+  // ------------------------------------------------------------- planches
+  const ROW = 22, HEAD = 42, NODE_H = 58, GAP_Y = 14, GAP_X = 150, PAD = 24;
+  const ADJ = {};
+  WIRES.forEach(w => {
+    const a = ownerOf(w.from), b = ownerOf(w.to);
+    if (a === b) return;
+    (ADJ[a] = ADJ[a] || new Set()).add(b); (ADJ[b] = ADJ[b] || new Set()).add(a);
+  });
+  const catOf = o => OW[o].cat;
+  const isNode = o => ["splice", "shield", "ground"].includes(catOf(o));
+  function hopsTo(start, pred) {
+    const seen = new Set([start]); let frontier = [start]; let d = 0;
+    while (frontier.length) {
+      d++; const next = [];
+      for (const o of frontier) for (const n of (ADJ[o] || [])) {
+        if (seen.has(n)) continue; seen.add(n);
+        if (pred(n)) return d;
+        if (["splice", "shield"].includes(catOf(n))) next.push(n);
+      }
+      frontier = next;
+    }
+    return Infinity;
+  }
+  const isEcu = o => catOf(o) === "ecu";
+  const isPdm = o => ["fuse", "relay", "ground"].includes(catOf(o));
+  function colRank(o) {
+    const c = catOf(o);
+    if (c === "ecu") return 0;
+    if (c === "splice" || c === "shield") {
+      const dE = hopsTo(o, isEcu), dP = hopsTo(o, isPdm);
+      return dE <= dP ? dE : 300 + (10 - Math.min(dP, 9));
+    }
+    if (c === "inline") return 100;
+    if (c === "comp") return 200;
+    return 400;
+  }
+  function boxWidth(o) {
+    const c = catOf(o);
+    if (isNode(o)) return 150;
+    if (c === "ecu" || c === "comp") return 250;
+    return 186;
+  }
+
+  function layoutSheet(sheetId) {
+    const sheet = H.sheets[sheetId];
+    const wires = WIRES.filter(w => w.sheet === sheetId);
+    const boxes = new Map();
+    const ownerOrder = Object.keys(OW);
+    wires.forEach(w => [w.from, w.to].forEach(e => {
+      const o = ownerOf(e);
+      if (!boxes.has(o)) boxes.set(o, { o: o, ports: [], idx: {} });
+      const b = boxes.get(o);
+      if (b.idx[e] == null) { b.idx[e] = b.ports.length; b.ports.push({ e: e, wires: [] }); }
+      b.ports[b.idx[e]].wires.push(w);
+    }));
+    // colonnes
+    const rank = new Map();
+    if (sheet.layout === "flow") {
+      const adj = {};
+      wires.forEach(w => { const a = ownerOf(w.from), b = ownerOf(w.to); (adj[a] = adj[a] || []).push(b); (adj[b] = adj[b] || []).push(a); });
+      const root = boxes.has(sheet.root) ? sheet.root : boxes.keys().next().value;
+      rank.set(root, 0); let q = [root];
+      while (q.length) { const n = []; q.forEach(o => (adj[o] || []).forEach(m => { if (!rank.has(m)) { rank.set(m, rank.get(o) + 1); n.push(m); } })); q = n; }
+      boxes.forEach((b, o) => { if (!rank.has(o)) rank.set(o, 0); });
+    } else {
+      boxes.forEach((b, o) => rank.set(o, colRank(o)));
+    }
+    const ranks = [...new Set(rank.values())].sort((a, b) => a - b);
+    const cols = ranks.map(() => []);
+    [...boxes.values()].sort((a, b) => ownerOrder.indexOf(a.o) - ownerOrder.indexOf(b.o)).forEach(b => {
+      b.col = ranks.indexOf(rank.get(b.o)); cols[b.col].push(b);
+    });
+    const reindex = b => { b.idx = {}; b.ports.forEach((p, i) => { b.idx[p.e] = i; }); };
+    boxes.forEach(b => {
+      b.node = isNode(b.o);
+      if (!b.node && catOf(b.o) !== "ecu") { b.ports.sort((p, q) => natural(EP[p.e].pin, EP[q.e].pin)); reindex(b); }
+      b.w = boxWidth(b.o);
+      const xs = [...(ownerSheets[b.o] || [])].filter(s => s !== sheetId);
+      b.xref = catOf(b.o) === "ecu" ? [] : xs;
+      b.h = b.node ? NODE_H + (b.xref.length ? 12 : 0) : HEAD + b.ports.length * ROW + 6 + (b.xref.length ? 16 : 0);
+    });
+    // abscisses
+    let x = PAD;
+    const colX = cols.map(col => { const cx = x; const w = Math.max(...col.map(b => b.w)); x += w + GAP_X; return { x: cx, w: w }; });
+    cols.forEach((col, i) => col.forEach(b => { b.x = colX[i].x + (colX[i].w - b.w) / 2; }));
+    const portY = (b, e) => b.node ? b.y + 30 : b.y + HEAD + b.idx[e] * ROW + ROW / 2;
+    function stack(col) { let y = PAD; col.forEach(b => { b.y = y; y += b.h + GAP_Y; }); }
+    cols.forEach(stack);
+    const heights = cols.map(col => col.reduce((s, b) => s + b.h + GAP_Y, 0));
+    const anchor = heights.indexOf(Math.max(...heights));
+    function bary(b) {
+      let s = 0, n = 0;
+      b.ports.forEach(p => p.wires.forEach(w => {
+        const oe = otherEnd(w, p.e); const ob = boxes.get(ownerOf(oe));
+        if (ob && ob !== b) { s += portY(ob, oe); n++; }
+      }));
+      return n ? s / n : b.y + b.h / 2;
+    }
+    function portBary(b, p) {
+      let s = 0, n = 0;
+      p.wires.forEach(w => { const oe = otherEnd(w, p.e); const ob = boxes.get(ownerOf(oe)); if (ob && ob !== b) { s += portY(ob, oe); n++; } });
+      return n ? s / n : 0;
+    }
+    for (let it = 0; it < 6; it++) {
+      const order = it % 2 ? cols.map((c, i) => i).reverse() : cols.map((c, i) => i);
+      order.forEach(ci => {
+        const col = cols[ci];
+        col.forEach(b => {
+          if (catOf(b.o) === "ecu" && it > 0) {
+            const pb = new Map(b.ports.map(p => [p, portBary(b, p)]));
+            b.ports.sort((p, q) => pb.get(p) - pb.get(q)); reindex(b);
+          }
+          b._c = bary(b);
+        });
+        col.sort((a, b) => a._c - b._c);
+        if (ci === anchor) { stack(col); return; }
+        let prev = PAD;
+        col.forEach(b => { b.y = Math.max(prev, b._c - (b.node ? 30 : b.h / 2)); prev = b.y + b.h + GAP_Y; });
+      });
+    }
+    let minY = Infinity; boxes.forEach(b => { minY = Math.min(minY, b.y); });
+    boxes.forEach(b => { b.y += PAD - minY; });
+    let maxY = 0; boxes.forEach(b => { maxY = Math.max(maxY, b.y + b.h); });
+    const loops = wires.some(w => boxes.get(ownerOf(w.from)).col === boxes.get(ownerOf(w.to)).col);
+    return { wires: wires, boxes: boxes, width: x - GAP_X + PAD + (loops ? 90 : 0), height: maxY + PAD, portY: portY };
+  }
+
+  function drawSheet(sheetId) {
+    const L = layoutSheet(sheetId);
+    const svg = sv("svg", { class: "schem", viewBox: "0 0 " + L.width + " " + L.height, width: L.width, height: L.height, role: "img", "aria-label": "Planche " + sheetTitle(sheetId) });
+    const gW = sv("g"), gB = sv("g"), gT = sv("g");
+    // boîtes
+    L.boxes.forEach(b => {
+      const o = OW[b.o];
+      const fam = FAM[o.system] || "ref";
+      if (b.node) {
+        const g = sv("g", { class: "node", "data-owner": b.o, transform: "translate(" + b.x + "," + b.y + ")" });
+        const cx = b.w / 2;
+        g.append(sv("text", { class: "t-id", x: cx, y: 12, "text-anchor": "middle" }, b.o));
+        g.append(sv("text", { class: "t-fn", x: cx, y: 54, "text-anchor": "middle" }, trunc(o.label, 26)));
+        if (o.cat === "ground") {
+          const gg = sv("g", { class: "gnd", transform: "translate(" + cx + ",30)" });
+          gg.append(sv("line", { x1: 0, y1: 0, x2: 0, y2: 8 }), sv("line", { x1: -9, y1: 8, x2: 9, y2: 8 }), sv("line", { x1: -6, y1: 12, x2: 6, y2: 12 }), sv("line", { x1: -3, y1: 16, x2: 3, y2: 16 }));
+          g.append(gg);
+        }
+        if (o.cat === "shield") g.append(sv("ellipse", { class: "node-ring", cx: cx, cy: 30, rx: 14, ry: 9 }));
+        g.append(sv("circle", { class: "node-dot", cx: cx, cy: 30, r: o.cat === "splice" ? 5 : 3.5 }));
+        if (b.xref.length) xref(g, cx, 66, b.xref, "middle");
+        gB.append(g);
+        return;
+      }
+      const g = sv("g", { class: "box", "data-owner": b.o, transform: "translate(" + b.x + "," + b.y + ")" });
+      const bodyH = HEAD + b.ports.length * ROW + 6;
+      g.append(sv("rect", { class: "box-bg", width: b.w, height: bodyH, rx: 3 }));
+      g.append(sv("rect", { class: "box-head", x: 0.6, y: 0.6, width: b.w - 1.2, height: HEAD - 6, rx: 3 }));
+      g.append(sv("rect", { x: 0, y: 0, width: 4, height: bodyH, fill: famVar(fam), rx: 1 }));
+      g.append(sv("line", { class: "box-sep", x1: 0, y1: HEAD - 5, x2: b.w, y2: HEAD - 5 }));
+      const idW = b.o.length * 7.4 + 8;
+      g.append(sv("text", { class: "t-id", x: 12, y: 16 }, b.o));
+      const label = o.cat === "ecu" ? H.ecu.name : o.label;
+      g.append(sv("text", { class: "t-label", x: 12 + idW, y: 16 }, trunc(label, Math.floor((b.w - 20 - idW) / 6.2))));
+      const ref = o.cat === "ecu" ? o.title : (o.ref || "");
+      g.append(sv("text", { class: "t-ref", x: 12, y: 31 }, trunc(ref, Math.floor((b.w - 18) / 5.6))));
+      b.ports.forEach((p, i) => {
+        const e = EP[p.e]; const y = HEAD + i * ROW + 15;
+        const pg = sv("g", { class: "port", "data-ep": p.e });
+        pg.append(sv("text", { class: "t-pin", x: 12, y: y }, e.pin));
+        const off = o.cat === "ecu" ? 40 : 34;
+        pg.append(sv("text", { class: "t-fn", x: 12 + off, y: y }, trunc(e.fn, Math.floor((b.w - 18 - off) / 5.7))));
+        const hasL = p.wires.some(w => sideOf(L, b, w) === "L"), hasR = p.wires.some(w => sideOf(L, b, w) === "R");
+        if (hasL) pg.append(sv("circle", { class: "port-dot", cx: 0, cy: y - 4, r: 2.6 }));
+        if (hasR) pg.append(sv("circle", { class: "port-dot", cx: b.w, cy: y - 4, r: 2.6 }));
+        g.append(pg);
+      });
+      if (b.xref.length) xref(g, 4, bodyH + 13, b.xref, "start");
+      gB.append(g);
+    });
+    function xref(g, x, y, list, anchor) {
+      const t = sv("text", { x: x, y: y, "text-anchor": anchor, class: "t-fn" });
+      t.append(document.createTextNode("aussi "));
+      list.forEach((s, i) => {
+        const ts = sv("tspan", { class: "t-x", "data-goto": s }, s);
+        const tt = sv("title", null, sheetTitle(s)); ts.append(tt);
+        t.append(ts); if (i < list.length - 1) t.append(document.createTextNode(" · "));
+      });
+      g.append(t);
+    }
+    // fils
+    L.wires.forEach(w => {
+      const a = L.boxes.get(ownerOf(w.from)), b = L.boxes.get(ownerOf(w.to));
+      let A = { b: a, e: w.from }, B = { b: b, e: w.to };
+      if (a.col > b.col) { const t = A; A = B; B = t; }
+      const same = A.b.col === B.b.col;
+      const pt = (P, side) => [P.b.node ? P.b.x + P.b.w / 2 : (side === "L" ? P.b.x : P.b.x + P.b.w), L.portY(P.b, P.e)];
+      const [x1, y1] = pt(A, "R"), [x2, y2] = same ? pt(B, "R") : pt(B, "L");
+      let d;
+      if (same) { const bx = Math.max(x1, x2) + 70; d = "M" + x1 + "," + y1 + " C" + bx + "," + y1 + " " + bx + "," + y2 + " " + x2 + "," + y2; }
+      else { const dx = Math.max(36, (x2 - x1) * 0.5); d = "M" + x1 + "," + y1 + " C" + (x1 + dx) + "," + y1 + " " + (x2 - dx) + "," + y2 + " " + x2 + "," + y2; }
+      const g = sv("g", { class: "wire", "data-w": w.id, "data-net": w.net });
+      if (w.internal) { g.append(sv("path", { class: "w-bus", d: d })); }
+      else if (w.drain) { g.append(sv("path", { class: "w-drain", d: d })); }
+      else {
+        const sw = 1.6 + Math.sqrt(w.mm2) * 1.6;
+        const [c1, c2] = colorHex(w.color);
+        g.append(sv("path", { class: "w-halo", d: d, "stroke-width": sw + 5 }));
+        g.append(sv("path", { class: "w-edge", d: d, "stroke-width": sw + 1.6 }));
+        g.append(sv("path", { class: "w-core", d: d, stroke: c1, "stroke-width": sw }));
+        if (c2) g.append(sv("path", { class: "w-stripe", d: d, stroke: c2, "stroke-width": Math.max(1.2, sw * 0.42), "stroke-dasharray": "7 6" }));
+        // repère
+        const label = w.id + " · " + mm2(w.mm2);
+        const tw = label.length * 6.05 + 8;
+        let tx, ty;
+        if (!A.b.node) { tx = x1 + 9; ty = y1; }
+        else if (!B.b.node) { tx = x2 - 9 - tw; ty = y2; }
+        else { tx = (x1 + x2) / 2 - tw / 2; ty = (y1 + y2) / 2; }
+        const tg = sv("g", { class: "tag", "data-w": w.id, "data-net": w.net });
+        tg.append(sv("rect", { x: tx, y: ty - 7, width: tw, height: 14, rx: 2 }));
+        tg.append(sv("text", { x: tx + 4, y: ty + 3.6 }, label));
+        gT.append(tg);
+      }
+      g.append(sv("path", { class: "w-hit", d: d }));
+      const ttl = sv("title", null, w.id + " — " + w.from + " → " + w.to + (w.internal ? " (barrette)" : w.drain ? " (blindage)" : " — " + mm2(w.mm2) + " mm² " + w.color));
+      g.append(ttl);
+      gW.append(g);
+    });
+    svg.append(gW, gB, gT);
+    return { svg: svg, layout: L };
+  }
+  function sideOf(L, box, w) {
+    const a = L.boxes.get(ownerOf(w.from)), b = L.boxes.get(ownerOf(w.to));
+    const other = a === box ? b : a;
+    if (other.col === box.col) return "R";
+    return other.col < box.col ? "L" : "R";
+  }
+
+  const PL = { sheet: store("sheet") || "SYNC", zoom: 1, tags: true, fit: false };
+  let goSheetImpl = null;
+  function goSheet(id, net) {
+    if (!rendered.planches) { RENDER.planches(sections.planches); rendered.planches = true; }
+    goSheetImpl(id, net);
+  }
+  RENDER.planches = function (sec) {
+    if (!H.sheets[PL.sheet]) PL.sheet = SHEET_IDS[0];
+    const chips = h("div", { class: "sheet-chips", role: "group", "aria-label": "Choisir la planche" });
+    SHEET_IDS.forEach(id => {
+      const n = REAL.filter(w => w.sheet === id).length;
+      const b = h("button", { "aria-pressed": "false", dataset: { sheet: id }, title: sheetTitle(id) }, h("span", { class: "mono" }, id), h("span", null, H.sheets[id].short || sheetTitle(id)), h("span", { class: "n" }, n));
+      b.addEventListener("click", () => open(id));
+      chips.append(b);
+    });
+    const frame = h("div", { class: "frame" });
+    const cap = h("div", { class: "frame-cap" });
+    const detail = h("div", { class: "detail", style: "margin-top:14px" });
+    const zoomOut = h("button", { class: "btn", onclick: () => setZoom(PL.zoom / 1.25), "aria-label": "Zoom arrière" }, "−");
+    const zoomFit = h("button", { class: "btn", onclick: () => { PL.fit = !PL.fit; applyZoom(); } }, "Ajuster");
+    const zoomIn = h("button", { class: "btn", onclick: () => setZoom(PL.zoom * 1.25), "aria-label": "Zoom avant" }, "+");
+    const tagBox = h("input", { type: "checkbox", id: "pl-tags", checked: true });
+    tagBox.addEventListener("change", () => { PL.tags = tagBox.checked; frame.classList.toggle("hide-tags", !PL.tags); });
+    let current = null;
+    function setZoom(z) { PL.fit = false; PL.zoom = Math.min(2.5, Math.max(0.3, z)); applyZoom(); }
+    function applyZoom() {
+      if (!current) return;
+      const svg = current.svg;
+      zoomFit.setAttribute("aria-pressed", PL.fit ? "true" : "false");
+      if (PL.fit) { svg.style.width = "100%"; svg.style.height = "auto"; }
+      else { svg.style.width = (current.layout.width * PL.zoom) + "px"; svg.style.height = (current.layout.height * PL.zoom) + "px"; }
+    }
+    function open(id, net) {
+      PL.sheet = id; store("sheet", id);
+      chips.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.sheet === id ? "true" : "false"));
+      current = drawSheet(id);
+      frame.replaceChildren(current.svg);
+      applyZoom();
+      const ws = REAL.filter(w => w.sheet === id);
+      fill(cap, h("span", null, h("strong", null, id + " · " + sheetTitle(id))),
+        h("span", { class: "mono" }, ws.length + " fils · " + dec(ws.reduce((s, w) => s + w.length_m, 0), 1) + " m"));
+      clearSel();
+      if (net) selectNet(new Set([net]));
+    }
+    function clearSel() {
+      if (!current) return;
+      current.svg.classList.remove("dim");
+      current.svg.querySelectorAll(".hl").forEach(n => n.classList.remove("hl"));
+      fill(detail, h("h3", null, "Lecture de la planche"),
+        h("p", { style: "margin:0;color:var(--ink-2)" }, "À gauche l'ECU, au centre les capteurs et actionneurs, à droite l'alimentation et les masses. Chaque fil porte son repère (étiquette jaune) et sa section ; son tracé reprend la couleur d'isolant, rayure comprise. Touche un fil, une broche ou un composant pour isoler son réseau. Pointillés gris épais : barrette interne ; pointillés fins : blindage."));
+    }
+    function selectNet(nets, ownerId) {
+      const svg = current.svg;
+      svg.classList.add("dim");
+      svg.querySelectorAll(".wire, .tag").forEach(g => g.classList.toggle("hl", nets.has(g.dataset.net)));
+      svg.querySelectorAll(".box, .node").forEach(g => {
+        const b = current.layout.boxes.get(g.dataset.owner);
+        g.classList.toggle("hl", g.dataset.owner === ownerId || b.ports.some(p => p.wires.some(w => nets.has(w.net))));
+      });
+      const ws = REAL.filter(w => nets.has(w.net));
+      const drains = WIRES.filter(w => nets.has(w.net) && (w.internal || w.drain));
+      const head = ownerId ? ownerDetail(ownerId) : [h("h3", null, "Réseau ", h("span", { class: "mono" }, [...nets].map(n => NETS[n].name).join(", ")))];
+      fill(detail, head,
+        h("div", { class: "tbl-wrap", style: "margin-top:10px" }, h("table", { class: "tbl" },
+          h("thead", null, h("tr", null, ["Fil", "Couleur", "mm²", "Coupe", "De", "Vers", "Note"].map(t => h("th", null, t)))),
+          h("tbody", null, ws.map(w => h("tr", null, h("td", null, wireTag(w)), h("td", null, colorChip(w.color)), h("td", { class: "num" }, mm2(w.mm2)),
+            h("td", { class: "num" }, dec(w.length_m) + " m"), h("td", null, h("span", { class: "mono" }, w.from), h("div", { class: "fn" }, EP[w.from].fn)),
+            h("td", null, h("span", { class: "mono" }, w.to), h("div", { class: "fn" }, EP[w.to].fn)), h("td", { class: "fn" }, [w.cable ? w.cable + " " : "", w.note])))))),
+        drains.length ? h("p", { class: "muted", style: "margin:8px 0 0;font-size:13px" }, drains.length + " liaison(s) sans coupe (barrette ou blindage).") : null);
+    }
+    function ownerDetail(oid) {
+      const o = OW[oid];
+      return [h("h3", null, h("span", { class: "mono" }, oid), h("span", null, o.cat === "ecu" ? o.title : o.label)),
+        h("dl", { class: "kv" },
+          o.ref ? [h("dt", null, "Référence"), h("dd", null, o.ref)] : null,
+          o.connector ? [h("dt", null, "Connecteur"), h("dd", null, o.connector)] : null,
+          o.notes ? [h("dt", null, "Notes"), h("dd", null, o.notes)] : null,
+          o.verify ? [h("dt", null, "À vérifier"), h("dd", null, o.verify)] : null)];
+    }
+    frame.addEventListener("click", ev => {
+      const go = ev.target.closest("[data-goto]");
+      if (go) { open(go.getAttribute("data-goto")); return; }
+      const wg = ev.target.closest(".wire, .tag");
+      if (wg) { selectNet(new Set([wg.dataset.net])); return; }
+      const port = ev.target.closest(".port");
+      if (port) { const net = (wiresAt[port.dataset.ep] || [])[0]; if (net) selectNet(new Set([net.net])); return; }
+      const box = ev.target.closest(".box, .node");
+      if (box) {
+        const b = current.layout.boxes.get(box.dataset.owner);
+        selectNet(new Set(b.ports.flatMap(p => p.wires.map(w => w.net))), box.dataset.owner); return;
+      }
+      clearSel();
+    });
+    goSheetImpl = function (id, net) {
+      show("planches"); open(id, net);
+      const smooth = !(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+      frame.scrollIntoView({ block: "start", behavior: smooth ? "smooth" : "auto" });
+    };
+    sec.append(h("h2", null, "Planches de câblage"),
+      h("p", { class: "lede" }, "Un schéma par sous-système, tracé automatiquement depuis la définition du faisceau : rien n'est dessiné à la main, donc rien ne peut diverger de la liste de coupe."),
+      chips,
+      h("div", { class: "toolbar", style: "margin-top:10px" }, h("div", { class: "seg" }, zoomOut, zoomFit, zoomIn),
+        h("label", { class: "field", for: "pl-tags" }, tagBox, "Afficher les repères")),
+      frame, cap, detail);
+    open(PL.sheet);
+  };
+
+  // ----------------------------------------------------------- liste de coupe
+  RENDER.coupe = function (sec) {
+    const q = h("input", { type: "search", id: "cut-q", placeholder: "Repère, broche, fonction, couleur…", "aria-label": "Rechercher un fil" });
+    const harn = h("select", { id: "cut-h", "aria-label": "Faisceau" }, h("option", { value: "" }, "Tous les faisceaux"),
+      [["ENG", "Moteur"], ["PDM", "Boîte fusibles/relais"], ["CAB", "Habitacle"], ["CHS", "Châssis"]].map(([v, l]) => h("option", { value: v }, l)));
+    const sh = h("select", { id: "cut-s", "aria-label": "Planche" }, h("option", { value: "" }, "Toutes les planches"), SHEET_IDS.map(id => h("option", { value: id }, id + " · " + sheetTitle(id))));
+    const sort = h("select", { id: "cut-o", "aria-label": "Ordre" }, h("option", { value: "cut" }, "Ordre de coupe (section, couleur)"), h("option", { value: "id" }, "Par repère"), h("option", { value: "len" }, "Par longueur"));
+    const count = h("span", { class: "count" });
+    const tbody = h("tbody");
+    const HN = { ENG: "Moteur", PDM: "PDM", CAB: "Habitacle", CHS: "Châssis" };
+    function fillRows() {
+      const t = q.value.trim().toLowerCase();
+      let rows = REAL.filter(w => (!harn.value || w.harness === harn.value) && (!sh.value || w.sheet === sh.value) &&
+        (!t || [w.id, w.from, w.to, EP[w.from].fn, EP[w.to].fn, w.color, w.cable, w.note, mm2(w.mm2)].join(" ").toLowerCase().includes(t)));
+      if (sort.value === "cut") rows.sort((a, b) => b.mm2 - a.mm2 || natural(a.color, b.color) || natural(a.id, b.id));
+      else if (sort.value === "len") rows.sort((a, b) => b.length_m - a.length_m || natural(a.id, b.id));
+      else rows.sort((a, b) => SHEET_IDS.indexOf(a.sheet) - SHEET_IDS.indexOf(b.sheet) || natural(a.id, b.id));
+      count.textContent = rows.length + " fils · " + dec(rows.reduce((s, w) => s + w.length_m, 0), 1) + " m";
+      tbody.replaceChildren(...rows.map(w => h("tr", { class: "clickable", onclick: () => goSheet(w.sheet, w.net) },
+        h("td", null, wireTag(w)), h("td", { class: "num" }, mm2(w.mm2)), h("td", null, colorChip(w.color)),
+        h("td", { class: "num" }, dec(w.length_m)), h("td", null, h("span", { class: "mono" }, w.from), h("div", { class: "fn" }, EP[w.from].fn)),
+        h("td", null, h("span", { class: "mono" }, w.to), h("div", { class: "fn" }, EP[w.to].fn)),
+        h("td", { class: "mono fn" }, w.cable || ""), h("td", { class: "fn" }, HN[w.harness] || w.harness), h("td", { class: "fn" }, w.note))));
+    }
+    [q, harn, sh, sort].forEach(el => el.addEventListener("input", fillRows));
+    fillRows();
+    const cables = h("div", { class: "tbl-wrap" }, h("table", { class: "tbl" },
+      h("thead", null, h("tr", null, ["Câble", "Fonction", "Type", "Ø ext.", "Coupe", "Conducteurs"].map(t => h("th", null, t)))),
+      h("tbody", null, H.cables.map(c => h("tr", null, h("td", { class: "mono" }, c.id), h("td", null, c.label), h("td", null, c.type),
+        h("td", { class: "num" }, dec(c.od_mm, 1) + " mm"), h("td", { class: "num" }, dec(c.length_m) + " m"), h("td", { class: "mono fn" }, c.cores.join(" ")))))));
+    sec.append(h("h2", null, "Liste de coupe"),
+      h("p", { class: "lede" }, "Longueur de coupe = trajet sur le formboard + " + dec(H.rules.termination_m * 100, 0) + " cm par extrémité + " + dec(H.rules.slack_m * 100, 0) + " cm de surlongueur, arrondie aux " + dec(H.rules.round_to_m * 100, 0) + " cm supérieurs. Les trajets sont estimés tant que le formboard n'est pas mesuré sur la voiture. Touche une ligne pour la voir sur sa planche."),
+      h("div", { class: "toolbar" }, q, harn, sh, sort, count),
+      h("div", { class: "tbl-wrap", style: "max-height:72vh" }, h("table", { class: "tbl" },
+        h("thead", null, h("tr", null, ["Repère", "mm²", "Couleur", "Coupe m", "De", "Vers", "Câble", "Faisceau", "Note"].map(t => h("th", null, t)))), tbody)),
+      h("h3", { style: "margin-top:26px" }, "Câbles multiconducteurs"),
+      h("p", { class: "lede", style: "margin-top:0" }, "Les conducteurs listés ci-dessus avec un repère de câble sont les âmes de ces câbles : couper le câble une fois, à la longueur indiquée."),
+      cables);
+  };
+
+  // ------------------------------------------------------------ connecteurs
+  RENDER.connecteurs = function (sec) {
+    const owners = Object.keys(OW).filter(o => ["comp", "inline"].includes(OW[o].cat));
+    const cards = owners.map(oid => {
+      const o = OW[oid];
+      const pins = Object.keys(EP).filter(e => EP[e].owner === oid).sort((a, b) => natural(EP[a].pin, EP[b].pin));
+      return h("article", { class: "card", style: "--fam:" + famVar(FAM[o.system]) },
+        h("header", null, h("div", { class: "id" }, oid), h("h3", null, o.label), h("p", null, [o.ref, o.type].filter(Boolean).join(" · ")),
+          h("p", null, h("span", { class: "muted" }, "Connecteur : "), o.connector)),
+        o.notes ? h("p", { class: "note" }, o.notes) : null,
+        o.verify ? h("p", { class: "verify" }, h("strong", null, "À vérifier : "), o.verify) : null,
+        h("div", { class: "tbl-wrap", style: "border:0;border-radius:0" }, h("table", { class: "tbl" },
+          h("thead", null, h("tr", null, ["Br.", "Fonction", "Fil", "Vers"].map(t => h("th", null, t)))),
+          h("tbody", null, pins.map(e => {
+            const ws = wiresAt[e] || [];
+            if (!ws.length) return h("tr", null, h("td", { class: "mono" }, EP[e].pin), h("td", null, EP[e].fn), h("td", { colspan: 2, class: "muted" }, EP[e].nc ? "non câblée" : "non raccordée"));
+            return ws.map(w => h("tr", null, h("td", { class: "mono" }, EP[e].pin), h("td", null, EP[e].fn),
+              h("td", null, w.internal || w.drain ? h("span", { class: "muted mono" }, w.drain ? "blindage" : "barrette") : h("span", { class: "cc" }, wireTag(w, () => goSheet(w.sheet, w.net)), swatch(w.color), h("span", { class: "mono" }, mm2(w.mm2)))),
+              h("td", null, h("span", { class: "mono" }, otherEnd(w, e)), h("div", { class: "fn" }, EP[otherEnd(w, e)].fn))));
+          })))));
+    });
+    sec.append(h("h2", null, "Connecteurs et brochages composants"),
+      h("p", { class: "lede" }, "Une fiche par composant : référence, connecteur, brochage et fil de chaque broche. Les encadrés jaunes listent ce qui doit être confirmé au multimètre avant de sertir."),
+      h("div", { class: "cards" }, cards));
+  };
+
+  // ----------------------------------------------------------------- énergie
+  RENDER.energie = function (sec) {
+    const st = s => s === "bad" ? h("span", { class: "chip bad st" }, "✕ dépasse") : s === "warn" ? h("span", { class: "chip warn st" }, "! à mesurer") : h("span", { class: "chip good st" }, "✓ OK");
+    const fuseRows = H.fuses.map(f => h("div", { class: "meter-row", title: f.loads.map(l => l.id + " " + dec(l.a) + " A").join(" · ") },
+      h("span", { class: "id" }, f.id),
+      h("span", { class: "lbl" }, f.label, h("small", null, "Section mini " + mm2(f.min_mm2) + " mm² · " + f.loads.map(l => l.id).join(", "))),
+      h("div", { class: "meter", role: "img", "aria-label": f.id + " : " + dec(f.load, 1) + " A sur " + f.rating + " A" },
+        h("span", { class: "fill " + (f.status === "ok" ? "" : f.status), style: "width:" + Math.min(100, f.ratio * 100) + "%" })),
+      h("span", { class: "val" }, dec(f.load, 1) + " / " + f.rating + " A · " + Math.round(f.ratio * 100) + " %"),
+      st(f.status)));
+    const outRows = H.outputs.filter(o => o.max_a && o.a_max > 0).map(o => {
+      const pmin = Math.min(100, o.a_min / o.max_a * 100), pmax = Math.min(100, o.a_max / o.max_a * 100);
+      return h("div", { class: "meter-row" },
+        h("span", { class: "id" }, o.pin.split(".")[1]),
+        h("span", { class: "lbl" }, o.fn, h("small", null, o.pin + " → " + o.loads.join(", "))),
+        h("div", { class: "meter", role: "img", "aria-label": o.pin + " : " + dec(o.a_min) + " à " + dec(o.a_max) + " A sur " + o.max_a + " A" },
+          h("span", { class: "fill " + (o.status === "ok" ? "" : o.status === "bad" ? "bad" : ""), style: "width:" + pmin + "%" }),
+          pmax > pmin ? h("span", { class: "range", style: "left:" + pmin + "%;width:" + (pmax - pmin) + "%" }) : null),
+        h("span", { class: "val" }, (o.a_min === o.a_max ? dec(o.a_max) : dec(o.a_min) + "–" + dec(o.a_max)) + " / " + o.max_a + " A"),
+        st(o.status));
+    });
+    const relays = Object.keys(OW).filter(o => OW[o].cat === "relay");
+    sec.append(h("h2", null, "Énergie : fusibles, relais, sorties"),
+      h("p", { class: "lede" }, "Charges estimées en régime établi (consommations indiquées dans la définition). Une jauge au-delà de 80 % passe en alerte. Survole une ligne pour le détail des consommateurs."),
+      h("div", { class: "stack" },
+        h("div", { class: "panel" }, h("h3", null, "Fusibles"), h("div", { class: "meters" }, fuseRows)),
+        h("div", { class: "panel" }, h("h3", null, "Sorties ECU sous charge"),
+          h("p", { class: "muted", style: "margin:-2px 0 8px;font-size:13px" }, "Partie hachurée : plage d'incertitude tant que la résistance réelle n'est pas mesurée."),
+          h("div", { class: "meters" }, outRows)),
+        h("div", { class: "cols-2" },
+          h("div", { class: "panel" }, h("h3", null, "Alimentation capteurs +5 V"),
+            h("p", { style: "margin:0" }, "Consommation estimée sur CMC1 G1 : ", h("strong", { class: "mono" }, H.five_v_ma + " mA"), " (pressions huile/essence, papillon, pédale). Une seule alimentation 5 V sur la RACE Gen1 : pédale et papillon la partagent.")),
+          h("div", { class: "panel" }, h("h3", null, "Relais"),
+            h("div", { class: "tbl-wrap", style: "border:0" }, h("table", { class: "tbl" },
+              h("thead", null, h("tr", null, ["Relais", "Fonction", "Calibre", "Bobine"].map(t => h("th", null, t)))),
+              h("tbody", null, relays.map(r => h("tr", null, h("td", { class: "mono" }, r), h("td", null, OW[r].label), h("td", { class: "num" }, OW[r].rating_a + " A"),
+                h("td", { class: "fn" }, (wiresAt[r + ".86"] || []).map(w => otherEnd(w, r + ".86")).join(", ") + " / " + (wiresAt[r + ".85"] || []).map(w => otherEnd(w, r + ".85")).join(", "))))))))))
+    );
+  };
+
+  // --------------------------------------------------------------- formboard
+  RENDER.formboard = function (sec) {
+    const T = H.topology;
+    const kids = {}, segOf = {};
+    const adj = {};
+    T.segments.forEach(s => { (adj[s.a] = adj[s.a] || []).push([s.b, s]); (adj[s.b] = adj[s.b] || []).push([s.a, s]); });
+    const dist = {}, parent = {};
+    dist[T.root] = 0;
+    const order = [T.root];
+    for (let i = 0; i < order.length; i++) {
+      const n = order[i];
+      (adj[n] || []).forEach(([m, s]) => { if (dist[m] == null) { dist[m] = dist[n] + s.length; parent[m] = n; segOf[m] = s; (kids[n] = kids[n] || []).push(m); order.push(m); } });
+    }
+    const at = {}; Object.keys(OW).forEach(o => { if (OW[o].node) (at[OW[o].node] = at[OW[o].node] || []).push(o); });
+    const SCALE = 300, X0 = 40, RH = 34;
+    let leafRow = 0; const Y = {};
+    (function place(n) {
+      const k = kids[n] || [];
+      if (!k.length) { Y[n] = 40 + leafRow++ * RH; return; }
+      k.forEach(place);
+      Y[n] = (Y[k[0]] + Y[k[k.length - 1]]) / 2;
+    })(T.root);
+    const X = n => X0 + dist[n] * SCALE;
+    const maxX = Math.max(...Object.keys(dist).map(X));
+    const W = maxX + 330, Hh = 40 + leafRow * RH + 90;
+    const svg = sv("svg", { class: "formboard", viewBox: "0 0 " + W + " " + Hh, width: W, height: Hh, role: "img", "aria-label": "Formboard du faisceau à l'échelle" });
+    const gL = sv("g"), gN = sv("g"), gT = sv("g");
+    // règle d'échelle
+    const meters = Math.ceil((maxX - X0) / SCALE);
+    for (let m = 0; m <= meters; m++) {
+      const x = X0 + m * SCALE;
+      gL.append(sv("line", { x1: x, y1: 14, x2: x, y2: Hh - 6, stroke: "var(--rule)", "stroke-width": 1 }));
+      gT.append(sv("text", { x: x + 3, y: 12, style: "font:500 10px var(--font-mono);fill:var(--muted)" }, m + " m"));
+    }
+    order.slice(1).forEach(n => {
+      const p = parent[n], s = segOf[n];
+      const w = s.bundle_mm ? 1.5 + s.bundle_mm * 0.32 : 1;
+      const d = "M" + X(p) + "," + Y[p] + " V" + Y[n] + " H" + X(n);
+      const g = sv("g");
+      g.append(sv("path", { d: d, fill: "none", stroke: "var(--sheet)", "stroke-width": w + 4 }));
+      g.append(sv("path", { d: d, fill: "none", stroke: "var(--ink)", "stroke-width": w, "stroke-linejoin": "round" }));
+      g.append(sv("title", null, s.a + " → " + s.b + " · " + dec(s.length) + " m · " + s.wires + " fils · Ø " + dec(s.bundle_mm, 1) + " mm" + (s.sleeve ? " · " + s.sleeve : "")));
+      gL.append(g);
+      const span = X(n) - X(p);
+      if (span >= 34) gT.append(sv("text", { x: (X(p) + X(n)) / 2, y: Y[n] - w / 2 - 4, "text-anchor": "middle", style: "font:500 10px var(--font-mono);fill:var(--ink-2)" },
+        Math.round(s.length * 1000) + (span >= 90 && s.bundle_mm ? " · Ø" + dec(s.bundle_mm, 0) : "")));
+    });
+    order.forEach(n => {
+      const leaf = !(kids[n] || []).length;
+      gN.append(sv("circle", { cx: X(n), cy: Y[n], r: leaf ? 4 : 3, fill: "var(--ink)" }));
+      const owners = (at[n] || []).filter(o => !OW[o].cable);
+      if (leaf) {
+        const t = sv("text", { x: X(n) + 9, y: Y[n] + 4, style: "font-size:12px" });
+        t.append(sv("tspan", { style: "font-weight:600" }, T.nodes[n]));
+        if (owners.length) t.append(sv("tspan", { style: "font:500 10.5px var(--font-mono);fill:var(--ink-2)" }, "  " + owners.join(" ")));
+        gT.append(t);
+      } else if (owners.length || n === T.root) {
+        const lx = X(n) + 3, ly = Y[n] + 11;
+        gT.append(sv("text", { x: lx, y: ly, transform: "rotate(38 " + lx + " " + ly + ")", style: "font:500 9.5px var(--font-mono);fill:var(--accent);paint-order:stroke;stroke:var(--sheet);stroke-width:3px" }, trunc(owners.join(" "), 30)));
+      }
+    });
+    svg.append(gL, gN, gT);
+    const segRows = order.slice(1).map(n => segOf[n]).map(s => h("tr", null, h("td", { class: "mono" }, s.a + " → " + s.b),
+      h("td", null, T.nodes[s.b]), h("td", { class: "num" }, Math.round(s.length * 1000) + " mm"), h("td", { class: "num" }, s.wires),
+      h("td", { class: "num" }, s.bundle_mm ? dec(s.bundle_mm, 1) + " mm" : "—"), h("td", { class: "mono fn" }, s.sleeve || "—")));
+    sec.append(h("h2", null, "Formboard"),
+      h("p", { class: "lede" }, (T.estimated ? "Longueurs ESTIMÉES : mesure chaque tronçon sur la voiture (ficelle le long du trajet réel), reporte les valeurs dans la section topology du YAML et régénère : toutes les longueurs de coupe suivent. " : "") +
+        "Tracé à l'échelle (1 m = " + SCALE + " px) ; l'épaisseur des traits suit le diamètre estimé du toron."),
+      h("div", { class: "frame", style: "max-height:none" }, svg),
+      h("h3", { style: "margin-top:24px" }, "Tronçons, torons et gaine"),
+      h("div", { class: "tbl-wrap" }, h("table", { class: "tbl" },
+        h("thead", null, h("tr", null, ["Tronçon", "Vers", "Longueur", "Fils", "Ø toron", "Gaine conseillée"].map(t => h("th", null, t)))),
+        h("tbody", null, segRows))));
+  };
+
+  // ---------------------------------------------------------------- contrôles
+  RENDER.controles = function (sec) {
+    const state = store("checks") || {};
+    const blocks = H.checks.map((ph, pi) => {
+      const counter = h("span", { class: "count" });
+      const upd = () => { const n = ph.items.filter((_, ii) => state[pi + "-" + ii]).length; counter.textContent = n + " / " + ph.items.length; };
+      const list = h("ol", null, ph.items.map((it, ii) => {
+        const id = "chk-" + pi + "-" + ii;
+        const box = h("input", { type: "checkbox", id: id, checked: !!state[pi + "-" + ii] });
+        box.addEventListener("change", () => { state[pi + "-" + ii] = box.checked; store("checks", state); upd(); });
+        return h("li", null, h("label", { for: id }, box, h("span", null, it)));
+      }));
+      upd();
+      return h("div", { class: "phase" }, h("header", null, h("h3", null, ph.phase), counter), list);
+    });
+    let armed = false;
+    const reset = h("button", { class: "btn" }, "Tout décocher");
+    reset.addEventListener("click", () => {
+      if (!armed) { armed = true; reset.textContent = "Confirmer la remise à zéro"; setTimeout(() => { armed = false; reset.textContent = "Tout décocher"; }, 4000); return; }
+      Object.keys(state).forEach(k => delete state[k]); store("checks", state);
+      sec.replaceChildren(); RENDER.controles(sec);
+    });
+    sec.append(h("h2", null, "Contrôles"),
+      h("p", { class: "lede" }, "Trois passes : au banc avant de sertir, faisceau terminé avant de brancher l'ECU, puis première mise sous tension. Les cases restent cochées sur cet appareil."),
+      h("div", { class: "stack" }, blocks, h("div", null, reset)),
+      h("h3", { style: "margin-top:28px" }, "Réglages MTune liés au câblage"),
+      h("div", { class: "tbl-wrap" }, h("table", { class: "tbl" },
+        h("thead", null, h("tr", null, h("th", null, "Fonction"), h("th", null, "Réglage"))),
+        h("tbody", null, H.mtune.map(t => h("tr", null, h("td", null, h("strong", null, t.item)), h("td", null, t.value)))))));
+  };
+
+  // ------------------------------------------------------------- nomenclature
+  RENDER.nomenclature = function (sec) {
+    const cats = [...new Set(H.bom.map(r => r.cat))];
+    sec.append(h("h2", null, "Nomenclature"),
+      h("p", { class: "lede" }, "Quantités calculées depuis le faisceau : contacts réellement utilisés, mètres de fil par section et couleur (+10 % de marge), gaine par tronçon du formboard, deux étiquettes par fil."),
+      h("div", { class: "tbl-wrap" }, h("table", { class: "tbl" },
+        h("thead", null, h("tr", null, ["Article", "Qté", "Unité", "Détail"].map(t => h("th", null, t)))),
+        h("tbody", null, cats.map(c => [h("tr", { class: "group" }, h("td", { colspan: 4 }, c)),
+          H.bom.filter(r => r.cat === c).map(r => h("tr", null,
+            h("td", null, r.cat === "Fil" ? h("span", { class: "cc" }, swatch(r.item.split(" ").pop()), r.item) : r.item),
+            h("td", { class: "num" }, String(r.qty).replace(".", ",")), h("td", { class: "fn" }, r.unit), h("td", { class: "fn" }, r.detail)))])))));
+  };
+
+  // ------------------------------------------------------------------- start
+  let first = "synthese";
+  try { const hsh = location.hash.replace("#", ""); if (sections[hsh]) first = hsh; else if (sections[store("tab")]) first = store("tab"); } catch (e) { /* ignore */ }
+  show(first);
+})();
+</script>
