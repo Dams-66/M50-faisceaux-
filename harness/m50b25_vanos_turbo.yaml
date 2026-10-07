@@ -11,17 +11,18 @@
 
 meta:
   project: "Faisceau moteur M50B25 VANOS Turbo"
-  engine: "BMW M50B25 VANOS — turbo"
+  engine: "BMW M50B25 VANOS — turbo — BMW E36"
   ecu: "MaxxECU RACE Gen1 (REV9+)"
-  revision: "A"
+  revision: "B"
   date: "2026-10-07"
   status: "Étude — à valider sur véhicule"
   assumptions:
-    - "ECU et boîte fusibles/relais (PDM) installés dans le boîtier électronique d'origine (E-box), côté passager, contre le tablier."
-    - "Longueurs de tronçons ESTIMÉES pour une baie M50 : à remplacer par des mesures à la ficelle (section topology)."
-    - "Pédale dans l'habitacle, raccordée par un connecteur de cloison Deutsch DT 12 voies (XINT)."
-    - "Pompe à essence et ventilateur pilotés par relais, alimentés en direct batterie (hors relais principal)."
-    - "Consommations pompe (15 A) et ventilateur (20 A) supposées : à ajuster selon tes modèles."
+    - "BMW E36 conduite à gauche, caisse vide : faisceau entièrement neuf, aucun faisceau d'origine conservé."
+    - "ECU et boîte fusibles/relais (PDM) dans l'habitacle, derrière la boîte à gants : la boîte électronique d'origine est côté échappement / turbo sur un M50 en E36."
+    - "Faisceau moteur d'un seul tenant, traversée du tablier par un passe-fil étanche à l'emplacement de la boîte électronique d'origine."
+    - "Longueurs de tronçons ESTIMÉES pour une baie E36 / M50 : à remplacer par des mesures à la ficelle (section topology)."
+    - "Fusible général MAXI 80 A sur la borne B+ de la baie moteur (câble batterie d'origine depuis le coffre)."
+    - "Pompe 280 l/h estimée à 15 A ; ventilateur SPAL 385 mm aspirant 19,5 A (fiche SPAL VA18-AP71/LL-59A) : à confirmer sur les étiquettes."
   sources:
     - {label: "MaxxECU RACE (REV9+) — schéma de câblage officiel", url: "https://www.maxxecu.com/files/Documentation/Wirings/MaxxECU%20RACE%20(REV9+)%20-%20Wiring-en.pdf"}
     - {label: "MaxxECU — faisceau BMW M50 (note culasse VANOS / capteur 12141726590)", url: "https://maxxecu.com/webhelp/wirings-terminated_engine_harness-bmw_m50.html"}
@@ -30,6 +31,8 @@ meta:
     - {label: "MaxxECU RACE — caractéristiques (GPO 2 A, GPO9 5 A, INJ 8 A peak & hold, MAP 3 bar boost)", url: "https://maxxecu.com/products/race"}
     - {label: "Bosch 0 261 544 01F — brochage 2 P / 3 +5V / 4 GND / 5 NTC", url: "https://en.oreca-store.com/bosch-0261-544-01f-u5g-fluid-pressure-and-temperature-sensor-0-10-bar-026154401fu5g.html"}
     - {label: "Haltech — moteur BMW M50 (capteurs, VANOS)", url: "https://support.haltech.com/portal/en/kb/articles/m50-engine"}
+    - {label: "Électrovanne VANOS simple 11361738494 (M50TU / M52 / S50 / S52)", url: "https://www.bimmerworld.com/Engine/Camshafts/VANOS-Solenoid-Switch-E34-525i-93-95-E36-325i-M3-93-95-BMW-11361738494.html"}
+    - {label: "SPAL 385 mm aspirant VA18-AP71/LL-59A — 12 V, 19,5 A", url: "https://www.bar-tek.com/fr/ventilateur-de-refroidissement-d414-d385-aspirant-spal"}
 
 # -----------------------------------------------------------------------------
 # Code couleur (IEC 60757). Modifie librement : tout est recalculé.
@@ -72,6 +75,10 @@ wire_rules:
   od_mm: {0.35: 1.3, 0.5: 1.6, 0.75: 1.9, 1.0: 2.1, 1.5: 2.4, 2.5: 3.0, 4.0: 3.7, 6.0: 4.3, 10.0: 5.6}
   fuse_load_warn_ratio: 0.8
   supply_v: 14.4
+  rho_ohm_mm2_m: 0.0193   # cuivre à ~50 °C
+  drop_ref_v: 13.5
+  drop_min_a: 5           # charges analysées pour la chute de tension
+  drop_warn_pct: 3
 
 # -----------------------------------------------------------------------------
 # Planches (un schéma par sous-système)
@@ -90,7 +97,7 @@ sheets:
   KNK:  {short: "Cliquetis", title: "Cliquetis", layout: ecu}
   ACT:  {short: "VANOS & boost", title: "VANOS & MAC valve (boost)", layout: ecu}
   RLY:  {short: "Pompe & ventilo", title: "Pompe à essence & ventilateur", layout: flow, root: CMC1}
-  COM:  {short: "Habitacle", title: "Interface habitacle (compte-tours, CAN)", layout: ecu}
+  COM:  {short: "Habitacle", title: "Habitacle (compte-tours, CAN)", layout: ecu}
 
 systems:
   PWR:  {label: "Alimentation"}
@@ -444,23 +451,23 @@ components:
     notes: "Fréquence PWM typique 30 Hz (à régler dans MTune)."
   VANOS:
     label: "Électrovanne VANOS"
-    ref: "Électrovanne M50B25 VANOS"
+    ref: "BMW 11361738494 (VANOS simple M50TU)"
     type: "Électrovanne tout-ou-rien"
     connector: "Bosch JPT 2 voies"
     system: ACT
     node: N_VANOS
-    r_ohm: [3.3, 12]
+    r_ohm: [8.5, 12]
     pins:
       "1": {fn: "+12 V", cls: PWR12, supply: true}
       "2": {fn: "Commande (masse)"}
-    notes: "Sur M50 : VANOS tout-ou-rien (sortie switchée)."
-    verify: "Mesurer la résistance : ≥ 7,5 Ω → GPO3 OK (≤ 2 A) ; < 7,5 Ω → passer la commande sur INJ7 (CMC1 L2, 8 A)."
+    notes: "Sur M50 : VANOS tout-ou-rien. MaxxECU la câble en direct sur GPO3 (sans relais) sur son faisceau M50."
+    verify: "Contrôle de 10 s : résistance attendue ≈ 8,5–12 Ω. Si tu lis moins de 7,5 Ω, passer la commande sur INJ7 (CMC1 L2, 8 A)."
 
   # ---------------- Charges châssis ----------------
   PUMP:
     label: "Pompe à essence"
-    ref: "Selon pompe (à préciser)"
-    type: "Charge forte"
+    ref: "Pompe 280 l/h"
+    type: "Charge forte (≈ 15 A estimés à 5 bar)"
     connector: "Selon pompe"
     system: RLY
     node: N_PUMP
@@ -471,41 +478,21 @@ components:
       "-": {fn: "Masse", cls: GND_PWR}
   FAN:
     label: "Ventilateur électrique"
-    ref: "SPAL (à préciser)"
-    type: "Charge forte"
-    connector: "Selon ventilateur"
+    ref: "SPAL 385 mm aspirant (SPA-VE-385-A)"
+    type: "12 V, 19,5 A (VA18-AP71/LL-59A), 3430 m³/h"
+    connector: "Connecteur 2 voies du ventilateur"
     system: RLY
     node: N_FAN
-    load_a: 20
+    load_a: 19.5
     pins:
       "+": {fn: "+12 V", cls: PWR12, supply: true}
       "-": {fn: "Masse", cls: GND_PWR}
+    notes: "Démarrage : appel de courant 2 à 3 fois le nominal pendant une fraction de seconde, absorbé par le fusible 30 A temporisé."
 
-  # ---------------- Interface habitacle ----------------
-  XINT:
-    label: "Connecteur de cloison habitacle"
-    ref: "Deutsch DT 12 voies (DT04-12PA / DT06-12SA)"
-    type: "Connecteur de passage (traversant)"
-    connector: "Deutsch DT 12 voies"
-    system: COM
-    node: XINT
-    inline: true
-    pins:
-      "1": {fn: "+15 contact"}
-      "2": {fn: "Pédale masse 1"}
-      "3": {fn: "Pédale masse 2"}
-      "4": {fn: "Pédale +5 V (2)"}
-      "5": {fn: "Pédale signal 1"}
-      "6": {fn: "Pédale +5 V (1)"}
-      "7": {fn: "Pédale signal 2"}
-      "8": {fn: "Compte-tours"}
-      "9": {fn: "CAN H"}
-      "10": {fn: "CAN L"}
-      "11": {fn: "Réserve", nc: true}
-      "12": {fn: "Réserve", nc: true}
+  # ---------------- Habitacle ----------------
   KEY:
-    label: "Contact clé (+15)"
-    ref: "Faisceau véhicule"
+    label: "Contact (+15)"
+    ref: "Contacteur à clé ou interrupteur de tableau de bord"
     type: "Source externe"
     connector: "Selon véhicule"
     system: PWR
@@ -516,7 +503,7 @@ components:
       "15": {fn: "+15 contact", cls: V15}
   CLUSTER:
     label: "Combiné (compte-tours)"
-    ref: "Combiné d'origine"
+    ref: "Combiné E36 ou afficheur"
     type: "Entrée compte-tours"
     connector: "Selon véhicule"
     system: COM
@@ -543,8 +530,8 @@ components:
 
   # ---------------- Distribution d'énergie (PDM) ----------------
   BATT:
-    label: "Batterie / borne B+"
-    ref: "Borne +12 V (point de démarrage)"
+    label: "Borne B+ baie moteur"
+    ref: "Borne de démarrage E36 (câble batterie du coffre)"
     type: "Source"
     connector: "Cosse œillet M8"
     system: PWR
@@ -613,7 +600,7 @@ components:
 grounds:
   GP-HEAD: {label: "Masse moteur ECU (goujon arrière culasse)", node: GND_HEAD, kind: engine, notes: "CMC1 L4 et CMC2 G4 au MÊME point (exigence MaxxECU)."}
   GP-COIL: {label: "Masse bobines (goujon culasse, voisin)", node: GND_HEAD, kind: engine}
-  GP-CH: {label: "Masse caisse E-box", node: PDM, kind: chassis}
+  GP-CH: {label: "Masse caisse habitacle (PDM)", node: PDM, kind: chassis}
   GP-CH-AV: {label: "Masse caisse avant (ventilateur)", node: N_FAN, kind: chassis}
   GP-CH-AR: {label: "Masse caisse arrière (pompe)", node: N_PUMP, kind: chassis, harness: CHS}
 
@@ -671,8 +658,7 @@ wires:
   - {sheet: PWR, from: BUS87, to: F6.1, internal: true}
   - {sheet: PWR, from: BUS87, to: F7.1, internal: true}
   - {sheet: PWR, from: F1.2, to: CMC1.M4, mm2: 1.0, color: RD/WH, harness: PDM, note: "Alimentation ECU (15 A, préconisation MaxxECU)"}
-  - {sheet: PWR, from: KEY.15, to: XINT.1, mm2: 0.5, color: VT, harness: CAB}
-  - {sheet: PWR, from: XINT.1, to: K1.86, mm2: 0.5, color: VT, harness: PDM}
+  - {sheet: PWR, from: KEY.15, to: K1.86, mm2: 0.5, color: VT, harness: CAB}
   - {sheet: PWR, from: K1.85, to: GP-CH, mm2: 0.5, color: BK, harness: PDM}
 
   # ===== Masses ECU =====
@@ -760,18 +746,12 @@ wires:
   - {sheet: DBW, from: CMC1.J3, to: ETB.4, mm2: 0.5, color: WH/BK}
   - {sheet: DBW, from: CMC2.H4, to: ETB.3, mm2: 1.0, color: PK, cable: C-ETBM}
   - {sheet: DBW, from: CMC2.H2, to: ETB.5, mm2: 1.0, color: PK/BK, cable: C-ETBM}
-  - {sheet: DBW, from: SPL-SG-MAIN, to: XINT.2, mm2: 0.5, color: BN}
-  - {sheet: DBW, from: SPL-SG-MAIN, to: XINT.3, mm2: 0.5, color: BN}
-  - {sheet: DBW, from: SPL-5V-MAIN, to: XINT.4, mm2: 0.5, color: OG}
-  - {sheet: DBW, from: CMC1.J4, to: XINT.5, mm2: 0.5, color: WH/BU}
-  - {sheet: DBW, from: SPL-5V-MAIN, to: XINT.6, mm2: 0.5, color: OG}
-  - {sheet: DBW, from: CMC2.G3, to: XINT.7, mm2: 0.5, color: WH/GN}
-  - {sheet: DBW, from: XINT.2, to: APP.1, mm2: 0.5, color: BN, harness: CAB}
-  - {sheet: DBW, from: XINT.3, to: APP.2, mm2: 0.5, color: BN, harness: CAB}
-  - {sheet: DBW, from: XINT.4, to: APP.3, mm2: 0.5, color: OG, harness: CAB}
-  - {sheet: DBW, from: XINT.5, to: APP.4, mm2: 0.5, color: WH/BU, harness: CAB}
-  - {sheet: DBW, from: XINT.6, to: APP.5, mm2: 0.5, color: OG, harness: CAB}
-  - {sheet: DBW, from: XINT.7, to: APP.6, mm2: 0.5, color: WH/GN, harness: CAB}
+  - {sheet: DBW, from: SPL-SG-MAIN, to: APP.1, mm2: 0.5, color: BN, harness: CAB}
+  - {sheet: DBW, from: SPL-SG-MAIN, to: APP.2, mm2: 0.5, color: BN, harness: CAB}
+  - {sheet: DBW, from: SPL-5V-MAIN, to: APP.3, mm2: 0.5, color: OG, harness: CAB}
+  - {sheet: DBW, from: CMC1.J4, to: APP.4, mm2: 0.5, color: WH/BU, harness: CAB}
+  - {sheet: DBW, from: SPL-5V-MAIN, to: APP.5, mm2: 0.5, color: OG, harness: CAB}
+  - {sheet: DBW, from: CMC2.G3, to: APP.6, mm2: 0.5, color: WH/GN, harness: CAB}
 
   # ===== Lambda LSU 4.9 & EGT =====
   - {sheet: WBO, from: CMC1.G3, to: LSU.1, mm2: 0.5, color: WH, cable: C-LSU}
@@ -795,7 +775,7 @@ wires:
 
   # ===== VANOS & MAC valve =====
   - {sheet: ACT, from: CMC1.B4, to: MAC.2, mm2: 0.75, color: GN, note: "GPO1 = boost (préconisation MaxxECU M50)"}
-  - {sheet: ACT, from: CMC1.D4, to: VANOS.2, mm2: 0.75, color: GN, note: "GPO3 — voir contrôle de courant (alternative INJ7 / L2)"}
+  - {sheet: ACT, from: CMC1.D4, to: VANOS.2, mm2: 0.75, color: GN, note: "GPO3 = VANOS en direct (préconisation MaxxECU M50)"}
   - {sheet: ACT, from: F5.2, to: SPL-ACT12, mm2: 1.0, color: RD/WH}
   - {sheet: ACT, from: SPL-ACT12, to: MAC.1, mm2: 0.75, color: RD/WH}
   - {sheet: ACT, from: SPL-ACT12, to: VANOS.1, mm2: 0.75, color: RD/WH}
@@ -808,18 +788,15 @@ wires:
   - {sheet: RLY, from: SPL-RLY, to: K3.86, mm2: 0.5, color: RD/WH, harness: PDM}
   - {sheet: RLY, from: F8.2, to: K2.30, mm2: 2.5, color: RD, harness: PDM}
   - {sheet: RLY, from: F9.2, to: K3.30, mm2: 4.0, color: RD, harness: PDM}
-  - {sheet: RLY, from: K2.87, to: PUMP.+, mm2: 2.5, color: RD/YE, harness: CHS}
-  - {sheet: RLY, from: PUMP.-, to: GP-CH-AR, mm2: 2.5, color: BK, harness: CHS}
+  - {sheet: RLY, from: K2.87, to: PUMP.+, mm2: 4.0, color: RD/YE, harness: CHS, note: "4 mm² pour limiter la chute de tension sur 3 m (débit pompe)"}
+  - {sheet: RLY, from: PUMP.-, to: GP-CH-AR, mm2: 4.0, color: BK, harness: CHS}
   - {sheet: RLY, from: K3.87, to: FAN.+, mm2: 4.0, color: RD/BU}
   - {sheet: RLY, from: FAN.-, to: GP-CH-AV, mm2: 4.0, color: BK}
 
   # ===== Interface habitacle =====
-  - {sheet: COM, from: CMC1.A4, to: XINT.8, mm2: 0.5, color: GN/WH, note: "GPO8 = compte-tours"}
-  - {sheet: COM, from: XINT.8, to: CLUSTER.TD, mm2: 0.5, color: GN/WH, harness: CAB}
-  - {sheet: COM, from: CMC1.E1, to: XINT.9, mm2: 0.5, color: YE/BK, cable: C-CAN}
-  - {sheet: COM, from: CMC1.E2, to: XINT.10, mm2: 0.5, color: GN/BK, cable: C-CAN}
-  - {sheet: COM, from: XINT.9, to: CANDEV.H, mm2: 0.5, color: YE/BK, harness: CAB}
-  - {sheet: COM, from: XINT.10, to: CANDEV.L, mm2: 0.5, color: GN/BK, harness: CAB}
+  - {sheet: COM, from: CMC1.A4, to: CLUSTER.TD, mm2: 0.5, color: GN/WH, harness: CAB, note: "GPO8 = compte-tours"}
+  - {sheet: COM, from: CMC1.E1, to: CANDEV.H, mm2: 0.5, color: YE/BK, cable: C-CAN, harness: CAB}
+  - {sheet: COM, from: CMC1.E2, to: CANDEV.L, mm2: 0.5, color: GN/BK, cable: C-CAN, harness: CAB}
 
 # -----------------------------------------------------------------------------
 # Topologie (formboard). Longueurs en mètres — ESTIMATIONS à mesurer.
@@ -829,12 +806,12 @@ topology:
   estimated: true
   root: ECU
   nodes:
-    ECU: "ECU (E-box)"
-    PDM: "Boîte fusibles/relais (E-box)"
-    EB: "Sortie E-box"
+    ECU: "ECU (habitacle, derrière la boîte à gants)"
+    PDM: "Boîte fusibles/relais (habitacle)"
+    HB: "Nœud habitacle"
+    FW: "Passe-fil tablier (ex-boîte électronique)"
+    T0: "Baie moteur, angle tablier droit"
     BPLUS: "Borne B+ / fusible général"
-    T0: "Passe-fil tablier"
-    XINT: "Connecteur de cloison"
     CAB_PEDAL: "Pédale"
     CAB_CLUSTER: "Combiné"
     CAB_DASH: "Afficheur CAN"
@@ -872,14 +849,14 @@ topology:
     N_LSU: "Sonde lambda"
     N_PUMP: "Pompe à essence"
   segments:
-    - [ECU, EB, 0.20]
-    - [PDM, EB, 0.20]
-    - [BPLUS, PDM, 0.50]
-    - [EB, T0, 0.30]
-    - [T0, XINT, 0.20]
-    - [XINT, CAB_PEDAL, 0.90]
-    - [XINT, CAB_KEY, 0.80]
-    - [XINT, CAB_CLUSTER, 1.30]
+    - [ECU, HB, 0.20]
+    - [PDM, HB, 0.25]
+    - [HB, FW, 0.45]
+    - [FW, T0, 0.30]
+    - [T0, BPLUS, 0.35]
+    - [HB, CAB_PEDAL, 1.00]
+    - [HB, CAB_KEY, 0.90]
+    - [HB, CAB_CLUSTER, 1.00]
     - [CAB_CLUSTER, CAB_DASH, 0.30]
     - [T0, T1, 0.70]
     - [T1, GND_HEAD, 0.05]
@@ -894,7 +871,7 @@ topology:
     - [FRONT, N_CAM, 0.12]
     - [FRONT, N_CLT, 0.15]
     - [FRONT, N_CRANK, 0.45]
-    - [FRONT, N_FAN, 0.70]
+    - [T0, N_FAN, 1.10]
     - [T1, INT6, 0.25]
     - [INT6, INT5, 0.091]
     - [INT5, INT4, 0.091]
@@ -908,11 +885,19 @@ topology:
     - [INT5, N_KS2, 0.25]
     - [INT3, N_OIL, 0.40]
     - [INT6, N_FUEL, 0.20]
-    - [T0, EXH, 0.60]
+    - [T0, EXH, 0.40]
     - [EXH, TURBO, 0.40]
     - [TURBO, N_EGT, 0.25]
     - [TURBO, N_LSU, 0.60]
-    - [PDM, N_PUMP, 3.50]
+    - [PDM, N_PUMP, 3.00]
+
+# -----------------------------------------------------------------------------
+# Articles de nomenclature non déductibles des fils
+# -----------------------------------------------------------------------------
+bom_extra:
+  - {cat: "Montage", item: "Passe-fil caoutchouc étanche pour la traversée du tablier", qty: 1, unit: "pc", detail: "à l'emplacement de la boîte électronique d'origine"}
+  - {cat: "Montage", item: "Goujon / vis M8 de masse sur culasse", qty: 2, unit: "pc", detail: "GP-HEAD (ECU) et GP-COIL (bobines), surfaces mises à nu"}
+  - {cat: "Montage", item: "Colliers P-clip / fixations de faisceau", qty: 20, unit: "pc", detail: "un tous les 20–25 cm environ"}
 
 # -----------------------------------------------------------------------------
 # Audit du plan d'origine
@@ -931,9 +916,15 @@ audit:
   - sev: fix
     title: "Section des +12 V bobines : 1,0 mm² et non 0,75"
     detail: "Le fusible bobines est à 15 A (préconisation MaxxECU). Un fil de 0,75 mm² n'est protégé que jusqu'à 10 A : chaque dérivation bobine passe en 1,0 mm². Masses broche 4 (puissance) en 1,0 mm², broche 2 (électronique) en 0,75 mm²."
-  - sev: warn
-    title: "VANOS sur GPO3 : limite 2 A"
-    detail: "Les GPO1-8 de la RACE sont donnés à 2 A. La résistance de l'électrovanne M50 varie selon les sources (3,3 à 12 Ω), soit jusqu'à 4,4 A. Mesure-la : ≥ 7,5 Ω → GPO3 OK ; sinon passe la commande sur INJ7 (CMC1 L2, sortie 8 A libre), un seul fil à déplacer."
+  - sev: ok
+    title: "VANOS en direct sur GPO3, sans relais"
+    detail: "C'est le câblage de MaxxECU sur son propre faisceau M50 : GPO3, connecteur Bosch JPT 2 voies, aucun relais. L'électrovanne simple VANOS 11361738494 (M50TU / M52 / S50 / S52) est relevée autour de 8,5–12 Ω, soit 1,2 à 1,7 A pour une limite GPO de 2 A. La valeur de 3,3 Ω qui circule vient d'un article sur le S50 du Z3 M, pas de cette électrovanne. Un contrôle de 10 s au multimètre reste conseillé : sous 7,5 Ω, passer sur INJ7 (CMC1 L2, 8 A)."
+  - sev: add
+    title: "ECU et fusibles dans l'habitacle (E36 caisse vide)"
+    detail: "Sur un M50 en E36 conduite à gauche, la boîte électronique d'origine est côté échappement, donc côté turbo. ECU et boîte fusibles/relais passent derrière la boîte à gants, au frais et au sec ; le faisceau moteur traverse le tablier par un passe-fil étanche à l'emplacement d'origine. La pédale, le contact et le combiné sont câblés en direct : plus de connecteur de cloison."
+  - sev: add
+    title: "Pompe 280 l/h et ventilateur SPAL 385 mm"
+    detail: "Pompe : relais K2, fusible 20 A, alimentation et masse en 4 mm² pour limiter la chute de tension sur le trajet jusqu'au réservoir. Ventilateur SPAL 385 mm aspirant (19,5 A d'après la fiche SPAL VA18-AP71/LL-59A) : relais K3 40 A, fusible 30 A, fils 4 mm². Les deux sont alimentés en direct batterie, hors relais principal."
   - sev: add
     title: "Épissures obligatoires"
     detail: "Une alvéole CMC ne reçoit qu'un fil. +5 V, Sensor GND, VR GND, Knock GND et Shield GND passent par des épissures dédiées, placées au ras de l'ECU pour les références et sur la branche moteur pour les distributions."
@@ -985,7 +976,7 @@ mtune:
   - {item: "EGT", value: "EGT1 type K"}
   - {item: "GPO1", value: "Boost control (MAC), PWM ~30 Hz"}
   - {item: "GPO2", value: "Fuel pump (relais K2)"}
-  - {item: "GPO3", value: "VANOS tout-ou-rien (ou INJ7 si résistance < 7,5 Ω)"}
+  - {item: "GPO3", value: "VANOS tout-ou-rien (seuil de régime / charge à définir sur la cartographie)"}
   - {item: "GPO6", value: "Engine fan (relais K3)"}
   - {item: "GPO8", value: "Tachometer output"}
 
@@ -997,7 +988,8 @@ checks:
     items:
       - "Papillon : R entre broches 3 et 5 = quelques ohms (moteur) ; sous 5 V (2 +, 6 −), relever les tensions des pistes 1 et 4 fermé / ouvert à la main."
       - "Pédale : 5 V sur 3 et 5, masse sur 1 et 2 ; relever 4 et 6 relâchée / à fond (piste 2 ≈ moitié de la piste 1)."
-      - "Électrovanne VANOS : mesurer la résistance → GPO3 si ≥ 7,5 Ω, sinon INJ7 (L2)."
+      - "Électrovanne VANOS : résistance ≈ 8,5–12 Ω (sous 7,5 Ω : commande sur INJ7 / L2)."
+      - "Pompe et ventilateur : relever le courant nominal sur l'étiquette, ajuster load_a dans le fichier si besoin."
       - "Injecteurs : mesurer la résistance (≈ 12 Ω haute impédance / ≈ 2–3 Ω basse impédance)."
       - "AAC : résistance 1–2 de quelques centaines d'ohms ; continuité broche 3 ↔ corps (décide du raccord du blindage côté capteur)."
       - "IAT / CLT / NTC des capteurs huile et essence : ≈ 2–3 kΩ à 20 °C."
@@ -1012,7 +1004,8 @@ checks:
       - "+5 V (G1) ↔ toutes les masses : pas de court-circuit."
       - "+12 V commuté (barrette 87) ↔ masse : pas de court-circuit."
       - "CMC1 L4 et CMC2 G4 ↔ goujon culasse : < 0,1 Ω."
-      - "Tresse moteur ↔ caisse et câble batterie − ↔ moteur présents et serrés (≥ 25 mm²)."
+      - "Tresse moteur ↔ caisse et câble batterie − ↔ moteur présents et serrés (≥ 25 mm²) : sur E36 la batterie est au coffre, le retour de masse passe par la caisse."
+      - "Passe-fil du tablier étanche, faisceau maintenu sans frottement sur la tôle."
       - "Blindages : reliés uniquement côté ECU (aucune continuité vers le moteur)."
   - phase: "Première mise sous tension (pompe et injecteurs débranchés)"
     items:

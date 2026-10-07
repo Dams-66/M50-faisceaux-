@@ -562,6 +562,40 @@ class Harness:
             seg["wires"] = seg_wires.get(seg["id"], 0)
             seg["bundle_mm"] = round(bundle, 1)
             seg["sleeve"] = self._sleeve(bundle) if bundle else None
+        self._drop_checks()
+
+    def _drop_checks(self):
+        """Chute de tension aller + retour sur les charges fortes câblées en direct."""
+        r = self.rules
+        rho, v_ref = r["rho_ohm_mm2_m"], r["drop_ref_v"]
+        self.drop_table = []
+        for oid, o in self.owners.items():
+            amps = o.get("load_a") or 0
+            if o["cat"] != "comp" or amps < r["drop_min_a"]:
+                continue
+            path = []
+            for eid, e in self.endpoints.items():
+                if e["owner"] != oid or not (e.get("supply") or e.get("cls") == "GND_PWR"):
+                    continue
+                for w in self.wires:
+                    if eid not in (w["from"], w["to"]) or w["internal"] or w["drain"]:
+                        continue
+                    path.append(w)
+                    other = self.endpoints[w["to"] if w["from"] == eid else w["from"]]
+                    if other["cat"] == "relay" and other["pin"] == "87":
+                        path += [x for x in self.wires if f"{other['owner']}.30" in (x["from"], x["to"])
+                                 and not x["internal"]]
+            if not path:
+                continue
+            res = sum(rho * w["length_m"] / w["mm2"] for w in path)
+            drop = amps * res
+            pct = 100 * drop / v_ref
+            status = "warn" if pct > r["drop_warn_pct"] else "ok"
+            if status == "warn":
+                self.warnings.append(f"{oid} : chute de tension {drop:.2f} V ({pct:.1f} %) à {amps:g} A — augmenter la section")
+            self.drop_table.append({"id": oid, "label": o["label"], "a": amps, "wires": [w["id"] for w in path],
+                                    "r_mohm": round(res * 1000, 1), "drop_v": round(drop, 2),
+                                    "pct": round(pct, 1), "status": status})
 
     @staticmethod
     def _sleeve(bundle):
@@ -644,6 +678,8 @@ class Harness:
         labels = sum(2 for w in self.wires if not w["internal"] and not w["drain"])
         rows.append({"cat": "Repérage", "item": "Étiquettes thermo imprimables (repère de fil)",
                      "qty": labels, "detail": "une à chaque extrémité"})
+        for extra in self.d.get("bom_extra", []):
+            rows.append(dict(extra))
         for r in rows:
             r.setdefault("unit", "pc")
         return rows
@@ -675,6 +711,7 @@ class Harness:
             "topology": {"root": self.d["topology"]["root"], "estimated": self.d["topology"]["estimated"],
                          "nodes": self.nodes, "segments": self.segments},
             "fuses": self.fuse_table, "outputs": self.output_table, "five_v_ma": five_v,
+            "drops": self.drop_table,
             "audit": self.d["audit"], "mtune": self.d["mtune"], "checks": self.d["checks"],
             "bom": self.bom(),
             "validation": {"errors": self.errors, "warnings": self.warnings, "infos": self.infos},
@@ -756,6 +793,11 @@ def report_md(h, data):
         cur = f"{o['a_min']:.2f} A" if o["a_min"] == o["a_max"] else f"{o['a_min']:.2f}–{o['a_max']:.2f} A"
         lim = f"{o['max_a']} A" if o["max_a"] else "—"
         lines.append(f"| {o['pin']} | {o['fn']} | {', '.join(o['loads'])} | {cur} | {lim} |")
+    lines += ["", "## Chutes de tension (charges fortes, aller + retour)", "",
+              "| Charge | Courant | Fils | Résistance | Chute |", "|---|---|---|---|---|"]
+    for d in data["drops"]:
+        lines.append(f"| {d['id']} {d['label']} | {d['a']:g} A | {', '.join(d['wires'])} | "
+                     f"{d['r_mohm']:.1f} mΩ | {d['drop_v']:.2f} V ({d['pct']:.1f} %) |")
     lines += ["", f"Consommation estimée sur le +5 V capteurs (G1) : **{data['five_v_ma']} mA**.", "",
               "## Brochage ECU", "", "| Broche | Fonction | Fil | Section | Couleur | Vers |", "|---|---|---|---|---|---|"]
     for p in data["ecu"]["pins"]:

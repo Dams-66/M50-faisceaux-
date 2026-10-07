@@ -1,14 +1,13 @@
 # Faisceau moteur M50B25 VANOS Turbo — rapport de vérification
 
-*MaxxECU RACE Gen1 (REV9+) · révision A · 2026-10-07 · Étude — à valider sur véhicule*
+*MaxxECU RACE Gen1 (REV9+) · révision B · 2026-10-07 · Étude — à valider sur véhicule*
 
 > Généré par `tools/build_harness.py` depuis `harness/m50b25_vanos_turbo.yaml`. Ne pas éditer à la main.
 
-**126 fils** · **153.3 m de fil coupé** · 15 épissures/barrettes · 11 fusibles · 3 relais
+**116 fils** · **166.3 m de fil coupé** · 15 épissures/barrettes · 11 fusibles · 3 relais
 
-## Contrôle des règles électriques : 0 erreur(s), 1 alerte(s)
+## Contrôle des règles électriques : 0 erreur(s), 0 alerte(s)
 
-- ⚠️ CMC1.D4 (GP OUT 3) → VANOS : 1.2–4.4 A selon la résistance réelle, limite 2 A — mesurer avant de figer
 - ℹ️ PWR-01 : liaison batterie → fusible général, garder la plus courte possible
 
 ## Audit du plan d'origine
@@ -29,9 +28,17 @@ CMC1 M4 = +12 V ECU (fusible 15 A après relais principal). CMC1 L4 ET CMC2 G4 =
 
 Le fusible bobines est à 15 A (préconisation MaxxECU). Un fil de 0,75 mm² n'est protégé que jusqu'à 10 A : chaque dérivation bobine passe en 1,0 mm². Masses broche 4 (puissance) en 1,0 mm², broche 2 (électronique) en 0,75 mm².
 
-### ⚠️ À vérifier — VANOS sur GPO3 : limite 2 A
+### ✅ Validé — VANOS en direct sur GPO3, sans relais
 
-Les GPO1-8 de la RACE sont donnés à 2 A. La résistance de l'électrovanne M50 varie selon les sources (3,3 à 12 Ω), soit jusqu'à 4,4 A. Mesure-la : ≥ 7,5 Ω → GPO3 OK ; sinon passe la commande sur INJ7 (CMC1 L2, sortie 8 A libre), un seul fil à déplacer.
+C'est le câblage de MaxxECU sur son propre faisceau M50 : GPO3, connecteur Bosch JPT 2 voies, aucun relais. L'électrovanne simple VANOS 11361738494 (M50TU / M52 / S50 / S52) est relevée autour de 8,5–12 Ω, soit 1,2 à 1,7 A pour une limite GPO de 2 A. La valeur de 3,3 Ω qui circule vient d'un article sur le S50 du Z3 M, pas de cette électrovanne. Un contrôle de 10 s au multimètre reste conseillé : sous 7,5 Ω, passer sur INJ7 (CMC1 L2, 8 A).
+
+### ➕ Ajouté — ECU et fusibles dans l'habitacle (E36 caisse vide)
+
+Sur un M50 en E36 conduite à gauche, la boîte électronique d'origine est côté échappement, donc côté turbo. ECU et boîte fusibles/relais passent derrière la boîte à gants, au frais et au sec ; le faisceau moteur traverse le tablier par un passe-fil étanche à l'emplacement d'origine. La pédale, le contact et le combiné sont câblés en direct : plus de connecteur de cloison.
+
+### ➕ Ajouté — Pompe 280 l/h et ventilateur SPAL 385 mm
+
+Pompe : relais K2, fusible 20 A, alimentation et masse en 4 mm² pour limiter la chute de tension sur le trajet jusqu'au réservoir. Ventilateur SPAL 385 mm aspirant (19,5 A d'après la fiche SPAL VA18-AP71/LL-59A) : relais K3 40 A, fusible 30 A, fils 4 mm². Les deux sont alimentés en direct batterie, hors relais principal.
 
 ### ➕ Ajouté — Épissures obligatoires
 
@@ -81,17 +88,17 @@ Capteur interne MaxxECU RACE : jusqu'à 3 bar de pression de suralimentation. Du
 
 | Fusible | Circuit | Calibre | Section mini | Charge estimée | Taux |
 |---|---|---|---|---|---|
-| F0 | Fusible général | 80 A | 10 mm² | 55.1 A | 69% |
+| F0 | Fusible général | 80 A | 10 mm² | 52.0 A | 65% |
 | F1 | Fusible ECU | 15 A | 1 mm² | 1.5 A | 10% |
 | F2 | Fusible bobines | 15 A | 1 mm² | 6.0 A | 40% |
 | F3 | Fusible injecteurs | 10 A | 0,75 mm² | 6.0 A | 60% |
 | F4 | Fusible chauffage lambda | 10 A | 0,75 mm² | 1.5 A | 15% |
-| F5 | Fusible actionneurs (VANOS, MAC) | 10 A | 0,75 mm² | 4.8 A | 48% |
+| F5 | Fusible actionneurs (VANOS, MAC) | 10 A | 0,75 mm² | 2.1 A | 21% |
 | F6 | Fusible capteur PMH | 5 A | 0,35 mm² | 0.0 A | 0% |
 | F7 | Fusible bobines de relais | 5 A | 0,35 mm² | 0.3 A | 6% |
 | F8 | Fusible pompe à essence | 20 A | 1,5 mm² | 15.0 A | 75% |
-| F9 | Fusible ventilateur | 30 A | 2,5 mm² | 20.0 A | 67% |
-| F10 | Fusible relais principal | 30 A | 2,5 mm² | 20.1 A | 67% |
+| F9 | Fusible ventilateur | 30 A | 2,5 mm² | 19.5 A | 65% |
+| F10 | Fusible relais principal | 30 A | 2,5 mm² | 17.5 A | 58% |
 
 ## Sorties ECU chargées
 
@@ -108,7 +115,7 @@ Capteur interne MaxxECU RACE : jusqu'à 3 bar de pression de suralimentation. Du
 | CMC1.C3 | IGNITION CYL 6 | COIL6 | 1.00 A | — |
 | CMC1.C4 | GP OUT 2 | K2 | 0.15 A | 2 A |
 | CMC1.D1 | WBO2 HTR (pin 3 LSU 4.9) / GP OUT 9 | LSU | 1.50 A | 5 A |
-| CMC1.D4 | GP OUT 3 | VANOS | 1.20–4.36 A | 2 A |
+| CMC1.D4 | GP OUT 3 | VANOS | 1.20–1.69 A | 2 A |
 | CMC1.K1 | INJECTOR CYL 1 | INJ1 | 1.00 A | 8 A |
 | CMC1.K2 | INJECTOR CYL 2 | INJ2 | 1.00 A | 8 A |
 | CMC1.L3 | INJECTOR CYL 6 | INJ6 | 1.00 A | 8 A |
@@ -118,6 +125,13 @@ Capteur interne MaxxECU RACE : jusqu'à 3 bar de pression de suralimentation. Du
 | CMC2.H2 | MOTOR 1- / GPO 11 | ETB | 0.00 A | — |
 | CMC2.H4 | MOTOR 1+ / GPO 12 | ETB | 0.00 A | — |
 
+## Chutes de tension (charges fortes, aller + retour)
+
+| Charge | Courant | Fils | Résistance | Chute |
+|---|---|---|---|---|
+| PUMP Pompe à essence | 15 A | RLY-08, RLY-06, RLY-09 | 17.9 mΩ | 0.27 V (2.0 %) |
+| FAN Ventilateur électrique | 19.5 A | RLY-10, RLY-07, RLY-11 | 13.0 mΩ | 0.25 V (1.9 %) |
+
 Consommation estimée sur le +5 V capteurs (G1) : **45 mA**.
 
 ## Brochage ECU
@@ -126,7 +140,7 @@ Consommation estimée sur le +5 V capteurs (G1) : **45 mA**.
 |---|---|---|---|---|---|
 | CMC1.A2 | IGNITION CYL 1 | IGN-01 | 0,5 | BU | COIL1.3 (Commande IGN) |
 | CMC1.A3 | IGNITION CYL 2 | IGN-02 | 0,5 | BU | COIL2.3 (Commande IGN) |
-| CMC1.A4 | TACH / GP OUT 8 | COM-01 | 0,5 | GN/WH | XINT.8 (Compte-tours) |
+| CMC1.A4 | TACH / GP OUT 8 | COM-01 | 0,5 | GN/WH | CLUSTER.TD (Entrée régime) |
 | CMC1.B1 | GP OUT 6 | RLY-02 | 0,5 | GN | K3.85 (Bobine − (GPO6)) |
 | CMC1.B2 | IGNITION CYL 3 | IGN-03 | 0,5 | BU | COIL3.3 (Commande IGN) |
 | CMC1.B3 | IGNITION CYL 4 | IGN-04 | 0,5 | BU | COIL4.3 (Commande IGN) |
@@ -136,8 +150,8 @@ Consommation estimée sur le +5 V capteurs (G1) : **45 mA**.
 | CMC1.C4 | GP OUT 2 | RLY-01 | 0,5 | GN | K2.85 (Bobine − (GPO2)) |
 | CMC1.D1 | WBO2 HTR (pin 3 LSU 4.9) / GP OUT 9 | WBO-05 | 1 | GN | LSU.3 (Chauffage −) |
 | CMC1.D4 | GP OUT 3 | ACT-02 | 0,75 | GN | VANOS.2 (Commande (masse)) |
-| CMC1.E1 | CAN H (120 Ω intégrée) | COM-03 | 0,5 | YE/BK | XINT.9 (CAN H) |
-| CMC1.E2 | CAN L | COM-04 | 0,5 | GN/BK | XINT.10 (CAN L) |
+| CMC1.E1 | CAN H (120 Ω intégrée) | COM-02 | 0,5 | YE/BK | CANDEV.H (CAN H) |
+| CMC1.E2 | CAN L | COM-03 | 0,5 | GN/BK | CANDEV.L (CAN L) |
 | CMC1.E3 | SHIELD GND | SYNC-07 | 0,5 | BK/WH | SPL-SHLD (Blindages → Shield GND) |
 | CMC1.F1 | COOLANT SENSOR (CLT) | SNS-12 | 0,5 | YE | CLT.1 (Signal NTC) |
 | CMC1.F2 | AIR TEMP SENSOR (IAT) | SNS-11 | 0,5 | YE/BK | IAT.1 (Signal NTC) |
@@ -154,7 +168,7 @@ Consommation estimée sur le +5 V capteurs (G1) : **45 mA**.
 | CMC1.J1 | ANALOG IN 1 (TEMP) | SNS-13 | 0,5 | YE/BN | OIL.5 (Température NTC) |
 | CMC1.J2 | ANALOG IN 2 (TEMP) | SNS-15 | 0,5 | YE/VT | FUEL.5 (Température NTC) |
 | CMC1.J3 | ANALOG IN 3 (0-5 V) | DBW-04 | 0,5 | WH/BK | ETB.4 (TPS 2) |
-| CMC1.J4 | ANALOG IN 4 (0-5 V) | DBW-10 | 0,5 | WH/BU | XINT.5 (Pédale signal 1) |
+| CMC1.J4 | ANALOG IN 4 (0-5 V) | DBW-10 | 0,5 | WH/BU | APP.4 (Signal piste 1) |
 | CMC1.K1 | INJECTOR CYL 1 | INJ-01 | 0,75 | GY | INJ1.2 (Commande ECU) |
 | CMC1.K2 | INJECTOR CYL 2 | INJ-02 | 0,75 | GY | INJ2.2 (Commande ECU) |
 | CMC1.L3 | INJECTOR CYL 6 | INJ-06 | 0,75 | GY | INJ6.2 (Commande ECU) |
@@ -170,7 +184,7 @@ Consommation estimée sur le +5 V capteurs (G1) : **45 mA**.
 | CMC2.E3 | KNOCK 2 | KNK-03 | 0,5 | WH | KS2.1 (Signal) |
 | CMC2.E4 | ANALOG IN 6 (0-5 V) | SNS-14 | 0,5 | WH/BN | OIL.2 (Pression 0,5–4,5 V) |
 | CMC2.F1 | ANALOG IN 7 (0-5 V) | SNS-16 | 0,5 | WH/VT | FUEL.2 (Pression 0,5–4,5 V) |
-| CMC2.G3 | ANALOG IN 5 (0-5 V) | DBW-12 | 0,5 | WH/GN | XINT.7 (Pédale signal 2) |
+| CMC2.G3 | ANALOG IN 5 (0-5 V) | DBW-12 | 0,5 | WH/GN | APP.6 (Signal piste 2) |
 | CMC2.G4 | ENGINE GROUND 2 | GND-02 | 1,5 | BK | GP-HEAD (Masse moteur ECU (goujon arrière culasse)) |
 | CMC2.H2 | MOTOR 1- / GPO 11 | DBW-06 | 1 | PK/BK | ETB.5 (Moteur −) |
 | CMC2.H4 | MOTOR 1+ / GPO 12 | DBW-05 | 1 | PK | ETB.3 (Moteur +) |
@@ -194,6 +208,6 @@ Broches libres : CMC1.A1 (GP OUT 5), CMC1.C1 (GP OUT 7 / DIGITAL IN 3), CMC1.D2 
 | EGT | EGT1 type K |
 | GPO1 | Boost control (MAC), PWM ~30 Hz |
 | GPO2 | Fuel pump (relais K2) |
-| GPO3 | VANOS tout-ou-rien (ou INJ7 si résistance < 7,5 Ω) |
+| GPO3 | VANOS tout-ou-rien (seuil de régime / charge à définir sur la cartographie) |
 | GPO6 | Engine fan (relais K3) |
 | GPO8 | Tachometer output |

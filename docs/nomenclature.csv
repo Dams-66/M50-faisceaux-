@@ -7,12 +7,11 @@ Connecteurs;Bosch 2 voies;2;pc;KS1, KS2 — 4 contacts
 Connecteurs;Bosch EV1 / JPT 2 voies;6;pc;INJ1, INJ2, INJ3, INJ4, INJ5, INJ6 — 12 contacts
 Connecteurs;Bosch JPT 2 voies;3;pc;IAT, CLT, VANOS — 6 contacts
 Connecteurs;Bosch JPT 3 voies;1;pc;CAM — 3 contacts
+Connecteurs;Connecteur 2 voies du ventilateur;1;pc;FAN — 2 contacts
 Connecteurs;Connecteur Bosch du capteur (broche 1 non câblée);2;pc;OIL, FUEL — 8 contacts
-Connecteurs;Deutsch DT 12 voies;2;pc;XINT — 10 contacts
 Connecteurs;LSU 4.9 6 voies (Bosch 1 928 404 682);1;pc;LSU — 6 contacts
 Connecteurs;Mini-K (thermocouple);1;pc;EGT1 — 2 contacts
 Connecteurs;Selon pompe;1;pc;PUMP — 2 contacts
-Connecteurs;Selon ventilateur;1;pc;FAN — 2 contacts
 Connecteurs;Superseal 1.5 2 voies (conseillé);1;pc;MAC — 2 contacts
 Connecteurs;TE MQS 6 voies;1;pc;APP — 6 contacts
 Connecteurs;VAG 4 voies (1J0 973 724);6;pc;COIL1, COIL2, COIL3, COIL4, COIL5, COIL6 — 24 contacts
@@ -28,58 +27,60 @@ Protection;Boîte fusibles/relais étanche avec barrettes (ex. Bussmann RTMR);1;
 Épissures;Épissure sertie ou à souder + thermo à colle (ex. Raychem D-436);13;pc;SPL-5V-MAIN, SPL-5V-ENG, SPL-SG-MAIN, SPL-SG-ENG, SPL-VRG, SPL-SHLD, SPL-KGND, SPL-COIL12, SPL-COIL-SGND, SPL-COIL-PGND, SPL-INJ12, SPL-ACT12, SPL-RLY
 Masses;Cosse œillet M8 étamée — GP-HEAD;2;pc;Masse moteur ECU (goujon arrière culasse)
 Masses;Cosse œillet M8 étamée — GP-COIL;2;pc;Masse bobines (goujon culasse, voisin)
-Masses;Cosse œillet M8 étamée — GP-CH;1;pc;Masse caisse E-box
+Masses;Cosse œillet M8 étamée — GP-CH;1;pc;Masse caisse habitacle (PDM)
 Masses;Cosse œillet M8 étamée — GP-CH-AV;1;pc;Masse caisse avant (ventilateur)
 Masses;Cosse œillet M8 étamée — GP-CH-AR;1;pc;Masse caisse arrière (pompe)
 Fil;FLRY-B 0,5 mm² BK;0,2;m;coupe 0,20 m + 10 %
 Fil;FLRY-B 0,5 mm² BK/WH;0,2;m;coupe 0,20 m + 10 %
-Fil;FLRY-B 0,5 mm² BN;12,5;m;coupe 11,40 m + 10 %
-Fil;FLRY-B 0,5 mm² BU;11,7;m;coupe 10,60 m + 10 %
-Fil;FLRY-B 0,5 mm² GN;1,3;m;coupe 1,20 m + 10 %
-Fil;FLRY-B 0,5 mm² GN/BK;2,0;m;coupe 1,80 m + 10 %
-Fil;FLRY-B 0,5 mm² GN/WH;2,6;m;coupe 2,40 m + 10 %
-Fil;FLRY-B 0,5 mm² OG;9,4;m;coupe 8,50 m + 10 %
+Fil;FLRY-B 0,5 mm² BN;11,7;m;coupe 10,65 m + 10 %
+Fil;FLRY-B 0,5 mm² BU;14,6;m;coupe 13,30 m + 10 %
+Fil;FLRY-B 0,5 mm² GN;1,4;m;coupe 1,30 m + 10 %
+Fil;FLRY-B 0,5 mm² GN/WH;1,5;m;coupe 1,40 m + 10 %
+Fil;FLRY-B 0,5 mm² OG;8,5;m;coupe 7,75 m + 10 %
 Fil;FLRY-B 0,5 mm² RD/WH;0,7;m;coupe 0,60 m + 10 %
-Fil;FLRY-B 0,5 mm² VT;2,1;m;coupe 1,90 m + 10 %
-Fil;FLRY-B 0,5 mm² WH;2,6;m;coupe 2,35 m + 10 %
-Fil;FLRY-B 0,5 mm² WH/BK;2,6;m;coupe 2,35 m + 10 %
-Fil;FLRY-B 0,5 mm² WH/BN;2,5;m;coupe 2,30 m + 10 %
-Fil;FLRY-B 0,5 mm² WH/BU;2,2;m;coupe 2,00 m + 10 %
-Fil;FLRY-B 0,5 mm² WH/GN;2,2;m;coupe 2,00 m + 10 %
-Fil;FLRY-B 0,5 mm² WH/VT;2,0;m;coupe 1,85 m + 10 %
-Fil;FLRY-B 0,5 mm² YE;2,6;m;coupe 2,35 m + 10 %
-Fil;FLRY-B 0,5 mm² YE/BK;4,8;m;coupe 4,35 m + 10 %
-Fil;FLRY-B 0,5 mm² YE/BN;2,5;m;coupe 2,30 m + 10 %
-Fil;FLRY-B 0,5 mm² YE/VT;2,0;m;coupe 1,85 m + 10 %
+Fil;FLRY-B 0,5 mm² VT;1,5;m;coupe 1,35 m + 10 %
+Fil;FLRY-B 0,5 mm² WH;3,1;m;coupe 2,80 m + 10 %
+Fil;FLRY-B 0,5 mm² WH/BK;3,1;m;coupe 2,80 m + 10 %
+Fil;FLRY-B 0,5 mm² WH/BN;3,0;m;coupe 2,75 m + 10 %
+Fil;FLRY-B 0,5 mm² WH/BU;1,5;m;coupe 1,40 m + 10 %
+Fil;FLRY-B 0,5 mm² WH/GN;1,5;m;coupe 1,40 m + 10 %
+Fil;FLRY-B 0,5 mm² WH/VT;2,5;m;coupe 2,30 m + 10 %
+Fil;FLRY-B 0,5 mm² YE;3,1;m;coupe 2,80 m + 10 %
+Fil;FLRY-B 0,5 mm² YE/BK;3,3;m;coupe 3,00 m + 10 %
+Fil;FLRY-B 0,5 mm² YE/BN;3,0;m;coupe 2,75 m + 10 %
+Fil;FLRY-B 0,5 mm² YE/VT;2,5;m;coupe 2,30 m + 10 %
 Fil;FLRY-B 0,75 mm² BK;2,1;m;coupe 1,95 m + 10 %
-Fil;FLRY-B 0,75 mm² GN;5,5;m;coupe 5,00 m + 10 %
-Fil;FLRY-B 0,75 mm² GY;12,3;m;coupe 11,20 m + 10 %
+Fil;FLRY-B 0,75 mm² GN;6,5;m;coupe 5,90 m + 10 %
+Fil;FLRY-B 0,75 mm² GY;15,3;m;coupe 13,90 m + 10 %
 Fil;FLRY-B 0,75 mm² RD/WH;5,0;m;coupe 4,55 m + 10 %
 Fil;FLRY-B 1 mm² BK;2,1;m;coupe 1,95 m + 10 %
-Fil;FLRY-B 1 mm² GN;2,5;m;coupe 2,30 m + 10 %
-Fil;FLRY-B 1 mm² RD/WH;9,7;m;coupe 8,85 m + 10 %
-Fil;FLRY-B 1,5 mm² BK;3,8;m;coupe 3,45 m + 10 %
-Fil;FLRY-B 2,5 mm² BK;0,8;m;coupe 0,75 m + 10 %
+Fil;FLRY-B 1 mm² GN;2,8;m;coupe 2,55 m + 10 %
+Fil;FLRY-B 1 mm² RD/WH;11,2;m;coupe 10,20 m + 10 %
+Fil;FLRY-B 1,5 mm² BK;4,8;m;coupe 4,35 m + 10 %
+Fil;FLRY-B 2,5 mm² BK;0,6;m;coupe 0,55 m + 10 %
 Fil;FLRY-B 2,5 mm² RD;0,4;m;coupe 0,40 m + 10 %
-Fil;FLRY-B 2,5 mm² RD/WH;2,1;m;coupe 1,90 m + 10 %
-Fil;FLRY-B 2,5 mm² RD/YE;4,1;m;coupe 3,70 m + 10 %
-Fil;FLRY-B 4 mm² BK;0,2;m;coupe 0,20 m + 10 %
+Fil;FLRY-B 2,5 mm² RD/WH;2,6;m;coupe 2,40 m + 10 %
+Fil;FLRY-B 4 mm² BK;0,4;m;coupe 0,40 m + 10 %
 Fil;FLRY-B 4 mm² RD;0,2;m;coupe 0,20 m + 10 %
-Fil;FLRY-B 4 mm² RD/BU;3,2;m;coupe 2,90 m + 10 %
-Fil;FLRY-B 10 mm² RD;1,0;m;coupe 0,90 m + 10 %
-Câble;3 × 0,5 mm² torsadé blindé;2,9;m;C-CRANK — Capteur PMH
-Câble;2 × 0,5 mm² torsadé blindé;2,5;m;C-CAM — Capteur AAC
-Câble;2 × 0,5 mm² torsadé blindé;2,5;m;C-KS1 — Cliquetis 1
-Câble;2 × 0,5 mm² torsadé blindé;2,2;m;C-KS2 — Cliquetis 2
-Câble;4 × 0,5 mm² blindé;2,5;m;C-LSU — Lambda signaux
-Câble;Câble d'extension thermocouple type K (2 × 0,5);2,1;m;C-EGT — EGT
-Câble;2 × 1,0 mm² torsadé;2,6;m;C-ETBM — Moteur papillon
-Câble;2 × 0,5 mm² torsadé (paire CAN);1,0;m;C-CAN — CAN
-Gaine;DR-25 12.7/6.4 mm;1,7;m;selon tronçons du formboard
-Gaine;DR-25 19.1/9.5 mm;1,2;m;selon tronçons du formboard
-Gaine;DR-25 25.4/12.7 mm;1,3;m;selon tronçons du formboard
-Gaine;DR-25 3.2/1.6 mm;1,6;m;selon tronçons du formboard
-Gaine;DR-25 4.8/2.4 mm;7,5;m;selon tronçons du formboard
-Gaine;DR-25 6.4/3.2 mm;2,2;m;selon tronçons du formboard
-Gaine;DR-25 9.5/4.8 mm;1,8;m;selon tronçons du formboard
-Repérage;Étiquettes thermo imprimables (repère de fil);252;pc;une à chaque extrémité
+Fil;FLRY-B 4 mm² RD/BU;2,5;m;coupe 2,30 m + 10 %
+Fil;FLRY-B 4 mm² RD/YE;3,5;m;coupe 3,20 m + 10 %
+Fil;FLRY-B 10 mm² RD;1,9;m;coupe 1,75 m + 10 %
+Câble;3 × 0,5 mm² torsadé blindé;3,5;m;C-CRANK — Capteur PMH
+Câble;2 × 0,5 mm² torsadé blindé;3,0;m;C-CAM — Capteur AAC
+Câble;2 × 0,5 mm² torsadé blindé;3,0;m;C-KS1 — Cliquetis 1
+Câble;2 × 0,5 mm² torsadé blindé;2,7;m;C-KS2 — Cliquetis 2
+Câble;4 × 0,5 mm² blindé;2,8;m;C-LSU — Lambda signaux
+Câble;Câble d'extension thermocouple type K (2 × 0,5);2,4;m;C-EGT — EGT
+Câble;2 × 1,0 mm² torsadé;3,1;m;C-ETBM — Moteur papillon
+Câble;2 × 0,5 mm² torsadé (paire CAN);1,9;m;C-CAN — CAN
+Gaine;DR-25 12.7/6.4 mm;1,4;m;selon tronçons du formboard
+Gaine;DR-25 19.1/9.5 mm;1,4;m;selon tronçons du formboard
+Gaine;DR-25 25.4/12.7 mm;1,8;m;selon tronçons du formboard
+Gaine;DR-25 3.2/1.6 mm;1,4;m;selon tronçons du formboard
+Gaine;DR-25 4.8/2.4 mm;6,3;m;selon tronçons du formboard
+Gaine;DR-25 6.4/3.2 mm;3,4;m;selon tronçons du formboard
+Gaine;DR-25 9.5/4.8 mm;1,4;m;selon tronçons du formboard
+Repérage;Étiquettes thermo imprimables (repère de fil);232;pc;une à chaque extrémité
+Montage;Passe-fil caoutchouc étanche pour la traversée du tablier;1;pc;à l'emplacement de la boîte électronique d'origine
+Montage;Goujon / vis M8 de masse sur culasse;2;pc;GP-HEAD (ECU) et GP-COIL (bobines), surfaces mises à nu
+Montage;Colliers P-clip / fixations de faisceau;20;pc;un tous les 20–25 cm environ

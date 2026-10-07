@@ -1,8 +1,9 @@
 # Faisceau moteur M50B25 VANOS Turbo — MaxxECU RACE Gen1
 
 Plan de fabrication complet d'un faisceau moteur sur mesure : BMW M50B25 VANOS
-turbo, gestion MaxxECU RACE Gen1 (REV9+), papillon motorisé, LSU 4.9, EGT,
-bobines intelligentes, injecteurs 870 cc.
+turbo en E36 (caisse vide), gestion MaxxECU RACE Gen1 (REV9+), papillon
+motorisé, LSU 4.9, EGT, bobines intelligentes, injecteurs 870 cc, pompe 280 l/h,
+ventilateur SPAL 385 mm.
 
 Tout est généré depuis **un seul fichier** : on modifie la définition, on
 relance le générateur, et planches, liste de coupe, nomenclature et contrôles
@@ -39,6 +40,7 @@ Ouvre ensuite `docs/faisceau.html` dans un navigateur.
 - chaque fil protégé par un fusible compatible avec sa section ;
 - charge de chaque fusible (alerte au-delà de 80 %) ;
 - courant de chaque sortie ECU sous sa limite (GPO 2 A, GPO9 5 A, INJ 8 A) ;
+- chute de tension aller + retour des charges fortes (pompe, ventilateur), alerte au-delà de 3 % ;
 - broches de composants non raccordées, épissures trop chargées.
 
 ### Modifier le faisceau
@@ -56,12 +58,15 @@ Ouvre ensuite `docs/faisceau.html` dans un navigateur.
 3. **Boîte fusibles/relais complète** : relais principal sur +15 clé, 11 fusibles, relais pompe et ventilateur.
 4. **+12 V bobines en 1,0 mm²** (0,75 mm² non protégé par le fusible 15 A).
 5. **Épissures** pour +5 V, Sensor GND, VR GND, Knock GND, blindages.
-6. **À mesurer** : résistance de l'électrovanne VANOS (≥ 7,5 Ω → GPO3, sinon INJ7).
+6. **VANOS en direct sur GPO3**, comme sur le faisceau M50 de MaxxECU (électrovanne ≈ 8,5–12 Ω, 1,2–1,7 A < 2 A).
+7. **ECU et boîte fusibles/relais dans l'habitacle** (E36 : la boîte électronique d'origine est côté turbo).
+8. **Pompe et ventilateur en 4 mm²** sur relais, alimentés en direct batterie.
 
 Le détail, les points validés et les sources sont dans `docs/rapport.md`.
 
 ## Hypothèses à confirmer
 
-- ECU et boîte fusibles/relais dans le boîtier électronique d'origine (E-box).
-- Pédale raccordée par un connecteur de cloison Deutsch DT 12 voies.
-- Consommations pompe (15 A) et ventilateur (20 A) à ajuster selon tes modèles.
+- E36 conduite à gauche ; ECU et PDM derrière la boîte à gants, traversée du tablier par passe-fil.
+- Fusible général MAXI 80 A sur la borne B+ de la baie moteur.
+- Pompe 280 l/h estimée à 15 A, ventilateur SPAL 385 mm aspirant à 19,5 A : à confirmer sur les étiquettes.
+- Longueurs de tronçons estimées : à mesurer sur la voiture.

@@ -1,17 +1,18 @@
 {
  "meta": {
   "project": "Faisceau moteur M50B25 VANOS Turbo",
-  "engine": "BMW M50B25 VANOS — turbo",
+  "engine": "BMW M50B25 VANOS — turbo — BMW E36",
   "ecu": "MaxxECU RACE Gen1 (REV9+)",
-  "revision": "A",
+  "revision": "B",
   "date": "2026-10-07",
   "status": "Étude — à valider sur véhicule",
   "assumptions": [
-   "ECU et boîte fusibles/relais (PDM) installés dans le boîtier électronique d'origine (E-box), côté passager, contre le tablier.",
-   "Longueurs de tronçons ESTIMÉES pour une baie M50 : à remplacer par des mesures à la ficelle (section topology).",
-   "Pédale dans l'habitacle, raccordée par un connecteur de cloison Deutsch DT 12 voies (XINT).",
-   "Pompe à essence et ventilateur pilotés par relais, alimentés en direct batterie (hors relais principal).",
-   "Consommations pompe (15 A) et ventilateur (20 A) supposées : à ajuster selon tes modèles."
+   "BMW E36 conduite à gauche, caisse vide : faisceau entièrement neuf, aucun faisceau d'origine conservé.",
+   "ECU et boîte fusibles/relais (PDM) dans l'habitacle, derrière la boîte à gants : la boîte électronique d'origine est côté échappement / turbo sur un M50 en E36.",
+   "Faisceau moteur d'un seul tenant, traversée du tablier par un passe-fil étanche à l'emplacement de la boîte électronique d'origine.",
+   "Longueurs de tronçons ESTIMÉES pour une baie E36 / M50 : à remplacer par des mesures à la ficelle (section topology).",
+   "Fusible général MAXI 80 A sur la borne B+ de la baie moteur (câble batterie d'origine depuis le coffre).",
+   "Pompe 280 l/h estimée à 15 A ; ventilateur SPAL 385 mm aspirant 19,5 A (fiche SPAL VA18-AP71/LL-59A) : à confirmer sur les étiquettes."
   ],
   "sources": [
    {
@@ -41,6 +42,14 @@
    {
     "label": "Haltech — moteur BMW M50 (capteurs, VANOS)",
     "url": "https://support.haltech.com/portal/en/kb/articles/m50-engine"
+   },
+   {
+    "label": "Électrovanne VANOS simple 11361738494 (M50TU / M52 / S50 / S52)",
+    "url": "https://www.bimmerworld.com/Engine/Camshafts/VANOS-Solenoid-Switch-E34-525i-93-95-E36-325i-M3-93-95-BMW-11361738494.html"
+   },
+   {
+    "label": "SPAL 385 mm aspirant VA18-AP71/LL-59A — 12 V, 19,5 A",
+    "url": "https://www.bar-tek.com/fr/ventilateur-de-refroidissement-d414-d385-aspirant-spal"
    }
   ]
  },
@@ -206,7 +215,7 @@
   },
   "COM": {
    "short": "Habitacle",
-   "title": "Interface habitacle (compte-tours, CAN)",
+   "title": "Habitacle (compte-tours, CAN)",
    "layout": "ecu"
   }
  },
@@ -490,7 +499,7 @@
     "kind": "can",
     "max_a": null,
     "wires": [
-     "COM-03"
+     "COM-02"
     ],
     "sheet": "COM"
    },
@@ -502,7 +511,7 @@
     "kind": "can",
     "max_a": null,
     "wires": [
-     "COM-04"
+     "COM-03"
     ],
     "sheet": "COM"
    },
@@ -1668,18 +1677,18 @@
   "VANOS": {
    "cat": "comp",
    "label": "Électrovanne VANOS",
-   "ref": "Électrovanne M50B25 VANOS",
+   "ref": "BMW 11361738494 (VANOS simple M50TU)",
    "type": "Électrovanne tout-ou-rien",
    "connector": "Bosch JPT 2 voies",
    "node": "N_VANOS",
    "system": "ACT",
    "harness": null,
-   "notes": "Sur M50 : VANOS tout-ou-rien (sortie switchée).",
-   "verify": "Mesurer la résistance : ≥ 7,5 Ω → GPO3 OK (≤ 2 A) ; < 7,5 Ω → passer la commande sur INJ7 (CMC1 L2, 8 A).",
+   "notes": "Sur M50 : VANOS tout-ou-rien. MaxxECU la câble en direct sur GPO3 (sans relais) sur son faisceau M50.",
+   "verify": "Contrôle de 10 s : résistance attendue ≈ 8,5–12 Ω. Si tu lis moins de 7,5 Ω, passer la commande sur INJ7 (CMC1 L2, 8 A).",
    "rating_a": null,
    "load_a": null,
    "r_ohm": [
-    3.3,
+    8.5,
     12
    ],
    "supply5_ma": null,
@@ -1689,8 +1698,8 @@
   "PUMP": {
    "cat": "comp",
    "label": "Pompe à essence",
-   "ref": "Selon pompe (à préciser)",
-   "type": "Charge forte",
+   "ref": "Pompe 280 l/h",
+   "type": "Charge forte (≈ 15 A estimés à 5 bar)",
    "connector": "Selon pompe",
    "node": "N_PUMP",
    "system": "RLY",
@@ -1707,34 +1716,16 @@
   "FAN": {
    "cat": "comp",
    "label": "Ventilateur électrique",
-   "ref": "SPAL (à préciser)",
-   "type": "Charge forte",
-   "connector": "Selon ventilateur",
+   "ref": "SPAL 385 mm aspirant (SPA-VE-385-A)",
+   "type": "12 V, 19,5 A (VA18-AP71/LL-59A), 3430 m³/h",
+   "connector": "Connecteur 2 voies du ventilateur",
    "node": "N_FAN",
    "system": "RLY",
    "harness": null,
-   "notes": "",
+   "notes": "Démarrage : appel de courant 2 à 3 fois le nominal pendant une fraction de seconde, absorbé par le fusible 30 A temporisé.",
    "verify": "",
    "rating_a": null,
-   "load_a": 20,
-   "r_ohm": null,
-   "supply5_ma": null,
-   "external": false,
-   "optional": false
-  },
-  "XINT": {
-   "cat": "inline",
-   "label": "Connecteur de cloison habitacle",
-   "ref": "Deutsch DT 12 voies (DT04-12PA / DT06-12SA)",
-   "type": "Connecteur de passage (traversant)",
-   "connector": "Deutsch DT 12 voies",
-   "node": "XINT",
-   "system": "COM",
-   "harness": null,
-   "notes": "",
-   "verify": "",
-   "rating_a": null,
-   "load_a": null,
+   "load_a": 19.5,
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
@@ -1742,8 +1733,8 @@
   },
   "KEY": {
    "cat": "comp",
-   "label": "Contact clé (+15)",
-   "ref": "Faisceau véhicule",
+   "label": "Contact (+15)",
+   "ref": "Contacteur à clé ou interrupteur de tableau de bord",
    "type": "Source externe",
    "connector": "Selon véhicule",
    "node": "CAB_KEY",
@@ -1761,7 +1752,7 @@
   "CLUSTER": {
    "cat": "comp",
    "label": "Combiné (compte-tours)",
-   "ref": "Combiné d'origine",
+   "ref": "Combiné E36 ou afficheur",
    "type": "Entrée compte-tours",
    "connector": "Selon véhicule",
    "node": "CAB_CLUSTER",
@@ -1796,8 +1787,8 @@
   },
   "BATT": {
    "cat": "comp",
-   "label": "Batterie / borne B+",
-   "ref": "Borne +12 V (point de démarrage)",
+   "label": "Borne B+ baie moteur",
+   "ref": "Borne de démarrage E36 (câble batterie du coffre)",
    "type": "Source",
    "connector": "Cosse œillet M8",
    "node": "BPLUS",
@@ -2084,7 +2075,7 @@
   },
   "GP-CH": {
    "cat": "ground",
-   "label": "Masse caisse E-box",
+   "label": "Masse caisse habitacle (PDM)",
    "node": "PDM",
    "system": "GND",
    "ground_kind": "chassis",
@@ -3465,80 +3456,6 @@
    "fn": "Masse",
    "cls": "GND_PWR"
   },
-  "XINT.1": {
-   "owner": "XINT",
-   "pin": "1",
-   "cat": "inline",
-   "fn": "+15 contact"
-  },
-  "XINT.2": {
-   "owner": "XINT",
-   "pin": "2",
-   "cat": "inline",
-   "fn": "Pédale masse 1"
-  },
-  "XINT.3": {
-   "owner": "XINT",
-   "pin": "3",
-   "cat": "inline",
-   "fn": "Pédale masse 2"
-  },
-  "XINT.4": {
-   "owner": "XINT",
-   "pin": "4",
-   "cat": "inline",
-   "fn": "Pédale +5 V (2)"
-  },
-  "XINT.5": {
-   "owner": "XINT",
-   "pin": "5",
-   "cat": "inline",
-   "fn": "Pédale signal 1"
-  },
-  "XINT.6": {
-   "owner": "XINT",
-   "pin": "6",
-   "cat": "inline",
-   "fn": "Pédale +5 V (1)"
-  },
-  "XINT.7": {
-   "owner": "XINT",
-   "pin": "7",
-   "cat": "inline",
-   "fn": "Pédale signal 2"
-  },
-  "XINT.8": {
-   "owner": "XINT",
-   "pin": "8",
-   "cat": "inline",
-   "fn": "Compte-tours"
-  },
-  "XINT.9": {
-   "owner": "XINT",
-   "pin": "9",
-   "cat": "inline",
-   "fn": "CAN H"
-  },
-  "XINT.10": {
-   "owner": "XINT",
-   "pin": "10",
-   "cat": "inline",
-   "fn": "CAN L"
-  },
-  "XINT.11": {
-   "owner": "XINT",
-   "pin": "11",
-   "cat": "inline",
-   "fn": "Réserve",
-   "nc": true
-  },
-  "XINT.12": {
-   "owner": "XINT",
-   "pin": "12",
-   "cat": "inline",
-   "fn": "Réserve",
-   "nc": true
-  },
   "KEY.15": {
    "owner": "KEY",
    "pin": "15",
@@ -3825,7 +3742,7 @@
   "GP-CH": {
    "owner": "GP-CH",
    "cat": "ground",
-   "fn": "Masse caisse E-box",
+   "fn": "Masse caisse habitacle (PDM)",
    "cls": "GND_PWR"
   },
   "GP-CH-AV": {
@@ -3993,10 +3910,13 @@
    "note": "",
    "net": "N062",
    "fuse": "F0",
-   "route_m": 0.5,
-   "length_m": 0.7,
+   "route_m": 1.35,
+   "length_m": 1.55,
    "path": [
-    "BPLUS~PDM"
+    "T0~BPLUS",
+    "FW~T0",
+    "HB~FW",
+    "PDM~HB"
    ]
   },
   {
@@ -4209,17 +4129,17 @@
    "note": "Alimentation ECU (15 A, préconisation MaxxECU)",
    "net": "N039",
    "fuse": "F1",
-   "route_m": 0.4,
-   "length_m": 0.6,
+   "route_m": 0.45,
+   "length_m": 0.65,
    "path": [
-    "PDM~EB",
-    "ECU~EB"
+    "PDM~HB",
+    "ECU~HB"
    ]
   },
   {
    "id": "PWR-06",
    "from": "KEY.15",
-   "to": "XINT.1",
+   "to": "K1.86",
    "sheet": "PWR",
    "mm2": 0.5,
    "color": "VT",
@@ -4229,35 +4149,15 @@
    "drain": false,
    "note": "",
    "net": "N060",
-   "route_m": 0.8,
-   "length_m": 1.0,
+   "route_m": 1.15,
+   "length_m": 1.35,
    "path": [
-    "XINT~CAB_KEY"
+    "HB~CAB_KEY",
+    "PDM~HB"
    ]
   },
   {
    "id": "PWR-07",
-   "from": "XINT.1",
-   "to": "K1.86",
-   "sheet": "PWR",
-   "mm2": 0.5,
-   "color": "VT",
-   "cable": null,
-   "harness": "PDM",
-   "internal": false,
-   "drain": false,
-   "note": "",
-   "net": "N060",
-   "route_m": 0.7,
-   "length_m": 0.9,
-   "path": [
-    "T0~XINT",
-    "EB~T0",
-    "PDM~EB"
-   ]
-  },
-  {
-   "id": "PWR-08",
    "from": "K1.85",
    "to": "GP-CH",
    "sheet": "PWR",
@@ -4286,11 +4186,12 @@
    "drain": false,
    "note": "Même point que CMC2 G4",
    "net": "N035",
-   "route_m": 1.25,
-   "length_m": 1.45,
+   "route_m": 1.7,
+   "length_m": 1.9,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~GND_HEAD"
    ]
@@ -4308,11 +4209,12 @@
    "drain": false,
    "note": "Obligatoire — même point que CMC1 L4",
    "net": "N035",
-   "route_m": 1.25,
-   "length_m": 1.45,
+   "route_m": 1.7,
+   "length_m": 1.9,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~GND_HEAD"
    ]
@@ -4330,11 +4232,12 @@
    "drain": false,
    "note": "",
    "net": "N001",
-   "route_m": 1.805,
-   "length_m": 2.0,
+   "route_m": 2.255,
+   "length_m": 2.45,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~TOP6",
     "TOP6~TOP5",
@@ -4357,11 +4260,12 @@
    "drain": false,
    "note": "",
    "net": "N002",
-   "route_m": 1.714,
-   "length_m": 1.9,
+   "route_m": 2.164,
+   "length_m": 2.35,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~TOP6",
     "TOP6~TOP5",
@@ -4383,11 +4287,12 @@
    "drain": false,
    "note": "",
    "net": "N005",
-   "route_m": 1.623,
-   "length_m": 1.8,
+   "route_m": 2.073,
+   "length_m": 2.25,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~TOP6",
     "TOP6~TOP5",
@@ -4408,11 +4313,12 @@
    "drain": false,
    "note": "",
    "net": "N006",
-   "route_m": 1.532,
-   "length_m": 1.7,
+   "route_m": 1.982,
+   "length_m": 2.15,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~TOP6",
     "TOP6~TOP5",
@@ -4432,11 +4338,12 @@
    "drain": false,
    "note": "",
    "net": "N008",
-   "route_m": 1.441,
-   "length_m": 1.65,
+   "route_m": 1.891,
+   "length_m": 2.1,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~TOP6",
     "TOP6~TOP5"
@@ -4455,11 +4362,12 @@
    "drain": false,
    "note": "",
    "net": "N009",
-   "route_m": 1.35,
-   "length_m": 1.55,
+   "route_m": 1.8,
+   "length_m": 2.0,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~TOP6"
    ]
@@ -4478,11 +4386,12 @@
    "note": "",
    "net": "N053",
    "fuse": "F2",
-   "route_m": 1.532,
-   "length_m": 1.7,
+   "route_m": 2.032,
+   "length_m": 2.2,
    "path": [
-    "PDM~EB",
-    "EB~T0",
+    "PDM~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~TOP6",
     "TOP6~TOP5",
@@ -4900,11 +4809,12 @@
    "drain": false,
    "note": "",
    "net": "N032",
-   "route_m": 1.905,
-   "length_m": 2.1,
+   "route_m": 2.355,
+   "length_m": 2.55,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~INT6",
     "INT6~INT5",
@@ -4927,11 +4837,12 @@
    "drain": false,
    "note": "",
    "net": "N033",
-   "route_m": 1.814,
-   "length_m": 2.0,
+   "route_m": 2.264,
+   "length_m": 2.45,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~INT6",
     "INT6~INT5",
@@ -4953,11 +4864,12 @@
    "drain": false,
    "note": "",
    "net": "N036",
-   "route_m": 1.723,
-   "length_m": 1.9,
+   "route_m": 2.173,
+   "length_m": 2.35,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~INT6",
     "INT6~INT5",
@@ -4978,11 +4890,12 @@
    "drain": false,
    "note": "",
    "net": "N037",
-   "route_m": 1.632,
-   "length_m": 1.8,
+   "route_m": 2.082,
+   "length_m": 2.25,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~INT6",
     "INT6~INT5",
@@ -5002,11 +4915,12 @@
    "drain": false,
    "note": "",
    "net": "N038",
-   "route_m": 1.541,
-   "length_m": 1.75,
+   "route_m": 1.991,
+   "length_m": 2.2,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~INT6",
     "INT6~INT5"
@@ -5025,11 +4939,12 @@
    "drain": false,
    "note": "",
    "net": "N034",
-   "route_m": 1.45,
-   "length_m": 1.65,
+   "route_m": 1.9,
+   "length_m": 2.1,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~INT6"
    ]
@@ -5048,11 +4963,12 @@
    "note": "",
    "net": "N052",
    "fuse": "F3",
-   "route_m": 1.632,
-   "length_m": 1.8,
+   "route_m": 2.132,
+   "length_m": 2.3,
    "path": [
-    "PDM~EB",
-    "EB~T0",
+    "PDM~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~INT6",
     "INT6~INT5",
@@ -5194,11 +5110,12 @@
    "drain": false,
    "note": "",
    "net": "N026",
-   "route_m": 2.455,
-   "length_m": 2.65,
+   "route_m": 2.905,
+   "length_m": 3.1,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~TOP6",
     "TOP6~TOP5",
@@ -5223,11 +5140,12 @@
    "drain": false,
    "note": "",
    "net": "N025",
-   "route_m": 2.455,
-   "length_m": 2.65,
+   "route_m": 2.905,
+   "length_m": 3.1,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~TOP6",
     "TOP6~TOP5",
@@ -5253,11 +5171,12 @@
    "note": "Conducteur rouge du câble 3 voies, +12 V après relais",
    "net": "N050",
    "fuse": "F6",
-   "route_m": 2.455,
-   "length_m": 2.65,
+   "route_m": 2.955,
+   "length_m": 3.15,
    "path": [
-    "PDM~EB",
-    "EB~T0",
+    "PDM~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~TOP6",
     "TOP6~TOP5",
@@ -5282,11 +5201,12 @@
    "drain": false,
    "note": "",
    "net": "N027",
-   "route_m": 2.125,
-   "length_m": 2.3,
+   "route_m": 2.575,
+   "length_m": 2.75,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~TOP6",
     "TOP6~TOP5",
@@ -5311,11 +5231,12 @@
    "drain": false,
    "note": "CORRIGÉ : retour AAC sur VR GND (H2), pas sur Sensor GND",
    "net": "N025",
-   "route_m": 2.125,
-   "length_m": 2.3,
+   "route_m": 2.575,
+   "length_m": 2.75,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~TOP6",
     "TOP6~TOP5",
@@ -5439,11 +5360,12 @@
    "drain": false,
    "note": "",
    "net": "N020",
-   "route_m": 1.2,
-   "length_m": 1.4,
+   "route_m": 1.65,
+   "length_m": 1.85,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1"
    ]
   },
@@ -5520,11 +5442,12 @@
    "drain": false,
    "note": "",
    "net": "N024",
-   "route_m": 1.2,
-   "length_m": 1.4,
+   "route_m": 1.65,
+   "length_m": 1.85,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1"
    ]
   },
@@ -5636,11 +5559,12 @@
    "drain": false,
    "note": "",
    "net": "N017",
-   "route_m": 2.355,
-   "length_m": 2.55,
+   "route_m": 2.805,
+   "length_m": 3.0,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~INT6",
     "INT6~INT5",
@@ -5665,11 +5589,12 @@
    "drain": false,
    "note": "",
    "net": "N016",
-   "route_m": 2.155,
-   "length_m": 2.35,
+   "route_m": 2.605,
+   "length_m": 2.8,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~TOP6",
     "TOP6~TOP5",
@@ -5694,11 +5619,12 @@
    "drain": false,
    "note": "",
    "net": "N028",
-   "route_m": 2.123,
-   "length_m": 2.3,
+   "route_m": 2.573,
+   "length_m": 2.75,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~INT6",
     "INT6~INT5",
@@ -5720,11 +5646,12 @@
    "drain": false,
    "note": "",
    "net": "N045",
-   "route_m": 2.123,
-   "length_m": 2.3,
+   "route_m": 2.573,
+   "length_m": 2.75,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~INT6",
     "INT6~INT5",
@@ -5746,11 +5673,12 @@
    "drain": false,
    "note": "",
    "net": "N029",
-   "route_m": 1.65,
-   "length_m": 1.85,
+   "route_m": 2.1,
+   "length_m": 2.3,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~INT6",
     "INT6~N_FUEL"
@@ -5769,11 +5697,12 @@
    "drain": false,
    "note": "",
    "net": "N046",
-   "route_m": 1.65,
-   "length_m": 1.85,
+   "route_m": 2.1,
+   "length_m": 2.3,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~INT6",
     "INT6~N_FUEL"
@@ -5842,11 +5771,12 @@
    "drain": false,
    "note": "",
    "net": "N021",
-   "route_m": 2.155,
-   "length_m": 2.35,
+   "route_m": 2.605,
+   "length_m": 2.8,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~INT6",
     "INT6~INT5",
@@ -5870,11 +5800,12 @@
    "drain": false,
    "note": "",
    "net": "N030",
-   "route_m": 2.155,
-   "length_m": 2.35,
+   "route_m": 2.605,
+   "length_m": 2.8,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~INT6",
     "INT6~INT5",
@@ -5898,11 +5829,12 @@
    "drain": false,
    "note": "",
    "net": "N049",
-   "route_m": 2.155,
-   "length_m": 2.35,
+   "route_m": 2.605,
+   "length_m": 2.8,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~INT6",
     "INT6~INT5",
@@ -5926,11 +5858,12 @@
    "drain": false,
    "note": "",
    "net": "N048",
-   "route_m": 2.155,
-   "length_m": 2.35,
+   "route_m": 2.605,
+   "length_m": 2.8,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~INT6",
     "INT6~INT5",
@@ -5944,132 +5877,6 @@
   {
    "id": "DBW-07",
    "from": "SPL-SG-MAIN",
-   "to": "XINT.2",
-   "sheet": "DBW",
-   "mm2": 0.5,
-   "color": "BN",
-   "cable": null,
-   "harness": "ENG",
-   "internal": false,
-   "drain": false,
-   "note": "",
-   "net": "N024",
-   "route_m": 0.7,
-   "length_m": 0.9,
-   "path": [
-    "ECU~EB",
-    "EB~T0",
-    "T0~XINT"
-   ]
-  },
-  {
-   "id": "DBW-08",
-   "from": "SPL-SG-MAIN",
-   "to": "XINT.3",
-   "sheet": "DBW",
-   "mm2": 0.5,
-   "color": "BN",
-   "cable": null,
-   "harness": "ENG",
-   "internal": false,
-   "drain": false,
-   "note": "",
-   "net": "N024",
-   "route_m": 0.7,
-   "length_m": 0.9,
-   "path": [
-    "ECU~EB",
-    "EB~T0",
-    "T0~XINT"
-   ]
-  },
-  {
-   "id": "DBW-09",
-   "from": "SPL-5V-MAIN",
-   "to": "XINT.4",
-   "sheet": "DBW",
-   "mm2": 0.5,
-   "color": "OG",
-   "cable": null,
-   "harness": "ENG",
-   "internal": false,
-   "drain": false,
-   "note": "",
-   "net": "N020",
-   "route_m": 0.7,
-   "length_m": 0.9,
-   "path": [
-    "ECU~EB",
-    "EB~T0",
-    "T0~XINT"
-   ]
-  },
-  {
-   "id": "DBW-10",
-   "from": "CMC1.J4",
-   "to": "XINT.5",
-   "sheet": "DBW",
-   "mm2": 0.5,
-   "color": "WH/BU",
-   "cable": null,
-   "harness": "ENG",
-   "internal": false,
-   "drain": false,
-   "note": "",
-   "net": "N031",
-   "route_m": 0.7,
-   "length_m": 0.9,
-   "path": [
-    "ECU~EB",
-    "EB~T0",
-    "T0~XINT"
-   ]
-  },
-  {
-   "id": "DBW-11",
-   "from": "SPL-5V-MAIN",
-   "to": "XINT.6",
-   "sheet": "DBW",
-   "mm2": 0.5,
-   "color": "OG",
-   "cable": null,
-   "harness": "ENG",
-   "internal": false,
-   "drain": false,
-   "note": "",
-   "net": "N020",
-   "route_m": 0.7,
-   "length_m": 0.9,
-   "path": [
-    "ECU~EB",
-    "EB~T0",
-    "T0~XINT"
-   ]
-  },
-  {
-   "id": "DBW-12",
-   "from": "CMC2.G3",
-   "to": "XINT.7",
-   "sheet": "DBW",
-   "mm2": 0.5,
-   "color": "WH/GN",
-   "cable": null,
-   "harness": "ENG",
-   "internal": false,
-   "drain": false,
-   "note": "",
-   "net": "N047",
-   "route_m": 0.7,
-   "length_m": 0.9,
-   "path": [
-    "ECU~EB",
-    "EB~T0",
-    "T0~XINT"
-   ]
-  },
-  {
-   "id": "DBW-13",
-   "from": "XINT.2",
    "to": "APP.1",
    "sheet": "DBW",
    "mm2": 0.5,
@@ -6080,15 +5887,16 @@
    "drain": false,
    "note": "",
    "net": "N024",
-   "route_m": 0.9,
-   "length_m": 1.1,
+   "route_m": 1.2,
+   "length_m": 1.4,
    "path": [
-    "XINT~CAB_PEDAL"
+    "ECU~HB",
+    "HB~CAB_PEDAL"
    ]
   },
   {
-   "id": "DBW-14",
-   "from": "XINT.3",
+   "id": "DBW-08",
+   "from": "SPL-SG-MAIN",
    "to": "APP.2",
    "sheet": "DBW",
    "mm2": 0.5,
@@ -6099,15 +5907,16 @@
    "drain": false,
    "note": "",
    "net": "N024",
-   "route_m": 0.9,
-   "length_m": 1.1,
+   "route_m": 1.2,
+   "length_m": 1.4,
    "path": [
-    "XINT~CAB_PEDAL"
+    "ECU~HB",
+    "HB~CAB_PEDAL"
    ]
   },
   {
-   "id": "DBW-15",
-   "from": "XINT.4",
+   "id": "DBW-09",
+   "from": "SPL-5V-MAIN",
    "to": "APP.3",
    "sheet": "DBW",
    "mm2": 0.5,
@@ -6118,15 +5927,16 @@
    "drain": false,
    "note": "",
    "net": "N020",
-   "route_m": 0.9,
-   "length_m": 1.1,
+   "route_m": 1.2,
+   "length_m": 1.4,
    "path": [
-    "XINT~CAB_PEDAL"
+    "ECU~HB",
+    "HB~CAB_PEDAL"
    ]
   },
   {
-   "id": "DBW-16",
-   "from": "XINT.5",
+   "id": "DBW-10",
+   "from": "CMC1.J4",
    "to": "APP.4",
    "sheet": "DBW",
    "mm2": 0.5,
@@ -6137,15 +5947,16 @@
    "drain": false,
    "note": "",
    "net": "N031",
-   "route_m": 0.9,
-   "length_m": 1.1,
+   "route_m": 1.2,
+   "length_m": 1.4,
    "path": [
-    "XINT~CAB_PEDAL"
+    "ECU~HB",
+    "HB~CAB_PEDAL"
    ]
   },
   {
-   "id": "DBW-17",
-   "from": "XINT.6",
+   "id": "DBW-11",
+   "from": "SPL-5V-MAIN",
    "to": "APP.5",
    "sheet": "DBW",
    "mm2": 0.5,
@@ -6156,15 +5967,16 @@
    "drain": false,
    "note": "",
    "net": "N020",
-   "route_m": 0.9,
-   "length_m": 1.1,
+   "route_m": 1.2,
+   "length_m": 1.4,
    "path": [
-    "XINT~CAB_PEDAL"
+    "ECU~HB",
+    "HB~CAB_PEDAL"
    ]
   },
   {
-   "id": "DBW-18",
-   "from": "XINT.7",
+   "id": "DBW-12",
+   "from": "CMC2.G3",
    "to": "APP.6",
    "sheet": "DBW",
    "mm2": 0.5,
@@ -6175,10 +5987,11 @@
    "drain": false,
    "note": "",
    "net": "N047",
-   "route_m": 0.9,
-   "length_m": 1.1,
+   "route_m": 1.2,
+   "length_m": 1.4,
    "path": [
-    "XINT~CAB_PEDAL"
+    "ECU~HB",
+    "HB~CAB_PEDAL"
    ]
   },
   {
@@ -6194,11 +6007,12 @@
    "drain": false,
    "note": "",
    "net": "N022",
-   "route_m": 2.1,
-   "length_m": 2.3,
+   "route_m": 2.35,
+   "length_m": 2.55,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~EXH",
     "EXH~TURBO",
     "TURBO~N_LSU"
@@ -6217,11 +6031,12 @@
    "drain": false,
    "note": "",
    "net": "N018",
-   "route_m": 2.1,
-   "length_m": 2.3,
+   "route_m": 2.35,
+   "length_m": 2.55,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~EXH",
     "EXH~TURBO",
     "TURBO~N_LSU"
@@ -6240,11 +6055,12 @@
    "drain": false,
    "note": "",
    "net": "N023",
-   "route_m": 2.1,
-   "length_m": 2.3,
+   "route_m": 2.35,
+   "length_m": 2.55,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~EXH",
     "EXH~TURBO",
     "TURBO~N_LSU"
@@ -6263,11 +6079,12 @@
    "drain": false,
    "note": "",
    "net": "N019",
-   "route_m": 2.1,
-   "length_m": 2.3,
+   "route_m": 2.35,
+   "length_m": 2.55,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~EXH",
     "EXH~TURBO",
     "TURBO~N_LSU"
@@ -6302,11 +6119,12 @@
    "drain": false,
    "note": "Chauffage − piloté par GPO9 (5 A)",
    "net": "N011",
-   "route_m": 2.1,
-   "length_m": 2.3,
+   "route_m": 2.35,
+   "length_m": 2.55,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~EXH",
     "EXH~TURBO",
     "TURBO~N_LSU"
@@ -6326,11 +6144,12 @@
    "note": "",
    "net": "N051",
    "fuse": "F4",
-   "route_m": 2.1,
-   "length_m": 2.3,
+   "route_m": 2.4,
+   "length_m": 2.6,
    "path": [
-    "PDM~EB",
-    "EB~T0",
+    "PDM~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~EXH",
     "EXH~TURBO",
     "TURBO~N_LSU"
@@ -6349,11 +6168,12 @@
    "drain": false,
    "note": "Conducteur K+ (jaune en norme ANSI, vert en IEC)",
    "net": "N040",
-   "route_m": 1.75,
-   "length_m": 1.95,
+   "route_m": 2.0,
+   "length_m": 2.2,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~EXH",
     "EXH~TURBO",
     "TURBO~N_EGT"
@@ -6372,11 +6192,12 @@
    "drain": false,
    "note": "Conducteur K− (rouge en norme ANSI, blanc en IEC)",
    "net": "N041",
-   "route_m": 1.75,
-   "length_m": 1.95,
+   "route_m": 2.0,
+   "length_m": 2.2,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~EXH",
     "EXH~TURBO",
     "TURBO~N_EGT"
@@ -6395,11 +6216,12 @@
    "drain": false,
    "note": "",
    "net": "N043",
-   "route_m": 2.064,
-   "length_m": 2.25,
+   "route_m": 2.514,
+   "length_m": 2.7,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~INT6",
     "INT6~INT5",
@@ -6422,11 +6244,12 @@
    "drain": false,
    "note": "",
    "net": "N042",
-   "route_m": 2.064,
-   "length_m": 2.25,
+   "route_m": 2.514,
+   "length_m": 2.7,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~INT6",
     "INT6~INT5",
@@ -6449,11 +6272,12 @@
    "drain": false,
    "note": "",
    "net": "N044",
-   "route_m": 1.791,
-   "length_m": 2.0,
+   "route_m": 2.241,
+   "length_m": 2.45,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~INT6",
     "INT6~INT5",
@@ -6473,11 +6297,12 @@
    "drain": false,
    "note": "",
    "net": "N042",
-   "route_m": 1.791,
-   "length_m": 2.0,
+   "route_m": 2.241,
+   "length_m": 2.45,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~INT6",
     "INT6~INT5",
@@ -6546,11 +6371,12 @@
    "drain": false,
    "note": "GPO1 = boost (préconisation MaxxECU M50)",
    "net": "N007",
-   "route_m": 2.505,
-   "length_m": 2.7,
+   "route_m": 2.955,
+   "length_m": 3.15,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~INT6",
     "INT6~INT5",
@@ -6573,13 +6399,14 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "GPO3 — voir contrôle de courant (alternative INJ7 / L2)",
+   "note": "GPO3 = VANOS en direct (préconisation MaxxECU M50)",
    "net": "N012",
-   "route_m": 2.105,
-   "length_m": 2.3,
+   "route_m": 2.555,
+   "length_m": 2.75,
    "path": [
-    "ECU~EB",
-    "EB~T0",
+    "ECU~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~TOP6",
     "TOP6~TOP5",
@@ -6605,11 +6432,12 @@
    "note": "",
    "net": "N055",
    "fuse": "F5",
-   "route_m": 2.005,
-   "length_m": 2.2,
+   "route_m": 2.505,
+   "length_m": 2.7,
    "path": [
-    "PDM~EB",
-    "EB~T0",
+    "PDM~HB",
+    "HB~FW",
+    "FW~T0",
     "T0~T1",
     "T1~TOP6",
     "TOP6~TOP5",
@@ -6687,11 +6515,11 @@
    "drain": false,
    "note": "GPO2 = pompe",
    "net": "N010",
-   "route_m": 0.4,
-   "length_m": 0.6,
+   "route_m": 0.45,
+   "length_m": 0.65,
    "path": [
-    "ECU~EB",
-    "PDM~EB"
+    "ECU~HB",
+    "PDM~HB"
    ]
   },
   {
@@ -6707,11 +6535,11 @@
    "drain": false,
    "note": "GPO6 = ventilateur",
    "net": "N004",
-   "route_m": 0.4,
-   "length_m": 0.6,
+   "route_m": 0.45,
+   "length_m": 0.65,
    "path": [
-    "ECU~EB",
-    "PDM~EB"
+    "ECU~HB",
+    "PDM~HB"
    ]
   },
   {
@@ -6809,17 +6637,17 @@
    "from": "K2.87",
    "to": "PUMP.+",
    "sheet": "RLY",
-   "mm2": 2.5,
+   "mm2": 4.0,
    "color": "RD/YE",
    "cable": null,
    "harness": "CHS",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "4 mm² pour limiter la chute de tension sur 3 m (débit pompe)",
    "net": "N056",
    "fuse": "F8",
-   "route_m": 3.5,
-   "length_m": 3.7,
+   "route_m": 3.0,
+   "length_m": 3.2,
    "path": [
     "PDM~N_PUMP"
    ]
@@ -6829,7 +6657,7 @@
    "from": "PUMP.-",
    "to": "GP-CH-AR",
    "sheet": "RLY",
-   "mm2": 2.5,
+   "mm2": 4.0,
    "color": "BK",
    "cable": null,
    "harness": "CHS",
@@ -6855,20 +6683,13 @@
    "note": "",
    "net": "N058",
    "fuse": "F9",
-   "route_m": 2.705,
-   "length_m": 2.9,
+   "route_m": 2.1,
+   "length_m": 2.3,
    "path": [
-    "PDM~EB",
-    "EB~T0",
-    "T0~T1",
-    "T1~TOP6",
-    "TOP6~TOP5",
-    "TOP5~TOP4",
-    "TOP4~TOP3",
-    "TOP3~TOP2",
-    "TOP2~TOP1",
-    "TOP1~FRONT",
-    "FRONT~N_FAN"
+    "PDM~HB",
+    "HB~FW",
+    "FW~T0",
+    "T0~N_FAN"
    ]
   },
   {
@@ -6891,27 +6712,6 @@
   {
    "id": "COM-01",
    "from": "CMC1.A4",
-   "to": "XINT.8",
-   "sheet": "COM",
-   "mm2": 0.5,
-   "color": "GN/WH",
-   "cable": null,
-   "harness": "ENG",
-   "internal": false,
-   "drain": false,
-   "note": "GPO8 = compte-tours",
-   "net": "N003",
-   "route_m": 0.7,
-   "length_m": 0.9,
-   "path": [
-    "ECU~EB",
-    "EB~T0",
-    "T0~XINT"
-   ]
-  },
-  {
-   "id": "COM-02",
-   "from": "XINT.8",
    "to": "CLUSTER.TD",
    "sheet": "COM",
    "mm2": 0.5,
@@ -6920,93 +6720,54 @@
    "harness": "CAB",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "GPO8 = compte-tours",
    "net": "N003",
-   "route_m": 1.3,
-   "length_m": 1.5,
+   "route_m": 1.2,
+   "length_m": 1.4,
    "path": [
-    "XINT~CAB_CLUSTER"
+    "ECU~HB",
+    "HB~CAB_CLUSTER"
    ]
   },
   {
-   "id": "COM-03",
+   "id": "COM-02",
    "from": "CMC1.E1",
-   "to": "XINT.9",
-   "sheet": "COM",
-   "mm2": 0.5,
-   "color": "YE/BK",
-   "cable": "C-CAN",
-   "harness": "ENG",
-   "internal": false,
-   "drain": false,
-   "note": "",
-   "net": "N013",
-   "route_m": 0.7,
-   "length_m": 0.9,
-   "path": [
-    "ECU~EB",
-    "EB~T0",
-    "T0~XINT"
-   ]
-  },
-  {
-   "id": "COM-04",
-   "from": "CMC1.E2",
-   "to": "XINT.10",
-   "sheet": "COM",
-   "mm2": 0.5,
-   "color": "GN/BK",
-   "cable": "C-CAN",
-   "harness": "ENG",
-   "internal": false,
-   "drain": false,
-   "note": "",
-   "net": "N014",
-   "route_m": 0.7,
-   "length_m": 0.9,
-   "path": [
-    "ECU~EB",
-    "EB~T0",
-    "T0~XINT"
-   ]
-  },
-  {
-   "id": "COM-05",
-   "from": "XINT.9",
    "to": "CANDEV.H",
    "sheet": "COM",
    "mm2": 0.5,
    "color": "YE/BK",
-   "cable": null,
+   "cable": "C-CAN",
    "harness": "CAB",
    "internal": false,
    "drain": false,
    "note": "",
    "net": "N013",
-   "route_m": 1.6,
-   "length_m": 1.8,
+   "route_m": 1.5,
+   "length_m": 1.7,
    "path": [
-    "XINT~CAB_CLUSTER",
+    "ECU~HB",
+    "HB~CAB_CLUSTER",
     "CAB_CLUSTER~CAB_DASH"
    ]
   },
   {
-   "id": "COM-06",
-   "from": "XINT.10",
+   "id": "COM-03",
+   "from": "CMC1.E2",
    "to": "CANDEV.L",
    "sheet": "COM",
    "mm2": 0.5,
    "color": "GN/BK",
-   "cable": null,
+   "cable": "C-CAN",
    "harness": "CAB",
    "internal": false,
    "drain": false,
    "note": "",
    "net": "N014",
-   "route_m": 1.6,
-   "length_m": 1.8,
+   "route_m": 1.5,
+   "length_m": 1.7,
    "path": [
-    "XINT~CAB_CLUSTER",
+    "ECU~HB",
+    "HB~CAB_CLUSTER",
     "CAB_CLUSTER~CAB_DASH"
    ]
   }
@@ -7114,8 +6875,7 @@
    "id": "N003",
    "members": [
     "CLUSTER.TD",
-    "CMC1.A4",
-    "XINT.8"
+    "CMC1.A4"
    ],
    "name": "CMC1.A4 TACH / GP OUT 8"
   },
@@ -7195,8 +6955,7 @@
    "id": "N013",
    "members": [
     "CANDEV.H",
-    "CMC1.E1",
-    "XINT.9"
+    "CMC1.E1"
    ],
    "name": "CMC1.E1 CAN H (120 Ω intégrée)"
   },
@@ -7204,8 +6963,7 @@
    "id": "N014",
    "members": [
     "CANDEV.L",
-    "CMC1.E2",
-    "XINT.10"
+    "CMC1.E2"
    ],
    "name": "CMC1.E2 CAN L"
   },
@@ -7265,9 +7023,7 @@
     "FUEL.3",
     "OIL.3",
     "SPL-5V-ENG",
-    "SPL-5V-MAIN",
-    "XINT.4",
-    "XINT.6"
+    "SPL-5V-MAIN"
    ],
    "name": "CMC1.G1 +5 V SENSOR SUPPLY"
   },
@@ -7307,9 +7063,7 @@
     "IAT.2",
     "OIL.4",
     "SPL-SG-ENG",
-    "SPL-SG-MAIN",
-    "XINT.2",
-    "XINT.3"
+    "SPL-SG-MAIN"
    ],
    "name": "CMC1.H1 SENSOR GND"
   },
@@ -7367,8 +7121,7 @@
    "id": "N031",
    "members": [
     "APP.4",
-    "CMC1.J4",
-    "XINT.5"
+    "CMC1.J4"
    ],
    "name": "CMC1.J4 ANALOG IN 4 (0-5 V)"
   },
@@ -7499,8 +7252,7 @@
    "id": "N047",
    "members": [
     "APP.6",
-    "CMC2.G3",
-    "XINT.7"
+    "CMC2.G3"
    ],
    "name": "CMC2.G3 ANALOG IN 5 (0-5 V)"
   },
@@ -7524,8 +7276,7 @@
    "id": "N060",
    "members": [
     "K1.86",
-    "KEY.15",
-    "XINT.1"
+    "KEY.15"
    ],
    "name": "K1.86 Bobine +"
   },
@@ -7546,14 +7297,6 @@
    "name": "K3.87 Contact — sortie"
   },
   {
-   "id": "N068",
-   "members": [
-    "GP-CH",
-    "K1.85"
-   ],
-   "name": "Masse caisse E-box"
-  },
-  {
    "id": "N057",
    "members": [
     "GP-CH-AR",
@@ -7568,6 +7311,14 @@
     "GP-CH-AV"
    ],
    "name": "Masse caisse avant (ventilateur)"
+  },
+  {
+   "id": "N068",
+   "members": [
+    "GP-CH",
+    "K1.85"
+   ],
+   "name": "Masse caisse habitacle (PDM)"
   },
   {
    "id": "N054",
@@ -7637,17 +7388,18 @@
    "label": "Capteur PMH",
    "type": "3 × 0,5 mm² torsadé blindé",
    "od_mm": 5.0,
-   "length_m": 2.65,
+   "length_m": 3.15,
    "cores": [
     "SYNC-01",
     "SYNC-02",
     "SYNC-03"
    ],
    "path": [
-    "EB~T0",
-    "ECU~EB",
+    "ECU~HB",
     "FRONT~N_CRANK",
-    "PDM~EB",
+    "FW~T0",
+    "HB~FW",
+    "PDM~HB",
     "T0~T1",
     "T1~TOP6",
     "TOP1~FRONT",
@@ -7664,15 +7416,16 @@
    "label": "Capteur AAC",
    "type": "2 × 0,5 mm² torsadé blindé",
    "od_mm": 4.5,
-   "length_m": 2.3,
+   "length_m": 2.75,
    "cores": [
     "SYNC-04",
     "SYNC-05"
    ],
    "path": [
-    "EB~T0",
-    "ECU~EB",
+    "ECU~HB",
     "FRONT~N_CAM",
+    "FW~T0",
+    "HB~FW",
     "T0~T1",
     "T1~TOP6",
     "TOP1~FRONT",
@@ -7689,14 +7442,15 @@
    "label": "Cliquetis 1",
    "type": "2 × 0,5 mm² torsadé blindé",
    "od_mm": 4.5,
-   "length_m": 2.25,
+   "length_m": 2.7,
    "cores": [
     "KNK-01",
     "KNK-02"
    ],
    "path": [
-    "EB~T0",
-    "ECU~EB",
+    "ECU~HB",
+    "FW~T0",
+    "HB~FW",
     "INT2~N_KS1",
     "INT3~INT2",
     "INT4~INT3",
@@ -7712,14 +7466,15 @@
    "label": "Cliquetis 2",
    "type": "2 × 0,5 mm² torsadé blindé",
    "od_mm": 4.5,
-   "length_m": 2.0,
+   "length_m": 2.45,
    "cores": [
     "KNK-03",
     "KNK-04"
    ],
    "path": [
-    "EB~T0",
-    "ECU~EB",
+    "ECU~HB",
+    "FW~T0",
+    "HB~FW",
     "INT5~N_KS2",
     "INT6~INT5",
     "T0~T1",
@@ -7732,7 +7487,7 @@
    "label": "Lambda signaux",
    "type": "4 × 0,5 mm² blindé",
    "od_mm": 5.5,
-   "length_m": 2.3,
+   "length_m": 2.55,
    "cores": [
     "WBO-01",
     "WBO-02",
@@ -7740,9 +7495,10 @@
     "WBO-04"
    ],
    "path": [
-    "EB~T0",
-    "ECU~EB",
+    "ECU~HB",
     "EXH~TURBO",
+    "FW~T0",
+    "HB~FW",
     "T0~EXH",
     "TURBO~N_LSU"
    ],
@@ -7753,15 +7509,16 @@
    "label": "EGT",
    "type": "Câble d'extension thermocouple type K (2 × 0,5)",
    "od_mm": 4.0,
-   "length_m": 1.95,
+   "length_m": 2.2,
    "cores": [
     "WBO-07",
     "WBO-08"
    ],
    "path": [
-    "EB~T0",
-    "ECU~EB",
+    "ECU~HB",
     "EXH~TURBO",
+    "FW~T0",
+    "HB~FW",
     "T0~EXH",
     "TURBO~N_EGT"
    ],
@@ -7772,14 +7529,15 @@
    "label": "Moteur papillon",
    "type": "2 × 1,0 mm² torsadé",
    "od_mm": 4.4,
-   "length_m": 2.35,
+   "length_m": 2.8,
    "cores": [
     "DBW-05",
     "DBW-06"
    ],
    "path": [
-    "EB~T0",
-    "ECU~EB",
+    "ECU~HB",
+    "FW~T0",
+    "HB~FW",
     "INT1~N_TB",
     "INT2~INT1",
     "INT3~INT2",
@@ -7796,15 +7554,15 @@
    "label": "CAN",
    "type": "2 × 0,5 mm² torsadé (paire CAN)",
    "od_mm": 3.4,
-   "length_m": 0.9,
+   "length_m": 1.7,
    "cores": [
-    "COM-03",
-    "COM-04"
+    "COM-02",
+    "COM-03"
    ],
    "path": [
-    "EB~T0",
-    "ECU~EB",
-    "T0~XINT"
+    "CAB_CLUSTER~CAB_DASH",
+    "ECU~HB",
+    "HB~CAB_CLUSTER"
    ],
    "shield": false
   }
@@ -7813,12 +7571,12 @@
   "root": "ECU",
   "estimated": true,
   "nodes": {
-   "ECU": "ECU (E-box)",
-   "PDM": "Boîte fusibles/relais (E-box)",
-   "EB": "Sortie E-box",
+   "ECU": "ECU (habitacle, derrière la boîte à gants)",
+   "PDM": "Boîte fusibles/relais (habitacle)",
+   "HB": "Nœud habitacle",
+   "FW": "Passe-fil tablier (ex-boîte électronique)",
+   "T0": "Baie moteur, angle tablier droit",
    "BPLUS": "Borne B+ / fusible général",
-   "T0": "Passe-fil tablier",
-   "XINT": "Connecteur de cloison",
    "CAB_PEDAL": "Pédale",
    "CAB_CLUSTER": "Combiné",
    "CAB_DASH": "Afficheur CAN",
@@ -7858,76 +7616,76 @@
   },
   "segments": [
    {
-    "id": "ECU~EB",
+    "id": "ECU~HB",
     "a": "ECU",
-    "b": "EB",
+    "b": "HB",
     "length": 0.2,
     "wires": 55,
     "bundle_mm": 19.1,
     "sleeve": "DR-25 25.4/12.7 mm"
    },
    {
-    "id": "PDM~EB",
+    "id": "PDM~HB",
     "a": "PDM",
-    "b": "EB",
-    "length": 0.2,
-    "wires": 10,
-    "bundle_mm": 9.8,
-    "sleeve": "DR-25 12.7/6.4 mm"
+    "b": "HB",
+    "length": 0.25,
+    "wires": 11,
+    "bundle_mm": 11.7,
+    "sleeve": "DR-25 19.1/9.5 mm"
    },
    {
-    "id": "BPLUS~PDM",
-    "a": "BPLUS",
-    "b": "PDM",
-    "length": 0.5,
+    "id": "HB~FW",
+    "a": "HB",
+    "b": "FW",
+    "length": 0.45,
+    "wires": 50,
+    "bundle_mm": 20.1,
+    "sleeve": "DR-25 25.4/12.7 mm"
+   },
+   {
+    "id": "FW~T0",
+    "a": "FW",
+    "b": "T0",
+    "length": 0.3,
+    "wires": 50,
+    "bundle_mm": 20.1,
+    "sleeve": "DR-25 25.4/12.7 mm"
+   },
+   {
+    "id": "T0~BPLUS",
+    "a": "T0",
+    "b": "BPLUS",
+    "length": 0.35,
     "wires": 1,
     "bundle_mm": 5.6,
     "sleeve": "DR-25 9.5/4.8 mm"
    },
    {
-    "id": "EB~T0",
-    "a": "EB",
-    "b": "T0",
-    "length": 0.3,
-    "wires": 59,
-    "bundle_mm": 20.1,
-    "sleeve": "DR-25 25.4/12.7 mm"
-   },
-   {
-    "id": "T0~XINT",
-    "a": "T0",
-    "b": "XINT",
-    "length": 0.2,
-    "wires": 10,
-    "bundle_mm": 6.5,
-    "sleeve": "DR-25 9.5/4.8 mm"
-   },
-   {
-    "id": "XINT~CAB_PEDAL",
-    "a": "XINT",
+    "id": "HB~CAB_PEDAL",
+    "a": "HB",
     "b": "CAB_PEDAL",
-    "length": 0.9,
+    "length": 1.0,
     "wires": 6,
     "bundle_mm": 4.5,
     "sleeve": "DR-25 6.4/3.2 mm"
    },
    {
-    "id": "XINT~CAB_KEY",
-    "a": "XINT",
+    "id": "HB~CAB_KEY",
+    "a": "HB",
     "b": "CAB_KEY",
-    "length": 0.8,
+    "length": 0.9,
     "wires": 1,
     "bundle_mm": 1.6,
     "sleeve": "DR-25 3.2/1.6 mm"
    },
    {
-    "id": "XINT~CAB_CLUSTER",
-    "a": "XINT",
+    "id": "HB~CAB_CLUSTER",
+    "a": "HB",
     "b": "CAB_CLUSTER",
-    "length": 1.3,
+    "length": 1.0,
     "wires": 3,
-    "bundle_mm": 3.2,
-    "sleeve": "DR-25 4.8/2.4 mm"
+    "bundle_mm": 4.3,
+    "sleeve": "DR-25 6.4/3.2 mm"
    },
    {
     "id": "CAB_CLUSTER~CAB_DASH",
@@ -7935,16 +7693,16 @@
     "b": "CAB_DASH",
     "length": 0.3,
     "wires": 2,
-    "bundle_mm": 2.6,
-    "sleeve": "DR-25 3.2/1.6 mm"
+    "bundle_mm": 3.4,
+    "sleeve": "DR-25 4.8/2.4 mm"
    },
    {
     "id": "T0~T1",
     "a": "T0",
     "b": "T1",
     "length": 0.7,
-    "wires": 41,
-    "bundle_mm": 17.0,
+    "wires": 40,
+    "bundle_mm": 16.4,
     "sleeve": "DR-25 25.4/12.7 mm"
    },
    {
@@ -7961,8 +7719,8 @@
     "a": "T1",
     "b": "TOP6",
     "length": 0.15,
-    "wires": 20,
-    "bundle_mm": 12.3,
+    "wires": 19,
+    "bundle_mm": 11.6,
     "sleeve": "DR-25 19.1/9.5 mm"
    },
    {
@@ -7970,8 +7728,8 @@
     "a": "TOP6",
     "b": "TOP5",
     "length": 0.091,
-    "wires": 22,
-    "bundle_mm": 12.8,
+    "wires": 21,
+    "bundle_mm": 12.1,
     "sleeve": "DR-25 19.1/9.5 mm"
    },
    {
@@ -7979,8 +7737,8 @@
     "a": "TOP5",
     "b": "TOP4",
     "length": 0.091,
-    "wires": 24,
-    "bundle_mm": 13.3,
+    "wires": 23,
+    "bundle_mm": 12.6,
     "sleeve": "DR-25 19.1/9.5 mm"
    },
    {
@@ -7988,8 +7746,8 @@
     "a": "TOP4",
     "b": "TOP3",
     "length": 0.091,
-    "wires": 23,
-    "bundle_mm": 12.6,
+    "wires": 22,
+    "bundle_mm": 11.9,
     "sleeve": "DR-25 19.1/9.5 mm"
    },
    {
@@ -7997,8 +7755,8 @@
     "a": "TOP3",
     "b": "TOP2",
     "length": 0.091,
-    "wires": 19,
-    "bundle_mm": 11.8,
+    "wires": 18,
+    "bundle_mm": 11.0,
     "sleeve": "DR-25 19.1/9.5 mm"
    },
    {
@@ -8006,17 +7764,17 @@
     "a": "TOP2",
     "b": "TOP1",
     "length": 0.091,
-    "wires": 15,
-    "bundle_mm": 11.0,
-    "sleeve": "DR-25 19.1/9.5 mm"
+    "wires": 14,
+    "bundle_mm": 10.1,
+    "sleeve": "DR-25 12.7/6.4 mm"
    },
    {
     "id": "TOP1~FRONT",
     "a": "TOP1",
     "b": "FRONT",
     "length": 0.2,
-    "wires": 11,
-    "bundle_mm": 10.0,
+    "wires": 10,
+    "bundle_mm": 9.1,
     "sleeve": "DR-25 12.7/6.4 mm"
    },
    {
@@ -8056,10 +7814,10 @@
     "sleeve": "DR-25 6.4/3.2 mm"
    },
    {
-    "id": "FRONT~N_FAN",
-    "a": "FRONT",
+    "id": "T0~N_FAN",
+    "a": "T0",
     "b": "N_FAN",
-    "length": 0.7,
+    "length": 1.1,
     "wires": 1,
     "bundle_mm": 3.7,
     "sleeve": "DR-25 4.8/2.4 mm"
@@ -8185,7 +7943,7 @@
     "id": "T0~EXH",
     "a": "T0",
     "b": "EXH",
-    "length": 0.6,
+    "length": 0.4,
     "wires": 8,
     "bundle_mm": 8.5,
     "sleeve": "DR-25 12.7/6.4 mm"
@@ -8221,9 +7979,9 @@
     "id": "PDM~N_PUMP",
     "a": "PDM",
     "b": "N_PUMP",
-    "length": 3.5,
+    "length": 3.0,
     "wires": 1,
-    "bundle_mm": 3.0,
+    "bundle_mm": 3.7,
     "sleeve": "DR-25 4.8/2.4 mm"
    }
   ]
@@ -8234,8 +7992,8 @@
    "label": "Fusible général",
    "rating": 80,
    "min_mm2": 10.0,
-   "load": 55.13,
-   "ratio": 0.69,
+   "load": 51.96,
+   "ratio": 0.65,
    "status": "ok",
    "loads": [
     {
@@ -8244,11 +8002,11 @@
     },
     {
      "id": "F9",
-     "a": 20.0
+     "a": 19.5
     },
     {
      "id": "F10",
-     "a": 20.13
+     "a": 17.46
     }
    ]
   },
@@ -8357,8 +8115,8 @@
    "label": "Fusible actionneurs (VANOS, MAC)",
    "rating": 10,
    "min_mm2": 0.75,
-   "load": 4.81,
-   "ratio": 0.48,
+   "load": 2.14,
+   "ratio": 0.21,
    "status": "ok",
    "loads": [
     {
@@ -8367,7 +8125,7 @@
     },
     {
      "id": "VANOS",
-     "a": 4.36
+     "a": 1.69
     }
    ]
   },
@@ -8425,13 +8183,13 @@
    "label": "Fusible ventilateur",
    "rating": 30,
    "min_mm2": 2.5,
-   "load": 20.0,
-   "ratio": 0.67,
+   "load": 19.5,
+   "ratio": 0.65,
    "status": "ok",
    "loads": [
     {
      "id": "FAN",
-     "a": 20
+     "a": 19.5
     }
    ]
   },
@@ -8440,8 +8198,8 @@
    "label": "Fusible relais principal",
    "rating": 30,
    "min_mm2": 2.5,
-   "load": 20.13,
-   "ratio": 0.67,
+   "load": 17.46,
+   "ratio": 0.58,
    "status": "ok",
    "loads": [
     {
@@ -8462,7 +8220,7 @@
     },
     {
      "id": "F5",
-     "a": 4.81
+     "a": 2.14
     },
     {
      "id": "F6",
@@ -8605,8 +8363,8 @@
    ],
    "max_a": 2,
    "a_min": 1.2,
-   "a_max": 4.36,
-   "status": "warn"
+   "a_max": 1.69,
+   "status": "ok"
   },
   {
    "pin": "CMC1.K1",
@@ -8698,6 +8456,36 @@
   }
  ],
  "five_v_ma": 45,
+ "drops": [
+  {
+   "id": "PUMP",
+   "label": "Pompe à essence",
+   "a": 15,
+   "wires": [
+    "RLY-08",
+    "RLY-06",
+    "RLY-09"
+   ],
+   "r_mohm": 17.9,
+   "drop_v": 0.27,
+   "pct": 2.0,
+   "status": "ok"
+  },
+  {
+   "id": "FAN",
+   "label": "Ventilateur électrique",
+   "a": 19.5,
+   "wires": [
+    "RLY-10",
+    "RLY-07",
+    "RLY-11"
+   ],
+   "r_mohm": 13.0,
+   "drop_v": 0.25,
+   "pct": 1.9,
+   "status": "ok"
+  }
+ ],
  "audit": [
   {
    "sev": "fix",
@@ -8720,9 +8508,19 @@
    "detail": "Le fusible bobines est à 15 A (préconisation MaxxECU). Un fil de 0,75 mm² n'est protégé que jusqu'à 10 A : chaque dérivation bobine passe en 1,0 mm². Masses broche 4 (puissance) en 1,0 mm², broche 2 (électronique) en 0,75 mm²."
   },
   {
-   "sev": "warn",
-   "title": "VANOS sur GPO3 : limite 2 A",
-   "detail": "Les GPO1-8 de la RACE sont donnés à 2 A. La résistance de l'électrovanne M50 varie selon les sources (3,3 à 12 Ω), soit jusqu'à 4,4 A. Mesure-la : ≥ 7,5 Ω → GPO3 OK ; sinon passe la commande sur INJ7 (CMC1 L2, sortie 8 A libre), un seul fil à déplacer."
+   "sev": "ok",
+   "title": "VANOS en direct sur GPO3, sans relais",
+   "detail": "C'est le câblage de MaxxECU sur son propre faisceau M50 : GPO3, connecteur Bosch JPT 2 voies, aucun relais. L'électrovanne simple VANOS 11361738494 (M50TU / M52 / S50 / S52) est relevée autour de 8,5–12 Ω, soit 1,2 à 1,7 A pour une limite GPO de 2 A. La valeur de 3,3 Ω qui circule vient d'un article sur le S50 du Z3 M, pas de cette électrovanne. Un contrôle de 10 s au multimètre reste conseillé : sous 7,5 Ω, passer sur INJ7 (CMC1 L2, 8 A)."
+  },
+  {
+   "sev": "add",
+   "title": "ECU et fusibles dans l'habitacle (E36 caisse vide)",
+   "detail": "Sur un M50 en E36 conduite à gauche, la boîte électronique d'origine est côté échappement, donc côté turbo. ECU et boîte fusibles/relais passent derrière la boîte à gants, au frais et au sec ; le faisceau moteur traverse le tablier par un passe-fil étanche à l'emplacement d'origine. La pédale, le contact et le combiné sont câblés en direct : plus de connecteur de cloison."
+  },
+  {
+   "sev": "add",
+   "title": "Pompe 280 l/h et ventilateur SPAL 385 mm",
+   "detail": "Pompe : relais K2, fusible 20 A, alimentation et masse en 4 mm² pour limiter la chute de tension sur le trajet jusqu'au réservoir. Ventilateur SPAL 385 mm aspirant (19,5 A d'après la fiche SPAL VA18-AP71/LL-59A) : relais K3 40 A, fusible 30 A, fils 4 mm². Les deux sont alimentés en direct batterie, hors relais principal."
   },
   {
    "sev": "add",
@@ -8835,7 +8633,7 @@
   },
   {
    "item": "GPO3",
-   "value": "VANOS tout-ou-rien (ou INJ7 si résistance < 7,5 Ω)"
+   "value": "VANOS tout-ou-rien (seuil de régime / charge à définir sur la cartographie)"
   },
   {
    "item": "GPO6",
@@ -8852,7 +8650,8 @@
    "items": [
     "Papillon : R entre broches 3 et 5 = quelques ohms (moteur) ; sous 5 V (2 +, 6 −), relever les tensions des pistes 1 et 4 fermé / ouvert à la main.",
     "Pédale : 5 V sur 3 et 5, masse sur 1 et 2 ; relever 4 et 6 relâchée / à fond (piste 2 ≈ moitié de la piste 1).",
-    "Électrovanne VANOS : mesurer la résistance → GPO3 si ≥ 7,5 Ω, sinon INJ7 (L2).",
+    "Électrovanne VANOS : résistance ≈ 8,5–12 Ω (sous 7,5 Ω : commande sur INJ7 / L2).",
+    "Pompe et ventilateur : relever le courant nominal sur l'étiquette, ajuster load_a dans le fichier si besoin.",
     "Injecteurs : mesurer la résistance (≈ 12 Ω haute impédance / ≈ 2–3 Ω basse impédance).",
     "AAC : résistance 1–2 de quelques centaines d'ohms ; continuité broche 3 ↔ corps (décide du raccord du blindage côté capteur).",
     "IAT / CLT / NTC des capteurs huile et essence : ≈ 2–3 kΩ à 20 °C.",
@@ -8870,7 +8669,8 @@
     "+5 V (G1) ↔ toutes les masses : pas de court-circuit.",
     "+12 V commuté (barrette 87) ↔ masse : pas de court-circuit.",
     "CMC1 L4 et CMC2 G4 ↔ goujon culasse : < 0,1 Ω.",
-    "Tresse moteur ↔ caisse et câble batterie − ↔ moteur présents et serrés (≥ 25 mm²).",
+    "Tresse moteur ↔ caisse et câble batterie − ↔ moteur présents et serrés (≥ 25 mm²) : sur E36 la batterie est au coffre, le retour de masse passe par la caisse.",
+    "Passe-fil du tablier étanche, faisceau maintenu sans frottement sur la tôle.",
     "Blindages : reliés uniquement côté ECU (aucune continuité vers le moteur)."
    ]
   },
@@ -8947,16 +8747,16 @@
   },
   {
    "cat": "Connecteurs",
-   "item": "Connecteur Bosch du capteur (broche 1 non câblée)",
-   "qty": 2,
-   "detail": "OIL, FUEL — 8 contacts",
+   "item": "Connecteur 2 voies du ventilateur",
+   "qty": 1,
+   "detail": "FAN — 2 contacts",
    "unit": "pc"
   },
   {
    "cat": "Connecteurs",
-   "item": "Deutsch DT 12 voies",
+   "item": "Connecteur Bosch du capteur (broche 1 non câblée)",
    "qty": 2,
-   "detail": "XINT — 10 contacts",
+   "detail": "OIL, FUEL — 8 contacts",
    "unit": "pc"
   },
   {
@@ -8978,13 +8778,6 @@
    "item": "Selon pompe",
    "qty": 1,
    "detail": "PUMP — 2 contacts",
-   "unit": "pc"
-  },
-  {
-   "cat": "Connecteurs",
-   "item": "Selon ventilateur",
-   "qty": 1,
-   "detail": "FAN — 2 contacts",
    "unit": "pc"
   },
   {
@@ -9096,7 +8889,7 @@
    "cat": "Masses",
    "item": "Cosse œillet M8 étamée — GP-CH",
    "qty": 1,
-   "detail": "Masse caisse E-box",
+   "detail": "Masse caisse habitacle (PDM)",
    "unit": "pc"
   },
   {
@@ -9130,44 +8923,37 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² BN",
-   "qty": 12.5,
+   "qty": 11.7,
    "unit": "m",
-   "detail": "coupe 11,40 m + 10 %"
+   "detail": "coupe 10,65 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² BU",
-   "qty": 11.7,
+   "qty": 14.6,
    "unit": "m",
-   "detail": "coupe 10,60 m + 10 %"
+   "detail": "coupe 13,30 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² GN",
-   "qty": 1.3,
+   "qty": 1.4,
    "unit": "m",
-   "detail": "coupe 1,20 m + 10 %"
-  },
-  {
-   "cat": "Fil",
-   "item": "FLRY-B 0,5 mm² GN/BK",
-   "qty": 2.0,
-   "unit": "m",
-   "detail": "coupe 1,80 m + 10 %"
+   "detail": "coupe 1,30 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² GN/WH",
-   "qty": 2.6,
+   "qty": 1.5,
    "unit": "m",
-   "detail": "coupe 2,40 m + 10 %"
+   "detail": "coupe 1,40 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² OG",
-   "qty": 9.4,
+   "qty": 8.5,
    "unit": "m",
-   "detail": "coupe 8,50 m + 10 %"
+   "detail": "coupe 7,75 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -9179,79 +8965,79 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² VT",
-   "qty": 2.1,
+   "qty": 1.5,
    "unit": "m",
-   "detail": "coupe 1,90 m + 10 %"
+   "detail": "coupe 1,35 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² WH",
-   "qty": 2.6,
+   "qty": 3.1,
    "unit": "m",
-   "detail": "coupe 2,35 m + 10 %"
+   "detail": "coupe 2,80 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² WH/BK",
-   "qty": 2.6,
+   "qty": 3.1,
    "unit": "m",
-   "detail": "coupe 2,35 m + 10 %"
+   "detail": "coupe 2,80 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² WH/BN",
-   "qty": 2.5,
+   "qty": 3.0,
    "unit": "m",
-   "detail": "coupe 2,30 m + 10 %"
+   "detail": "coupe 2,75 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² WH/BU",
-   "qty": 2.2,
+   "qty": 1.5,
    "unit": "m",
-   "detail": "coupe 2,00 m + 10 %"
+   "detail": "coupe 1,40 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² WH/GN",
-   "qty": 2.2,
+   "qty": 1.5,
    "unit": "m",
-   "detail": "coupe 2,00 m + 10 %"
+   "detail": "coupe 1,40 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² WH/VT",
-   "qty": 2.0,
-   "unit": "m",
-   "detail": "coupe 1,85 m + 10 %"
-  },
-  {
-   "cat": "Fil",
-   "item": "FLRY-B 0,5 mm² YE",
-   "qty": 2.6,
-   "unit": "m",
-   "detail": "coupe 2,35 m + 10 %"
-  },
-  {
-   "cat": "Fil",
-   "item": "FLRY-B 0,5 mm² YE/BK",
-   "qty": 4.8,
-   "unit": "m",
-   "detail": "coupe 4,35 m + 10 %"
-  },
-  {
-   "cat": "Fil",
-   "item": "FLRY-B 0,5 mm² YE/BN",
    "qty": 2.5,
    "unit": "m",
    "detail": "coupe 2,30 m + 10 %"
   },
   {
    "cat": "Fil",
-   "item": "FLRY-B 0,5 mm² YE/VT",
-   "qty": 2.0,
+   "item": "FLRY-B 0,5 mm² YE",
+   "qty": 3.1,
    "unit": "m",
-   "detail": "coupe 1,85 m + 10 %"
+   "detail": "coupe 2,80 m + 10 %"
+  },
+  {
+   "cat": "Fil",
+   "item": "FLRY-B 0,5 mm² YE/BK",
+   "qty": 3.3,
+   "unit": "m",
+   "detail": "coupe 3,00 m + 10 %"
+  },
+  {
+   "cat": "Fil",
+   "item": "FLRY-B 0,5 mm² YE/BN",
+   "qty": 3.0,
+   "unit": "m",
+   "detail": "coupe 2,75 m + 10 %"
+  },
+  {
+   "cat": "Fil",
+   "item": "FLRY-B 0,5 mm² YE/VT",
+   "qty": 2.5,
+   "unit": "m",
+   "detail": "coupe 2,30 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -9263,16 +9049,16 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 0,75 mm² GN",
-   "qty": 5.5,
+   "qty": 6.5,
    "unit": "m",
-   "detail": "coupe 5,00 m + 10 %"
+   "detail": "coupe 5,90 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 0,75 mm² GY",
-   "qty": 12.3,
+   "qty": 15.3,
    "unit": "m",
-   "detail": "coupe 11,20 m + 10 %"
+   "detail": "coupe 13,90 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -9291,30 +9077,30 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 1 mm² GN",
-   "qty": 2.5,
+   "qty": 2.8,
    "unit": "m",
-   "detail": "coupe 2,30 m + 10 %"
+   "detail": "coupe 2,55 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 1 mm² RD/WH",
-   "qty": 9.7,
+   "qty": 11.2,
    "unit": "m",
-   "detail": "coupe 8,85 m + 10 %"
+   "detail": "coupe 10,20 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 1,5 mm² BK",
-   "qty": 3.8,
+   "qty": 4.8,
    "unit": "m",
-   "detail": "coupe 3,45 m + 10 %"
+   "detail": "coupe 4,35 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 2,5 mm² BK",
-   "qty": 0.8,
+   "qty": 0.6,
    "unit": "m",
-   "detail": "coupe 0,75 m + 10 %"
+   "detail": "coupe 0,55 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -9326,23 +9112,16 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 2,5 mm² RD/WH",
-   "qty": 2.1,
+   "qty": 2.6,
    "unit": "m",
-   "detail": "coupe 1,90 m + 10 %"
-  },
-  {
-   "cat": "Fil",
-   "item": "FLRY-B 2,5 mm² RD/YE",
-   "qty": 4.1,
-   "unit": "m",
-   "detail": "coupe 3,70 m + 10 %"
+   "detail": "coupe 2,40 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 4 mm² BK",
-   "qty": 0.2,
+   "qty": 0.4,
    "unit": "m",
-   "detail": "coupe 0,20 m + 10 %"
+   "detail": "coupe 0,40 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -9354,135 +9133,161 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 4 mm² RD/BU",
-   "qty": 3.2,
+   "qty": 2.5,
    "unit": "m",
-   "detail": "coupe 2,90 m + 10 %"
+   "detail": "coupe 2,30 m + 10 %"
+  },
+  {
+   "cat": "Fil",
+   "item": "FLRY-B 4 mm² RD/YE",
+   "qty": 3.5,
+   "unit": "m",
+   "detail": "coupe 3,20 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 10 mm² RD",
-   "qty": 1.0,
+   "qty": 1.9,
    "unit": "m",
-   "detail": "coupe 0,90 m + 10 %"
+   "detail": "coupe 1,75 m + 10 %"
   },
   {
    "cat": "Câble",
    "item": "3 × 0,5 mm² torsadé blindé",
-   "qty": 2.9,
+   "qty": 3.5,
    "unit": "m",
    "detail": "C-CRANK — Capteur PMH"
   },
   {
    "cat": "Câble",
    "item": "2 × 0,5 mm² torsadé blindé",
-   "qty": 2.5,
+   "qty": 3.0,
    "unit": "m",
    "detail": "C-CAM — Capteur AAC"
   },
   {
    "cat": "Câble",
    "item": "2 × 0,5 mm² torsadé blindé",
-   "qty": 2.5,
+   "qty": 3.0,
    "unit": "m",
    "detail": "C-KS1 — Cliquetis 1"
   },
   {
    "cat": "Câble",
    "item": "2 × 0,5 mm² torsadé blindé",
-   "qty": 2.2,
+   "qty": 2.7,
    "unit": "m",
    "detail": "C-KS2 — Cliquetis 2"
   },
   {
    "cat": "Câble",
    "item": "4 × 0,5 mm² blindé",
-   "qty": 2.5,
+   "qty": 2.8,
    "unit": "m",
    "detail": "C-LSU — Lambda signaux"
   },
   {
    "cat": "Câble",
    "item": "Câble d'extension thermocouple type K (2 × 0,5)",
-   "qty": 2.1,
+   "qty": 2.4,
    "unit": "m",
    "detail": "C-EGT — EGT"
   },
   {
    "cat": "Câble",
    "item": "2 × 1,0 mm² torsadé",
-   "qty": 2.6,
+   "qty": 3.1,
    "unit": "m",
    "detail": "C-ETBM — Moteur papillon"
   },
   {
    "cat": "Câble",
    "item": "2 × 0,5 mm² torsadé (paire CAN)",
-   "qty": 1.0,
+   "qty": 1.9,
    "unit": "m",
    "detail": "C-CAN — CAN"
   },
   {
    "cat": "Gaine",
    "item": "DR-25 12.7/6.4 mm",
-   "qty": 1.7,
+   "qty": 1.4,
    "unit": "m",
    "detail": "selon tronçons du formboard"
   },
   {
    "cat": "Gaine",
    "item": "DR-25 19.1/9.5 mm",
-   "qty": 1.2,
+   "qty": 1.4,
    "unit": "m",
    "detail": "selon tronçons du formboard"
   },
   {
    "cat": "Gaine",
    "item": "DR-25 25.4/12.7 mm",
-   "qty": 1.3,
+   "qty": 1.8,
    "unit": "m",
    "detail": "selon tronçons du formboard"
   },
   {
    "cat": "Gaine",
    "item": "DR-25 3.2/1.6 mm",
-   "qty": 1.6,
+   "qty": 1.4,
    "unit": "m",
    "detail": "selon tronçons du formboard"
   },
   {
    "cat": "Gaine",
    "item": "DR-25 4.8/2.4 mm",
-   "qty": 7.5,
+   "qty": 6.3,
    "unit": "m",
    "detail": "selon tronçons du formboard"
   },
   {
    "cat": "Gaine",
    "item": "DR-25 6.4/3.2 mm",
-   "qty": 2.2,
+   "qty": 3.4,
    "unit": "m",
    "detail": "selon tronçons du formboard"
   },
   {
    "cat": "Gaine",
    "item": "DR-25 9.5/4.8 mm",
-   "qty": 1.8,
+   "qty": 1.4,
    "unit": "m",
    "detail": "selon tronçons du formboard"
   },
   {
    "cat": "Repérage",
    "item": "Étiquettes thermo imprimables (repère de fil)",
-   "qty": 252,
+   "qty": 232,
    "detail": "une à chaque extrémité",
    "unit": "pc"
+  },
+  {
+   "cat": "Montage",
+   "item": "Passe-fil caoutchouc étanche pour la traversée du tablier",
+   "qty": 1,
+   "unit": "pc",
+   "detail": "à l'emplacement de la boîte électronique d'origine"
+  },
+  {
+   "cat": "Montage",
+   "item": "Goujon / vis M8 de masse sur culasse",
+   "qty": 2,
+   "unit": "pc",
+   "detail": "GP-HEAD (ECU) et GP-COIL (bobines), surfaces mises à nu"
+  },
+  {
+   "cat": "Montage",
+   "item": "Colliers P-clip / fixations de faisceau",
+   "qty": 20,
+   "unit": "pc",
+   "detail": "un tous les 20–25 cm environ"
   }
  ],
  "validation": {
   "errors": [],
-  "warnings": [
-   "CMC1.D4 (GP OUT 3) → VANOS : 1.2–4.4 A selon la résistance réelle, limite 2 A — mesurer avant de figer"
-  ],
+  "warnings": [],
   "infos": [
    "PWR-01 : liaison batterie → fusible général, garder la plus courte possible"
   ]
