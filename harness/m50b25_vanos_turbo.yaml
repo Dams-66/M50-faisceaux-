@@ -13,7 +13,7 @@ meta:
   project: "Faisceau moteur M50B25 VANOS Turbo"
   engine: "BMW M50B25 VANOS — turbo — BMW E36"
   ecu: "MaxxECU RACE Gen1 (REV9+)"
-  revision: "C"
+  revision: "D"
   date: "2026-10-08"
   status: "Étude — à valider sur véhicule"
   assumptions:
@@ -23,6 +23,8 @@ meta:
     - "Longueurs de tronçons ESTIMÉES pour une baie E36 / M50 : à remplacer par des mesures à la ficelle (section topology)."
     - "Fusible général MAXI 80 A sur la borne B+ de la baie moteur (câble batterie d'origine depuis le coffre)."
     - "Pompe 280 l/h estimée à 15 A ; ventilateur SPAL 385 mm aspirant 19,5 A (fiche SPAL VA18-AP71/LL-59A) : à confirmer sur les étiquettes."
+    - "Pas de clé ni de combiné : interrupteur de contact + bouton démarreur mécanique à côté du pad ; aucun compte-tours câblé."
+    - "Pad 8 boutons avec boîtier relais / fusibles : sorties +12 V commutées. Boutons 1 à 3 (éclairage, warnings, essuie-glace) hors faisceau moteur ; boutons 4 à 8 vers l'ECU par une platine d'interface."
   sources:
     - {label: "MaxxECU RACE (REV9+) — schéma de câblage officiel", url: "https://www.maxxecu.com/files/Documentation/Wirings/MaxxECU%20RACE%20(REV9+)%20-%20Wiring-en.pdf"}
     - {label: "MaxxECU — faisceau BMW M50 (note culasse VANOS / capteur 12141726590)", url: "https://maxxecu.com/webhelp/wirings-terminated_engine_harness-bmw_m50.html"}
@@ -30,6 +32,11 @@ meta:
     - {label: "MaxxECU — BMW M54 plug-in (papillon sur GPO11/12, TPS + AIN3/4/5)", url: "https://maxxecu.com/webhelp/wirings-pluginecu-bmw_m54.html"}
     - {label: "MaxxECU RACE — caractéristiques (GPO 2 A, GPO9 5 A, INJ 8 A crête / 4 A continu, MAP 3 bar boost)", url: "https://maxxecu.com/products/race"}
     - {label: "MaxxECU — Injector output (8 A crête / 4 A continu par sortie)", url: "https://maxxecu.com/webhelp/output_functions-injector_output.html"}
+    - {label: "MaxxECU — câblage des entrées digitales (DIN : 12 V tolérés, pull-up 1 kΩ désactivable)", url: "https://www.maxxecu.com/webhelp/wirings-digital-inputs.html"}
+    - {label: "MaxxECU — réglages Digital inputs (pull-up OFF : entrée commandée par +5 / +12 V)", url: "https://www.maxxecu.com/webhelp/settings-inputs-digital_inputs.html"}
+    - {label: "MaxxECU — Analog inputs utilisées en entrée digitale (seuil 3,0 V)", url: "https://www.maxxecu.com/webhelp/settings-analog_inputs.html"}
+    - {label: "MaxxECU — Internal output system (une entrée → plusieurs fonctions)", url: "https://www.maxxecu.com/webhelp/settings-advanced-internal_output_system.html"}
+    - {label: "MaxxECU — Anti-lag (activation par entrée)", url: "https://www.maxxecu.com/webhelp/settings-motorsport-anti_lag.html"}
     - {label: "Molex CMC 48 voies 64320 — plan SD-64320-001 (rangées A–K = CP 0.6, L–M = CP 1.5)", url: "https://www.farnell.com/cad/2790198.pdf"}
     - {label: "Bosch 0 261 544 01F — brochage 2 P / 3 +5V / 4 GND / 5 NTC", url: "https://en.oreca-store.com/bosch-0261-544-01f-u5g-fluid-pressure-and-temperature-sensor-0-10-bar-026154401fu5g.html"}
     - {label: "Haltech — moteur BMW M50 (capteurs, VANOS)", url: "https://support.haltech.com/portal/en/kb/articles/m50-engine"}
@@ -55,7 +62,7 @@ colors:
 color_legend:
   - {code: "RD", role: "+12 V permanent batterie (30), avant relais"}
   - {code: "RD/WH", role: "+12 V commuté : sorties fusibles après relais principal"}
-  - {code: "VT", role: "+15 contact clé → bobine relais principal"}
+  - {code: "VT", role: "+15 contact (interrupteur) → relais principal et bouton démarreur"}
   - {code: "BK", role: "Masse puissance (culasse / caisse)"}
   - {code: "BN", role: "Masses de référence ECU : Sensor GND, VR GND, Knock GND — JAMAIS à la caisse"}
   - {code: "OG", role: "+5 V capteurs (CMC1 G1)"}
@@ -65,8 +72,10 @@ color_legend:
   - {code: "GY", role: "Commandes injecteurs INJ1→6"}
   - {code: "GN", role: "Sorties GPO (actionneurs, relais, chauffage lambda)"}
   - {code: "PK", role: "Moteur papillon (PK = +, PK/BK = −)"}
-  - {code: "VT/YE", role: "Commande démarreur : 50 clé → relais K4 → solénoïde du démarreur"}
+  - {code: "VT/YE", role: "Commande démarreur : bouton → relais K4 → solénoïde du démarreur"}
   - {code: "BU/RD", role: "Excitation alternateur : voyant de charge → D+ (61)"}
+  - {code: "VT/RD", role: "Sorties +12 V du pad → platine d'interface, un fil par bouton : VT/RD, VT/OG, VT/GY, VT/PK, VT/WH (boutons 4 à 8)"}
+  - {code: "WH/RD", role: "Platine d'interface → entrées ECU : WH/RD (DIN1), WH/OG (DIN2), WH/GY (DIN4), WH/PK (DIN5), WH/YE (AIN8)"}
 
 wire_rules:
   insulation: "FLRY-B (ou Tefzel / M22759 pour le haut de gamme)"
@@ -102,7 +111,7 @@ sheets:
   ACT:  {short: "VANOS & boost", title: "VANOS & MAC valve (boost)", layout: ecu}
   RLY:  {short: "Pompe & ventilo", title: "Pompe à essence & ventilateur", layout: flow, root: CMC1}
   DEM:  {short: "Démarrage & charge", title: "Contact, démarreur & excitation alternateur", layout: flow, root: BUS30}
-  COM:  {short: "Habitacle", title: "Habitacle (compte-tours, CAN)", layout: ecu}
+  COM:  {short: "Pad & CAN", title: "Habitacle : pad de commandes → ECU, CAN", layout: ecu}
 
 systems:
   PWR:  {label: "Alimentation"}
@@ -117,7 +126,7 @@ systems:
   ACT:  {label: "Actionneurs"}
   RLY:  {label: "Relais"}
   DEM:  {label: "Démarrage & charge"}
-  COM:  {label: "Habitacle / CAN"}
+  COM:  {label: "Pad / CAN"}
   REF:  {label: "Références ECU"}
 
 # -----------------------------------------------------------------------------
@@ -224,7 +233,7 @@ ecu:
 
 # -----------------------------------------------------------------------------
 # Composants. cls = classe électrique attendue sur la broche (ERC) :
-#   PWR12 (+12 V), V5 (+5 V), V15 (+15 clé), GND_PWR, GND_SENS, GND_VR,
+#   PWR12 (+12 V), V5 (+5 V), V15 (+15 contact), GND_PWR, GND_SENS, GND_VR,
 #   GND_KNOCK, GND_SHIELD. Sans cls = signal.
 # supply: true = broche d'alimentation de la charge (bilan fusibles)
 # -----------------------------------------------------------------------------
@@ -499,32 +508,77 @@ components:
 
   # ---------------- Habitacle ----------------
   KEY:
-    label: "Contacteur (30 / 15 / 50)"
-    ref: "Contacteur à clé E36 ou interrupteur contact + bouton démarreur"
-    type: "Contacteur : 30 entrée permanente, 15 contact mis, 50 démarrage"
-    connector: "Selon contacteur (cosses 6,3 mm)"
+    label: "Interrupteur de contact"
+    ref: "Interrupteur à levier ou à bascule, 12 V, 10 A mini"
+    type: "Contact sans clé : 30 entrée permanente, 15 contact mis"
+    connector: "Selon interrupteur (cosses 6,3 mm)"
     system: DEM
     node: CAB_KEY
     harness: CAB
     external: true
-    switch: {"30": ["15", "50"]}
+    switch: {"30": ["15"]}
     pins:
       "30": {fn: "+30 entrée (permanent, fusible F11)", cls: PWR12}
-      "15": {fn: "+15 contact mis (reste alimenté en position démarrage)", cls: V15, source: true}
-      "50": {fn: "+50 démarrage (position démarreur)", cls: V50, source: true}
-    notes: "Contacteur à clé E36 : 30, 15 et 50 sur ses cosses. Avec un interrupteur + bouton, le bouton démarreur prend le +15 et sort sur 50."
-  CLUSTER:
-    label: "Combiné (compte-tours)"
-    ref: "Combiné E36 ou afficheur"
-    type: "Entrée compte-tours"
-    connector: "Selon véhicule"
+      "15": {fn: "+15 contact mis", cls: V15, source: true}
+    notes: "Remplace le contacteur à clé : il ne porte que 0,3 A (bobines de K1 et K4). Il reste alimenté par F11 : sans fusible, un court-circuit sur ce fil ne serait coupé que par F0 (80 A), bien trop gros pour du 0,75 mm²."
+  BTN-START:
+    label: "Bouton démarreur"
+    ref: "Bouton poussoir mécanique fugitif, 12 V, 5 A mini"
+    type: "Bouton : +15 en entrée, commande de K4 en sortie"
+    connector: "Selon bouton (cosses 6,3 mm)"
+    system: DEM
+    node: CAB_KEY
+    harness: CAB
+    external: true
+    switch: {"IN": ["OUT"]}
+    pins:
+      "IN": {fn: "Entrée +15 (après l'interrupteur de contact)", cls: V15}
+      "OUT": {fn: "Sortie démarrage → bobine K4", cls: V50, source: true}
+    notes: "Alimenté par le +15 : le démarreur ne peut pas être lancé contact coupé. Il ne commande que la bobine de K4 (0,15 A), le courant du solénoïde passe par le relais."
+  PAD:
+    label: "Pad 8 boutons (boîtier relais / fusibles)"
+    ref: "Pad 8 boutons RGB avec boîtier de commande à fusibles"
+    type: "8 sorties +12 V commutées par relais, fusibles 30/20/15/10/30/20/15/10 A, 60 A maxi au total"
+    connector: "Sorties du boîtier de commande du pad"
     system: COM
-    node: CAB_CLUSTER
+    node: CAB_PAD
     harness: CAB
     external: true
     pins:
-      "TD": {fn: "Entrée régime"}
-    notes: "Régler d'abord le pull-up interne de GPO8 (12 V) dans MTune ; seulement si l'aiguille ne bouge toujours pas : pull-up 1 kΩ / 1 W vers +12 V commuté sur ce fil."
+      "C1": {fn: "Bouton 1 : éclairage (hors faisceau moteur)", nc: true}
+      "C2": {fn: "Bouton 2 : warnings (hors faisceau moteur)", nc: true}
+      "C3": {fn: "Bouton 3 : essuie-glace (hors faisceau moteur)", nc: true}
+      "C4": {fn: "Bouton 4 : ventilation forcée", cls: PWR12, source: true}
+      "C5": {fn: "Bouton 5 : changement de carto", cls: PWR12, source: true}
+      "C6": {fn: "Bouton 6 : ALS off", cls: PWR12, source: true}
+      "C7": {fn: "Bouton 7 : carto de chauffe (warm-up)", cls: PWR12, source: true}
+      "C8": {fn: "Bouton 8 : refroidissement (cool-down)", cls: PWR12, source: true}
+    notes: "Boutons 4 à 8 en mode Toggle (LED rouge) : l'ECU lit un état maintenu, pas une impulsion. Leurs fusibles passent à 5 A ou moins (le manuel autorise un calibre égal ou inférieur) : ils ne débitent que 0,7 mA chacun. Boutons 1 à 3 : fusibles d'origine selon leur charge. Interrupteur du boîtier sur BATTERY : warnings utilisables contact coupé. Boîtier alimenté par son propre câble batterie avec fusible, masse à la caisse (hors faisceau moteur). Éteindre le pad (ON/OFF) en quittant la voiture : un bouton resté allumé garde son relais collé."
+    verify: "Au multimètre : bouton allumé = +12 V sur la sortie, bouton éteint = 0 V ou circuit ouvert (sortie +12 V côté haut, à confirmer)."
+  IF-PAD:
+    label: "Platine d'interface pad → ECU"
+    ref: "5 × (10 kΩ en série + 10 kΩ vers Sensor GND), résistances ¼ W 1 %"
+    type: "Diviseur 12 V → 6 V : 0,7 mA par voie, ECU protégée même éteinte"
+    connector: "Deutsch DTM 12 voies (DTM04-12PA côté platine / DTM06-12SA côté faisceau)"
+    system: COM
+    node: N_IFPAD
+    harness: CAB
+    rank: 100
+    pins:
+      "1": {fn: "Entrée bouton 4 (+12 V pad)", cls: PWR12}
+      "2": {fn: "Entrée bouton 5 (+12 V pad)", cls: PWR12}
+      "3": {fn: "Entrée bouton 6 (+12 V pad)", cls: PWR12}
+      "4": {fn: "Entrée bouton 7 (+12 V pad)", cls: PWR12}
+      "5": {fn: "Entrée bouton 8 (+12 V pad)", cls: PWR12}
+      "6": {fn: "Sortie voie 1 → DIN1"}
+      "7": {fn: "Sortie voie 2 → DIN2"}
+      "8": {fn: "Sortie voie 3 → DIN4"}
+      "9": {fn: "Sortie voie 4 → DIN5"}
+      "10": {fn: "Sortie voie 5 → AIN8"}
+      "11": {fn: "Masse des résistances de rappel", cls: GND_SENS}
+      "12": {fn: "Réserve", nc: true}
+    notes: "Chaque voie : entrée → 10 kΩ → sortie, et 10 kΩ de la sortie vers la broche 11. Bouton allumé : ≈ 6–7 V sur l'entrée ECU (seuil DIN 3,3–3,5 V, AIN 3,0 V, 12 V tolérés) ; bouton éteint : 0 V franc par la résistance de rappel, au lieu d'une entrée en l'air. Dans MTune, le pull-up interne des DIN DOIT être désactivé, sinon l'entrée reste active pad éteint. Montage : plaque pastillée dans un petit boîtier étanche, ou résistances en ligne sous gaine thermo à colle."
+    verify: "Pad éteint : 0 V sur les broches 6 à 10. Bouton allumé : 6 V environ (batterie à 12,5 V), ECU débranchée."
   CANDEV:
     label: "Afficheur / logger CAN (option)"
     ref: "Option"
@@ -535,6 +589,7 @@ components:
     harness: CAB
     external: true
     optional: true
+    rank: 100
     pins:
       "H": {fn: "CAN H"}
       "L": {fn: "CAN L"}
@@ -577,7 +632,7 @@ components:
     pins:
       "1": {fn: "+12 V commuté", cls: PWR12, supply: true}
       "2": {fn: "Sortie vers D+"}
-    notes: "Une LED seule ne laisse pas passer assez de courant pour exciter l'alternateur : ampoule 2 W, ou LED avec une résistance de 100 Ω / 2 W en parallèle. Si tu gardes le combiné E36, son voyant de charge fait le même travail."
+    notes: "Une LED seule ne laisse pas passer assez de courant pour exciter l'alternateur : ampoule 2 W, ou LED avec une résistance de 100 Ω / 2 W en parallèle. Sans combiné, c'est le seul voyant de charge : à placer dans le champ de vision."
 
   # ---------------- Distribution d'énergie (PDM) ----------------
   BATT:
@@ -597,12 +652,11 @@ components:
   F2:  {label: "Fusible bobines", ref: "15 A", type: fuse, rating_a: 15, system: IGN, node: PDM, connector: "Boîte à fusibles étanche à 2 barrettes", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
   F3:  {label: "Fusible injecteurs", ref: "10 A", type: fuse, rating_a: 10, system: INJ, node: PDM, connector: "Boîte à fusibles étanche à 2 barrettes", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
   F4:  {label: "Fusible chauffage lambda", ref: "10 A", type: fuse, rating_a: 10, system: WBO, node: PDM, connector: "Boîte à fusibles étanche à 2 barrettes", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
-  F5:  {label: "Fusible actionneurs (VANOS, MAC)", ref: "10 A", type: fuse, rating_a: 10, system: ACT, node: PDM, connector: "Boîte à fusibles étanche à 2 barrettes", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
-  F6:  {label: "Fusible capteur PMH", ref: "5 A", type: fuse, rating_a: 5, system: SYNC, node: PDM, connector: "Boîte à fusibles étanche à 2 barrettes", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
+  F5:  {label: "Fusible actionneurs + capteur PMH (VANOS, MAC, PMH)", ref: "10 A", type: fuse, rating_a: 10, system: ACT, node: PDM, connector: "Boîte à fusibles étanche à 2 barrettes", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
   F7:  {label: "Fusible commandes (bobines relais pompe / ventilo, voyant de charge)", ref: "5 A", type: fuse, rating_a: 5, system: RLY, node: PDM, connector: "Boîte à fusibles étanche à 2 barrettes", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
   F8:  {label: "Fusible pompe à essence", ref: "20 A", type: fuse, rating_a: 20, system: RLY, node: PDM, connector: "Boîte à fusibles étanche à 2 barrettes", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
   F9:  {label: "Fusible ventilateur", ref: "30 A", type: fuse, rating_a: 30, system: RLY, node: PDM, connector: "Boîte à fusibles étanche à 2 barrettes", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
-  F11: {label: "Fusible contacteur (+30 clé)", ref: "5 A", type: fuse, rating_a: 5, system: DEM, node: PDM, connector: "Boîte à fusibles étanche à 2 barrettes", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
+  F11: {label: "Fusible interrupteur de contact / bouton démarreur", ref: "5 A", type: fuse, rating_a: 5, system: DEM, node: PDM, connector: "Boîte à fusibles étanche à 2 barrettes", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
   F12: {label: "Fusible démarreur (borne 50)", ref: "30 A", type: fuse, rating_a: 30, system: DEM, node: PDM, connector: "Boîte à fusibles étanche à 2 barrettes", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
   K1:
     label: "Relais principal"
@@ -658,9 +712,9 @@ components:
     pins:
       "30": {fn: "Contact — entrée"}
       "87": {fn: "Contact — sortie vers borne 50"}
-      "86": {fn: "Bobine + (50 clé)", cls: V50, supply: true}
+      "86": {fn: "Bobine + (bouton démarreur)", cls: V50, supply: true}
       "85": {fn: "Bobine −", cls: GND_PWR}
-    notes: "Le contacteur ne commande plus que la bobine (0,15 A) : le courant d'appel du solénoïde passe par le relais, au plus près de la batterie."
+    notes: "Le bouton ne commande que la bobine (0,15 A) : le courant d'appel du solénoïde passe par le relais, au plus près de la batterie."
 
 # -----------------------------------------------------------------------------
 # Points de masse
@@ -687,7 +741,7 @@ splices:
   SPL-COIL-SGND: {label: "Masse électronique bobines (broches 2)", node: TOP4, cls: GND_PWR}
   SPL-COIL-PGND: {label: "Masse puissance bobines (broches 4)", node: TOP4, cls: GND_PWR}
   SPL-INJ12:     {label: "+12 V injecteurs", node: INT4, cls: PWR12}
-  SPL-ACT12:     {label: "+12 V actionneurs", node: T1, cls: PWR12}
+  SPL-ACT12:     {label: "+12 V actionneurs + capteur PMH", node: T1, cls: PWR12}
   SPL-RLY:       {label: "+12 V bobines relais", node: PDM, cls: PWR12}
   BUS30:         {label: "Barrette +12 V permanent", node: PDM, cls: PWR12, busbar: true}
   BUS87:         {label: "Barrette +12 V commuté (relais principal)", node: PDM, cls: PWR12, busbar: true}
@@ -723,7 +777,6 @@ wires:
   - {sheet: PWR, from: BUS87, to: F3.1, internal: true}
   - {sheet: PWR, from: BUS87, to: F4.1, internal: true}
   - {sheet: PWR, from: BUS87, to: F5.1, internal: true}
-  - {sheet: PWR, from: BUS87, to: F6.1, internal: true}
   - {sheet: PWR, from: BUS87, to: F7.1, internal: true}
   - {sheet: PWR, from: F1.2, to: CMC1.M4, mm2: 1.0, color: RD/WH, harness: PDM, note: "Alimentation ECU (15 A, préconisation MaxxECU)"}
   - {sheet: PWR, from: KEY.15, to: K1.86, mm2: 0.5, color: VT, harness: CAB}
@@ -732,8 +785,9 @@ wires:
   # ===== Contact, démarreur & excitation alternateur =====
   - {sheet: DEM, from: BUS30, to: F11.1, internal: true}
   - {sheet: DEM, from: BUS30, to: F12.1, internal: true}
-  - {sheet: DEM, from: F11.2, to: KEY.30, mm2: 0.75, color: RD, harness: CAB, note: "Alimentation du contacteur"}
-  - {sheet: DEM, from: KEY.50, to: K4.86, mm2: 0.5, color: VT/YE, harness: CAB}
+  - {sheet: DEM, from: F11.2, to: KEY.30, mm2: 0.75, color: RD, harness: CAB, note: "Alimentation de l'interrupteur de contact"}
+  - {sheet: DEM, from: KEY.15, to: BTN-START.IN, mm2: 0.5, color: VT, harness: CAB, note: "Bouton alimenté par le +15 : inactif contact coupé. Cosse gigogne (piggy-back) sur la borne 15 : ce fil et celui de K1"}
+  - {sheet: DEM, from: BTN-START.OUT, to: K4.86, mm2: 0.5, color: VT/YE, harness: CAB}
   - {sheet: DEM, from: K4.85, to: GP-CH, mm2: 0.5, color: BK, harness: PDM}
   - {sheet: DEM, from: F12.2, to: K4.30, mm2: 2.5, color: RD, harness: PDM}
   - {sheet: DEM, from: K4.87, to: STARTER.50, mm2: 2.5, color: VT/YE, note: "Commande solénoïde : 2,5 mm² pour le courant d'appel"}
@@ -791,7 +845,7 @@ wires:
   # ===== Synchronisation PMH / AAC =====
   - {sheet: SYNC, from: CMC1.H3, to: CRANK.2, mm2: 0.5, color: WH, cable: C-CRANK}
   - {sheet: SYNC, from: SPL-VRG, to: CRANK.3, mm2: 0.5, color: BN, cable: C-CRANK}
-  - {sheet: SYNC, from: F6.2, to: CRANK.1, mm2: 0.5, color: RD/WH, note: "+12 V capteur PMH : fil séparé dans le toron, hors câble blindé (le câble va à l'ECU, ce fil au boîtier fusibles)"}
+  - {sheet: SYNC, from: SPL-ACT12, to: CRANK.1, mm2: 0.75, color: RD/WH, note: "+12 V capteur PMH pris sur F5 (épissure actionneurs, arrière culasse) : fil séparé, hors câble blindé ; 0,75 mm² derrière un fusible de 10 A"}
   - {sheet: SYNC, from: CMC1.H4, to: CAM.1, mm2: 0.5, color: WH, cable: C-CAM}
   - {sheet: SYNC, from: SPL-VRG, to: CAM.2, mm2: 0.5, color: BN, cable: C-CAM, note: "CORRIGÉ : retour AAC sur VR GND (H2), pas sur Sensor GND"}
   - {sheet: SYNC, from: CMC1.H2, to: SPL-VRG, mm2: 0.5, color: BN}
@@ -872,8 +926,18 @@ wires:
   - {sheet: RLY, from: K3.87, to: FAN.+, mm2: 4.0, color: RD/BU}
   - {sheet: RLY, from: FAN.-, to: GP-CH-AV, mm2: 4.0, color: BK}
 
-  # ===== Interface habitacle =====
-  - {sheet: COM, from: CMC1.A4, to: CLUSTER.TD, mm2: 0.5, color: GN/WH, harness: CAB, note: "GPO8 = compte-tours"}
+  # ===== Habitacle : pad de commandes → ECU, CAN =====
+  - {sheet: COM, from: PAD.C4, to: IF-PAD.1, mm2: 0.5, color: VT/RD, harness: CAB, note: "Bouton 4 : ventilation forcée (fusible du pad 5 A maxi)"}
+  - {sheet: COM, from: PAD.C5, to: IF-PAD.2, mm2: 0.5, color: VT/OG, harness: CAB, note: "Bouton 5 : changement de carto (fusible du pad 5 A maxi)"}
+  - {sheet: COM, from: PAD.C6, to: IF-PAD.3, mm2: 0.5, color: VT/GY, harness: CAB, note: "Bouton 6 : ALS off (fusible du pad 5 A maxi)"}
+  - {sheet: COM, from: PAD.C7, to: IF-PAD.4, mm2: 0.5, color: VT/PK, harness: CAB, note: "Bouton 7 : carto de chauffe (fusible du pad 5 A maxi)"}
+  - {sheet: COM, from: PAD.C8, to: IF-PAD.5, mm2: 0.5, color: VT/WH, harness: CAB, note: "Bouton 8 : refroidissement (fusible du pad 5 A maxi)"}
+  - {sheet: COM, from: IF-PAD.6, to: CMC1.K3, mm2: 0.5, color: WH/RD, harness: CAB, note: "DIN1 = ventilation forcée (Fan override input), pull-up OFF"}
+  - {sheet: COM, from: IF-PAD.7, to: CMC1.K4, mm2: 0.5, color: WH/OG, harness: CAB, note: "DIN2 = changement de carto (Boost target switch), pull-up OFF"}
+  - {sheet: COM, from: IF-PAD.8, to: CMC2.F3, mm2: 0.5, color: WH/GY, harness: CAB, note: "DIN4 = ALS off (Anti-lag enable, actif bas), pull-up OFF"}
+  - {sheet: COM, from: IF-PAD.9, to: CMC2.F4, mm2: 0.5, color: WH/PK, harness: CAB, note: "DIN5 = carto de chauffe (limiteur secondaire), pull-up OFF"}
+  - {sheet: COM, from: IF-PAD.10, to: CMC2.F2, mm2: 0.5, color: WH/YE, harness: CAB, note: "AIN8 en entrée digitale (seuil 3,0 V) = refroidissement"}
+  - {sheet: COM, from: SPL-SG-MAIN, to: IF-PAD.11, mm2: 0.5, color: BN, harness: CAB, note: "Rappels à la masse sur Sensor GND (référence de l'ECU), jamais à la caisse"}
   - {sheet: COM, from: CMC1.E1, to: CANDEV.H, mm2: 0.5, color: YE/BK, cable: C-CAN, harness: CAB}
   - {sheet: COM, from: CMC1.E2, to: CANDEV.L, mm2: 0.5, color: GN/BK, cable: C-CAN, harness: CAB}
 
@@ -892,9 +956,10 @@ topology:
     T0: "Baie moteur, angle tablier droit"
     BPLUS: "Borne B+ / fusible général"
     CAB_PEDAL: "Pédale"
-    CAB_CLUSTER: "Combiné"
-    CAB_DASH: "Afficheur CAN"
-    CAB_KEY: "Contact clé"
+    CAB_DASH: "Planche de bord (voyant de charge, afficheur CAN)"
+    CAB_KEY: "Interrupteur de contact + bouton démarreur"
+    CAB_PAD: "Boîtier de commande du pad 8 boutons"
+    N_IFPAD: "Platine d'interface pad (à côté de l'ECU)"
     T1: "Arrière culasse (dérivation)"
     GND_HEAD: "Goujons de masse culasse"
     TOP6: "Bobine 6"
@@ -937,8 +1002,9 @@ topology:
     - [T0, BPLUS, 0.35]
     - [HB, CAB_PEDAL, 1.00]
     - [HB, CAB_KEY, 0.90]
-    - [HB, CAB_CLUSTER, 1.00]
-    - [CAB_CLUSTER, CAB_DASH, 0.30]
+    - [HB, CAB_DASH, 1.10]
+    - [HB, CAB_PAD, 0.60]
+    - [ECU, N_IFPAD, 0.15]
     - [T0, T1, 0.70]
     - [T1, GND_HEAD, 0.05]
     - [T1, TOP6, 0.15]
@@ -978,7 +1044,7 @@ topology:
 # Articles de nomenclature non déductibles des fils
 # -----------------------------------------------------------------------------
 bom_extra:
-  - {cat: "Protection", item: "Boîte à fusibles étanche Bussmann 15305-1 (20 fusibles ATM, 2 barrettes indépendantes à goujon M6)", qty: 1, unit: "pc", detail: "barrette 1 = +30 permanent BUS30 (F8, F9, F10, F11, F12), alimentée par PWR-02 ; barrette 2 = +87 commuté BUS87 (F1 à F7), alimentée par PWR-04 ; sorties Metri-Pack 280 : 3 mm² maxi, contacts, joints et bouchons à commander à part"}
+  - {cat: "Protection", item: "Boîte à fusibles étanche Bussmann 15305-1 (20 fusibles ATM, 2 barrettes indépendantes à goujon M6)", qty: 1, unit: "pc", detail: "barrette 1 = +30 permanent BUS30 (F8, F9, F10, F11, F12), alimentée par PWR-02 ; barrette 2 = +87 commuté BUS87 (F1 à F5 et F7 ; emplacement F6 libre en réserve), alimentée par PWR-04 ; sorties Metri-Pack 280 : 3 mm² maxi, contacts, joints et bouchons à commander à part"}
   - {cat: "Protection", item: "Support de relais ISO mini étanche (lames 6,3 mm)", qty: 4, unit: "pc", detail: "K1 à K4, fixés à côté de la boîte à fusibles ; leurs cosses acceptent le 4 mm² de la pompe et du ventilateur"}
   - {cat: "Montage", item: "Passe-fil caoutchouc étanche pour la traversée du tablier", qty: 1, unit: "pc", detail: "à l'emplacement de la boîte électronique d'origine ; Ø intérieur ≥ 25 mm (toron d'environ 20 mm + gaine)"}
   - {cat: "Protection", item: "Porte-fusible MAXI étanche, entrée / sortie 10 mm²", qty: 1, unit: "pc", detail: "F0 — borne B+ baie moteur"}
@@ -993,6 +1059,10 @@ bom_extra:
   - {cat: "Repérage", item: "Repères de connecteur (manchons imprimés)", qty: 1, unit: "lot", detail: "un par connecteur, en plus des repères de fil"}
   - {cat: "Montage", item: "Goujon / vis M8 de masse sur culasse", qty: 2, unit: "pc", detail: "GP-HEAD (ECU) et GP-COIL (bobines), surfaces mises à nu"}
   - {cat: "Montage", item: "Colliers P-clip / fixations de faisceau", qty: 20, unit: "pc", detail: "un tous les 20–25 cm environ"}
+  - {cat: "Habitacle", item: "Résistance 10 kΩ ¼ W 1 % (couche métal)", qty: 10, unit: "pc", detail: "platine d'interface IF-PAD : 5 en série + 5 de rappel vers Sensor GND"}
+  - {cat: "Habitacle", item: "Plaque pastillée + petit boîtier étanche pour la platine IF-PAD", qty: 1, unit: "pc", detail: "ou résistances en ligne sous gaine thermo à colle, au ras de l'ECU"}
+  - {cat: "Habitacle", item: "Fusibles 5 A (au format du boîtier du pad)", qty: 5, unit: "pc", detail: "circuits 4 à 8 du pad : remplacent les 30/20/15/10 A d'origine, les entrées ECU ne consomment que 0,7 mA"}
+  - {cat: "Habitacle", item: "Interrupteur de contact 10 A et bouton démarreur poussoir fugitif 5 A", qty: 1, unit: "ens.", detail: "à côté du pad ; le bouton démarreur mécanique est déjà en ta possession"}
   - {cat: "Câbles de puissance (hors faisceau)", item: "Câble batterie + (coffre) → borne 30 du démarreur et borne B+ de la baie", qty: 1, unit: "ens.", detail: "câble d'origine E36 si conservé, sinon 35 mm² ; il alimente la borne B+ où se trouve F0"}
   - {cat: "Câbles de puissance (hors faisceau)", item: "Câble de charge alternateur B+ → borne 30 du démarreur", qty: 1, unit: "pc", detail: "16 mm² minimum (25 mm² si alternateur 140 A), cosses œillet M6/M8, gaine de protection"}
   - {cat: "Câbles de puissance (hors faisceau)", item: "Tresse de masse moteur ↔ caisse", qty: 1, unit: "pc", detail: "25 mm² minimum ; sur E36 la batterie est au coffre, tout le retour du démarreur passe par là"}
@@ -1008,10 +1078,10 @@ audit:
     detail: "Sur le schéma officiel RACE REV9+, le capteur PMH et le capteur AAC (VR ou Hall) ont leur retour sur VR GND (H2) ; les blindages PMH, AAC et lambda vont sur SHIELD GND (E3), ceux des capteurs de cliquetis sur KNOCK GND (CMC2 E1, page 2 du schéma). Ton plan mettait la broche 2 de l'AAC sur H1. Les deux retours (PMH broche 3 + AAC broche 2) se rejoignent par l'épissure SPL-VRG au ras du connecteur."
   - sev: add
     title: "Alimentation et masses de l'ECU (absentes du plan)"
-    detail: "CMC1 M4 = +12 V ECU (fusible 15 A après relais principal). CMC1 L4 ET CMC2 G4 = masses moteur, toutes deux au MÊME goujon de culasse (exigence MaxxECU). Relais principal commandé par le +15 clé : la RACE Gen1 n'a pas de sortie de commande de relais principal."
+    detail: "CMC1 M4 = +12 V ECU (fusible 15 A après relais principal). CMC1 L4 ET CMC2 G4 = masses moteur, toutes deux au MÊME goujon de culasse (exigence MaxxECU). Relais principal commandé par le +15 de l'interrupteur de contact : la RACE Gen1 n'a pas de sortie de commande de relais principal."
   - sev: add
     title: "Boîte fusibles/relais complète (PDM)"
-    detail: "11 fusibles, 3 relais : chaque circuit a son fusible et chaque fil est protégé par un fusible adapté à sa section (contrôle automatique)."
+    detail: "Fusible général MAXI 80 A, 11 fusibles (F1 à F5, F7 à F12 ; F6 regroupé dans F5 en révision D) et 4 relais : chaque circuit a son fusible et chaque fil est protégé par un fusible adapté à sa section (contrôle automatique)."
   - sev: fix
     title: "Section des +12 V bobines : 1,0 mm² et non 0,75"
     detail: "Le fusible bobines est à 15 A (préconisation MaxxECU). Un fil de 0,75 mm² n'est protégé que jusqu'à 10 A : chaque dérivation bobine passe en 1,0 mm². Masses broche 4 (puissance) en 1,0 mm², broche 2 (électronique) en 0,75 mm²."
@@ -1020,13 +1090,22 @@ audit:
     detail: "C'est le câblage de MaxxECU sur son propre faisceau M50 : GPO3, connecteur Bosch JPT 2 voies, aucun relais. L'électrovanne simple VANOS 11361738494 (M50TU / M52 / S50 / S52) est relevée autour de 8,5–12 Ω, soit 1,2 à 1,7 A pour une limite GPO de 2 A. La valeur de 3,3 Ω qui circule vient d'un article sur le S50 du Z3 M, pas de cette électrovanne. Un contrôle de 10 s au multimètre reste conseillé : entre 3,6 et 7,5 Ω, passer sur INJ7 (CMC1 L2, 4 A en continu) ; sous 3,6 Ω, passer par un relais."
   - sev: add
     title: "ECU et fusibles dans l'habitacle (E36 caisse vide)"
-    detail: "Sur un M50 en E36 conduite à gauche, la boîte électronique d'origine est côté échappement, donc côté turbo. ECU et boîte fusibles/relais passent derrière la boîte à gants, au frais et au sec ; le faisceau moteur traverse le tablier par un passe-fil étanche à l'emplacement d'origine. La pédale, le contact et le combiné sont câblés en direct : plus de connecteur de cloison."
+    detail: "Sur un M50 en E36 conduite à gauche, la boîte électronique d'origine est côté échappement, donc côté turbo. ECU et boîte fusibles/relais passent derrière la boîte à gants, au frais et au sec ; le faisceau moteur traverse le tablier par un passe-fil étanche à l'emplacement d'origine. La pédale, l'interrupteur de contact, le bouton démarreur et le pad sont câblés en direct : plus de connecteur de cloison."
   - sev: add
     title: "Pompe 280 l/h et ventilateur SPAL 385 mm"
     detail: "Pompe : relais K2, fusible 20 A, alimentation et masse en 4 mm² pour limiter la chute de tension sur le trajet jusqu'au réservoir. Ventilateur SPAL 385 mm aspirant (19,5 A d'après la fiche SPAL VA18-AP71/LL-59A) : relais K3 40 A, fusible 30 A, fils 4 mm². Les deux sont alimentés en direct batterie, hors relais principal."
   - sev: fix
     title: "Révision C : audit électrique indépendant"
     detail: "Quatre relectures séparées (alimentation et masses, brochage ECU, brochage des composants, fabrication), chaque point contre-vérifié. Corrigé : chauffage lambda D1 en 0,75 mm² (petite alvéole CMC) ; sorties injecteur à 4 A en continu ; blindages de cliquetis sur KNOCK GND ; boîte à fusibles à 2 barrettes indépendantes et supports de relais séparés ; contacts, bouchons et épissures dimensionnés ; connecteur lambda côté faisceau et côté froid ; protection thermique côté turbo ; +12 V du capteur PMH hors câble blindé ; notes MTune (pull-up du trigger, papillon, chauffage, compte-tours)."
+  - sev: add
+    title: "Révision D : contact sans clé, pad 8 boutons, F6 regroupé dans F5"
+    detail: "Plus de clé : un interrupteur de contact alimenté par F11 donne le +15 (relais principal K1) et alimente le bouton démarreur mécanique, qui commande K4 ; le démarreur ne peut donc pas être lancé contact coupé. F11 reste nécessaire : c'est lui qui protège le fil qui va de la barrette +30 jusqu'à l'interrupteur. Le +12 V du capteur PMH est pris sur F5 avec la VANOS et la MAC (épissure à l'arrière de la culasse, 0,75 mm²). Plus de combiné : la sortie compte-tours (GPO8, CMC1 A4) est libre. Les boutons 4 à 8 du pad arrivent sur DIN1, DIN2, DIN4, DIN5 et AIN8 par une platine de 10 résistances de 10 kΩ, pull-up des entrées désactivé dans MTune."
+  - sev: warn
+    title: "F5 commun : un court-circuit VANOS / MAC arrête le moteur"
+    detail: "Avec le capteur PMH sur F5, un court-circuit sur l'électrovanne VANOS ou la MAC fait fondre F5 et coupe aussi le capteur PMH : le moteur cale, alors qu'avec un fusible séparé il continuait à tourner sans VANOS ni boost. C'est le prix d'un fusible en moins ; l'emplacement F6 reste libre si tu veux revenir en arrière."
+  - sev: warn
+    title: "Entrées DIN / VR toutes occupées par le pad"
+    detail: "DIN1, DIN2, DIN4 et DIN5 sont les seules entrées capables de lire un capteur de vitesse de roue ou de boîte (VR / Hall). Si tu en ajoutes un plus tard, le bouton le moins utile devra passer sur DIN3 (CMC1 C1), qui a un pull-up fixe et ne se commande qu'à la masse : il faudra alors un relais ou un transistor inverseur à la place de la platine 10 kΩ pour ce bouton."
   - sev: add
     title: "Contact, démarreur et alternateur ajoutés (oubli de la révision B)"
     detail: "Caisse vide : rien n'alimentait le contacteur, le démarreur ni l'excitation de l'alternateur. Ajouts : F11 5 A alimente la borne 30 du contacteur ; la borne 50 commande un relais de démarreur K4 (fusible F12 30 A, 2,5 mm² jusqu'au solénoïde) ; l'alternateur est excité comme d'origine, par un voyant de charge 2 W entre le +12 V commuté et D+. Les gros câbles (batterie → démarreur, B+ alternateur → démarreur, tresses de masse) sont listés dans la nomenclature, hors faisceau."
@@ -1035,7 +1114,7 @@ audit:
     detail: "Une alvéole CMC ne reçoit qu'un fil. +5 V, Sensor GND, VR GND, Knock GND et Shield GND passent par des épissures dédiées, placées au ras de l'ECU pour les références et sur la branche moteur pour les distributions."
   - sev: ok
     title: "Brochage ECU conforme au schéma officiel RACE REV9+"
-    detail: "IGN1→6 (A2, A3, B2, B3, C2, C3), INJ1→6 (K1, K2, M1, M2, M3, L3), GPO1/2/3/6/8 (B4, C4, D4, B1, A4), lambda (G3, F3, D1, G4, F4), cliquetis (CMC2 E1/E2/E3, blindages sur KNOCK GND E1), EGT1 (CMC2 C1/D1), AIN5-7 (CMC2 G3, E4, F1), moteur papillon (CMC2 H4 + / H2 −) : tout est conforme."
+    detail: "IGN1→6 (A2, A3, B2, B3, C2, C3), INJ1→6 (K1, K2, M1, M2, M3, L3), GPO1/2/3/6 (B4, C4, D4, B1), entrées DIN1/2/4/5 et AIN8 du pad (K3, K4, CMC2 F3/F4/F2), lambda (G3, F3, D1, G4, F4), cliquetis (CMC2 E1/E2/E3, blindages sur KNOCK GND E1), EGT1 (CMC2 C1/D1), AIN5-7 (CMC2 G3, E4, F1), moteur papillon (CMC2 H4 + / H2 −) : tout est conforme."
   - sev: ok
     title: "Capteur AAC 12141726590 = bonne solution pour une culasse VANOS"
     detail: "MaxxECU indique : capteur VANOS d'origine (Hall 12 V) incompatible avec son câblage, solution recommandée = capteur 12141726590 (broche 1 signal, 2 masse, 3 blindage). Aucun +12 V sur ce capteur."
@@ -1083,7 +1162,12 @@ mtune:
   - {item: "GPO2", value: "Fuel pump (relais K2)"}
   - {item: "GPO3", value: "VANOS tout-ou-rien (seuil de régime / charge à définir sur la cartographie)"}
   - {item: "GPO6", value: "Engine fan (relais K3)"}
-  - {item: "GPO8", value: "Tachometer output, 6 cylindres ; pull-up interne 12 V de GPO8 à activer avant d'essayer une résistance externe"}
+  - {item: "Pad : DIN1, DIN2, DIN4, DIN5", value: "Inputs → Digital inputs : Input type = Digital input, Pullup = OFF (obligatoire avec la platine 10 kΩ), Latch = None (le bouton du pad en mode Toggle tient l'état), Active level = rising sauf ALS off"}
+  - {item: "DIN1 (CMC1 K3) — bouton 4", value: "Ventilation forcée : Function = Fan override input (force la sortie Engine fan GPO6 quelle que soit la température)"}
+  - {item: "DIN2 (CMC1 K4) — bouton 5", value: "Changement de carto : Function = Boost target switch (consigne de boost 2). Si la carto 2 change aussi l'avance ou la richesse : Internal output system, condition « DIN2 actif » → Extra fuel/ign table activation switch (all), tables extra réglées en « … when input active »"}
+  - {item: "DIN4 (CMC2 F3) — bouton 6", value: "ALS off : Anti-lag → Activation method = Switch input ; DIN4 Function = Anti-lag enable, Active level = falling : ALS autorisé bouton éteint, coupé bouton allumé. Attention : pad éteint ou fil coupé = ALS autorisé ; pour l'inverse, Active level = rising et le bouton devient « ALS ON » (aucun recâblage). Garder Min CLT, Max EGT et le timeout"}
+  - {item: "DIN5 (CMC2 F4) — bouton 7", value: "Carto de chauffe : Function = RPM limit, use secondary limit RPM (limiteur bas, ex. 4000 tr/min) ; option : Internal output system « DIN5 actif » → Extra ignition table 2 activation switch pour une avance de chauffe"}
+  - {item: "AIN8 (CMC2 F2) — bouton 8", value: "Refroidissement : Analog input 8 → Use as = Digital input (seuil 3,0 V), Active level = rising, Function = FAN + Electric waterpump override input (ventilateur forcé) ; à compléter par l'Internal output system si tu veux aussi limiter le régime ou couper le boost pendant le tour de refroidissement"}
 
 # -----------------------------------------------------------------------------
 # Contrôles (cochables dans la page)
@@ -1101,6 +1185,8 @@ checks:
       - "Capteur PMH : confirmer alim / signal / masse sur sa doc ou par essai (12 V + pull-up, passage d'une pièce acier) ; dans MTune, pull-up du trigger activé."
       - "Bobines : confirmer le repérage 1-2-3-4 moulé sur le connecteur."
       - "Vérifier l'étiquette de la RACE : REV9 ou plus (LSU 4.9)."
+      - "Pad : boutons 4 à 8 en mode Toggle (LED rouge), fusibles de ces 5 circuits remplacés par du 5 A ; bouton allumé = +12 V sur la sortie, éteint = 0 V ou circuit ouvert."
+      - "Platine IF-PAD : 10 kΩ ± 1 % entre chaque entrée (1 à 5) et sa sortie (6 à 10), 10 kΩ entre chaque sortie et la broche 11."
   - phase: "Faisceau terminé, ECU débranchée"
     items:
       - "Continuité fil par fil avec la liste de coupe (chaque repère d'extrémité)."
@@ -1112,10 +1198,12 @@ checks:
       - "Batterie − ↔ caisse (coffre) ET tresse moteur ↔ caisse présentes et serrées (≥ 25 mm²) : sur E36 la batterie est au coffre, tout le retour passe par la caisse (exigence MaxxECU)."
       - "Passe-fil du tablier étanche, faisceau maintenu sans frottement sur la tôle."
       - "Blindages : reliés uniquement côté ECU (aucune continuité vers le moteur)."
+      - "Pad allumé, boutons 4 à 8 un par un : ≈ 6 V sur CMC1 K3, K4 et CMC2 F3, F4, F2 côté faisceau (par rapport à H1), 0 V bouton éteint."
   - phase: "Première mise sous tension (pompe et injecteurs débranchés)"
     items:
-      - "Contact mis : relais principal colle, +12 V sur CMC1 M4, voyant de charge allumé."
-      - "Position démarreur : K4 colle et la borne 50 du démarreur reçoit le +12 V (démarreur débranché ou injecteurs débranchés)."
+      - "Interrupteur de contact sur ON : relais principal colle, +12 V sur CMC1 M4, voyant de charge allumé."
+      - "Bouton démarreur appuyé, contact mis : K4 colle et la borne 50 du démarreur reçoit le +12 V (injecteurs débranchés). Contact coupé : le bouton ne fait rien."
+      - "MTune, pad : chaque bouton 4 à 8 fait passer son entrée (DIN1, DIN2, DIN4, DIN5, AIN8) de 0 à 1 ; pad éteint, toutes à 0 (sinon le pull-up de l'entrée est resté activé)."
       - "Moteur tournant : voyant de charge éteint, 13,8–14,4 V aux bornes de la batterie."
       - "En lançant le démarreur : moins de 0,2 V entre la borne − de la batterie et le goujon GP-HEAD (sinon tresse moteur ↔ caisse à reprendre)."
       - "5,0 V mesurés au connecteur papillon et aux capteurs de pression."

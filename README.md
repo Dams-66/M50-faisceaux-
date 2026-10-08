@@ -3,7 +3,7 @@
 Plan de fabrication complet d'un faisceau moteur sur mesure : BMW M50B25 VANOS
 turbo en E36 (caisse vide), gestion MaxxECU RACE Gen1 (REV9+), papillon
 motorisé, LSU 4.9, EGT, bobines intelligentes, injecteurs 870 cc, pompe 280 l/h,
-ventilateur SPAL 385 mm.
+ventilateur SPAL 385 mm, démarrage sans clé et pad 8 boutons relié à l'ECU.
 
 Tout est généré depuis **un seul fichier** : on modifie la définition, on
 relance le générateur, et planches, liste de coupe, nomenclature et contrôles
@@ -69,19 +69,23 @@ Ouvre ensuite `docs/faisceau.html` dans un navigateur.
 
 1. **Retour du capteur AAC sur VR GND (CMC1 H2)**, pas sur Sensor GND (H1) — schéma officiel RACE REV9+.
 2. **Alimentation et masses ECU ajoutées** : M4 +12 V (15 A), L4 + CMC2 G4 au même goujon de culasse.
-3. **Boîte fusibles/relais complète** : relais principal sur +15 clé, 11 fusibles, relais pompe et ventilateur.
+3. **Boîte fusibles/relais complète** : relais principal sur le +15 du contact, 11 fusibles, relais pompe et ventilateur.
 4. **+12 V bobines en 1,0 mm²** (0,75 mm² non protégé par le fusible 15 A).
 5. **Épissures** pour +5 V, Sensor GND, VR GND, Knock GND, blindages.
 6. **VANOS en direct sur GPO3**, comme sur le faisceau M50 de MaxxECU (électrovanne ≈ 8,5–12 Ω, 1,2–1,7 A < 2 A).
 7. **ECU et boîte fusibles/relais dans l'habitacle** (E36 : la boîte électronique d'origine est côté turbo).
 8. **Pompe et ventilateur en 4 mm²** sur relais, alimentés en direct batterie.
-9. **Contact, démarreur et alternateur** : contacteur alimenté par F11 (5 A), relais de démarreur K4
+9. **Contact, démarreur et alternateur** : contact alimenté par F11 (5 A), relais de démarreur K4
    (F12 30 A, 2,5 mm² jusqu'à la borne 50), alternateur excité par un voyant de charge 2 W sur D+
    comme d'origine. Les câbles de puissance (batterie, B+ alternateur, tresses de masse) sont dans la nomenclature.
 10. **Audit électrique indépendant (révision C)** : chauffage lambda en 0,75 mm² (petite alvéole CMC),
     sorties injecteur à 4 A en continu, blindages de cliquetis sur KNOCK GND, boîte à fusibles à
     2 barrettes indépendantes, contacts / bouchons / épissures dimensionnés automatiquement, connecteur
     lambda côté froid, protection thermique côté turbo, réglages MTune liés au câblage.
+11. **Révision D : contact sans clé et pad 8 boutons** : interrupteur de contact (toujours protégé par F11)
+    et bouton démarreur mécanique qui commande K4 ; +12 V du capteur PMH regroupé sur F5 (emplacement F6 libre) ;
+    plus de combiné ni de sortie compte-tours ; boutons 4 à 8 du pad sur DIN1, DIN2, DIN4, DIN5 et AIN8
+    par une platine de 10 résistances de 10 kΩ (pull-up désactivé dans MTune), réglages MTune de chaque bouton.
 
 Le détail, les points validés et les sources sont dans `docs/rapport.md`.
 
@@ -92,3 +96,5 @@ Le détail, les points validés et les sources sont dans `docs/rapport.md`.
 - Pompe 280 l/h estimée à 15 A, ventilateur SPAL 385 mm aspirant à 19,5 A : à confirmer sur les étiquettes.
 - Longueurs de tronçons estimées : à mesurer sur la voiture (dont démarreur et alternateur).
 - Démarreur : solénoïde estimé à 10 A en maintien (30–40 A à l'appel, absorbé par le fusible 30 A temporisé).
+- Pad 8 boutons : sorties +12 V commutées côté haut (à vérifier au multimètre) ; boutons 1 à 3 (éclairage,
+  warnings, essuie-glace) câblés hors faisceau moteur.

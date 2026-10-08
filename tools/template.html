@@ -1777,6 +1777,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
   function colRank(o) {
     const c = catOf(o);
     if (c === "ecu") return 0;
+    if (OW[o] && OW[o].rank != null) return OW[o].rank;
     if (c === "splice" || c === "shield") {
       const dE = hopsTo(o, isEcu), dP = hopsTo(o, isPdm);
       return dE <= dP ? dE : 300 + (10 - Math.min(dP, 9));

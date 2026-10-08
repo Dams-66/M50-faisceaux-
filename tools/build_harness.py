@@ -110,7 +110,7 @@ class Harness:
                             load_a=c.get("load_a"), r_ohm=c.get("r_ohm"),
                             supply5_ma=c.get("supply5_ma"),
                             external=bool(c.get("external")),
-                            optional=bool(c.get("optional")),
+                            optional=bool(c.get("optional")), rank=c.get("rank"),
                             switch={str(k): [str(x) for x in v] for k, v in (c.get("switch") or {}).items()})
             for pin, p in c["pins"].items():
                 cls = p.get("cls")

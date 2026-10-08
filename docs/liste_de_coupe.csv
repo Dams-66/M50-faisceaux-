@@ -6,13 +6,13 @@ RLY-11;4;BK;0,20;;ENG;FAN.-;Masse;GP-CH-AV;Masse caisse avant (ventilateur);Pomp
 RLY-10;4;RD/BU;2,30;;ENG;K3.87;Contact — sortie;FAN.+;+12 V;Pompe à essence & ventilateur;F9;
 RLY-08;4;RD/YE;3,20;;CHS;K2.87;Contact — sortie;PUMP.+;+12 V;Pompe à essence & ventilateur;F8;4 mm² pour limiter la chute de tension sur 3 m (débit pompe)
 IGN-27;2,5;BK;0,55;;ENG;SPL-COIL-PGND;Masse puissance bobines (broches 4);GP-COIL;Masse bobines (goujon culasse, voisin);Allumage — 6 bobines intelligentes;;
-DEM-04;2,5;RD;0,20;;PDM;F12.2;Sortie;K4.30;Contact — entrée;Contact, démarreur & excitation alternateur;F12;
+DEM-05;2,5;RD;0,20;;PDM;F12.2;Sortie;K4.30;Contact — entrée;Contact, démarreur & excitation alternateur;F12;
 PWR-03;2,5;RD;0,20;;PDM;F10.2;Sortie;K1.30;Contact — entrée;Alimentation & relais principal;F10;
 RLY-06;2,5;RD;0,20;;PDM;F8.2;Sortie;K2.30;Contact — entrée;Pompe à essence & ventilateur;F8;
 RLY-07;2,5;RD;0,20;;PDM;F9.2;Sortie;K3.30;Contact — entrée;Pompe à essence & ventilateur;F9;2,5 mm² : maximum accepté par les sorties Metri-Pack 280 de la boîte à fusibles (30 A → 2,5 mm² mini)
 IGN-07;2,5;RD/WH;2,20;;ENG;F2.2;Sortie;SPL-COIL12;+12 V bobines;Allumage — 6 bobines intelligentes;F2;
 PWR-04;2,5;RD/WH;0,20;;PDM;K1.87;Contact — sortie;BUS87;Barrette +12 V commuté (relais principal);Alimentation & relais principal;F10;
-DEM-05;2,5;VT/YE;2,50;;ENG;K4.87;Contact — sortie vers borne 50;STARTER.50;Commande solénoïde (50);Contact, démarreur & excitation alternateur;F12;Commande solénoïde : 2,5 mm² pour le courant d'appel
+DEM-06;2,5;VT/YE;2,50;;ENG;K4.87;Contact — sortie vers borne 50;STARTER.50;Commande solénoïde (50);Contact, démarreur & excitation alternateur;F12;Commande solénoïde : 2,5 mm² pour le courant d'appel
 GND-01;1,5;BK;1,90;;ENG;CMC1.L4;ENGINE GROUND;GP-HEAD;Masse moteur ECU (goujon arrière culasse);Masses ECU;;Même point que CMC2 G4
 GND-02;1,5;BK;1,90;;ENG;CMC2.G4;ENGINE GROUND 2;GP-HEAD;Masse moteur ECU (goujon arrière culasse);Masses ECU;;Obligatoire — même point que CMC1 L4
 IGN-20;1,5;BK;0,55;;ENG;SPL-COIL-SGND;Masse électronique bobines (broches 2);GP-COIL;Masse bobines (goujon culasse, voisin);Allumage — 6 bobines intelligentes;;
@@ -24,7 +24,7 @@ IGN-25;1;BK;0,30;;ENG;COIL5.4;Masse puissance;SPL-COIL-PGND;Masse puissance bobi
 IGN-26;1;BK;0,35;;ENG;COIL6.4;Masse puissance;SPL-COIL-PGND;Masse puissance bobines (broches 4);Allumage — 6 bobines intelligentes;;
 DBW-05;1;PK;2,80;C-ETBM;ENG;CMC2.H4;MOTOR 1+ / GPO 12;ETB.3;Moteur +;Papillon motorisé & pédale;;
 DBW-06;1;PK/BK;2,80;C-ETBM;ENG;CMC2.H2;MOTOR 1- / GPO 11;ETB.5;Moteur −;Papillon motorisé & pédale;;
-ACT-03;1;RD/WH;1,90;;ENG;F5.2;Sortie;SPL-ACT12;+12 V actionneurs;VANOS & MAC valve (boost);F5;
+ACT-03;1;RD/WH;1,90;;ENG;F5.2;Sortie;SPL-ACT12;+12 V actionneurs + capteur PMH;VANOS & MAC valve (boost);F5;
 IGN-08;1;RD/WH;0,45;;ENG;SPL-COIL12;+12 V bobines;COIL1.1;+12 V;Allumage — 6 bobines intelligentes;F2;
 IGN-09;1;RD/WH;0,35;;ENG;SPL-COIL12;+12 V bobines;COIL2.1;+12 V;Allumage — 6 bobines intelligentes;F2;
 IGN-10;1;RD/WH;0,30;;ENG;SPL-COIL12;+12 V bobines;COIL3.1;+12 V;Allumage — 6 bobines intelligentes;F2;
@@ -40,7 +40,7 @@ IGN-16;0,75;BK;0,30;;ENG;COIL3.2;Masse électronique;SPL-COIL-SGND;Masse électr
 IGN-17;0,75;BK;0,20;;ENG;COIL4.2;Masse électronique;SPL-COIL-SGND;Masse électronique bobines (broches 2);Allumage — 6 bobines intelligentes;;
 IGN-18;0,75;BK;0,30;;ENG;COIL5.2;Masse électronique;SPL-COIL-SGND;Masse électronique bobines (broches 2);Allumage — 6 bobines intelligentes;;
 IGN-19;0,75;BK;0,35;;ENG;COIL6.2;Masse électronique;SPL-COIL-SGND;Masse électronique bobines (broches 2);Allumage — 6 bobines intelligentes;;
-DEM-07;0,75;BU/RD;4,15;;ENG;LAMP.2;Sortie vers D+;ALT.D+;D+ excitation (61);Contact, démarreur & excitation alternateur;;Excitation alternateur, traverse le tablier
+DEM-08;0,75;BU/RD;3,95;;ENG;LAMP.2;Sortie vers D+;ALT.D+;D+ excitation (61);Contact, démarreur & excitation alternateur;;Excitation alternateur, traverse le tablier
 ACT-01;0,75;GN;3,15;;ENG;CMC1.B4;GP OUT 1;MAC.2;Commande GPO1;VANOS & MAC valve (boost);;GPO1 = boost (préconisation MaxxECU M50)
 ACT-02;0,75;GN;2,75;;ENG;CMC1.D4;GP OUT 3;VANOS.2;Commande (masse);VANOS & MAC valve (boost);;GPO3 = VANOS en direct (préconisation MaxxECU M50)
 WBO-05;0,75;GN;1,95;;ENG;CMC1.D1;WBO2 HTR (pin 3 LSU 4.9) / GP OUT 9;LSU.3;Chauffage −;Lambda LSU 4.9 & EGT;;Chauffage − piloté par GPO9 (5 A). Alvéole CP 0.6 : 0,75 mm² maxi (contact Molex 64322-1029)
@@ -50,18 +50,20 @@ INJ-03;0,75;GY;2,35;;ENG;CMC1.M1;INJECTOR CYL 3;INJ3.2;Commande ECU;Injection �
 INJ-04;0,75;GY;2,25;;ENG;CMC1.M2;INJECTOR CYL 4;INJ4.2;Commande ECU;Injection — 6 × 870 cc;;
 INJ-05;0,75;GY;2,20;;ENG;CMC1.M3;INJECTOR CYL 5;INJ5.2;Commande ECU;Injection — 6 × 870 cc;;
 INJ-06;0,75;GY;2,10;;ENG;CMC1.L3;INJECTOR CYL 6;INJ6.2;Commande ECU;Injection — 6 × 870 cc;;
-DEM-01;0,75;RD;1,35;;CAB;F11.2;Sortie;KEY.30;+30 entrée (permanent, fusible F11);Contact, démarreur & excitation alternateur;F11;Alimentation du contacteur
-ACT-04;0,75;RD/WH;1,50;;ENG;SPL-ACT12;+12 V actionneurs;MAC.1;+12 V;VANOS & MAC valve (boost);F5;
-ACT-05;0,75;RD/WH;1,10;;ENG;SPL-ACT12;+12 V actionneurs;VANOS.1;+12 V;VANOS & MAC valve (boost);F5;
+DEM-01;0,75;RD;1,35;;CAB;F11.2;Sortie;KEY.30;+30 entrée (permanent, fusible F11);Contact, démarreur & excitation alternateur;F11;Alimentation de l'interrupteur de contact
+ACT-04;0,75;RD/WH;1,50;;ENG;SPL-ACT12;+12 V actionneurs + capteur PMH;MAC.1;+12 V;VANOS & MAC valve (boost);F5;
+ACT-05;0,75;RD/WH;1,10;;ENG;SPL-ACT12;+12 V actionneurs + capteur PMH;VANOS.1;+12 V;VANOS & MAC valve (boost);F5;
 INJ-08;0,75;RD/WH;0,45;;ENG;SPL-INJ12;+12 V injecteurs;INJ1.1;+12 V;Injection — 6 × 870 cc;F3;
 INJ-09;0,75;RD/WH;0,35;;ENG;SPL-INJ12;+12 V injecteurs;INJ2.1;+12 V;Injection — 6 × 870 cc;F3;
 INJ-10;0,75;RD/WH;0,30;;ENG;SPL-INJ12;+12 V injecteurs;INJ3.1;+12 V;Injection — 6 × 870 cc;F3;
 INJ-11;0,75;RD/WH;0,20;;ENG;SPL-INJ12;+12 V injecteurs;INJ4.1;+12 V;Injection — 6 × 870 cc;F3;
 INJ-12;0,75;RD/WH;0,30;;ENG;SPL-INJ12;+12 V injecteurs;INJ5.1;+12 V;Injection — 6 × 870 cc;F3;
 INJ-13;0,75;RD/WH;0,35;;ENG;SPL-INJ12;+12 V injecteurs;INJ6.1;+12 V;Injection — 6 × 870 cc;F3;
-DEM-03;0,5;BK;0,20;;PDM;K4.85;Bobine −;GP-CH;Masse caisse habitacle (PDM);Contact, démarreur & excitation alternateur;;
+SYNC-03;0,75;RD/WH;1,45;;ENG;SPL-ACT12;+12 V actionneurs + capteur PMH;CRANK.1;+12 V;Synchronisation PMH / AAC & blindages;F5;"+12 V capteur PMH pris sur F5 (épissure actionneurs, arrière culasse) : fil séparé, hors câble blindé ; 0,75 mm² derrière un fusible de 10 A"
+DEM-04;0,5;BK;0,20;;PDM;K4.85;Bobine −;GP-CH;Masse caisse habitacle (PDM);Contact, démarreur & excitation alternateur;;
 PWR-07;0,5;BK;0,20;;PDM;K1.85;Bobine −;GP-CH;Masse caisse habitacle (PDM);Alimentation & relais principal;;
 SYNC-07;0,5;BK/WH;0,20;;ENG;SPL-SHLD;Blindages → Shield GND;CMC1.E3;SHIELD GND;Synchronisation PMH / AAC & blindages;;Blindages reliés côté ECU uniquement
+COM-11;0,5;BN;0,35;;CAB;SPL-SG-MAIN;Sensor GND — départ ECU;IF-PAD.11;Masse des résistances de rappel;Habitacle : pad de commandes → ECU, CAN;;Rappels à la masse sur Sensor GND (référence de l'ECU), jamais à la caisse
 DBW-02;0,5;BN;1,15;;ENG;SPL-SG-ENG;Sensor GND — branche moteur;ETB.6;Masse capteur;Papillon motorisé & pédale;;
 DBW-07;0,5;BN;1,40;;CAB;SPL-SG-MAIN;Sensor GND — départ ECU;APP.1;Masse piste 1;Papillon motorisé & pédale;;
 DBW-08;0,5;BN;1,40;;CAB;SPL-SG-MAIN;Sensor GND — départ ECU;APP.2;Masse piste 2;Papillon motorisé & pédale;;
@@ -87,8 +89,7 @@ IGN-06;0,5;BU;2,00;;ENG;CMC1.C3;IGNITION CYL 6;COIL6.3;Commande IGN;Allumage —
 RLY-01;0,5;GN;0,65;;PDM;CMC1.C4;GP OUT 2;K2.85;Bobine − (GPO2);Pompe à essence & ventilateur;;GPO2 = pompe
 RLY-02;0,5;GN;0,65;;PDM;CMC1.B1;GP OUT 6;K3.85;Bobine − (GPO6);Pompe à essence & ventilateur;;GPO6 = ventilateur
 WBO-03;0,5;GN;1,95;C-LSU;ENG;CMC1.G4;WBO2 RCAL;LSU.5;RCAL (IA);Lambda LSU 4.9 & EGT;;
-COM-03;0,5;GN/BK;1,70;C-CAN;CAB;CMC1.E2;CAN L;CANDEV.L;CAN L;Habitacle (compte-tours, CAN);;
-COM-01;0,5;GN/WH;1,40;;CAB;CMC1.A4;TACH / GP OUT 8;CLUSTER.TD;Entrée régime;Habitacle (compte-tours, CAN);;GPO8 = compte-tours
+COM-13;0,5;GN/BK;1,50;C-CAN;CAB;CMC1.E2;CAN L;CANDEV.L;CAN L;Habitacle : pad de commandes → ECU, CAN;;
 DBW-01;0,5;OG;1,15;;ENG;SPL-5V-ENG;+5 V — branche moteur;ETB.2;+5 V;Papillon motorisé & pédale;;
 DBW-09;0,5;OG;1,40;;CAB;SPL-5V-MAIN;+5 V — départ ECU;APP.3;+5 V piste 2;Papillon motorisé & pédale;;
 DBW-11;0,5;OG;1,40;;CAB;SPL-5V-MAIN;+5 V — départ ECU;APP.5;+5 V piste 1;Papillon motorisé & pédale;;
@@ -97,13 +98,18 @@ SNS-02;0,5;OG;1,85;;ENG;SPL-5V-MAIN;+5 V — départ ECU;SPL-5V-ENG;+5 V — bra
 SNS-03;0,5;OG;1,10;;ENG;SPL-5V-ENG;+5 V — branche moteur;OIL.3;+5 V;Capteurs température / pression & distribution 5 V / Sensor GND;;
 SNS-04;0,5;OG;0,65;;ENG;SPL-5V-ENG;+5 V — branche moteur;FUEL.3;+5 V;Capteurs température / pression & distribution 5 V / Sensor GND;;
 WBO-08;0,5;RD;2,20;C-EGT;ENG;CMC2.D1;EGT1-;EGT1.-;K− (alumel);Lambda LSU 4.9 & EGT;;Conducteur K− (rouge en norme ANSI, blanc en IEC)
-DEM-06;0,5;RD/WH;1,75;;CAB;SPL-RLY;+12 V bobines relais;LAMP.1;+12 V commuté;Contact, démarreur & excitation alternateur;F7;
+DEM-07;0,5;RD/WH;1,55;;CAB;SPL-RLY;+12 V bobines relais;LAMP.1;+12 V commuté;Contact, démarreur & excitation alternateur;F7;
 RLY-03;0,5;RD/WH;0,20;;PDM;F7.2;Sortie;SPL-RLY;+12 V bobines relais;Pompe à essence & ventilateur;F7;
 RLY-04;0,5;RD/WH;0,20;;PDM;SPL-RLY;+12 V bobines relais;K2.86;Bobine +;Pompe à essence & ventilateur;F7;
 RLY-05;0,5;RD/WH;0,20;;PDM;SPL-RLY;+12 V bobines relais;K3.86;Bobine +;Pompe à essence & ventilateur;F7;
-SYNC-03;0,5;RD/WH;3,15;;ENG;F6.2;Sortie;CRANK.1;+12 V;Synchronisation PMH / AAC & blindages;F6;+12 V capteur PMH : fil séparé dans le toron, hors câble blindé (le câble va à l'ECU, ce fil au boîtier fusibles)
-PWR-06;0,5;VT;1,35;;CAB;KEY.15;+15 contact mis (reste alimenté en position démarrage);K1.86;Bobine +;Alimentation & relais principal;F11;
-DEM-02;0,5;VT/YE;1,35;;CAB;KEY.50;+50 démarrage (position démarreur);K4.86;Bobine + (50 clé);Contact, démarreur & excitation alternateur;F11;
+DEM-02;0,5;VT;0,20;;CAB;KEY.15;+15 contact mis;BTN-START.IN;Entrée +15 (après l'interrupteur de contact);Contact, démarreur & excitation alternateur;F11;Bouton alimenté par le +15 : inactif contact coupé. Cosse gigogne (piggy-back) sur la borne 15 : ce fil et celui de K1
+PWR-06;0,5;VT;1,35;;CAB;KEY.15;+15 contact mis;K1.86;Bobine +;Alimentation & relais principal;F11;
+COM-03;0,5;VT/GY;1,15;;CAB;PAD.C6;Bouton 6 : ALS off;IF-PAD.3;Entrée bouton 6 (+12 V pad);Habitacle : pad de commandes → ECU, CAN;;Bouton 6 : ALS off (fusible du pad 5 A maxi)
+COM-02;0,5;VT/OG;1,15;;CAB;PAD.C5;Bouton 5 : changement de carto;IF-PAD.2;Entrée bouton 5 (+12 V pad);Habitacle : pad de commandes → ECU, CAN;;Bouton 5 : changement de carto (fusible du pad 5 A maxi)
+COM-04;0,5;VT/PK;1,15;;CAB;PAD.C7;Bouton 7 : carto de chauffe (warm-up);IF-PAD.4;Entrée bouton 7 (+12 V pad);Habitacle : pad de commandes → ECU, CAN;;Bouton 7 : carto de chauffe (fusible du pad 5 A maxi)
+COM-01;0,5;VT/RD;1,15;;CAB;PAD.C4;Bouton 4 : ventilation forcée;IF-PAD.1;Entrée bouton 4 (+12 V pad);Habitacle : pad de commandes → ECU, CAN;;Bouton 4 : ventilation forcée (fusible du pad 5 A maxi)
+COM-05;0,5;VT/WH;1,15;;CAB;PAD.C8;Bouton 8 : refroidissement (cool-down);IF-PAD.5;Entrée bouton 8 (+12 V pad);Habitacle : pad de commandes → ECU, CAN;;Bouton 8 : refroidissement (fusible du pad 5 A maxi)
+DEM-03;0,5;VT/YE;1,35;;CAB;BTN-START.OUT;Sortie démarrage → bobine K4;K4.86;Bobine + (bouton démarreur);Contact, démarreur & excitation alternateur;F11;
 DBW-03;0,5;WH;2,80;;ENG;CMC1.G2;THROTTLE SENSOR (TPS);ETB.1;TPS 1;Papillon motorisé & pédale;;
 KNK-01;0,5;WH;2,70;C-KS1;ENG;CMC2.E2;KNOCK 1;KS1.1;Signal;Cliquetis;;
 KNK-03;0,5;WH;2,45;C-KS2;ENG;CMC2.E3;KNOCK 2;KS2.1;Signal;Cliquetis;;
@@ -114,11 +120,16 @@ DBW-04;0,5;WH/BK;2,80;;ENG;CMC1.J3;ANALOG IN 3 (0-5 V);ETB.4;TPS 2;Papillon moto
 SNS-14;0,5;WH/BN;2,75;;ENG;CMC2.E4;ANALOG IN 6 (0-5 V);OIL.2;Pression 0,5–4,5 V;Capteurs température / pression & distribution 5 V / Sensor GND;;
 DBW-10;0,5;WH/BU;1,40;;CAB;CMC1.J4;ANALOG IN 4 (0-5 V);APP.4;Signal piste 1;Papillon motorisé & pédale;;
 DBW-12;0,5;WH/GN;1,40;;CAB;CMC2.G3;ANALOG IN 5 (0-5 V);APP.6;Signal piste 2;Papillon motorisé & pédale;;
+COM-08;0,5;WH/GY;0,35;;CAB;IF-PAD.8;Sortie voie 3 → DIN4;CMC2.F3;DIGITAL / VR IN 4;Habitacle : pad de commandes → ECU, CAN;;DIN4 = ALS off (Anti-lag enable, actif bas), pull-up OFF
+COM-07;0,5;WH/OG;0,35;;CAB;IF-PAD.7;Sortie voie 2 → DIN2;CMC1.K4;DIGITAL IN 2;Habitacle : pad de commandes → ECU, CAN;;DIN2 = changement de carto (Boost target switch), pull-up OFF
+COM-09;0,5;WH/PK;0,35;;CAB;IF-PAD.9;Sortie voie 4 → DIN5;CMC2.F4;DIGITAL / VR IN 5;Habitacle : pad de commandes → ECU, CAN;;DIN5 = carto de chauffe (limiteur secondaire), pull-up OFF
+COM-06;0,5;WH/RD;0,35;;CAB;IF-PAD.6;Sortie voie 1 → DIN1;CMC1.K3;DIGITAL IN 1;Habitacle : pad de commandes → ECU, CAN;;DIN1 = ventilation forcée (Fan override input), pull-up OFF
 SNS-16;0,5;WH/VT;2,30;;ENG;CMC2.F1;ANALOG IN 7 (0-5 V);FUEL.2;Pression 0,5–4,5 V;Capteurs température / pression & distribution 5 V / Sensor GND;;
+COM-10;0,5;WH/YE;0,35;;CAB;IF-PAD.10;Sortie voie 5 → AIN8;CMC2.F2;ANALOG IN 8 (0-5 V);Habitacle : pad de commandes → ECU, CAN;;AIN8 en entrée digitale (seuil 3,0 V) = refroidissement
 SNS-12;0,5;YE;2,80;;ENG;CMC1.F1;COOLANT SENSOR (CLT);CLT.1;Signal NTC;Capteurs température / pression & distribution 5 V / Sensor GND;;
 WBO-02;0,5;YE;1,95;C-LSU;ENG;CMC1.F3;WBO2 COM;LSU.2;VM / COM;Lambda LSU 4.9 & EGT;;
 WBO-07;0,5;YE;2,20;C-EGT;ENG;CMC2.C1;EGT1+;EGT1.+;K+ (chromel);Lambda LSU 4.9 & EGT;;Conducteur K+ (jaune en norme ANSI, vert en IEC)
-COM-02;0,5;YE/BK;1,70;C-CAN;CAB;CMC1.E1;CAN H (120 Ω intégrée);CANDEV.H;CAN H;Habitacle (compte-tours, CAN);;
+COM-12;0,5;YE/BK;1,50;C-CAN;CAB;CMC1.E1;CAN H (120 Ω intégrée);CANDEV.H;CAN H;Habitacle : pad de commandes → ECU, CAN;;
 SNS-11;0,5;YE/BK;3,00;;ENG;CMC1.F2;AIR TEMP SENSOR (IAT);IAT.1;Signal NTC;Capteurs température / pression & distribution 5 V / Sensor GND;;
 SNS-13;0,5;YE/BN;2,75;;ENG;CMC1.J1;ANALOG IN 1 (TEMP);OIL.5;Température NTC;Capteurs température / pression & distribution 5 V / Sensor GND;;
 SNS-15;0,5;YE/VT;2,30;;ENG;CMC1.J2;ANALOG IN 2 (TEMP);FUEL.5;Température NTC;Capteurs température / pression & distribution 5 V / Sensor GND;;
