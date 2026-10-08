@@ -26,7 +26,6 @@ Protection;Fusible 30 A;3;pc;
 Protection;Fusible MAXI 80 A;1;pc;
 Protection;Relais ISO mini 40 A;3;pc;
 Protection;Relais ISO mini 30/40 A;1;pc;
-Protection;Boîte fusibles/relais étanche avec barrettes (ex. Bussmann RTMR);1;pc;2 barrettes : +12 V permanent (BUS30), +12 V commuté (BUS87)
 Épissures;Épissure sertie ou à souder + thermo à colle (ex. Raychem D-436);13;pc;SPL-5V-MAIN, SPL-5V-ENG, SPL-SG-MAIN, SPL-SG-ENG, SPL-VRG, SPL-SHLD, SPL-KGND, SPL-COIL12, SPL-COIL-SGND, SPL-COIL-PGND, SPL-INJ12, SPL-ACT12, SPL-RLY
 Masses;Cosse œillet M8 étamée — GP-HEAD;2;pc;Masse moteur ECU (goujon arrière culasse)
 Masses;Cosse œillet M8 étamée — GP-COIL;2;pc;Masse bobines (goujon culasse, voisin)
@@ -55,20 +54,18 @@ Fil;FLRY-B 0,5 mm² YE/BN;3,0;m;coupe 2,75 m + 10 %
 Fil;FLRY-B 0,5 mm² YE/VT;2,5;m;coupe 2,30 m + 10 %
 Fil;FLRY-B 0,75 mm² BK;2,1;m;coupe 1,95 m + 10 %
 Fil;FLRY-B 0,75 mm² BU/RD;4,6;m;coupe 4,15 m + 10 %
-Fil;FLRY-B 0,75 mm² GN;6,5;m;coupe 5,90 m + 10 %
+Fil;FLRY-B 0,75 mm² GN;9,3;m;coupe 8,45 m + 10 %
 Fil;FLRY-B 0,75 mm² GY;15,3;m;coupe 13,90 m + 10 %
 Fil;FLRY-B 0,75 mm² RD;1,5;m;coupe 1,35 m + 10 %
 Fil;FLRY-B 0,75 mm² RD/WH;5,0;m;coupe 4,55 m + 10 %
 Fil;FLRY-B 1 mm² BK;2,1;m;coupe 1,95 m + 10 %
-Fil;FLRY-B 1 mm² GN;2,8;m;coupe 2,55 m + 10 %
 Fil;FLRY-B 1 mm² RD/WH;11,2;m;coupe 10,20 m + 10 %
 Fil;FLRY-B 1,5 mm² BK;4,8;m;coupe 4,35 m + 10 %
 Fil;FLRY-B 2,5 mm² BK;0,6;m;coupe 0,55 m + 10 %
-Fil;FLRY-B 2,5 mm² RD;0,7;m;coupe 0,60 m + 10 %
+Fil;FLRY-B 2,5 mm² RD;0,9;m;coupe 0,80 m + 10 %
 Fil;FLRY-B 2,5 mm² RD/WH;2,6;m;coupe 2,40 m + 10 %
 Fil;FLRY-B 2,5 mm² VT/YE;2,8;m;coupe 2,50 m + 10 %
 Fil;FLRY-B 4 mm² BK;0,4;m;coupe 0,40 m + 10 %
-Fil;FLRY-B 4 mm² RD;0,2;m;coupe 0,20 m + 10 %
 Fil;FLRY-B 4 mm² RD/BU;2,5;m;coupe 2,30 m + 10 %
 Fil;FLRY-B 4 mm² RD/YE;3,5;m;coupe 3,20 m + 10 %
 Fil;FLRY-B 10 mm² RD;1,9;m;coupe 1,75 m + 10 %
@@ -88,6 +85,8 @@ Gaine;DR-25 4.8/2.4 mm;7,6;m;selon tronçons du formboard
 Gaine;DR-25 6.4/3.2 mm;3,7;m;selon tronçons du formboard
 Gaine;DR-25 9.5/4.8 mm;1,4;m;selon tronçons du formboard
 Repérage;Étiquettes thermo imprimables (repère de fil);246;pc;une à chaque extrémité
+Protection;Boîte à fusibles étanche Bussmann 15305-1 (20 fusibles ATM, 2 barrettes indépendantes à goujon M6);1;pc;"barrette 1 = +30 permanent BUS30 (F8, F9, F10, F11, F12), alimentée par PWR-02 ; barrette 2 = +87 commuté BUS87 (F1 à F7), alimentée par PWR-04 ; sorties Metri-Pack 280 : 3 mm² maxi, contacts, joints et bouchons à commander à part"
+Protection;Support de relais ISO mini étanche (lames 6,3 mm);4;pc;"K1 à K4, fixés à côté de la boîte à fusibles ; leurs cosses acceptent le 4 mm² de la pompe et du ventilateur"
 Montage;Passe-fil caoutchouc étanche pour la traversée du tablier;1;pc;à l'emplacement de la boîte électronique d'origine
 Montage;Goujon / vis M8 de masse sur culasse;2;pc;GP-HEAD (ECU) et GP-COIL (bobines), surfaces mises à nu
 Montage;Colliers P-clip / fixations de faisceau;20;pc;un tous les 20–25 cm environ

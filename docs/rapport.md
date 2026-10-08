@@ -14,7 +14,7 @@
 
 ### 🛠 Corrigé — Retour du capteur AAC sur VR GND (CMC1 H2), pas sur Sensor GND (H1)
 
-Sur le schéma officiel RACE REV9+, le capteur PMH et le capteur AAC (VR ou Hall) ont leur retour sur VR GND (H2) ; les blindages vont sur SHIELD GND (E3). Ton plan mettait la broche 2 de l'AAC sur H1. Les deux retours (PMH broche 3 + AAC broche 2) se rejoignent par l'épissure SPL-VRG au ras du connecteur.
+Sur le schéma officiel RACE REV9+, le capteur PMH et le capteur AAC (VR ou Hall) ont leur retour sur VR GND (H2) ; les blindages PMH, AAC et lambda vont sur SHIELD GND (E3), ceux des capteurs de cliquetis sur KNOCK GND (CMC2 E1, page 2 du schéma). Ton plan mettait la broche 2 de l'AAC sur H1. Les deux retours (PMH broche 3 + AAC broche 2) se rejoignent par l'épissure SPL-VRG au ras du connecteur.
 
 ### ➕ Ajouté — Alimentation et masses de l'ECU (absentes du plan)
 
@@ -30,7 +30,7 @@ Le fusible bobines est à 15 A (préconisation MaxxECU). Un fil de 0,75 mm² n'e
 
 ### ✅ Validé — VANOS en direct sur GPO3, sans relais
 
-C'est le câblage de MaxxECU sur son propre faisceau M50 : GPO3, connecteur Bosch JPT 2 voies, aucun relais. L'électrovanne simple VANOS 11361738494 (M50TU / M52 / S50 / S52) est relevée autour de 8,5–12 Ω, soit 1,2 à 1,7 A pour une limite GPO de 2 A. La valeur de 3,3 Ω qui circule vient d'un article sur le S50 du Z3 M, pas de cette électrovanne. Un contrôle de 10 s au multimètre reste conseillé : sous 7,5 Ω, passer sur INJ7 (CMC1 L2, 8 A).
+C'est le câblage de MaxxECU sur son propre faisceau M50 : GPO3, connecteur Bosch JPT 2 voies, aucun relais. L'électrovanne simple VANOS 11361738494 (M50TU / M52 / S50 / S52) est relevée autour de 8,5–12 Ω, soit 1,2 à 1,7 A pour une limite GPO de 2 A. La valeur de 3,3 Ω qui circule vient d'un article sur le S50 du Z3 M, pas de cette électrovanne. Un contrôle de 10 s au multimètre reste conseillé : entre 3,6 et 7,5 Ω, passer sur INJ7 (CMC1 L2, 4 A en continu) ; sous 3,6 Ω, passer par un relais.
 
 ### ➕ Ajouté — ECU et fusibles dans l'habitacle (E36 caisse vide)
 
@@ -50,7 +50,7 @@ Une alvéole CMC ne reçoit qu'un fil. +5 V, Sensor GND, VR GND, Knock GND et Sh
 
 ### ✅ Validé — Brochage ECU conforme au schéma officiel RACE REV9+
 
-IGN1→6 (A2, A3, B2, B3, C2, C3), INJ1→6 (K1, K2, M1, M2, M3, L3), GPO1/2/3/6/8 (B4, C4, D4, B1, A4), lambda (G3, F3, D1, G4, F4), cliquetis (CMC2 E1/E2/E3), EGT1 (CMC2 C1/D1), AIN5-7 (CMC2 G3, E4, F1), moteur papillon (CMC2 H4 + / H2 −) : tout est conforme.
+IGN1→6 (A2, A3, B2, B3, C2, C3), INJ1→6 (K1, K2, M1, M2, M3, L3), GPO1/2/3/6/8 (B4, C4, D4, B1, A4), lambda (G3, F3, D1, G4, F4), cliquetis (CMC2 E1/E2/E3, blindages sur KNOCK GND E1), EGT1 (CMC2 C1/D1), AIN5-7 (CMC2 G3, E4, F1), moteur papillon (CMC2 H4 + / H2 −) : tout est conforme.
 
 ### ✅ Validé — Capteur AAC 12141726590 = bonne solution pour une culasse VANOS
 
@@ -70,19 +70,19 @@ Brochage conforme au schéma MaxxECU (vue côté câble) : 1 IP → G3, 2 COM �
 
 ### ⚠️ À vérifier — Capteur PMH Hall M52 sur cible 60-2 du M50
 
-Le M50 d'origine utilise un capteur inductif en face de la cible 60-2 avant. Le capteur M52 (Hall, 12 V) demande un support et un entrefer adaptés. Dans MTune : entrée trigger en mode Hall / digital.
+Le M50 d'origine utilise un capteur inductif en face de la cible 60-2 avant. Le capteur M52 (Hall, 12 V) demande un support et un entrefer adaptés. Dans MTune : entrée trigger en mode Digital (hall), pull-up interne activé (sinon pas de régime, pas de démarrage).
 
 ### ⚠️ À vérifier — Une seule alimentation +5 V et une seule Sensor GND
 
 La RACE Gen1 n'a qu'un +5 V (G1) et qu'une Sensor GND (H1) : pédale et papillon les partagent. C'est normal ; un court-circuit sur le +5 V fait passer le papillon en sécurité. Consommation totale estimée ≈ 45 mA.
 
-### ⚠️ À vérifier — Taille des alvéoles CMC à vérifier
+### 🛠 Corrigé — Alvéoles CMC : chauffage lambda (D1) en 0,75 mm²
 
-Les connecteurs Molex CMC mélangent des alvéoles 0,64 et 1,5. Vérifie la taille de chaque alvéole utilisée en 0,75 mm² et plus (injecteurs, M4, L4, G4) et prends le contact correspondant à la section.
+CMC1 (Molex 64320) : rangées A à K = petites alvéoles CP 0.6 (0,75 mm² maxi), rangées L et M = grandes alvéoles CP 1.5. CMC2 (Molex 64319) : rangées A à F = CP 0.6, G et H = CP 1.5. Le fil de chauffage lambda en D1 était en 1,0 mm² : impossible à sertir et à étancher, il passe en 0,75 mm². Contacts : 64322-1039 pour 0,5 mm² et 64322-1029 pour 0,75 mm² en petite alvéole (K1, K2, B4, D4, D1) ; 64323-1029 pour 0,5–1 mm² et 64323-1039 pour 1–2 mm² en grande alvéole (L4, CMC2 G4). Bouchons 64325-1010 / 64325-1023 sur les alvéoles vides.
 
 ### ✅ Validé — Injecteurs 870 cc
 
-La RACE a 8 sorties injecteur peak & hold 8 A : haute ou basse impédance acceptées. Mesure la résistance pour régler le type dans MTune.
+La RACE a 8 sorties injecteur peak & hold (8 A crête, 4 A en continu) : haute ou basse impédance acceptées. Mesure la résistance pour régler le type dans MTune.
 
 ### ✅ Validé — MAP interne
 
@@ -122,12 +122,12 @@ Capteur interne MaxxECU RACE : jusqu'à 3 bar de pression de suralimentation. Du
 | CMC1.C4 | GP OUT 2 | K2 | 0.15 A | 2 A |
 | CMC1.D1 | WBO2 HTR (pin 3 LSU 4.9) / GP OUT 9 | LSU | 1.50 A | 5 A |
 | CMC1.D4 | GP OUT 3 | VANOS | 1.20–1.69 A | 2 A |
-| CMC1.K1 | INJECTOR CYL 1 | INJ1 | 1.00 A | 8 A |
-| CMC1.K2 | INJECTOR CYL 2 | INJ2 | 1.00 A | 8 A |
-| CMC1.L3 | INJECTOR CYL 6 | INJ6 | 1.00 A | 8 A |
-| CMC1.M1 | INJECTOR CYL 3 | INJ3 | 1.00 A | 8 A |
-| CMC1.M2 | INJECTOR CYL 4 | INJ4 | 1.00 A | 8 A |
-| CMC1.M3 | INJECTOR CYL 5 | INJ5 | 1.00 A | 8 A |
+| CMC1.K1 | INJECTOR CYL 1 | INJ1 | 1.00 A | 4 A |
+| CMC1.K2 | INJECTOR CYL 2 | INJ2 | 1.00 A | 4 A |
+| CMC1.L3 | INJECTOR CYL 6 | INJ6 | 1.00 A | 4 A |
+| CMC1.M1 | INJECTOR CYL 3 | INJ3 | 1.00 A | 4 A |
+| CMC1.M2 | INJECTOR CYL 4 | INJ4 | 1.00 A | 4 A |
+| CMC1.M3 | INJECTOR CYL 5 | INJ5 | 1.00 A | 4 A |
 | CMC2.H2 | MOTOR 1- / GPO 11 | ETB | 0.00 A | — |
 | CMC2.H4 | MOTOR 1+ / GPO 12 | ETB | 0.00 A | — |
 
@@ -136,7 +136,7 @@ Capteur interne MaxxECU RACE : jusqu'à 3 bar de pression de suralimentation. Du
 | Charge | Courant | Fils | Résistance | Chute |
 |---|---|---|---|---|
 | PUMP Pompe à essence | 15 A | RLY-08, RLY-06, RLY-09 | 17.9 mΩ | 0.27 V (2.0 %) |
-| FAN Ventilateur électrique | 19.5 A | RLY-10, RLY-07, RLY-11 | 13.0 mΩ | 0.25 V (1.9 %) |
+| FAN Ventilateur électrique | 19.5 A | RLY-10, RLY-07, RLY-11 | 13.6 mΩ | 0.27 V (2.0 %) |
 | STARTER Démarreur | 10 A | DEM-05, DEM-04 | 20.8 mΩ | 0.21 V (1.5 %) |
 
 Consommation estimée sur le +5 V capteurs (G1) : **45 mA**.
@@ -155,7 +155,7 @@ Consommation estimée sur le +5 V capteurs (G1) : **45 mA**.
 | CMC1.C2 | IGNITION CYL 5 | IGN-05 | 0,5 | BU | COIL5.3 (Commande IGN) |
 | CMC1.C3 | IGNITION CYL 6 | IGN-06 | 0,5 | BU | COIL6.3 (Commande IGN) |
 | CMC1.C4 | GP OUT 2 | RLY-01 | 0,5 | GN | K2.85 (Bobine − (GPO2)) |
-| CMC1.D1 | WBO2 HTR (pin 3 LSU 4.9) / GP OUT 9 | WBO-05 | 1 | GN | LSU.3 (Chauffage −) |
+| CMC1.D1 | WBO2 HTR (pin 3 LSU 4.9) / GP OUT 9 | WBO-05 | 0,75 | GN | LSU.3 (Chauffage −) |
 | CMC1.D4 | GP OUT 3 | ACT-02 | 0,75 | GN | VANOS.2 (Commande (masse)) |
 | CMC1.E1 | CAN H (120 Ω intégrée) | COM-02 | 0,5 | YE/BK | CANDEV.H (CAN H) |
 | CMC1.E2 | CAN L | COM-03 | 0,5 | GN/BK | CANDEV.L (CAN L) |
@@ -202,19 +202,19 @@ Broches libres : CMC1.A1 (GP OUT 5), CMC1.C1 (GP OUT 7 / DIGITAL IN 3), CMC1.D2 
 
 | Fonction | Réglage |
 |---|---|
-| Trigger | 60-2 vilebrequin, capteur Hall (digital) sur TRIGGER H3 |
+| Trigger | 60-2 vilebrequin sur TRIGGER H3 : Sensor type = Digital (hall), Trigger pullup resistor = ACTIVÉ (1 kΩ interne vers +5 V), seuils par défaut ; front à valider à l'oscilloscope MTune |
 | Home / cam | Capteur inductif (VR) sur HOME H4 |
 | Injecteurs | INJ1→6 séquentiel ; type selon résistance mesurée (haute / basse impédance) |
 | Allumage | IGN1→6, bobines à allumeur intégré (sortie active 5 V) ; dwell selon doc bobine |
-| E-throttle | Moteur sur Motor 1 (H4 + / H2 −) ; papillon TPS (G2) + AIN3 (J3) ; pédale AIN4 (J4) + AIN5 (CMC2 G3) |
+| E-throttle | Output config : GPO12 (CMC2 H4) = E-throttle 1 motor +, GPO11 (CMC2 H2) = E-throttle 1 motor − ; entrées : TPS G2 = E-throttle 1 position MAIN, AIN3 J3 = position BACKUP, AIN4 J4 = pedal position MAIN, AIN5 CMC2 G3 = pedal position BACKUP |
 | CLT / IAT | Courbes Bosch NTC |
 | AIN1 / AIN2 (temp.) | Température huile / essence, NTC Bosch du 0 261 544 01F |
 | AIN6 / AIN7 | Pression huile / essence 0,5–4,5 V = 0–10 bar |
 | Knock | Knock 1 (cyl. 1-2-3) et Knock 2 (cyl. 4-5-6) |
-| Lambda | WBO2 interne, capteur Bosch LSU 4.9 sélectionné AVANT la première mise sous tension sonde montée |
+| Lambda | Output config : GPO9 (CMC1 D1) = internal lambda sensor heater (sensor 1) ; WBO2 interne, capteur Bosch LSU 4.9 sélectionné AVANT la première mise sous tension sonde montée |
 | EGT | EGT1 type K |
 | GPO1 | Boost control (MAC), PWM ~30 Hz |
 | GPO2 | Fuel pump (relais K2) |
 | GPO3 | VANOS tout-ou-rien (seuil de régime / charge à définir sur la cartographie) |
 | GPO6 | Engine fan (relais K3) |
-| GPO8 | Tachometer output |
+| GPO8 | Tachometer output, 6 cylindres ; pull-up interne 12 V de GPO8 à activer avant d'essayer une résistance externe |

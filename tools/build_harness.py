@@ -138,8 +138,9 @@ class Harness:
             if c.get("shield"):
                 self._add_owner(f"{cid}.SH", cat="shield", label=f"Blindage {cid}",
                                 node=ecu_node, system="REF", cable=cid)
+                # Blindage : relié à SHIELD GND, sauf indication (cliquetis : KNOCK GND, schéma MaxxECU p. 2)
                 self._add_endpoint(f"{cid}.SH", owner=f"{cid}.SH", pin="", cat="shield",
-                                   fn=f"Blindage {c['label']}", cls="GND_SHIELD")
+                                   fn=f"Blindage {c['label']}", cls=c.get("shield_cls", "GND_SHIELD"))
 
     def _load_wires(self):
         self.wires = []
@@ -354,6 +355,24 @@ class Harness:
                 self.warnings.append(f"Point de masse {eid} inutilisé")
             if e["cat"] == "inline" and n not in (0, 2):
                 self.warnings.append(f"Connecteur traversant {eid} : {n} fil(s) (attendu 2)")
+
+        # Alvéoles CMC : section admissible selon la taille de l'alvéole (plans Molex SD-64320 / SD-64319)
+        for cid, conn in self.d["ecu"]["connectors"].items():
+            big = set(conn.get("big_rows") or [])
+            if not big:
+                continue
+            for w in self.wires:
+                if w["internal"] or w["drain"] or not w["mm2"]:
+                    continue
+                for end in ("from", "to"):
+                    e = self.endpoints.get(w[end])
+                    if not e or e["cat"] != "ecu" or e["owner"] != cid:
+                        continue
+                    row = e["pin"][0]
+                    if row in big and w["mm2"] > 2.0:
+                        self.errors.append(f"{w['id']} ({fmt_mm2(w['mm2'])} mm²) sur {w[end]} : alvéole CP 1.5, 2 mm² maxi")
+                    elif row not in big and w["mm2"] > 0.75:
+                        self.errors.append(f"{w['id']} ({fmt_mm2(w['mm2'])} mm²) sur {w[end]} : petite alvéole CP 0.6, 0,75 mm² maxi")
 
         # Épissures : capacité physique
         for sid in self.d["splices"]:
@@ -659,8 +678,6 @@ class Harness:
                 relays[o["ref"]] += 1
         for ref, qty in relays.items():
             rows.append({"cat": "Protection", "item": ref, "qty": qty, "detail": ""})
-        rows.append({"cat": "Protection", "item": "Boîte fusibles/relais étanche avec barrettes (ex. Bussmann RTMR)",
-                     "qty": 1, "detail": "2 barrettes : +12 V permanent (BUS30), +12 V commuté (BUS87)"})
 
         splices = [s for s, v in self.d["splices"].items() if not v.get("busbar")]
         rows.append({"cat": "Épissures", "item": "Épissure sertie ou à souder + thermo à colle (ex. Raychem D-436)",

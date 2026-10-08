@@ -3,13 +3,13 @@ PWR-01;10;RD;0,20;;CHS;BATT.+;+12 V batterie;F0.1;Entrée;Alimentation & relais 
 PWR-02;10;RD;1,55;;CHS;F0.2;Sortie;BUS30;Barrette +12 V permanent;Alimentation & relais principal;F0;
 RLY-09;4;BK;0,20;;CHS;PUMP.-;Masse;GP-CH-AR;Masse caisse arrière (pompe);Pompe à essence & ventilateur;;
 RLY-11;4;BK;0,20;;ENG;FAN.-;Masse;GP-CH-AV;Masse caisse avant (ventilateur);Pompe à essence & ventilateur;;
-RLY-07;4;RD;0,20;;PDM;F9.2;Sortie;K3.30;Contact — entrée;Pompe à essence & ventilateur;F9;
 RLY-10;4;RD/BU;2,30;;ENG;K3.87;Contact — sortie;FAN.+;+12 V;Pompe à essence & ventilateur;F9;
 RLY-08;4;RD/YE;3,20;;CHS;K2.87;Contact — sortie;PUMP.+;+12 V;Pompe à essence & ventilateur;F8;4 mm² pour limiter la chute de tension sur 3 m (débit pompe)
 IGN-27;2,5;BK;0,55;;ENG;SPL-COIL-PGND;Masse puissance bobines (broches 4);GP-COIL;Masse bobines (goujon culasse, voisin);Allumage — 6 bobines intelligentes;;
 DEM-04;2,5;RD;0,20;;PDM;F12.2;Sortie;K4.30;Contact — entrée;Contact, démarreur & excitation alternateur;F12;
 PWR-03;2,5;RD;0,20;;PDM;F10.2;Sortie;K1.30;Contact — entrée;Alimentation & relais principal;F10;
 RLY-06;2,5;RD;0,20;;PDM;F8.2;Sortie;K2.30;Contact — entrée;Pompe à essence & ventilateur;F8;
+RLY-07;2,5;RD;0,20;;PDM;F9.2;Sortie;K3.30;Contact — entrée;Pompe à essence & ventilateur;F9;2,5 mm² : maximum accepté par les sorties Metri-Pack 280 de la boîte à fusibles (30 A → 2,5 mm² mini)
 IGN-07;2,5;RD/WH;2,20;;ENG;F2.2;Sortie;SPL-COIL12;+12 V bobines;Allumage — 6 bobines intelligentes;F2;
 PWR-04;2,5;RD/WH;0,20;;PDM;K1.87;Contact — sortie;BUS87;Barrette +12 V commuté (relais principal);Alimentation & relais principal;F10;
 DEM-05;2,5;VT/YE;2,50;;ENG;K4.87;Contact — sortie vers borne 50;STARTER.50;Commande solénoïde (50);Contact, démarreur & excitation alternateur;F12;Commande solénoïde : 2,5 mm² pour le courant d'appel
@@ -22,7 +22,6 @@ IGN-23;1;BK;0,30;;ENG;COIL3.4;Masse puissance;SPL-COIL-PGND;Masse puissance bobi
 IGN-24;1;BK;0,20;;ENG;COIL4.4;Masse puissance;SPL-COIL-PGND;Masse puissance bobines (broches 4);Allumage — 6 bobines intelligentes;;
 IGN-25;1;BK;0,30;;ENG;COIL5.4;Masse puissance;SPL-COIL-PGND;Masse puissance bobines (broches 4);Allumage — 6 bobines intelligentes;;
 IGN-26;1;BK;0,35;;ENG;COIL6.4;Masse puissance;SPL-COIL-PGND;Masse puissance bobines (broches 4);Allumage — 6 bobines intelligentes;;
-WBO-05;1;GN;2,55;;ENG;CMC1.D1;WBO2 HTR (pin 3 LSU 4.9) / GP OUT 9;LSU.3;Chauffage −;Lambda LSU 4.9 & EGT;;Chauffage − piloté par GPO9 (5 A)
 DBW-05;1;PK;2,80;C-ETBM;ENG;CMC2.H4;MOTOR 1+ / GPO 12;ETB.3;Moteur +;Papillon motorisé & pédale;;
 DBW-06;1;PK/BK;2,80;C-ETBM;ENG;CMC2.H2;MOTOR 1- / GPO 11;ETB.5;Moteur −;Papillon motorisé & pédale;;
 ACT-03;1;RD/WH;2,70;;ENG;F5.2;Sortie;SPL-ACT12;+12 V actionneurs;VANOS & MAC valve (boost);F5;
@@ -44,6 +43,7 @@ IGN-19;0,75;BK;0,35;;ENG;COIL6.2;Masse électronique;SPL-COIL-SGND;Masse électr
 DEM-07;0,75;BU/RD;4,15;;ENG;LAMP.2;Sortie vers D+;ALT.D+;D+ excitation (61);Contact, démarreur & excitation alternateur;;Excitation alternateur, traverse le tablier
 ACT-01;0,75;GN;3,15;;ENG;CMC1.B4;GP OUT 1;MAC.2;Commande GPO1;VANOS & MAC valve (boost);;GPO1 = boost (préconisation MaxxECU M50)
 ACT-02;0,75;GN;2,75;;ENG;CMC1.D4;GP OUT 3;VANOS.2;Commande (masse);VANOS & MAC valve (boost);;GPO3 = VANOS en direct (préconisation MaxxECU M50)
+WBO-05;0,75;GN;2,55;;ENG;CMC1.D1;WBO2 HTR (pin 3 LSU 4.9) / GP OUT 9;LSU.3;Chauffage −;Lambda LSU 4.9 & EGT;;Chauffage − piloté par GPO9 (5 A). Alvéole CP 0.6 : 0,75 mm² maxi (contact Molex 64322-1029)
 INJ-01;0,75;GY;2,55;;ENG;CMC1.K1;INJECTOR CYL 1;INJ1.2;Commande ECU;Injection — 6 × 870 cc;;
 INJ-02;0,75;GY;2,45;;ENG;CMC1.K2;INJECTOR CYL 2;INJ2.2;Commande ECU;Injection — 6 × 870 cc;;
 INJ-03;0,75;GY;2,35;;ENG;CMC1.M1;INJECTOR CYL 3;INJ3.2;Commande ECU;Injection — 6 × 870 cc;;

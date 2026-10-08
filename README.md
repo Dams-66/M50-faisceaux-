@@ -52,7 +52,8 @@ Ouvre ensuite `docs/faisceau.html` dans un navigateur.
 - aucun mélange +5 V / +12 V / +15 / masses dans un même réseau, aucune double source ;
 - chaque fil protégé par un fusible compatible avec sa section ;
 - charge de chaque fusible (alerte au-delà de 80 %) ;
-- courant de chaque sortie ECU sous sa limite (GPO 2 A, GPO9 5 A, INJ 8 A) ;
+- courant de chaque sortie ECU sous sa limite (GPO 2 A, GPO9 5 A, INJ 4 A en continu) ;
+- section de chaque fil compatible avec son alvéole Molex CMC (0,75 mm² maxi en petite alvéole) ;
 - chute de tension aller + retour des charges fortes (pompe, ventilateur), alerte au-delà de 3 % ;
 - broches de composants non raccordées, épissures trop chargées.
 

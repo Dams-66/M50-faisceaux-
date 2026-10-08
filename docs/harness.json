@@ -32,8 +32,16 @@
     "url": "https://maxxecu.com/webhelp/wirings-pluginecu-bmw_m54.html"
    },
    {
-    "label": "MaxxECU RACE — caractéristiques (GPO 2 A, GPO9 5 A, INJ 8 A peak & hold, MAP 3 bar boost)",
+    "label": "MaxxECU RACE — caractéristiques (GPO 2 A, GPO9 5 A, INJ 8 A crête / 4 A continu, MAP 3 bar boost)",
     "url": "https://maxxecu.com/products/race"
+   },
+   {
+    "label": "MaxxECU — Injector output (8 A crête / 4 A continu par sortie)",
+    "url": "https://maxxecu.com/webhelp/output_functions-injector_output.html"
+   },
+   {
+    "label": "Molex CMC 48 voies 64320 — plan SD-64320-001 (rangées A–K = CP 0.6, L–M = CP 1.5)",
+    "url": "https://www.farnell.com/cad/2790198.pdf"
    },
    {
     "label": "Bosch 0 261 544 01F — brochage 2 P / 3 +5V / 4 GND / 5 NTC",
@@ -752,7 +760,7 @@
     "pin": "K1",
     "fn": "INJECTOR CYL 1",
     "kind": "inj",
-    "max_a": 8,
+    "max_a": 4,
     "wires": [
      "INJ-01"
     ],
@@ -764,7 +772,7 @@
     "pin": "K2",
     "fn": "INJECTOR CYL 2",
     "kind": "inj",
-    "max_a": 8,
+    "max_a": 4,
     "wires": [
      "INJ-02"
     ],
@@ -796,7 +804,7 @@
     "pin": "L1",
     "fn": "INJECTOR CYL 8",
     "kind": "inj",
-    "max_a": 8,
+    "max_a": 4,
     "wires": [],
     "sheet": null
    },
@@ -806,7 +814,7 @@
     "pin": "L2",
     "fn": "INJECTOR CYL 7",
     "kind": "inj",
-    "max_a": 8,
+    "max_a": 4,
     "wires": [],
     "sheet": null
    },
@@ -816,7 +824,7 @@
     "pin": "L3",
     "fn": "INJECTOR CYL 6",
     "kind": "inj",
-    "max_a": 8,
+    "max_a": 4,
     "wires": [
      "INJ-06"
     ],
@@ -840,7 +848,7 @@
     "pin": "M1",
     "fn": "INJECTOR CYL 3",
     "kind": "inj",
-    "max_a": 8,
+    "max_a": 4,
     "wires": [
      "INJ-03"
     ],
@@ -852,7 +860,7 @@
     "pin": "M2",
     "fn": "INJECTOR CYL 4",
     "kind": "inj",
-    "max_a": 8,
+    "max_a": 4,
     "wires": [
      "INJ-04"
     ],
@@ -864,7 +872,7 @@
     "pin": "M3",
     "fn": "INJECTOR CYL 5",
     "kind": "inj",
-    "max_a": 8,
+    "max_a": 4,
     "wires": [
      "INJ-05"
     ],
@@ -1326,7 +1334,7 @@
    "node": "N_CRANK",
    "system": "SYNC",
    "harness": null,
-   "notes": "Lit la cible 60-2 avant du M50 : support et entrefer à valider. MTune : trigger en mode Hall / digital.",
+   "notes": "Lit la cible 60-2 avant du M50 : support et entrefer à valider. MTune : trigger en mode Digital (hall) avec la résistance de rappel (pull-up) interne ACTIVÉE : la sortie Hall ne fait que tirer le signal à la masse.",
    "verify": "Brochage à confirmer sur le capteur avant sertissage (alim 1 / signal 2 / masse 3).",
    "rating_a": null,
    "load_a": 0.02,
@@ -1440,7 +1448,7 @@
    "node": "N_TB",
    "system": "DBW",
    "harness": null,
-   "notes": "Brochage identique à la VDO 408-242 BMW documentée par MaxxECU. Si l'auto-calibration ferme le papillon au lieu de l'ouvrir : inverser H2/H4.",
+   "notes": "Brochage identique à la VDO 408-242 BMW documentée par MaxxECU. Si l'auto-calibration ferme le papillon au lieu de l'ouvrir : permuter motor + / motor − dans Output config (sans re-sertir H2/H4).",
    "verify": "Au banc : R(3–5) ≈ quelques ohms (moteur) ; pistes 1 et 4 variables sous 5 V (2 +, 6 −).",
    "rating_a": null,
    "load_a": null,
@@ -1726,7 +1734,7 @@
    "system": "ACT",
    "harness": null,
    "notes": "Sur M50 : VANOS tout-ou-rien. MaxxECU la câble en direct sur GPO3 (sans relais) sur son faisceau M50.",
-   "verify": "Contrôle de 10 s : résistance attendue ≈ 8,5–12 Ω. Si tu lis moins de 7,5 Ω, passer la commande sur INJ7 (CMC1 L2, 8 A).",
+   "verify": "Contrôle de 10 s : résistance attendue ≈ 8,5–12 Ω. Entre 3,6 et 7,5 Ω : commande sur INJ7 (CMC1 L2, 4 A continu). Sous 3,6 Ω : ni GPO ni INJ, VANOS par relais (bobine sur GPO3).",
    "rating_a": null,
    "load_a": null,
    "r_ohm": [
@@ -1809,7 +1817,7 @@
    "node": "CAB_CLUSTER",
    "system": "COM",
    "harness": "CAB",
-   "notes": "Si l'aiguille ne bouge pas : pull-up 1 kΩ / 1 W vers +12 V commuté sur ce fil.",
+   "notes": "Régler d'abord le pull-up interne de GPO8 (12 V) dans MTune ; seulement si l'aiguille ne bouge toujours pas : pull-up 1 kΩ / 1 W vers +12 V commuté sur ce fil.",
    "verify": "",
    "rating_a": null,
    "load_a": null,
@@ -1938,7 +1946,7 @@
    "label": "Fusible relais principal",
    "ref": "30 A",
    "type": "fuse",
-   "connector": "Boîte fusibles/relais étanche",
+   "connector": "Boîte à fusibles étanche à 2 barrettes",
    "node": "PDM",
    "system": "PWR",
    "harness": null,
@@ -1957,7 +1965,7 @@
    "label": "Fusible ECU",
    "ref": "15 A",
    "type": "fuse",
-   "connector": "Boîte fusibles/relais étanche",
+   "connector": "Boîte à fusibles étanche à 2 barrettes",
    "node": "PDM",
    "system": "PWR",
    "harness": null,
@@ -1976,7 +1984,7 @@
    "label": "Fusible bobines",
    "ref": "15 A",
    "type": "fuse",
-   "connector": "Boîte fusibles/relais étanche",
+   "connector": "Boîte à fusibles étanche à 2 barrettes",
    "node": "PDM",
    "system": "IGN",
    "harness": null,
@@ -1995,7 +2003,7 @@
    "label": "Fusible injecteurs",
    "ref": "10 A",
    "type": "fuse",
-   "connector": "Boîte fusibles/relais étanche",
+   "connector": "Boîte à fusibles étanche à 2 barrettes",
    "node": "PDM",
    "system": "INJ",
    "harness": null,
@@ -2014,7 +2022,7 @@
    "label": "Fusible chauffage lambda",
    "ref": "10 A",
    "type": "fuse",
-   "connector": "Boîte fusibles/relais étanche",
+   "connector": "Boîte à fusibles étanche à 2 barrettes",
    "node": "PDM",
    "system": "WBO",
    "harness": null,
@@ -2033,7 +2041,7 @@
    "label": "Fusible actionneurs (VANOS, MAC)",
    "ref": "10 A",
    "type": "fuse",
-   "connector": "Boîte fusibles/relais étanche",
+   "connector": "Boîte à fusibles étanche à 2 barrettes",
    "node": "PDM",
    "system": "ACT",
    "harness": null,
@@ -2052,7 +2060,7 @@
    "label": "Fusible capteur PMH",
    "ref": "5 A",
    "type": "fuse",
-   "connector": "Boîte fusibles/relais étanche",
+   "connector": "Boîte à fusibles étanche à 2 barrettes",
    "node": "PDM",
    "system": "SYNC",
    "harness": null,
@@ -2071,7 +2079,7 @@
    "label": "Fusible commandes (bobines relais pompe / ventilo, voyant de charge)",
    "ref": "5 A",
    "type": "fuse",
-   "connector": "Boîte fusibles/relais étanche",
+   "connector": "Boîte à fusibles étanche à 2 barrettes",
    "node": "PDM",
    "system": "RLY",
    "harness": null,
@@ -2090,7 +2098,7 @@
    "label": "Fusible pompe à essence",
    "ref": "20 A",
    "type": "fuse",
-   "connector": "Boîte fusibles/relais étanche",
+   "connector": "Boîte à fusibles étanche à 2 barrettes",
    "node": "PDM",
    "system": "RLY",
    "harness": null,
@@ -2109,7 +2117,7 @@
    "label": "Fusible ventilateur",
    "ref": "30 A",
    "type": "fuse",
-   "connector": "Boîte fusibles/relais étanche",
+   "connector": "Boîte à fusibles étanche à 2 barrettes",
    "node": "PDM",
    "system": "RLY",
    "harness": null,
@@ -2128,7 +2136,7 @@
    "label": "Fusible contacteur (+30 clé)",
    "ref": "5 A",
    "type": "fuse",
-   "connector": "Boîte fusibles/relais étanche",
+   "connector": "Boîte à fusibles étanche à 2 barrettes",
    "node": "PDM",
    "system": "DEM",
    "harness": null,
@@ -2147,7 +2155,7 @@
    "label": "Fusible démarreur (borne 50)",
    "ref": "30 A",
    "type": "fuse",
-   "connector": "Boîte fusibles/relais étanche",
+   "connector": "Boîte à fusibles étanche à 2 barrettes",
    "node": "PDM",
    "system": "DEM",
    "harness": null,
@@ -2166,7 +2174,7 @@
    "label": "Relais principal",
    "ref": "Relais ISO mini 40 A",
    "type": "relay",
-   "connector": "Boîte fusibles/relais étanche",
+   "connector": "Support de relais ISO mini étanche (lames 6,3 mm)",
    "node": "PDM",
    "system": "PWR",
    "harness": null,
@@ -2185,7 +2193,7 @@
    "label": "Relais pompe à essence",
    "ref": "Relais ISO mini 30/40 A",
    "type": "relay",
-   "connector": "Boîte fusibles/relais étanche",
+   "connector": "Support de relais ISO mini étanche (lames 6,3 mm)",
    "node": "PDM",
    "system": "RLY",
    "harness": null,
@@ -2204,7 +2212,7 @@
    "label": "Relais ventilateur",
    "ref": "Relais ISO mini 40 A",
    "type": "relay",
-   "connector": "Boîte fusibles/relais étanche",
+   "connector": "Support de relais ISO mini étanche (lames 6,3 mm)",
    "node": "PDM",
    "system": "RLY",
    "harness": null,
@@ -2223,7 +2231,7 @@
    "label": "Relais démarreur",
    "ref": "Relais ISO mini 40 A",
    "type": "relay",
-   "connector": "Boîte fusibles/relais étanche",
+   "connector": "Support de relais ISO mini étanche (lames 6,3 mm)",
    "node": "PDM",
    "system": "DEM",
    "harness": null,
@@ -2333,7 +2341,7 @@
    "node": "ECU",
    "system": "REF",
    "busbar": false,
-   "wires": 6,
+   "wires": 4,
    "csa": 0.5
   },
   "SPL-KGND": {
@@ -2342,7 +2350,7 @@
    "node": "ECU",
    "system": "REF",
    "busbar": false,
-   "wires": 3,
+   "wires": 5,
    "csa": 1.5
   },
   "SPL-COIL12": {
@@ -2725,7 +2733,7 @@
    "cat": "ecu",
    "fn": "INJECTOR CYL 1",
    "kind": "inj",
-   "max_a": 8
+   "max_a": 4
   },
   "CMC1.K2": {
    "owner": "CMC1",
@@ -2733,7 +2741,7 @@
    "cat": "ecu",
    "fn": "INJECTOR CYL 2",
    "kind": "inj",
-   "max_a": 8
+   "max_a": 4
   },
   "CMC1.K3": {
    "owner": "CMC1",
@@ -2755,7 +2763,7 @@
    "cat": "ecu",
    "fn": "INJECTOR CYL 8",
    "kind": "inj",
-   "max_a": 8
+   "max_a": 4
   },
   "CMC1.L2": {
    "owner": "CMC1",
@@ -2763,7 +2771,7 @@
    "cat": "ecu",
    "fn": "INJECTOR CYL 7",
    "kind": "inj",
-   "max_a": 8
+   "max_a": 4
   },
   "CMC1.L3": {
    "owner": "CMC1",
@@ -2771,7 +2779,7 @@
    "cat": "ecu",
    "fn": "INJECTOR CYL 6",
    "kind": "inj",
-   "max_a": 8
+   "max_a": 4
   },
   "CMC1.L4": {
    "owner": "CMC1",
@@ -2787,7 +2795,7 @@
    "cat": "ecu",
    "fn": "INJECTOR CYL 3",
    "kind": "inj",
-   "max_a": 8
+   "max_a": 4
   },
   "CMC1.M2": {
    "owner": "CMC1",
@@ -2795,7 +2803,7 @@
    "cat": "ecu",
    "fn": "INJECTOR CYL 4",
    "kind": "inj",
-   "max_a": 8
+   "max_a": 4
   },
   "CMC1.M3": {
    "owner": "CMC1",
@@ -2803,7 +2811,7 @@
    "cat": "ecu",
    "fn": "INJECTOR CYL 5",
    "kind": "inj",
-   "max_a": 8
+   "max_a": 4
   },
   "CMC1.M4": {
    "owner": "CMC1",
@@ -4146,13 +4154,13 @@
    "owner": "C-KS1.SH",
    "cat": "shield",
    "fn": "Blindage Cliquetis 1",
-   "cls": "GND_SHIELD"
+   "cls": "GND_KNOCK"
   },
   "C-KS2.SH": {
    "owner": "C-KS2.SH",
    "cat": "shield",
    "fn": "Blindage Cliquetis 2",
-   "cls": "GND_SHIELD"
+   "cls": "GND_KNOCK"
   },
   "C-LSU.SH": {
    "owner": "C-LSU.SH",
@@ -6581,13 +6589,13 @@
    "from": "CMC1.D1",
    "to": "LSU.3",
    "sheet": "WBO",
-   "mm2": 1.0,
+   "mm2": 0.75,
    "color": "GN",
    "cable": null,
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "Chauffage − piloté par GPO9 (5 A)",
+   "note": "Chauffage − piloté par GPO9 (5 A). Alvéole CP 0.6 : 0,75 mm² maxi (contact Molex 64322-1029)",
    "net": "N011",
    "route_m": 2.35,
    "length_m": 2.55,
@@ -6799,7 +6807,7 @@
   {
    "id": "SH-05",
    "from": "C-KS1.SH",
-   "to": "SPL-SHLD",
+   "to": "SPL-KGND",
    "sheet": "KNK",
    "mm2": null,
    "color": null,
@@ -6808,14 +6816,14 @@
    "internal": false,
    "drain": true,
    "note": "",
-   "net": "N015",
+   "net": "N042",
    "length_m": 0,
    "path": []
   },
   {
    "id": "SH-06",
    "from": "C-KS2.SH",
-   "to": "SPL-SHLD",
+   "to": "SPL-KGND",
    "sheet": "KNK",
    "mm2": null,
    "color": null,
@@ -6824,7 +6832,7 @@
    "internal": false,
    "drain": true,
    "note": "",
-   "net": "N015",
+   "net": "N042",
    "length_m": 0,
    "path": []
   },
@@ -7089,13 +7097,13 @@
    "from": "F9.2",
    "to": "K3.30",
    "sheet": "RLY",
-   "mm2": 4.0,
+   "mm2": 2.5,
    "color": "RD",
    "cable": null,
    "harness": "PDM",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "2,5 mm² : maximum accepté par les sorties Metri-Pack 280 de la boîte à fusibles (30 A → 2,5 mm² mini)",
    "net": "N071",
    "fuse": "F9",
    "route_m": 0.0,
@@ -7453,8 +7461,6 @@
    "members": [
     "C-CAM.SH",
     "C-CRANK.SH",
-    "C-KS1.SH",
-    "C-KS2.SH",
     "C-LSU.SH",
     "CAM.3",
     "CMC1.E3",
@@ -7690,6 +7696,8 @@
   {
    "id": "N042",
    "members": [
+    "C-KS1.SH",
+    "C-KS2.SH",
     "CMC2.E1",
     "KS1.2",
     "KS2.2",
@@ -8155,7 +8163,7 @@
     "b": "FW",
     "length": 0.45,
     "wires": 52,
-    "bundle_mm": 20.5,
+    "bundle_mm": 20.4,
     "sleeve": "DR-25 25.4/12.7 mm"
    },
    {
@@ -8164,7 +8172,7 @@
     "b": "T0",
     "length": 0.3,
     "wires": 52,
-    "bundle_mm": 20.5,
+    "bundle_mm": 20.4,
     "sleeve": "DR-25 25.4/12.7 mm"
    },
    {
@@ -8488,7 +8496,7 @@
     "b": "N_LSU",
     "length": 0.6,
     "wires": 6,
-    "bundle_mm": 7.2,
+    "bundle_mm": 7.1,
     "sleeve": "DR-25 9.5/4.8 mm"
    },
    {
@@ -8952,7 +8960,7 @@
    "loads": [
     "INJ1"
    ],
-   "max_a": 8,
+   "max_a": 4,
    "a_min": 1.0,
    "a_max": 1.0,
    "status": "ok"
@@ -8963,7 +8971,7 @@
    "loads": [
     "INJ2"
    ],
-   "max_a": 8,
+   "max_a": 4,
    "a_min": 1.0,
    "a_max": 1.0,
    "status": "ok"
@@ -8974,7 +8982,7 @@
    "loads": [
     "INJ6"
    ],
-   "max_a": 8,
+   "max_a": 4,
    "a_min": 1.0,
    "a_max": 1.0,
    "status": "ok"
@@ -8985,7 +8993,7 @@
    "loads": [
     "INJ3"
    ],
-   "max_a": 8,
+   "max_a": 4,
    "a_min": 1.0,
    "a_max": 1.0,
    "status": "ok"
@@ -8996,7 +9004,7 @@
    "loads": [
     "INJ4"
    ],
-   "max_a": 8,
+   "max_a": 4,
    "a_min": 1.0,
    "a_max": 1.0,
    "status": "ok"
@@ -9007,7 +9015,7 @@
    "loads": [
     "INJ5"
    ],
-   "max_a": 8,
+   "max_a": 4,
    "a_min": 1.0,
    "a_max": 1.0,
    "status": "ok"
@@ -9060,9 +9068,9 @@
     "RLY-07",
     "RLY-11"
    ],
-   "r_mohm": 13.0,
-   "drop_v": 0.25,
-   "pct": 1.9,
+   "r_mohm": 13.6,
+   "drop_v": 0.27,
+   "pct": 2.0,
    "status": "ok"
   },
   {
@@ -9083,7 +9091,7 @@
   {
    "sev": "fix",
    "title": "Retour du capteur AAC sur VR GND (CMC1 H2), pas sur Sensor GND (H1)",
-   "detail": "Sur le schéma officiel RACE REV9+, le capteur PMH et le capteur AAC (VR ou Hall) ont leur retour sur VR GND (H2) ; les blindages vont sur SHIELD GND (E3). Ton plan mettait la broche 2 de l'AAC sur H1. Les deux retours (PMH broche 3 + AAC broche 2) se rejoignent par l'épissure SPL-VRG au ras du connecteur."
+   "detail": "Sur le schéma officiel RACE REV9+, le capteur PMH et le capteur AAC (VR ou Hall) ont leur retour sur VR GND (H2) ; les blindages PMH, AAC et lambda vont sur SHIELD GND (E3), ceux des capteurs de cliquetis sur KNOCK GND (CMC2 E1, page 2 du schéma). Ton plan mettait la broche 2 de l'AAC sur H1. Les deux retours (PMH broche 3 + AAC broche 2) se rejoignent par l'épissure SPL-VRG au ras du connecteur."
   },
   {
    "sev": "add",
@@ -9103,7 +9111,7 @@
   {
    "sev": "ok",
    "title": "VANOS en direct sur GPO3, sans relais",
-   "detail": "C'est le câblage de MaxxECU sur son propre faisceau M50 : GPO3, connecteur Bosch JPT 2 voies, aucun relais. L'électrovanne simple VANOS 11361738494 (M50TU / M52 / S50 / S52) est relevée autour de 8,5–12 Ω, soit 1,2 à 1,7 A pour une limite GPO de 2 A. La valeur de 3,3 Ω qui circule vient d'un article sur le S50 du Z3 M, pas de cette électrovanne. Un contrôle de 10 s au multimètre reste conseillé : sous 7,5 Ω, passer sur INJ7 (CMC1 L2, 8 A)."
+   "detail": "C'est le câblage de MaxxECU sur son propre faisceau M50 : GPO3, connecteur Bosch JPT 2 voies, aucun relais. L'électrovanne simple VANOS 11361738494 (M50TU / M52 / S50 / S52) est relevée autour de 8,5–12 Ω, soit 1,2 à 1,7 A pour une limite GPO de 2 A. La valeur de 3,3 Ω qui circule vient d'un article sur le S50 du Z3 M, pas de cette électrovanne. Un contrôle de 10 s au multimètre reste conseillé : entre 3,6 et 7,5 Ω, passer sur INJ7 (CMC1 L2, 4 A en continu) ; sous 3,6 Ω, passer par un relais."
   },
   {
    "sev": "add",
@@ -9128,7 +9136,7 @@
   {
    "sev": "ok",
    "title": "Brochage ECU conforme au schéma officiel RACE REV9+",
-   "detail": "IGN1→6 (A2, A3, B2, B3, C2, C3), INJ1→6 (K1, K2, M1, M2, M3, L3), GPO1/2/3/6/8 (B4, C4, D4, B1, A4), lambda (G3, F3, D1, G4, F4), cliquetis (CMC2 E1/E2/E3), EGT1 (CMC2 C1/D1), AIN5-7 (CMC2 G3, E4, F1), moteur papillon (CMC2 H4 + / H2 −) : tout est conforme."
+   "detail": "IGN1→6 (A2, A3, B2, B3, C2, C3), INJ1→6 (K1, K2, M1, M2, M3, L3), GPO1/2/3/6/8 (B4, C4, D4, B1, A4), lambda (G3, F3, D1, G4, F4), cliquetis (CMC2 E1/E2/E3, blindages sur KNOCK GND E1), EGT1 (CMC2 C1/D1), AIN5-7 (CMC2 G3, E4, F1), moteur papillon (CMC2 H4 + / H2 −) : tout est conforme."
   },
   {
    "sev": "ok",
@@ -9153,7 +9161,7 @@
   {
    "sev": "warn",
    "title": "Capteur PMH Hall M52 sur cible 60-2 du M50",
-   "detail": "Le M50 d'origine utilise un capteur inductif en face de la cible 60-2 avant. Le capteur M52 (Hall, 12 V) demande un support et un entrefer adaptés. Dans MTune : entrée trigger en mode Hall / digital."
+   "detail": "Le M50 d'origine utilise un capteur inductif en face de la cible 60-2 avant. Le capteur M52 (Hall, 12 V) demande un support et un entrefer adaptés. Dans MTune : entrée trigger en mode Digital (hall), pull-up interne activé (sinon pas de régime, pas de démarrage)."
   },
   {
    "sev": "warn",
@@ -9161,14 +9169,14 @@
    "detail": "La RACE Gen1 n'a qu'un +5 V (G1) et qu'une Sensor GND (H1) : pédale et papillon les partagent. C'est normal ; un court-circuit sur le +5 V fait passer le papillon en sécurité. Consommation totale estimée ≈ 45 mA."
   },
   {
-   "sev": "warn",
-   "title": "Taille des alvéoles CMC à vérifier",
-   "detail": "Les connecteurs Molex CMC mélangent des alvéoles 0,64 et 1,5. Vérifie la taille de chaque alvéole utilisée en 0,75 mm² et plus (injecteurs, M4, L4, G4) et prends le contact correspondant à la section."
+   "sev": "fix",
+   "title": "Alvéoles CMC : chauffage lambda (D1) en 0,75 mm²",
+   "detail": "CMC1 (Molex 64320) : rangées A à K = petites alvéoles CP 0.6 (0,75 mm² maxi), rangées L et M = grandes alvéoles CP 1.5. CMC2 (Molex 64319) : rangées A à F = CP 0.6, G et H = CP 1.5. Le fil de chauffage lambda en D1 était en 1,0 mm² : impossible à sertir et à étancher, il passe en 0,75 mm². Contacts : 64322-1039 pour 0,5 mm² et 64322-1029 pour 0,75 mm² en petite alvéole (K1, K2, B4, D4, D1) ; 64323-1029 pour 0,5–1 mm² et 64323-1039 pour 1–2 mm² en grande alvéole (L4, CMC2 G4). Bouchons 64325-1010 / 64325-1023 sur les alvéoles vides."
   },
   {
    "sev": "ok",
    "title": "Injecteurs 870 cc",
-   "detail": "La RACE a 8 sorties injecteur peak & hold 8 A : haute ou basse impédance acceptées. Mesure la résistance pour régler le type dans MTune."
+   "detail": "La RACE a 8 sorties injecteur peak & hold (8 A crête, 4 A en continu) : haute ou basse impédance acceptées. Mesure la résistance pour régler le type dans MTune."
   },
   {
    "sev": "ok",
@@ -9179,7 +9187,7 @@
  "mtune": [
   {
    "item": "Trigger",
-   "value": "60-2 vilebrequin, capteur Hall (digital) sur TRIGGER H3"
+   "value": "60-2 vilebrequin sur TRIGGER H3 : Sensor type = Digital (hall), Trigger pullup resistor = ACTIVÉ (1 kΩ interne vers +5 V), seuils par défaut ; front à valider à l'oscilloscope MTune"
   },
   {
    "item": "Home / cam",
@@ -9195,7 +9203,7 @@
   },
   {
    "item": "E-throttle",
-   "value": "Moteur sur Motor 1 (H4 + / H2 −) ; papillon TPS (G2) + AIN3 (J3) ; pédale AIN4 (J4) + AIN5 (CMC2 G3)"
+   "value": "Output config : GPO12 (CMC2 H4) = E-throttle 1 motor +, GPO11 (CMC2 H2) = E-throttle 1 motor − ; entrées : TPS G2 = E-throttle 1 position MAIN, AIN3 J3 = position BACKUP, AIN4 J4 = pedal position MAIN, AIN5 CMC2 G3 = pedal position BACKUP"
   },
   {
    "item": "CLT / IAT",
@@ -9215,7 +9223,7 @@
   },
   {
    "item": "Lambda",
-   "value": "WBO2 interne, capteur Bosch LSU 4.9 sélectionné AVANT la première mise sous tension sonde montée"
+   "value": "Output config : GPO9 (CMC1 D1) = internal lambda sensor heater (sensor 1) ; WBO2 interne, capteur Bosch LSU 4.9 sélectionné AVANT la première mise sous tension sonde montée"
   },
   {
    "item": "EGT",
@@ -9239,7 +9247,7 @@
   },
   {
    "item": "GPO8",
-   "value": "Tachometer output"
+   "value": "Tachometer output, 6 cylindres ; pull-up interne 12 V de GPO8 à activer avant d'essayer une résistance externe"
   }
  ],
  "checks": [
@@ -9248,12 +9256,12 @@
    "items": [
     "Papillon : R entre broches 3 et 5 = quelques ohms (moteur) ; sous 5 V (2 +, 6 −), relever les tensions des pistes 1 et 4 fermé / ouvert à la main.",
     "Pédale : 5 V sur 3 et 5, masse sur 1 et 2 ; relever 4 et 6 relâchée / à fond (piste 2 ≈ moitié de la piste 1).",
-    "Électrovanne VANOS : résistance ≈ 8,5–12 Ω (sous 7,5 Ω : commande sur INJ7 / L2).",
+    "Électrovanne VANOS : résistance ≈ 8,5–12 Ω (entre 3,6 et 7,5 Ω : commande sur INJ7 / L2 ; sous 3,6 Ω : relais).",
     "Pompe et ventilateur : relever le courant nominal sur l'étiquette, ajuster load_a dans le fichier si besoin.",
     "Injecteurs : mesurer la résistance (≈ 12 Ω haute impédance / ≈ 2–3 Ω basse impédance).",
     "AAC : résistance 1–2 de quelques centaines d'ohms ; continuité broche 3 ↔ corps (décide du raccord du blindage côté capteur).",
     "IAT / CLT / NTC des capteurs huile et essence : ≈ 2–3 kΩ à 20 °C.",
-    "Capteur PMH : confirmer alim / signal / masse sur sa doc ou par essai (12 V + pull-up, passage d'une pièce acier).",
+    "Capteur PMH : confirmer alim / signal / masse sur sa doc ou par essai (12 V + pull-up, passage d'une pièce acier) ; dans MTune, pull-up du trigger activé.",
     "Bobines : confirmer le repérage 1-2-3-4 moulé sur le connecteur.",
     "Vérifier l'étiquette de la RACE : REV9 ou plus (LSU 4.9)."
    ]
@@ -9267,7 +9275,7 @@
     "+5 V (G1) ↔ toutes les masses : pas de court-circuit.",
     "+12 V commuté (barrette 87) ↔ masse : pas de court-circuit.",
     "CMC1 L4 et CMC2 G4 ↔ goujon culasse : < 0,1 Ω.",
-    "Tresse moteur ↔ caisse et câble batterie − ↔ moteur présents et serrés (≥ 25 mm²) : sur E36 la batterie est au coffre, le retour de masse passe par la caisse.",
+    "Batterie − ↔ caisse (coffre) ET tresse moteur ↔ caisse présentes et serrées (≥ 25 mm²) : sur E36 la batterie est au coffre, tout le retour passe par la caisse (exigence MaxxECU).",
     "Passe-fil du tablier étanche, faisceau maintenu sans frottement sur la tôle.",
     "Blindages : reliés uniquement côté ECU (aucune continuité vers le moteur)."
    ]
@@ -9278,9 +9286,10 @@
     "Contact mis : relais principal colle, +12 V sur CMC1 M4, voyant de charge allumé.",
     "Position démarreur : K4 colle et la borne 50 du démarreur reçoit le +12 V (démarreur débranché ou injecteurs débranchés).",
     "Moteur tournant : voyant de charge éteint, 13,8–14,4 V aux bornes de la batterie.",
+    "En lançant le démarreur : moins de 0,2 V entre la borne − de la batterie et le goujon GP-HEAD (sinon tresse moteur ↔ caisse à reprendre).",
     "5,0 V mesurés au connecteur papillon et aux capteurs de pression.",
     "MTune : températures plausibles, pressions à 0 bar, TPS / pédale 0 → 100 %.",
-    "Calibration E-throttle : sens d'ouverture correct (sinon inverser H2/H4).",
+    "Calibration E-throttle : sens d'ouverture correct (sinon permuter motor + / − dans Output config).",
     "Test des sorties : chaque injecteur claque, VANOS, MAC, relais pompe et ventilateur collent.",
     "Test bobines : étincelle sur bougie à la masse, dans l'ordre 1-5-3-6-2-4.",
     "Démarreur, bobines et injecteurs débranchés : signaux trigger / home propres dans l'oscilloscope MTune.",
@@ -9476,13 +9485,6 @@
    "item": "Relais ISO mini 30/40 A",
    "qty": 1,
    "detail": "",
-   "unit": "pc"
-  },
-  {
-   "cat": "Protection",
-   "item": "Boîte fusibles/relais étanche avec barrettes (ex. Bussmann RTMR)",
-   "qty": 1,
-   "detail": "2 barrettes : +12 V permanent (BUS30), +12 V commuté (BUS87)",
    "unit": "pc"
   },
   {
@@ -9684,9 +9686,9 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 0,75 mm² GN",
-   "qty": 6.5,
+   "qty": 9.3,
    "unit": "m",
-   "detail": "coupe 5,90 m + 10 %"
+   "detail": "coupe 8,45 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -9718,13 +9720,6 @@
   },
   {
    "cat": "Fil",
-   "item": "FLRY-B 1 mm² GN",
-   "qty": 2.8,
-   "unit": "m",
-   "detail": "coupe 2,55 m + 10 %"
-  },
-  {
-   "cat": "Fil",
    "item": "FLRY-B 1 mm² RD/WH",
    "qty": 11.2,
    "unit": "m",
@@ -9747,9 +9742,9 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 2,5 mm² RD",
-   "qty": 0.7,
+   "qty": 0.9,
    "unit": "m",
-   "detail": "coupe 0,60 m + 10 %"
+   "detail": "coupe 0,80 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -9771,13 +9766,6 @@
    "qty": 0.4,
    "unit": "m",
    "detail": "coupe 0,40 m + 10 %"
-  },
-  {
-   "cat": "Fil",
-   "item": "FLRY-B 4 mm² RD",
-   "qty": 0.2,
-   "unit": "m",
-   "detail": "coupe 0,20 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -9911,6 +9899,20 @@
    "qty": 246,
    "detail": "une à chaque extrémité",
    "unit": "pc"
+  },
+  {
+   "cat": "Protection",
+   "item": "Boîte à fusibles étanche Bussmann 15305-1 (20 fusibles ATM, 2 barrettes indépendantes à goujon M6)",
+   "qty": 1,
+   "unit": "pc",
+   "detail": "barrette 1 = +30 permanent BUS30 (F8, F9, F10, F11, F12), alimentée par PWR-02 ; barrette 2 = +87 commuté BUS87 (F1 à F7), alimentée par PWR-04 ; sorties Metri-Pack 280 : 3 mm² maxi, contacts, joints et bouchons à commander à part"
+  },
+  {
+   "cat": "Protection",
+   "item": "Support de relais ISO mini étanche (lames 6,3 mm)",
+   "qty": 4,
+   "unit": "pc",
+   "detail": "K1 à K4, fixés à côté de la boîte à fusibles ; leurs cosses acceptent le 4 mm² de la pompe et du ventilateur"
   },
   {
    "cat": "Montage",
