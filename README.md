@@ -78,6 +78,10 @@ Ouvre ensuite `docs/faisceau.html` dans un navigateur.
 9. **Contact, démarreur et alternateur** : contacteur alimenté par F11 (5 A), relais de démarreur K4
    (F12 30 A, 2,5 mm² jusqu'à la borne 50), alternateur excité par un voyant de charge 2 W sur D+
    comme d'origine. Les câbles de puissance (batterie, B+ alternateur, tresses de masse) sont dans la nomenclature.
+10. **Audit électrique indépendant (révision C)** : chauffage lambda en 0,75 mm² (petite alvéole CMC),
+    sorties injecteur à 4 A en continu, blindages de cliquetis sur KNOCK GND, boîte à fusibles à
+    2 barrettes indépendantes, contacts / bouchons / épissures dimensionnés automatiquement, connecteur
+    lambda côté froid, protection thermique côté turbo, réglages MTune liés au câblage.
 
 Le détail, les points validés et les sources sont dans `docs/rapport.md`.
 

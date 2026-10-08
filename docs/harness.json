@@ -3,8 +3,8 @@
   "project": "Faisceau moteur M50B25 VANOS Turbo",
   "engine": "BMW M50B25 VANOS — turbo — BMW E36",
   "ecu": "MaxxECU RACE Gen1 (REV9+)",
-  "revision": "B",
-  "date": "2026-10-07",
+  "revision": "C",
+  "date": "2026-10-08",
   "status": "Étude — à valider sur véhicule",
   "assumptions": [
    "BMW E36 conduite à gauche, caisse vide : faisceau entièrement neuf, aucun faisceau d'origine conservé.",
@@ -1406,11 +1406,11 @@
    "label": "Sonde lambda large bande",
    "ref": "Bosch LSU 4.9 — 0 258 017 025",
    "type": "WBO2 6 fils (contrôleur interne RACE REV9+)",
-   "connector": "LSU 4.9 6 voies (Bosch 1 928 404 682)",
+   "connector": "Contre-connecteur LSU 4.9 6 voies côté faisceau (Bosch D 261 205 356-01 ou kit Bosch Motorsport 1 987 280 016)",
    "node": "N_LSU",
    "system": "WBO",
    "harness": null,
-   "notes": "Brochage identique au schéma MaxxECU (LSU 4.9 vue côté câble). Capteur à sélectionner dans MTune avant usage.",
+   "notes": "Brochage identique au schéma MaxxECU (LSU 4.9 vue côté câble). Capteur à sélectionner dans MTune avant usage. Connecteur fixé côté froid (< 140 °C, fiche Bosch) : seule la queue d'origine de la sonde longe la descente, le faisceau ne va pas jusqu'au turbo.",
    "verify": "",
    "rating_a": null,
    "load_a": 1.5,
@@ -2392,7 +2392,7 @@
   "SPL-ACT12": {
    "cat": "splice",
    "label": "+12 V actionneurs",
-   "node": "FRONT",
+   "node": "T1",
    "system": "REF",
    "busbar": false,
    "wires": 3,
@@ -5641,12 +5641,12 @@
    "to": "CRANK.1",
    "sheet": "SYNC",
    "mm2": 0.5,
-   "color": "RD",
-   "cable": "C-CRANK",
+   "color": "RD/WH",
+   "cable": null,
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "Conducteur rouge du câble 3 voies, +12 V après relais",
+   "note": "+12 V capteur PMH : fil séparé dans le toron, hors câble blindé (le câble va à l'ECU, ce fil au boîtier fusibles)",
    "net": "N050",
    "fuse": "F6",
    "route_m": 2.955,
@@ -6485,15 +6485,14 @@
    "drain": false,
    "note": "",
    "net": "N022",
-   "route_m": 2.35,
-   "length_m": 2.55,
+   "route_m": 1.75,
+   "length_m": 1.95,
    "path": [
     "ECU~HB",
     "HB~FW",
     "FW~T0",
     "T0~EXH",
-    "EXH~TURBO",
-    "TURBO~N_LSU"
+    "EXH~N_LSU"
    ]
   },
   {
@@ -6509,15 +6508,14 @@
    "drain": false,
    "note": "",
    "net": "N018",
-   "route_m": 2.35,
-   "length_m": 2.55,
+   "route_m": 1.75,
+   "length_m": 1.95,
    "path": [
     "ECU~HB",
     "HB~FW",
     "FW~T0",
     "T0~EXH",
-    "EXH~TURBO",
-    "TURBO~N_LSU"
+    "EXH~N_LSU"
    ]
   },
   {
@@ -6533,15 +6531,14 @@
    "drain": false,
    "note": "",
    "net": "N023",
-   "route_m": 2.35,
-   "length_m": 2.55,
+   "route_m": 1.75,
+   "length_m": 1.95,
    "path": [
     "ECU~HB",
     "HB~FW",
     "FW~T0",
     "T0~EXH",
-    "EXH~TURBO",
-    "TURBO~N_LSU"
+    "EXH~N_LSU"
    ]
   },
   {
@@ -6557,15 +6554,14 @@
    "drain": false,
    "note": "",
    "net": "N019",
-   "route_m": 2.35,
-   "length_m": 2.55,
+   "route_m": 1.75,
+   "length_m": 1.95,
    "path": [
     "ECU~HB",
     "HB~FW",
     "FW~T0",
     "T0~EXH",
-    "EXH~TURBO",
-    "TURBO~N_LSU"
+    "EXH~N_LSU"
    ]
   },
   {
@@ -6597,15 +6593,14 @@
    "drain": false,
    "note": "Chauffage − piloté par GPO9 (5 A). Alvéole CP 0.6 : 0,75 mm² maxi (contact Molex 64322-1029)",
    "net": "N011",
-   "route_m": 2.35,
-   "length_m": 2.55,
+   "route_m": 1.75,
+   "length_m": 1.95,
    "path": [
     "ECU~HB",
     "HB~FW",
     "FW~T0",
     "T0~EXH",
-    "EXH~TURBO",
-    "TURBO~N_LSU"
+    "EXH~N_LSU"
    ]
   },
   {
@@ -6622,15 +6617,14 @@
    "note": "",
    "net": "N051",
    "fuse": "F4",
-   "route_m": 2.4,
-   "length_m": 2.6,
+   "route_m": 1.8,
+   "length_m": 2.0,
    "path": [
     "PDM~HB",
     "HB~FW",
     "FW~T0",
     "T0~EXH",
-    "EXH~TURBO",
-    "TURBO~N_LSU"
+    "EXH~N_LSU"
    ]
   },
   {
@@ -6910,20 +6904,13 @@
    "note": "",
    "net": "N055",
    "fuse": "F5",
-   "route_m": 2.505,
-   "length_m": 2.7,
+   "route_m": 1.7,
+   "length_m": 1.9,
    "path": [
     "PDM~HB",
     "HB~FW",
     "FW~T0",
-    "T0~T1",
-    "T1~TOP6",
-    "TOP6~TOP5",
-    "TOP5~TOP4",
-    "TOP4~TOP3",
-    "TOP3~TOP2",
-    "TOP2~TOP1",
-    "TOP1~FRONT"
+    "T0~T1"
    ]
   },
   {
@@ -6940,16 +6927,9 @@
    "note": "",
    "net": "N055",
    "fuse": "F5",
-   "route_m": 2.11,
-   "length_m": 2.3,
+   "route_m": 1.305,
+   "length_m": 1.5,
    "path": [
-    "TOP1~FRONT",
-    "TOP2~TOP1",
-    "TOP3~TOP2",
-    "TOP4~TOP3",
-    "TOP5~TOP4",
-    "TOP6~TOP5",
-    "T1~TOP6",
     "T1~INT6",
     "INT6~INT5",
     "INT5~INT4",
@@ -6974,9 +6954,16 @@
    "note": "",
    "net": "N055",
    "fuse": "F5",
-   "route_m": 0.1,
-   "length_m": 0.3,
+   "route_m": 0.905,
+   "length_m": 1.1,
    "path": [
+    "T1~TOP6",
+    "TOP6~TOP5",
+    "TOP5~TOP4",
+    "TOP4~TOP3",
+    "TOP3~TOP2",
+    "TOP2~TOP1",
+    "TOP1~FRONT",
     "FRONT~N_VANOS"
    ]
   },
@@ -7908,20 +7895,18 @@
   {
    "id": "C-CRANK",
    "label": "Capteur PMH",
-   "type": "3 × 0,5 mm² torsadé blindé",
-   "od_mm": 5.0,
-   "length_m": 3.15,
+   "type": "2 × 0,5 mm² torsadé blindé",
+   "od_mm": 4.5,
+   "length_m": 3.1,
    "cores": [
     "SYNC-01",
-    "SYNC-02",
-    "SYNC-03"
+    "SYNC-02"
    ],
    "path": [
     "ECU~HB",
     "FRONT~N_CRANK",
     "FW~T0",
     "HB~FW",
-    "PDM~HB",
     "T0~T1",
     "T1~TOP6",
     "TOP1~FRONT",
@@ -8007,9 +7992,9 @@
   {
    "id": "C-LSU",
    "label": "Lambda signaux",
-   "type": "4 × 0,5 mm² blindé",
+   "type": "4 × 0,5 mm² blindé, isolant et gaine FEP/PTFE ≥ 200 °C",
    "od_mm": 5.5,
-   "length_m": 2.55,
+   "length_m": 1.95,
    "cores": [
     "WBO-01",
     "WBO-02",
@@ -8018,18 +8003,17 @@
    ],
    "path": [
     "ECU~HB",
-    "EXH~TURBO",
+    "EXH~N_LSU",
     "FW~T0",
     "HB~FW",
-    "T0~EXH",
-    "TURBO~N_LSU"
+    "T0~EXH"
    ],
    "shield": true
   },
   {
    "id": "C-EGT",
    "label": "EGT",
-   "type": "Câble d'extension thermocouple type K (2 × 0,5)",
+   "type": "Câble d'extension thermocouple type K (2 × 0,5), isolant fibre de verre ou PFA ≥ 260 °C",
    "od_mm": 4.0,
    "length_m": 2.2,
    "cores": [
@@ -8133,7 +8117,7 @@
    "EXH": "Côté échappement",
    "TURBO": "Turbo",
    "N_EGT": "Sonde EGT",
-   "N_LSU": "Sonde lambda",
+   "N_LSU": "Connecteur sonde lambda (côté froid)",
    "N_PUMP": "Pompe à essence",
    "N_START": "Démarreur (borne 50)",
    "N_ALT": "Alternateur (D+)"
@@ -8145,7 +8129,7 @@
     "b": "HB",
     "length": 0.2,
     "wires": 55,
-    "bundle_mm": 19.1,
+    "bundle_mm": 18.9,
     "sleeve": "DR-25 25.4/12.7 mm"
    },
    {
@@ -8154,7 +8138,7 @@
     "b": "HB",
     "length": 0.25,
     "wires": 15,
-    "bundle_mm": 12.7,
+    "bundle_mm": 11.5,
     "sleeve": "DR-25 19.1/9.5 mm"
    },
    {
@@ -8243,8 +8227,8 @@
     "a": "T1",
     "b": "TOP6",
     "length": 0.15,
-    "wires": 20,
-    "bundle_mm": 11.8,
+    "wires": 19,
+    "bundle_mm": 11.4,
     "sleeve": "DR-25 19.1/9.5 mm"
    },
    {
@@ -8252,8 +8236,8 @@
     "a": "TOP6",
     "b": "TOP5",
     "length": 0.091,
-    "wires": 22,
-    "bundle_mm": 12.3,
+    "wires": 21,
+    "bundle_mm": 12.0,
     "sleeve": "DR-25 19.1/9.5 mm"
    },
    {
@@ -8261,8 +8245,8 @@
     "a": "TOP5",
     "b": "TOP4",
     "length": 0.091,
-    "wires": 24,
-    "bundle_mm": 12.8,
+    "wires": 23,
+    "bundle_mm": 12.5,
     "sleeve": "DR-25 19.1/9.5 mm"
    },
    {
@@ -8270,8 +8254,8 @@
     "a": "TOP4",
     "b": "TOP3",
     "length": 0.091,
-    "wires": 23,
-    "bundle_mm": 12.1,
+    "wires": 22,
+    "bundle_mm": 11.7,
     "sleeve": "DR-25 19.1/9.5 mm"
    },
    {
@@ -8279,8 +8263,8 @@
     "a": "TOP3",
     "b": "TOP2",
     "length": 0.091,
-    "wires": 19,
-    "bundle_mm": 11.2,
+    "wires": 18,
+    "bundle_mm": 10.8,
     "sleeve": "DR-25 19.1/9.5 mm"
    },
    {
@@ -8288,8 +8272,8 @@
     "a": "TOP2",
     "b": "TOP1",
     "length": 0.091,
-    "wires": 15,
-    "bundle_mm": 10.3,
+    "wires": 14,
+    "bundle_mm": 9.9,
     "sleeve": "DR-25 12.7/6.4 mm"
    },
    {
@@ -8297,8 +8281,8 @@
     "a": "TOP1",
     "b": "FRONT",
     "length": 0.2,
-    "wires": 11,
-    "bundle_mm": 9.3,
+    "wires": 10,
+    "bundle_mm": 8.8,
     "sleeve": "DR-25 12.7/6.4 mm"
    },
    {
@@ -8334,8 +8318,8 @@
     "b": "N_CRANK",
     "length": 0.45,
     "wires": 3,
-    "bundle_mm": 5.0,
-    "sleeve": "DR-25 6.4/3.2 mm"
+    "bundle_mm": 5.5,
+    "sleeve": "DR-25 9.5/4.8 mm"
    },
    {
     "id": "T0~N_FAN",
@@ -8477,9 +8461,9 @@
     "a": "EXH",
     "b": "TURBO",
     "length": 0.4,
-    "wires": 8,
-    "bundle_mm": 8.5,
-    "sleeve": "DR-25 12.7/6.4 mm"
+    "wires": 2,
+    "bundle_mm": 4.0,
+    "sleeve": "DR-25 4.8/2.4 mm"
    },
    {
     "id": "TURBO~N_EGT",
@@ -8491,10 +8475,10 @@
     "sleeve": "DR-25 4.8/2.4 mm"
    },
    {
-    "id": "TURBO~N_LSU",
-    "a": "TURBO",
+    "id": "EXH~N_LSU",
+    "a": "EXH",
     "b": "N_LSU",
-    "length": 0.6,
+    "length": 0.4,
     "wires": 6,
     "bundle_mm": 7.1,
     "sleeve": "DR-25 9.5/4.8 mm"
@@ -9124,6 +9108,11 @@
    "detail": "Pompe : relais K2, fusible 20 A, alimentation et masse en 4 mm² pour limiter la chute de tension sur le trajet jusqu'au réservoir. Ventilateur SPAL 385 mm aspirant (19,5 A d'après la fiche SPAL VA18-AP71/LL-59A) : relais K3 40 A, fusible 30 A, fils 4 mm². Les deux sont alimentés en direct batterie, hors relais principal."
   },
   {
+   "sev": "fix",
+   "title": "Révision C : audit électrique indépendant",
+   "detail": "Quatre relectures séparées (alimentation et masses, brochage ECU, brochage des composants, fabrication), chaque point contre-vérifié. Corrigé : chauffage lambda D1 en 0,75 mm² (petite alvéole CMC) ; sorties injecteur à 4 A en continu ; blindages de cliquetis sur KNOCK GND ; boîte à fusibles à 2 barrettes indépendantes et supports de relais séparés ; contacts, bouchons et épissures dimensionnés ; connecteur lambda côté faisceau et côté froid ; protection thermique côté turbo ; +12 V du capteur PMH hors câble blindé ; notes MTune (pull-up du trigger, papillon, chauffage, compte-tours)."
+  },
+  {
    "sev": "add",
    "title": "Contact, démarreur et alternateur ajoutés (oubli de la révision B)",
    "detail": "Caisse vide : rien n'alimentait le contacteur, le démarreur ni l'excitation de l'alternateur. Ajouts : F11 5 A alimente la borne 30 du contacteur ; la borne 50 commande un relais de démarreur K4 (fusible F12 30 A, 2,5 mm² jusqu'au solénoïde) ; l'alternateur est excité comme d'origine, par un voyant de charge 2 W entre le +12 V commuté et D+. Les gros câbles (batterie → démarreur, B+ alternateur → démarreur, tresses de masse) sont listés dans la nomenclature, hors faisceau."
@@ -9306,10 +9295,87 @@
    "unit": "pc"
   },
   {
+   "cat": "Contacts",
+   "item": "Contact Molex CMC 643221029 (petit, 0,75 mm²) — CMC1",
+   "qty": 5,
+   "detail": "B4 D1 D4 K1 K2",
+   "unit": "pc"
+  },
+  {
+   "cat": "Contacts",
+   "item": "Contact Molex CMC 643221039 (petit, 0,5 mm²) — CMC1",
+   "qty": 28,
+   "detail": "A2 A3 A4 B1 B2 B3 C2 C3 C4 E1 E2 E3 F1 F2 F3 F4 G1 G2 G3 G4 H1 H2 H3 H4 J1 J2 J3 J4",
+   "unit": "pc"
+  },
+  {
+   "cat": "Contacts",
+   "item": "Contact Molex CMC 643231029 (gros, 0,5–1 mm²) — CMC1",
+   "qty": 5,
+   "detail": "L3 M1 M2 M3 M4",
+   "unit": "pc"
+  },
+  {
+   "cat": "Contacts",
+   "item": "Contact Molex CMC 643231039 (gros, 1–2 mm²) — CMC1",
+   "qty": 1,
+   "detail": "L4",
+   "unit": "pc"
+  },
+  {
+   "cat": "Contacts",
+   "item": "Bouchon d'alvéole CMC 643251010 (petit) — CMC1",
+   "qty": 7,
+   "detail": "A1 C1 D2 D3 E4 K3 K4",
+   "unit": "pc"
+  },
+  {
+   "cat": "Contacts",
+   "item": "Bouchon d'alvéole CMC 643251023 (gros) — CMC1",
+   "qty": 2,
+   "detail": "L1 L2",
+   "unit": "pc"
+  },
+  {
    "cat": "Connecteurs",
    "item": "Connecteur 2 — Molex CMC 32 voies",
    "qty": 1,
    "detail": "11 contacts utilisés / 32",
+   "unit": "pc"
+  },
+  {
+   "cat": "Contacts",
+   "item": "Contact Molex CMC 643221039 (petit, 0,5 mm²) — CMC2",
+   "qty": 7,
+   "detail": "C1 D1 E1 E2 E3 E4 F1",
+   "unit": "pc"
+  },
+  {
+   "cat": "Contacts",
+   "item": "Contact Molex CMC 643231029 (gros, 0,5–1 mm²) — CMC2",
+   "qty": 3,
+   "detail": "G3 H2 H4",
+   "unit": "pc"
+  },
+  {
+   "cat": "Contacts",
+   "item": "Contact Molex CMC 643231039 (gros, 1–2 mm²) — CMC2",
+   "qty": 1,
+   "detail": "G4",
+   "unit": "pc"
+  },
+  {
+   "cat": "Contacts",
+   "item": "Bouchon d'alvéole CMC 643251010 (petit) — CMC2",
+   "qty": 17,
+   "detail": "A1 A2 A3 A4 B1 B2 B3 B4 C2 C3 C4 D2 D3 D4 F2 F3 F4",
+   "unit": "pc"
+  },
+  {
+   "cat": "Contacts",
+   "item": "Bouchon d'alvéole CMC 643251023 (gros) — CMC2",
+   "qty": 4,
+   "detail": "G1 G2 H1 H3",
    "unit": "pc"
   },
   {
@@ -9370,6 +9436,13 @@
   },
   {
    "cat": "Connecteurs",
+   "item": "Contre-connecteur LSU 4.9 6 voies côté faisceau (Bosch D 261 205 356-01 ou kit Bosch Motorsport 1 987 280 016)",
+   "qty": 1,
+   "detail": "LSU — 6 contacts",
+   "unit": "pc"
+  },
+  {
+   "cat": "Connecteurs",
    "item": "Cosse / fiche D+ de l'alternateur",
    "qty": 1,
    "detail": "ALT — 1 contacts",
@@ -9380,13 +9453,6 @@
    "item": "Cosse de la borne 50 (selon démarreur)",
    "qty": 1,
    "detail": "STARTER — 1 contacts",
-   "unit": "pc"
-  },
-  {
-   "cat": "Connecteurs",
-   "item": "LSU 4.9 6 voies (Bosch 1 928 404 682)",
-   "qty": 1,
-   "detail": "LSU — 6 contacts",
    "unit": "pc"
   },
   {
@@ -9489,9 +9555,30 @@
   },
   {
    "cat": "Épissures",
-   "item": "Épissure sertie ou à souder + thermo à colle (ex. Raychem D-436)",
-   "qty": 13,
-   "detail": "SPL-5V-MAIN, SPL-5V-ENG, SPL-SG-MAIN, SPL-SG-ENG, SPL-VRG, SPL-SHLD, SPL-KGND, SPL-COIL12, SPL-COIL-SGND, SPL-COIL-PGND, SPL-INJ12, SPL-ACT12, SPL-RLY",
+   "item": "Manchon non isolé 6–10 mm² (ou soudure ultrasons) + thermo à colle 3:1",
+   "qty": 4,
+   "detail": "SPL-COIL12 (6 mm²), SPL-COIL-SGND (4,5 mm²), SPL-COIL-PGND (6 mm²), SPL-INJ12 (4,5 mm²)",
+   "unit": "pc"
+  },
+  {
+   "cat": "Épissures",
+   "item": "Épissure D-436-36 (≤ 0,75 mm² par côté) + thermo à colle",
+   "qty": 1,
+   "detail": "SPL-SHLD (0,5 mm²)",
+   "unit": "pc"
+  },
+  {
+   "cat": "Épissures",
+   "item": "Épissure D-436-37 (≤ 1,34 mm² par côté) + thermo à colle",
+   "qty": 2,
+   "detail": "SPL-VRG (1 mm²), SPL-KGND (1 mm²)",
+   "unit": "pc"
+  },
+  {
+   "cat": "Épissures",
+   "item": "Épissure D-436-38 (≤ 3,3 mm² par côté) + thermo à colle",
+   "qty": 6,
+   "detail": "SPL-5V-MAIN (1,5 mm²), SPL-5V-ENG (1,5 mm²), SPL-SG-MAIN (1,5 mm²), SPL-SG-ENG (2,5 mm²), SPL-ACT12 (1,5 mm²), SPL-RLY (1,5 mm²)",
    "unit": "pc"
   },
   {
@@ -9581,9 +9668,9 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² RD/WH",
-   "qty": 2.6,
+   "qty": 6.1,
    "unit": "m",
-   "detail": "coupe 2,35 m + 10 %"
+   "detail": "coupe 5,50 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -9686,9 +9773,9 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 0,75 mm² GN",
-   "qty": 9.3,
+   "qty": 8.6,
    "unit": "m",
-   "detail": "coupe 8,45 m + 10 %"
+   "detail": "coupe 7,85 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -9721,9 +9808,9 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 1 mm² RD/WH",
-   "qty": 11.2,
+   "qty": 9.7,
    "unit": "m",
-   "detail": "coupe 10,20 m + 10 %"
+   "detail": "coupe 8,80 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -9790,8 +9877,8 @@
   },
   {
    "cat": "Câble",
-   "item": "3 × 0,5 mm² torsadé blindé",
-   "qty": 3.5,
+   "item": "2 × 0,5 mm² torsadé blindé",
+   "qty": 3.4,
    "unit": "m",
    "detail": "C-CRANK — Capteur PMH"
   },
@@ -9818,14 +9905,14 @@
   },
   {
    "cat": "Câble",
-   "item": "4 × 0,5 mm² blindé",
-   "qty": 2.8,
+   "item": "4 × 0,5 mm² blindé, isolant et gaine FEP/PTFE ≥ 200 °C",
+   "qty": 2.1,
    "unit": "m",
    "detail": "C-LSU — Lambda signaux"
   },
   {
    "cat": "Câble",
-   "item": "Câble d'extension thermocouple type K (2 × 0,5)",
+   "item": "Câble d'extension thermocouple type K (2 × 0,5), isolant fibre de verre ou PFA ≥ 260 °C",
    "qty": 2.4,
    "unit": "m",
    "detail": "C-EGT — EGT"
@@ -9847,7 +9934,7 @@
   {
    "cat": "Gaine",
    "item": "DR-25 12.7/6.4 mm",
-   "qty": 1.4,
+   "qty": 1.0,
    "unit": "m",
    "detail": "selon tronçons du formboard"
   },
@@ -9875,21 +9962,21 @@
   {
    "cat": "Gaine",
    "item": "DR-25 4.8/2.4 mm",
-   "qty": 7.6,
+   "qty": 8.0,
    "unit": "m",
    "detail": "selon tronçons du formboard"
   },
   {
    "cat": "Gaine",
    "item": "DR-25 6.4/3.2 mm",
-   "qty": 3.7,
+   "qty": 3.2,
    "unit": "m",
    "detail": "selon tronçons du formboard"
   },
   {
    "cat": "Gaine",
    "item": "DR-25 9.5/4.8 mm",
-   "qty": 1.4,
+   "qty": 1.7,
    "unit": "m",
    "detail": "selon tronçons du formboard"
   },
@@ -9919,7 +10006,77 @@
    "item": "Passe-fil caoutchouc étanche pour la traversée du tablier",
    "qty": 1,
    "unit": "pc",
-   "detail": "à l'emplacement de la boîte électronique d'origine"
+   "detail": "à l'emplacement de la boîte électronique d'origine ; Ø intérieur ≥ 25 mm (toron d'environ 20 mm + gaine)"
+  },
+  {
+   "cat": "Protection",
+   "item": "Porte-fusible MAXI étanche, entrée / sortie 10 mm²",
+   "qty": 1,
+   "unit": "pc",
+   "detail": "F0 — borne B+ baie moteur"
+  },
+  {
+   "cat": "Cosses",
+   "item": "Cosse œillet tubulaire étamée 10 mm²",
+   "qty": 4,
+   "unit": "pc",
+   "detail": "PWR-01 (B+ M8 et F0), PWR-02 (F0 et goujon M6 de la barrette BUS30) : diamètres selon porte-fusible"
+  },
+  {
+   "cat": "Contacts",
+   "item": "Contacts, joints de fil et bouchons pour chaque connecteur capteur / actionneur",
+   "qty": 1,
+   "unit": "lot",
+   "detail": "JPT / EV1, VAG 1J0 973 724, BMW, MQS, Superseal, contre-connecteur LSU : référence de contact selon la section de chaque fil (liste de coupe)"
+  },
+  {
+   "cat": "Outillage",
+   "item": "Pinces Molex CMC 63811-9200 (petits contacts), 63811-8900 (gros 0,5–1 mm²), 63811-9000 (gros 1–2 mm²)",
+   "qty": 1,
+   "unit": "jeu",
+   "detail": "ou faire sertir les contacts CMC"
+  },
+  {
+   "cat": "Outillage",
+   "item": "Extracteurs Molex CMC 638132400 (petits) et 638132300 (gros)",
+   "qty": 1,
+   "unit": "jeu",
+   "detail": ""
+  },
+  {
+   "cat": "Gaine",
+   "item": "Manchons de dérivation et embouts thermo à colle (Raychem 202K / 222K)",
+   "qty": 1,
+   "unit": "lot",
+   "detail": "dérivations HB, T0, T1, FRONT, bobines, injecteurs, papillon, échappement"
+  },
+  {
+   "cat": "Gaine",
+   "item": "Gaine réfléchissante fibre de verre aluminisée Ø 16 mm",
+   "qty": 1.2,
+   "unit": "m",
+   "detail": "sur la gaine de T0 → échappement → turbo (branches lambda et EGT)"
+  },
+  {
+   "cat": "Gaine",
+   "item": "Gaine réfléchissante fibre de verre aluminisée Ø 25 mm",
+   "qty": 0.4,
+   "unit": "m",
+   "detail": "passage tablier → T0, côté échappement"
+  },
+  {
+   "cat": "Montage",
+   "item": "Colliers P-clip inox à coussin silicone",
+   "qty": 6,
+   "unit": "pc",
+   "detail": "branche échappement / turbo : garder ≥ 150 mm du carter de turbine et de la descente, écran sinon"
+  },
+  {
+   "cat": "Repérage",
+   "item": "Repères de connecteur (manchons imprimés)",
+   "qty": 1,
+   "unit": "lot",
+   "detail": "un par connecteur, en plus des repères de fil"
   },
   {
    "cat": "Montage",

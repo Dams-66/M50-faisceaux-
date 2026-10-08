@@ -655,6 +655,37 @@ class Harness:
         for cid, conn in self.d["ecu"]["connectors"].items():
             rows.append({"cat": "Connecteurs", "item": conn["title"], "qty": 1,
                          "detail": f"{len(used[cid])} contacts utilisés / {len(conn['pins'])}"})
+            # Contacts et bouchons Molex CMC selon la taille d'alvéole et la section (plans SD-64320 / SD-64319)
+            big = set(conn.get("big_rows") or [])
+            if not big:
+                continue
+            sec = {}
+            for w in self.wires:
+                if w["internal"] or w["drain"]:
+                    continue
+                for end in ("from", "to"):
+                    e = self.endpoints.get(w[end])
+                    if e and e["cat"] == "ecu" and e["owner"] == cid:
+                        sec[e["pin"]] = w["mm2"]
+            refs = defaultdict(list)
+            for pin, mm2 in sorted(sec.items(), key=lambda kv: natural_key(kv[0])):
+                if pin[0] in big:
+                    ref = "643231029 (gros, 0,5–1 mm²)" if mm2 <= 1.0 else "643231039 (gros, 1–2 mm²)"
+                else:
+                    ref = ("643221019 (petit, 0,35 mm²)" if mm2 <= 0.35 else
+                           "643221039 (petit, 0,5 mm²)" if mm2 <= 0.5 else "643221029 (petit, 0,75 mm²)")
+                refs[ref].append(pin)
+            for ref, pins in sorted(refs.items()):
+                rows.append({"cat": "Contacts", "item": f"Contact Molex CMC {ref} — {cid}", "qty": len(pins),
+                             "detail": " ".join(pins)})
+            free_small = [p for p in conn["pins"] if p not in sec and p[0] not in big]
+            free_big = [p for p in conn["pins"] if p not in sec and p[0] in big]
+            if free_small:
+                rows.append({"cat": "Contacts", "item": f"Bouchon d'alvéole CMC 643251010 (petit) — {cid}",
+                             "qty": len(free_small), "detail": " ".join(sorted(free_small, key=natural_key))})
+            if free_big:
+                rows.append({"cat": "Contacts", "item": f"Bouchon d'alvéole CMC 643251023 (gros) — {cid}",
+                             "qty": len(free_big), "detail": " ".join(sorted(free_big, key=natural_key))})
         by_conn = defaultdict(list)
         for oid, o in self.owners.items():
             if o["cat"] in ("comp", "inline") and not o.get("external"):
@@ -679,9 +710,21 @@ class Harness:
         for ref, qty in relays.items():
             rows.append({"cat": "Protection", "item": ref, "qty": qty, "detail": ""})
 
-        splices = [s for s, v in self.d["splices"].items() if not v.get("busbar")]
-        rows.append({"cat": "Épissures", "item": "Épissure sertie ou à souder + thermo à colle (ex. Raychem D-436)",
-                     "qty": len(splices), "detail": ", ".join(splices)})
+        # Épissures : pièce choisie selon la section cumulée du côté des départs (toutes sauf la plus grosse)
+        by_part = defaultdict(list)
+        for sid, v in self.d["splices"].items():
+            if v.get("busbar"):
+                continue
+            secs = sorted((w["mm2"] or 0 for w in self.wires
+                           if sid in (w["from"], w["to"]) and not w["internal"] and not w["drain"]), reverse=True)
+            side = max(sum(secs[1:]), secs[0] if secs else 0)
+            part = ("Épissure D-436-36 (≤ 0,75 mm² par côté) + thermo à colle" if side <= 0.75 else
+                    "Épissure D-436-37 (≤ 1,34 mm² par côté) + thermo à colle" if side <= 1.34 else
+                    "Épissure D-436-38 (≤ 3,3 mm² par côté) + thermo à colle" if side <= 3.3 else
+                    "Manchon non isolé 6–10 mm² (ou soudure ultrasons) + thermo à colle 3:1")
+            by_part[part].append(f"{sid} ({fmt_mm2(round(side, 2))} mm²)")
+        for part, ids in sorted(by_part.items()):
+            rows.append({"cat": "Épissures", "item": part, "qty": len(ids), "detail": ", ".join(ids)})
         for gid in self.d["grounds"]:
             n = sum(1 for w in self.wires if gid in (w["from"], w["to"]))
             if n:

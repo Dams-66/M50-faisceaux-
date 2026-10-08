@@ -1,10 +1,10 @@
 # Faisceau moteur M50B25 VANOS Turbo — rapport de vérification
 
-*MaxxECU RACE Gen1 (REV9+) · révision B · 2026-10-07 · Étude — à valider sur véhicule*
+*MaxxECU RACE Gen1 (REV9+) · révision C · 2026-10-08 · Étude — à valider sur véhicule*
 
 > Généré par `tools/build_harness.py` depuis `harness/m50b25_vanos_turbo.yaml`. Ne pas éditer à la main.
 
-**123 fils** · **177.9 m de fil coupé** · 15 épissures/barrettes · 13 fusibles · 4 relais
+**123 fils** · **173.5 m de fil coupé** · 15 épissures/barrettes · 13 fusibles · 4 relais
 
 ## Contrôle des règles électriques : 0 erreur(s), 0 alerte(s)
 
@@ -39,6 +39,10 @@ Sur un M50 en E36 conduite à gauche, la boîte électronique d'origine est côt
 ### ➕ Ajouté — Pompe 280 l/h et ventilateur SPAL 385 mm
 
 Pompe : relais K2, fusible 20 A, alimentation et masse en 4 mm² pour limiter la chute de tension sur le trajet jusqu'au réservoir. Ventilateur SPAL 385 mm aspirant (19,5 A d'après la fiche SPAL VA18-AP71/LL-59A) : relais K3 40 A, fusible 30 A, fils 4 mm². Les deux sont alimentés en direct batterie, hors relais principal.
+
+### 🛠 Corrigé — Révision C : audit électrique indépendant
+
+Quatre relectures séparées (alimentation et masses, brochage ECU, brochage des composants, fabrication), chaque point contre-vérifié. Corrigé : chauffage lambda D1 en 0,75 mm² (petite alvéole CMC) ; sorties injecteur à 4 A en continu ; blindages de cliquetis sur KNOCK GND ; boîte à fusibles à 2 barrettes indépendantes et supports de relais séparés ; contacts, bouchons et épissures dimensionnés ; connecteur lambda côté faisceau et côté froid ; protection thermique côté turbo ; +12 V du capteur PMH hors câble blindé ; notes MTune (pull-up du trigger, papillon, chauffage, compte-tours).
 
 ### ➕ Ajouté — Contact, démarreur et alternateur ajoutés (oubli de la révision B)
 

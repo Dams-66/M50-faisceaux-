@@ -13,8 +13,8 @@ meta:
   project: "Faisceau moteur M50B25 VANOS Turbo"
   engine: "BMW M50B25 VANOS — turbo — BMW E36"
   ecu: "MaxxECU RACE Gen1 (REV9+)"
-  revision: "B"
-  date: "2026-10-07"
+  revision: "C"
+  date: "2026-10-08"
   status: "Étude — à valider sur véhicule"
   assumptions:
     - "BMW E36 conduite à gauche, caisse vide : faisceau entièrement neuf, aucun faisceau d'origine conservé."
@@ -341,7 +341,7 @@ components:
     label: "Sonde lambda large bande"
     ref: "Bosch LSU 4.9 — 0 258 017 025"
     type: "WBO2 6 fils (contrôleur interne RACE REV9+)"
-    connector: "LSU 4.9 6 voies (Bosch 1 928 404 682)"
+    connector: "Contre-connecteur LSU 4.9 6 voies côté faisceau (Bosch D 261 205 356-01 ou kit Bosch Motorsport 1 987 280 016)"
     system: WBO
     node: N_LSU
     load_a: 1.5
@@ -352,7 +352,7 @@ components:
       "4": {fn: "Chauffage +12 V", cls: PWR12, supply: true}
       "5": {fn: "RCAL (IA)"}
       "6": {fn: "VS (UN / Nernst)"}
-    notes: "Brochage identique au schéma MaxxECU (LSU 4.9 vue côté câble). Capteur à sélectionner dans MTune avant usage."
+    notes: "Brochage identique au schéma MaxxECU (LSU 4.9 vue côté câble). Capteur à sélectionner dans MTune avant usage. Connecteur fixé côté froid (< 140 °C, fiche Bosch) : seule la queue d'origine de la sonde longe la descente, le faisceau ne va pas jusqu'au turbo."
   EGT1:
     label: "Sonde EGT"
     ref: "Thermocouple type K"
@@ -687,7 +687,7 @@ splices:
   SPL-COIL-SGND: {label: "Masse électronique bobines (broches 2)", node: TOP4, cls: GND_PWR}
   SPL-COIL-PGND: {label: "Masse puissance bobines (broches 4)", node: TOP4, cls: GND_PWR}
   SPL-INJ12:     {label: "+12 V injecteurs", node: INT4, cls: PWR12}
-  SPL-ACT12:     {label: "+12 V actionneurs", node: FRONT, cls: PWR12}
+  SPL-ACT12:     {label: "+12 V actionneurs", node: T1, cls: PWR12}
   SPL-RLY:       {label: "+12 V bobines relais", node: PDM, cls: PWR12}
   BUS30:         {label: "Barrette +12 V permanent", node: PDM, cls: PWR12, busbar: true}
   BUS87:         {label: "Barrette +12 V commuté (relais principal)", node: PDM, cls: PWR12, busbar: true}
@@ -696,12 +696,12 @@ splices:
 # Câbles multi-conducteurs (blindés / thermocouple)
 # -----------------------------------------------------------------------------
 cables:
-  C-CRANK: {label: "Capteur PMH", type: "3 × 0,5 mm² torsadé blindé", od_mm: 5.0, shield: true}
+  C-CRANK: {label: "Capteur PMH", type: "2 × 0,5 mm² torsadé blindé", od_mm: 4.5, shield: true}
   C-CAM:   {label: "Capteur AAC", type: "2 × 0,5 mm² torsadé blindé", od_mm: 4.5, shield: true}
   C-KS1:   {label: "Cliquetis 1", type: "2 × 0,5 mm² torsadé blindé", od_mm: 4.5, shield: true, shield_cls: GND_KNOCK}
   C-KS2:   {label: "Cliquetis 2", type: "2 × 0,5 mm² torsadé blindé", od_mm: 4.5, shield: true, shield_cls: GND_KNOCK}
-  C-LSU:   {label: "Lambda signaux", type: "4 × 0,5 mm² blindé", od_mm: 5.5, shield: true}
-  C-EGT:   {label: "EGT", type: "Câble d'extension thermocouple type K (2 × 0,5)", od_mm: 4.0, shield: false}
+  C-LSU:   {label: "Lambda signaux", type: "4 × 0,5 mm² blindé, isolant et gaine FEP/PTFE ≥ 200 °C", od_mm: 5.5, shield: true}
+  C-EGT:   {label: "EGT", type: "Câble d'extension thermocouple type K (2 × 0,5), isolant fibre de verre ou PFA ≥ 260 °C", od_mm: 4.0, shield: false}
   C-ETBM:  {label: "Moteur papillon", type: "2 × 1,0 mm² torsadé", od_mm: 4.4, shield: false}
   C-CAN:   {label: "CAN", type: "2 × 0,5 mm² torsadé (paire CAN)", od_mm: 3.4, shield: false}
 
@@ -791,7 +791,7 @@ wires:
   # ===== Synchronisation PMH / AAC =====
   - {sheet: SYNC, from: CMC1.H3, to: CRANK.2, mm2: 0.5, color: WH, cable: C-CRANK}
   - {sheet: SYNC, from: SPL-VRG, to: CRANK.3, mm2: 0.5, color: BN, cable: C-CRANK}
-  - {sheet: SYNC, from: F6.2, to: CRANK.1, mm2: 0.5, color: RD, cable: C-CRANK, note: "Conducteur rouge du câble 3 voies, +12 V après relais"}
+  - {sheet: SYNC, from: F6.2, to: CRANK.1, mm2: 0.5, color: RD/WH, note: "+12 V capteur PMH : fil séparé dans le toron, hors câble blindé (le câble va à l'ECU, ce fil au boîtier fusibles)"}
   - {sheet: SYNC, from: CMC1.H4, to: CAM.1, mm2: 0.5, color: WH, cable: C-CAM}
   - {sheet: SYNC, from: SPL-VRG, to: CAM.2, mm2: 0.5, color: BN, cable: C-CAM, note: "CORRIGÉ : retour AAC sur VR GND (H2), pas sur Sensor GND"}
   - {sheet: SYNC, from: CMC1.H2, to: SPL-VRG, mm2: 0.5, color: BN}
@@ -925,7 +925,7 @@ topology:
     EXH: "Côté échappement"
     TURBO: "Turbo"
     N_EGT: "Sonde EGT"
-    N_LSU: "Sonde lambda"
+    N_LSU: "Connecteur sonde lambda (côté froid)"
     N_PUMP: "Pompe à essence"
     N_START: "Démarreur (borne 50)"
     N_ALT: "Alternateur (D+)"
@@ -969,7 +969,7 @@ topology:
     - [T0, EXH, 0.40]
     - [EXH, TURBO, 0.40]
     - [TURBO, N_EGT, 0.25]
-    - [TURBO, N_LSU, 0.60]
+    - [EXH, N_LSU, 0.40]
     - [PDM, N_PUMP, 3.00]
     - [T1, N_START, 0.60]
     - [FRONT, N_ALT, 0.40]
@@ -980,7 +980,17 @@ topology:
 bom_extra:
   - {cat: "Protection", item: "Boîte à fusibles étanche Bussmann 15305-1 (20 fusibles ATM, 2 barrettes indépendantes à goujon M6)", qty: 1, unit: "pc", detail: "barrette 1 = +30 permanent BUS30 (F8, F9, F10, F11, F12), alimentée par PWR-02 ; barrette 2 = +87 commuté BUS87 (F1 à F7), alimentée par PWR-04 ; sorties Metri-Pack 280 : 3 mm² maxi, contacts, joints et bouchons à commander à part"}
   - {cat: "Protection", item: "Support de relais ISO mini étanche (lames 6,3 mm)", qty: 4, unit: "pc", detail: "K1 à K4, fixés à côté de la boîte à fusibles ; leurs cosses acceptent le 4 mm² de la pompe et du ventilateur"}
-  - {cat: "Montage", item: "Passe-fil caoutchouc étanche pour la traversée du tablier", qty: 1, unit: "pc", detail: "à l'emplacement de la boîte électronique d'origine"}
+  - {cat: "Montage", item: "Passe-fil caoutchouc étanche pour la traversée du tablier", qty: 1, unit: "pc", detail: "à l'emplacement de la boîte électronique d'origine ; Ø intérieur ≥ 25 mm (toron d'environ 20 mm + gaine)"}
+  - {cat: "Protection", item: "Porte-fusible MAXI étanche, entrée / sortie 10 mm²", qty: 1, unit: "pc", detail: "F0 — borne B+ baie moteur"}
+  - {cat: "Cosses", item: "Cosse œillet tubulaire étamée 10 mm²", qty: 4, unit: "pc", detail: "PWR-01 (B+ M8 et F0), PWR-02 (F0 et goujon M6 de la barrette BUS30) : diamètres selon porte-fusible"}
+  - {cat: "Contacts", item: "Contacts, joints de fil et bouchons pour chaque connecteur capteur / actionneur", qty: 1, unit: "lot", detail: "JPT / EV1, VAG 1J0 973 724, BMW, MQS, Superseal, contre-connecteur LSU : référence de contact selon la section de chaque fil (liste de coupe)"}
+  - {cat: "Outillage", item: "Pinces Molex CMC 63811-9200 (petits contacts), 63811-8900 (gros 0,5–1 mm²), 63811-9000 (gros 1–2 mm²)", qty: 1, unit: "jeu", detail: "ou faire sertir les contacts CMC"}
+  - {cat: "Outillage", item: "Extracteurs Molex CMC 638132400 (petits) et 638132300 (gros)", qty: 1, unit: "jeu", detail: ""}
+  - {cat: "Gaine", item: "Manchons de dérivation et embouts thermo à colle (Raychem 202K / 222K)", qty: 1, unit: "lot", detail: "dérivations HB, T0, T1, FRONT, bobines, injecteurs, papillon, échappement"}
+  - {cat: "Gaine", item: "Gaine réfléchissante fibre de verre aluminisée Ø 16 mm", qty: 1.2, unit: "m", detail: "sur la gaine de T0 → échappement → turbo (branches lambda et EGT)"}
+  - {cat: "Gaine", item: "Gaine réfléchissante fibre de verre aluminisée Ø 25 mm", qty: 0.4, unit: "m", detail: "passage tablier → T0, côté échappement"}
+  - {cat: "Montage", item: "Colliers P-clip inox à coussin silicone", qty: 6, unit: "pc", detail: "branche échappement / turbo : garder ≥ 150 mm du carter de turbine et de la descente, écran sinon"}
+  - {cat: "Repérage", item: "Repères de connecteur (manchons imprimés)", qty: 1, unit: "lot", detail: "un par connecteur, en plus des repères de fil"}
   - {cat: "Montage", item: "Goujon / vis M8 de masse sur culasse", qty: 2, unit: "pc", detail: "GP-HEAD (ECU) et GP-COIL (bobines), surfaces mises à nu"}
   - {cat: "Montage", item: "Colliers P-clip / fixations de faisceau", qty: 20, unit: "pc", detail: "un tous les 20–25 cm environ"}
   - {cat: "Câbles de puissance (hors faisceau)", item: "Câble batterie + (coffre) → borne 30 du démarreur et borne B+ de la baie", qty: 1, unit: "ens.", detail: "câble d'origine E36 si conservé, sinon 35 mm² ; il alimente la borne B+ où se trouve F0"}
@@ -1014,6 +1024,9 @@ audit:
   - sev: add
     title: "Pompe 280 l/h et ventilateur SPAL 385 mm"
     detail: "Pompe : relais K2, fusible 20 A, alimentation et masse en 4 mm² pour limiter la chute de tension sur le trajet jusqu'au réservoir. Ventilateur SPAL 385 mm aspirant (19,5 A d'après la fiche SPAL VA18-AP71/LL-59A) : relais K3 40 A, fusible 30 A, fils 4 mm². Les deux sont alimentés en direct batterie, hors relais principal."
+  - sev: fix
+    title: "Révision C : audit électrique indépendant"
+    detail: "Quatre relectures séparées (alimentation et masses, brochage ECU, brochage des composants, fabrication), chaque point contre-vérifié. Corrigé : chauffage lambda D1 en 0,75 mm² (petite alvéole CMC) ; sorties injecteur à 4 A en continu ; blindages de cliquetis sur KNOCK GND ; boîte à fusibles à 2 barrettes indépendantes et supports de relais séparés ; contacts, bouchons et épissures dimensionnés ; connecteur lambda côté faisceau et côté froid ; protection thermique côté turbo ; +12 V du capteur PMH hors câble blindé ; notes MTune (pull-up du trigger, papillon, chauffage, compte-tours)."
   - sev: add
     title: "Contact, démarreur et alternateur ajoutés (oubli de la révision B)"
     detail: "Caisse vide : rien n'alimentait le contacteur, le démarreur ni l'excitation de l'alternateur. Ajouts : F11 5 A alimente la borne 30 du contacteur ; la borne 50 commande un relais de démarreur K4 (fusible F12 30 A, 2,5 mm² jusqu'au solénoïde) ; l'alternateur est excité comme d'origine, par un voyant de charge 2 W entre le +12 V commuté et D+. Les gros câbles (batterie → démarreur, B+ alternateur → démarreur, tresses de masse) sont listés dans la nomenclature, hors faisceau."
