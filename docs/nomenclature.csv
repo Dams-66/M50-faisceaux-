@@ -124,7 +124,8 @@ Montage;Colliers P-clip inox à coussin silicone;6;pc;branche échappement / tur
 Repérage;Repères de connecteur (manchons imprimés);1;lot;un par connecteur, en plus des repères de fil
 Montage;Goujon / vis M8 de masse sur culasse;2;pc;GP-HEAD (ECU) et GP-COIL (bobines), surfaces mises à nu
 Montage;Colliers P-clip / fixations de faisceau;20;pc;un tous les 20–25 cm environ
-Habitacle;Résistance 10 kΩ ¼ W 1 % (couche métal);10;pc;platine d'interface IF-PAD : 5 en série + 5 de rappel vers Sensor GND
+Habitacle;Résistance 10 kΩ ¼ W 1 % (couche métal);9;pc;platine d'interface IF-PAD : 5 en série + 4 de rappel vers Sensor GND (voies DIN)
+Habitacle;Résistance 4,7 kΩ ¼ W 1 % (couche métal);1;pc;platine d'interface IF-PAD : rappel de la voie AIN8 (garde l'entrée sous 5 V)
 Habitacle;Plaque pastillée + petit boîtier étanche pour la platine IF-PAD;1;pc;ou résistances en ligne sous gaine thermo à colle, au ras de l'ECU
 Habitacle;Fusibles 5 A (au format du boîtier du pad);5;pc;circuits 4 à 8 du pad : remplacent les 30/20/15/10 A d'origine, les entrées ECU ne consomment que 0,7 mA
 Habitacle;Interrupteur de contact 10 A et bouton démarreur poussoir fugitif 5 A;1;ens.;"à côté du pad ; le bouton démarreur mécanique est déjà en ta possession"

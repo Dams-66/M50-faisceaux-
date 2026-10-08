@@ -46,7 +46,7 @@ Quatre relectures séparées (alimentation et masses, brochage ECU, brochage des
 
 ### ➕ Ajouté — Révision D : contact sans clé, pad 8 boutons, F6 regroupé dans F5
 
-Plus de clé : un interrupteur de contact alimenté par F11 donne le +15 (relais principal K1) et alimente le bouton démarreur mécanique, qui commande K4 ; le démarreur ne peut donc pas être lancé contact coupé. F11 reste nécessaire : c'est lui qui protège le fil qui va de la barrette +30 jusqu'à l'interrupteur. Le +12 V du capteur PMH est pris sur F5 avec la VANOS et la MAC (épissure à l'arrière de la culasse, 0,75 mm²). Plus de combiné : la sortie compte-tours (GPO8, CMC1 A4) est libre. Les boutons 4 à 8 du pad arrivent sur DIN1, DIN2, DIN4, DIN5 et AIN8 par une platine de 10 résistances de 10 kΩ, pull-up des entrées désactivé dans MTune.
+Plus de clé : un interrupteur de contact alimenté par F11 donne le +15 (relais principal K1) et alimente le bouton démarreur mécanique, qui commande K4 ; le démarreur ne peut donc pas être lancé contact coupé. F11 reste nécessaire : c'est lui qui protège le fil qui va de la barrette +30 jusqu'à l'interrupteur. Le +12 V du capteur PMH est pris sur F5 avec la VANOS et la MAC (épissure à l'arrière de la culasse, 0,75 mm²). Plus de combiné : la sortie compte-tours (GPO8, CMC1 A4) est libre. Les boutons 4 à 8 du pad arrivent sur AIN8, DIN1, DIN2, DIN4 et DIN5 par une platine de 10 résistances (une en série, une de rappel vers Sensor GND par bouton), pull-up des entrées désactivé dans MTune. Le ventilateur, seule fonction directe, est sur AIN8 ; les trois modes qui passent par l'Internal output system sont sur des DIN, dont l'état « DIN x Active » est utilisable comme condition.
 
 ### ⚠️ À vérifier — F5 commun : un court-circuit VANOS / MAC arrête le moteur
 
@@ -54,7 +54,7 @@ Avec le capteur PMH sur F5, un court-circuit sur l'électrovanne VANOS ou la MAC
 
 ### ⚠️ À vérifier — Entrées DIN / VR toutes occupées par le pad
 
-DIN1, DIN2, DIN4 et DIN5 sont les seules entrées capables de lire un capteur de vitesse de roue ou de boîte (VR / Hall). Si tu en ajoutes un plus tard, le bouton le moins utile devra passer sur DIN3 (CMC1 C1), qui a un pull-up fixe et ne se commande qu'à la masse : il faudra alors un relais ou un transistor inverseur à la place de la platine 10 kΩ pour ce bouton.
+DIN1, DIN2, DIN4 et DIN5 sont les seules entrées capables de lire un capteur de vitesse de roue ou de boîte (VR / Hall). Si tu en ajoutes un plus tard, le bouton le moins utile devra passer sur DIN3 (CMC1 C1), qui a un pull-up fixe et ne se commande qu'à la masse : il faudra alors un relais ou un transistor inverseur à la place des résistances pour ce bouton. Même chose pour le ventilateur après coupure (power hold) : il demande une entrée « Ignition key » qui n'est plus libre ; la solution simple est un relais câblé en parallèle de K3, indépendant de l'ECU.
 
 ### ➕ Ajouté — Contact, démarreur et alternateur ajoutés (oubli de la révision B)
 
@@ -191,8 +191,8 @@ Consommation estimée sur le +5 V capteurs (G1) : **45 mA**.
 | CMC1.J4 | ANALOG IN 4 (0-5 V) | DBW-10 | 0,5 | WH/BU | APP.4 (Signal piste 1) |
 | CMC1.K1 | INJECTOR CYL 1 | INJ-01 | 0,75 | GY | INJ1.2 (Commande ECU) |
 | CMC1.K2 | INJECTOR CYL 2 | INJ-02 | 0,75 | GY | INJ2.2 (Commande ECU) |
-| CMC1.K3 | DIGITAL IN 1 | COM-06 | 0,5 | WH/RD | IF-PAD.6 (Sortie voie 1 → DIN1) |
-| CMC1.K4 | DIGITAL IN 2 | COM-07 | 0,5 | WH/OG | IF-PAD.7 (Sortie voie 2 → DIN2) |
+| CMC1.K3 | DIGITAL IN 1 | COM-07 | 0,5 | WH/RD | IF-PAD.7 (Sortie voie 2 → DIN1) |
+| CMC1.K4 | DIGITAL IN 2 | COM-08 | 0,5 | WH/OG | IF-PAD.8 (Sortie voie 3 → DIN2) |
 | CMC1.L3 | INJECTOR CYL 6 | INJ-06 | 0,75 | GY | INJ6.2 (Commande ECU) |
 | CMC1.L4 | ENGINE GROUND | GND-01 | 1,5 | BK | GP-HEAD (Masse moteur ECU (goujon arrière culasse)) |
 | CMC1.M1 | INJECTOR CYL 3 | INJ-03 | 0,75 | GY | INJ3.2 (Commande ECU) |
@@ -206,9 +206,9 @@ Consommation estimée sur le +5 V capteurs (G1) : **45 mA**.
 | CMC2.E3 | KNOCK 2 | KNK-03 | 0,5 | WH | KS2.1 (Signal) |
 | CMC2.E4 | ANALOG IN 6 (0-5 V) | SNS-14 | 0,5 | WH/BN | OIL.2 (Pression 0,5–4,5 V) |
 | CMC2.F1 | ANALOG IN 7 (0-5 V) | SNS-16 | 0,5 | WH/VT | FUEL.2 (Pression 0,5–4,5 V) |
-| CMC2.F2 | ANALOG IN 8 (0-5 V) | COM-10 | 0,5 | WH/YE | IF-PAD.10 (Sortie voie 5 → AIN8) |
-| CMC2.F3 | DIGITAL / VR IN 4 | COM-08 | 0,5 | WH/GY | IF-PAD.8 (Sortie voie 3 → DIN4) |
-| CMC2.F4 | DIGITAL / VR IN 5 | COM-09 | 0,5 | WH/PK | IF-PAD.9 (Sortie voie 4 → DIN5) |
+| CMC2.F2 | ANALOG IN 8 (0-5 V) | COM-06 | 0,5 | WH/YE | IF-PAD.6 (Sortie voie 1 → AIN8 (rappel 4,7 kΩ)) |
+| CMC2.F3 | DIGITAL / VR IN 4 | COM-09 | 0,5 | WH/GY | IF-PAD.9 (Sortie voie 4 → DIN4) |
+| CMC2.F4 | DIGITAL / VR IN 5 | COM-10 | 0,5 | WH/PK | IF-PAD.10 (Sortie voie 5 → DIN5) |
 | CMC2.G3 | ANALOG IN 5 (0-5 V) | DBW-12 | 0,5 | WH/GN | APP.6 (Signal piste 2) |
 | CMC2.G4 | ENGINE GROUND 2 | GND-02 | 1,5 | BK | GP-HEAD (Masse moteur ECU (goujon arrière culasse)) |
 | CMC2.H2 | MOTOR 1- / GPO 11 | DBW-06 | 1 | PK/BK | ETB.5 (Moteur −) |
@@ -235,9 +235,9 @@ Broches libres : CMC1.A1 (GP OUT 5), CMC1.A4 (TACH / GP OUT 8), CMC1.C1 (GP OUT 
 | GPO2 | Fuel pump (relais K2) |
 | GPO3 | VANOS tout-ou-rien (seuil de régime / charge à définir sur la cartographie) |
 | GPO6 | Engine fan (relais K3) |
-| Pad : DIN1, DIN2, DIN4, DIN5 | Inputs → Digital inputs : Input type = Digital input, Pullup = OFF (obligatoire avec la platine 10 kΩ), Latch = None (le bouton du pad en mode Toggle tient l'état), Active level = rising sauf ALS off |
-| DIN1 (CMC1 K3) — bouton 4 | Ventilation forcée : Function = Fan override input (force la sortie Engine fan GPO6 quelle que soit la température) |
-| DIN2 (CMC1 K4) — bouton 5 | Changement de carto : Function = Boost target switch (consigne de boost 2). Si la carto 2 change aussi l'avance ou la richesse : Internal output system, condition « DIN2 actif » → Extra fuel/ign table activation switch (all), tables extra réglées en « … when input active » |
-| DIN4 (CMC2 F3) — bouton 6 | ALS off : Anti-lag → Activation method = Switch input ; DIN4 Function = Anti-lag enable, Active level = falling : ALS autorisé bouton éteint, coupé bouton allumé. Attention : pad éteint ou fil coupé = ALS autorisé ; pour l'inverse, Active level = rising et le bouton devient « ALS ON » (aucun recâblage). Garder Min CLT, Max EGT et le timeout |
-| DIN5 (CMC2 F4) — bouton 7 | Carto de chauffe : Function = RPM limit, use secondary limit RPM (limiteur bas, ex. 4000 tr/min) ; option : Internal output system « DIN5 actif » → Extra ignition table 2 activation switch pour une avance de chauffe |
-| AIN8 (CMC2 F2) — bouton 8 | Refroidissement : Analog input 8 → Use as = Digital input (seuil 3,0 V), Active level = rising, Function = FAN + Electric waterpump override input (ventilateur forcé) ; à compléter par l'Internal output system si tu veux aussi limiter le régime ou couper le boost pendant le tour de refroidissement |
+| Pad : réglages communs | DIN1, DIN2, DIN4, DIN5 (Inputs → Digital inputs) : Input type = Digital input (jamais VR), Pullup = OFF (obligatoire avec la platine IF-PAD), Latch = None (le bouton du pad en mode Toggle tient l'état), Active level = rising sauf ALS off. AIN8 : Use as = Digital input, Pullup resistor = aucun si l'option apparaît, actif haut. Vérifier qu'il reste au moins 3 Internal outputs libres |
+| AIN8 (CMC2 F2) — bouton 4 | Ventilation forcée : Function = Fan override input. GPO6 reste en Radiator FAN 1 ; l'override passe outre la température et « disable fan when engine off », mais seulement ECU alimentée |
+| DIN1 (CMC1 K3) — bouton 5 | Changement de carto : Function = Boost target switch (use table 2), Boost control → target tables = Triple (switch activated). Internal output 1 : condition DIN 1 Active = 1 → Input to control = Extra ignition table 1 activation switch, Additional input = Extra fuel table 1 activation switch ; tables extra en « … when input active ». Ne pas utiliser « Extra fuel/ign table activation switch (all) » : il déclencherait aussi la table de chauffe |
+| DIN2 (CMC1 K4) — bouton 6 | ALS off : Motorsport → Anti-lag, Enable method = Switch input ; DIN2 Function = Anti-lag enable, Active level = falling : ALS autorisé bouton éteint, coupé bouton allumé. Attention : pad éteint, pad redémarré éteint, fusible du pad grillé ou fil coupé = ALS autorisé. Plus sûr : Active level = rising et le bouton devient « ALS ON » (aucun recâblage). Garder Min CLT, Max EGT et le timeout |
+| DIN4 (CMC2 F3) — bouton 7 | Carto de chauffe : Internal output 2, condition A = DIN 4 Active, condition B = Coolant temp < 70 °C (hystérésis 5 °C), Output function = A and B → Input to control = RPM limit, use secondary limit RPM (Rev limit RPM source = Two values, switch activated, ex. 4000 tr/min), Additional input = Extra ignition table 2 activation switch. Le mode s'arrête seul une fois chaud ; enrichissement et ralenti de chauffe restent automatiques |
+| DIN5 (CMC2 F4) — bouton 8 | Refroidissement : Function = Boost target switch (use table 3), table de boost réduite. Internal output 3 : condition DIN 5 Active → Input to control = Fan override input (en OU avec le bouton 4). Pas de ventilateur moteur coupé : le power hold demanderait une entrée « Ignition key » qui n'est plus libre |
