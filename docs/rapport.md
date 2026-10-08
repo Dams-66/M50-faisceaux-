@@ -4,7 +4,7 @@
 
 > Généré par `tools/build_harness.py` depuis `harness/m50b25_vanos_turbo.yaml`. Ne pas éditer à la main.
 
-**145 fils** · **180.8 m de fil coupé** · 17 épissures/barrettes · 11 fusibles · 9 relais
+**155 fils** · **182.8 m de fil coupé** · 17 épissures/barrettes · 11 fusibles · 9 relais
 
 ## Contrôle des règles électriques : 0 erreur(s), 0 alerte(s)
 
@@ -22,7 +22,7 @@ CMC1 M4 = +12 V ECU (fusible 15 A après relais principal). CMC1 L4 ET CMC2 G4 =
 
 ### ➕ Ajouté — Boîte fusibles/relais complète (PDM)
 
-Fusible général MAXI 80 A, 10 fusibles numérotés F1 à F10 sans trou (ta boîte 10 voies, si elle a 2 arrivées séparées) et 9 relais (K1 à K4 pour le moteur, K5 à K9 pour les boutons du pad) : chaque circuit a son fusible et chaque fil est protégé par un fusible adapté à sa section (contrôle automatique).
+Fusible général MAXI 80 A, 10 fusibles numérotés F1 à F10 sans trou (ta boîte 10 voies, alimentée par 2 répartiteurs) et 9 relais (K1 à K4 pour le moteur, K5 à K9 pour les boutons du pad) : chaque circuit a son fusible et chaque fil est protégé par un fusible adapté à sa section (contrôle automatique).
 
 ### 🛠 Corrigé — Section des +12 V bobines : 1,0 mm² et non 0,75
 
@@ -52,9 +52,9 @@ Plus de clé : un interrupteur de contact alimenté par F9 donne le +15 (relais 
 
 Les fusibles sont renumérotés F1 à F10 sans trou, pour ta boîte 10 voies. Anciens → nouveaux : F1, F2, F3 inchangés ; F4 (chauffage lambda) et F5 (VANOS, MAC, capteur PMH) regroupés en F4 ; l'emplacement F6, déjà vide en révision D, disparaît ; F7 → F5 ; F8 → F6 ; F9 → F7 ; F10 → F8 ; F11 → F9 ; F12 → F10. Les boutons 4 à 8 du pad commandent 5 relais (K5 à K9) qui mettent les entrées DIN3, DIN1, DIN2, DIN4 et DIN5 à la masse capteurs : c'est le câblage « interrupteur → masse » du plan MaxxECU, pull-up des entrées activé, sans aucune résistance.
 
-### ⚠️ À vérifier — Boîte 10 voies : 2 arrivées séparées obligatoires
+### ⚠️ À vérifier — Boîte 10 voies à entrées séparées : 2 répartiteurs, ponts du +30 à garder courts
 
-F1 à F5 ne doivent recevoir que PWR-04 (sortie du relais principal K1), F6 à F10 que PWR-02 (+12 V permanent). Ne jamais relier ces deux arrivées sur la même barrette : alimentée en permanent, l'ECU, les bobines et les injecteurs resteraient sous tension contact coupé (le moteur ne s'arrêterait plus à l'interrupteur et la batterie se viderait) ; alimentée par K1, le fusible F8 qui alimente K1 se retrouverait derrière K1 et rien ne démarrerait. Si ta boîte n'a qu'une barrette commune : elle ne reçoit que F1 à F5, et F6 à F10 vont dans 5 porte-fusibles séparés (nomenclature). L'arrivée du groupe permanent porte ≈ 52 A en continu : 60 A au moins et cosse pour œillet 10 mm².
+Chaque fusible de ta boîte a sa propre entrée. F1 à F5 sont alimentés par 5 ponts de 2,5 mm² depuis le répartiteur +87 (BUS87, sortie du relais principal par PWR-07), F6 à F10 par 5 ponts de 2,5 mm² depuis le répartiteur +30 (BUS30, après F0 par PWR-02). Ne jamais relier les deux répartiteurs : l'ECU, les bobines et les injecteurs resteraient sous tension contact coupé. Les ponts du +30 ne sont protégés que par F0 (80 A) : moins de 20 cm, gainés, fixés, et capot isolant sur le répartiteur +30. Le répartiteur +30 porte ≈ 52 A en continu (pompe, ventilateur, relais principal) : 60 A mini.
 
 ### ⚠️ À vérifier — F4 commun : un court-circuit VANOS, MAC ou chauffage lambda arrête le moteur
 
@@ -162,7 +162,7 @@ Capteur interne MaxxECU RACE : jusqu'à 3 bar de pression de suralimentation. Du
 |---|---|---|---|---|
 | PUMP Pompe à essence | 15 A | RLY-08, RLY-06, RLY-09 | 17.9 mΩ | 0.27 V (2.0 %) |
 | FAN Ventilateur électrique | 19.5 A | RLY-10, RLY-07, RLY-11 | 13.6 mΩ | 0.27 V (2.0 %) |
-| STARTER Démarreur | 10 A | DEM-06, DEM-05 | 20.8 mΩ | 0.21 V (1.5 %) |
+| STARTER Démarreur | 10 A | DEM-08, DEM-07 | 20.8 mΩ | 0.21 V (1.5 %) |
 
 Consommation estimée sur le +5 V capteurs (G1) : **45 mA**.
 
@@ -184,7 +184,7 @@ Consommation estimée sur le +5 V capteurs (G1) : **45 mA**.
 | CMC1.D4 | GP OUT 3 | ACT-02 | 0,75 | GN | VANOS.2 (Commande (masse)) |
 | CMC1.E1 | CAN H (120 Ω intégrée) | COM-23 | 0,5 | YE/BK | CANDEV.H (CAN H) |
 | CMC1.E2 | CAN L | COM-24 | 0,5 | GN/BK | CANDEV.L (CAN L) |
-| CMC1.E3 | SHIELD GND | SYNC-07 | 0,5 | BK/WH | SPL-SHLD (Blindages → Shield GND) |
+| CMC1.E3 | SHIELD GND | SYNC-07 | 0,5 | BK/WH | SPL-SHLD (Blindages → Shield GND — déjà fait dans le faisceau MaxxECU pré-câblé) |
 | CMC1.F1 | COOLANT SENSOR (CLT) | SNS-12 | 0,5 | YE | CLT.1 (Signal NTC) |
 | CMC1.F2 | AIR TEMP SENSOR (IAT) | SNS-11 | 0,5 | YE/BK | IAT.1 (Signal NTC) |
 | CMC1.F3 | WBO2 COM | WBO-02 | 0,5 | YE | LSU.2 (VM / COM) |
@@ -194,7 +194,7 @@ Consommation estimée sur le +5 V capteurs (G1) : **45 mA**.
 | CMC1.G3 | WBO2 IP | WBO-01 | 0,5 | WH | LSU.1 (IP (pompe)) |
 | CMC1.G4 | WBO2 RCAL | WBO-03 | 0,5 | GN | LSU.5 (RCAL (IA)) |
 | CMC1.H1 | SENSOR GND | SNS-05 | 0,5 | BN | SPL-SG-MAIN (Sensor GND — départ ECU) |
-| CMC1.H2 | VR GND | SYNC-06 | 0,5 | BN | SPL-VRG (VR GND (PMH + AAC)) |
+| CMC1.H2 | VR GND | SYNC-06 | 0,5 | BN | SPL-VRG (VR GND (PMH + AAC) — déjà fait dans le faisceau MaxxECU pré-câblé) |
 | CMC1.H3 | TRIGGER | SYNC-01 | 0,5 | WH | CRANK.2 (Signal Hall) |
 | CMC1.H4 | HOME / CAM | SYNC-04 | 0,5 | WH | CAM.1 (Signal (+)) |
 | CMC1.J1 | ANALOG IN 1 (TEMP) | SNS-13 | 0,5 | YE/BN | OIL.5 (Température NTC) |
@@ -210,7 +210,7 @@ Consommation estimée sur le +5 V capteurs (G1) : **45 mA**.
 | CMC1.M1 | INJECTOR CYL 3 | INJ-03 | 0,75 | GY | INJ3.2 (Commande ECU) |
 | CMC1.M2 | INJECTOR CYL 4 | INJ-04 | 0,75 | GY | INJ4.2 (Commande ECU) |
 | CMC1.M3 | INJECTOR CYL 5 | INJ-05 | 0,75 | GY | INJ5.2 (Commande ECU) |
-| CMC1.M4 | +12 V ECU | PWR-05 | 1 | RD/WH | F1.2 (Sortie) |
+| CMC1.M4 | +12 V ECU | PWR-13 | 1 | RD/WH | F1.2 (Sortie) |
 | CMC2.C1 | EGT1+ | WBO-07 | 0,5 | YE | EGT1.+ (K+ (chromel)) |
 | CMC2.D1 | EGT1- | WBO-08 | 0,5 | RD | EGT1.- (K− (alumel)) |
 | CMC2.E1 | KNOCK GND | KNK-05 | 0,5 | BN | SPL-KGND (Knock GND (2 capteurs)) |

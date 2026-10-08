@@ -96,8 +96,8 @@ Le détail, les points validés et les sources sont dans `docs/rapport.md`.
 
 - E36 conduite à gauche ; ECU et PDM derrière la boîte à gants, traversée du tablier par passe-fil.
 - Fusible général MAXI 80 A sur la borne B+ de la baie moteur.
-- Boîte à fusibles 10 voies à **2 arrivées séparées** (F1 à F5 commuté, F6 à F10 permanent) ; sinon F6 à F10
-  passent dans 5 porte-fusibles séparés (voir la nomenclature).
+- Boîte à fusibles 10 voies dont chaque fusible a sa propre entrée : F1 à F5 alimentés depuis un répartiteur
+  +12 V commuté (sortie du relais principal), F6 à F10 depuis un répartiteur +12 V permanent.
 - Pompe 280 l/h estimée à 15 A, ventilateur SPAL 385 mm aspirant à 19,5 A : à confirmer sur les étiquettes.
 - Longueurs de tronçons estimées : à mesurer sur la voiture (dont démarreur et alternateur).
 - Démarreur : solénoïde estimé à 10 A en maintien (30–40 A à l'appel, absorbé par le fusible 30 A temporisé).

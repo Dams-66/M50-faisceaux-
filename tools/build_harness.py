@@ -179,6 +179,7 @@ class Harness:
                 "mm2": w.get("mm2"), "color": w.get("color"), "cable": cable,
                 "harness": w.get("harness") or self._infer_harness(w),
                 "internal": internal, "drain": drain, "note": w.get("note", ""),
+                "jumper": bool(w.get("jumper")),
             })
 
     def _infer_harness(self, w):
@@ -380,7 +381,7 @@ class Harness:
         for sid in self.d["splices"]:
             ws = [w for w in self.wires if sid in (w["from"], w["to"]) and not w["internal"]]
             total = sum(w["mm2"] or 0 for w in ws)
-            if len(ws) > 8 or total > 10:
+            if not self.owners[sid].get("busbar") and (len(ws) > 8 or total > 10):
                 self.warnings.append(f"Épissure {sid} : {len(ws)} fils / {fmt_mm2(total)} mm² — scinder en deux")
             self.owners[sid]["wires"] = len(ws)
             self.owners[sid]["csa"] = round(total, 2)
@@ -477,6 +478,8 @@ class Harness:
             for net in nets:
                 for w in wire_by_net[net]:
                     w.setdefault("fuse", fid)
+                    if w["jumper"]:
+                        continue   # pont avant fusible : dimensionné pour le fusible qu'il alimente (plus bas)
                     if w["mm2"] < need:
                         self.errors.append(
                             f"{w['id']} ({fmt_mm2(w['mm2'])} mm²) derrière {fid} {rating} A : "
@@ -496,6 +499,20 @@ class Harness:
                 "loads": [{"id": i, "a": round(a, 2)} for i, a in detail],
             })
         self.fuse_table.sort(key=lambda f: natural_key(f["id"]))
+
+        # Ponts avant fusible (répartiteur → entrée de fusible) : section du fusible alimenté
+        for w in self.wires:
+            if not w["jumper"]:
+                continue
+            fed = [self.endpoints[e]["owner"] for e in (w["from"], w["to"])
+                   if self.endpoints[e]["cat"] == "fuse" and self.endpoints[e]["pin"] == "1"]
+            if not fed:
+                self.errors.append(f"{w['id']} : pont sans fusible en aval")
+                continue
+            rating = self.owners[fed[0]]["rating_a"]
+            need = self._min_mm2(rating)
+            if w["mm2"] < need:
+                self.errors.append(f"{w['id']} ({fmt_mm2(w['mm2'])} mm²) alimente {fed[0]} {rating} A : section mini {fmt_mm2(need)} mm²")
 
         # Réseaux d'alimentation sans fusible amont
         for w in self.wires:
@@ -557,6 +574,9 @@ class Harness:
             w["route_m"] = round(dist, 3)
             w["length_m"] = round(math.ceil(raw / step - 1e-9) * step, 2)
             w["path"] = segs
+            if w["jumper"] and w["route_m"] > 0.2:
+                self.warnings.append(f"{w['id']} : pont avant fusible de {w['route_m']:.2f} m, "
+                                     "protégé seulement par le fusible général — le raccourcir (< 20 cm)")
 
         self.cable_table = []
         for cid, c in self.d["cables"].items():

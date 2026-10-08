@@ -23,7 +23,7 @@ meta:
     - "Longueurs de tronçons ESTIMÉES pour une baie E36 / M50 : à remplacer par des mesures à la ficelle (section topology)."
     - "Fusible général MAXI 80 A sur la borne B+ de la baie moteur (câble batterie d'origine depuis le coffre)."
     - "Pompe 280 l/h estimée à 15 A ; ventilateur SPAL 385 mm aspirant 19,5 A (fiche SPAL VA18-AP71/LL-59A) : à confirmer sur les étiquettes."
-    - "Boîte à fusibles 10 voies à 2 arrivées séparées : F1 à F5 sur le +12 V commuté (PWR-04, sortie du relais principal K1), F6 à F10 sur le +12 V permanent (PWR-02). Une seule arrivée commune ne convient pas : voir l'avertissement « Boîte 10 voies » de l'audit."
+    - "Boîte à fusibles 10 voies dont chaque fusible a sa propre entrée : F1 à F5 alimentés depuis un répartiteur +12 V commuté (sortie du relais principal K1), F6 à F10 depuis un répartiteur +12 V permanent (après F0)."
     - "Pas de clé ni de combiné : interrupteur de contact + bouton démarreur mécanique à côté du pad ; aucun compte-tours câblé."
     - "Pad 8 boutons avec boîtier relais / fusibles : sorties +12 V commutées. Boutons 1 à 3 (éclairage, warnings, essuie-glace) hors faisceau moteur ; boutons 4 à 8 vers l'ECU par 5 relais qui mettent les entrées à la masse."
   sources:
@@ -307,7 +307,7 @@ components:
       "1": {fn: "+12 V", cls: PWR12, supply: true}
       "2": {fn: "Signal Hall"}
       "3": {fn: "Masse capteur", cls: GND_VR}
-    notes: "Lit la cible 60-2 avant du M50 : support et entrefer à valider. MTune : trigger en mode Digital (hall) avec la résistance de rappel (pull-up) interne ACTIVÉE : la sortie Hall ne fait que tirer le signal à la masse."
+    notes: "3 fils, mais le câble TRIGGER du faisceau MaxxECU n'en a que 2 : blanc = signal → broche 2, marron = masse capteur (VR GND) → broche 3, blindage déjà relié côté ECU (rien à brancher côté capteur). Le +12 V de la broche 1 ne vient pas de l'ECU : c'est un fil séparé depuis F4 (épissure actionneurs). Lit la cible 60-2 avant du M50 : support et entrefer à valider. MTune : trigger en mode Digital (hall) avec la résistance de rappel (pull-up) interne ACTIVÉE : la sortie Hall ne fait que tirer le signal à la masse."
     verify: "Brochage à confirmer sur le capteur avant sertissage (alim 1 / signal 2 / masse 3)."
   CAM:
     label: "Capteur AAC (arbre à cames)"
@@ -320,7 +320,7 @@ components:
       "1": {fn: "Signal (+)"}
       "2": {fn: "Retour (−)", cls: GND_VR}
       "3": {fn: "Blindage", cls: GND_SHIELD}
-    notes: "Option recommandée par MaxxECU pour une culasse M50 VANOS. Si la synchro est instable : inverser 1 et 2 (polarité VR)."
+    notes: "Câble HOME/CAM du faisceau MaxxECU (2 fils) : blanc = signal → broche 1, marron = masse capteur (VR GND) → broche 2 ; blindage déjà relié côté ECU. Broche 3 : rien à brancher (sauf si elle est isolée du corps du capteur, voir le contrôle). Option recommandée par MaxxECU pour une culasse M50 VANOS. Si la synchro est instable : inverser 1 et 2 (polarité VR)."
     verify: "Mesurer la continuité broche 3 ↔ corps du capteur : s'il y a continuité, NE PAS relier le blindage côté capteur."
 
   # ---------------- Cliquetis ----------------
@@ -792,8 +792,8 @@ splices:
   SPL-5V-ENG:    {label: "+5 V — branche moteur", node: T1, cls: V5}
   SPL-SG-MAIN:   {label: "Sensor GND — départ ECU", node: ECU, cls: GND_SENS}
   SPL-SG-ENG:    {label: "Sensor GND — branche moteur", node: T1, cls: GND_SENS}
-  SPL-VRG:       {label: "VR GND (PMH + AAC)", node: ECU, cls: GND_VR}
-  SPL-SHLD:      {label: "Blindages → Shield GND", node: ECU, cls: GND_SHIELD}
+  SPL-VRG:       {label: "VR GND (PMH + AAC) — déjà fait dans le faisceau MaxxECU pré-câblé", node: ECU, cls: GND_VR}
+  SPL-SHLD:      {label: "Blindages → Shield GND — déjà fait dans le faisceau MaxxECU pré-câblé", node: ECU, cls: GND_SHIELD}
   SPL-KGND:      {label: "Knock GND (2 capteurs)", node: ECU, cls: GND_KNOCK}
   SPL-COIL12:    {label: "+12 V bobines", node: TOP4, cls: PWR12}
   SPL-COIL-SGND: {label: "Masse électronique bobines (broches 2)", node: TOP4, cls: GND_PWR}
@@ -803,15 +803,15 @@ splices:
   SPL-RLY:       {label: "+12 V bobines K2 / K3 et voyant de charge", node: PDM, cls: PWR12}
   SPL-SG-PAD:    {label: "Sensor GND — contacts des relais du pad", node: PDM, cls: GND_SENS, rank: 60}
   SPL-GND-PAD:   {label: "Masse des bobines des relais du pad", node: PDM, cls: GND_PWR, rank: 70}
-  BUS30:         {label: "Barrette +12 V permanent", node: PDM, cls: PWR12, busbar: true}
-  BUS87:         {label: "Barrette +12 V commuté (relais principal)", node: PDM, cls: PWR12, busbar: true}
+  BUS30:         {label: "Répartiteur +12 V permanent (F6 à F10)", node: PDM, cls: PWR12, busbar: true}
+  BUS87:         {label: "Répartiteur +12 V commuté, sortie du relais principal (F1 à F5)", node: PDM, cls: PWR12, busbar: true}
 
 # -----------------------------------------------------------------------------
 # Câbles multi-conducteurs (blindés / thermocouple)
 # -----------------------------------------------------------------------------
 cables:
-  C-CRANK: {label: "Capteur PMH", type: "2 × 0,5 mm² torsadé blindé", od_mm: 4.5, shield: true}
-  C-CAM:   {label: "Capteur AAC", type: "2 × 0,5 mm² torsadé blindé", od_mm: 4.5, shield: true}
+  C-CRANK: {label: "Capteur PMH", type: "2 × 0,5 mm² torsadé blindé (câble TRIGGER du faisceau MaxxECU : blanc = signal, marron = VR GND)", od_mm: 4.5, shield: true}
+  C-CAM:   {label: "Capteur AAC", type: "2 × 0,5 mm² torsadé blindé (câble HOME/CAM du faisceau MaxxECU : blanc = signal, marron = VR GND)", od_mm: 4.5, shield: true}
   C-KS1:   {label: "Cliquetis 1", type: "2 × 0,5 mm² torsadé blindé", od_mm: 4.5, shield: true, shield_cls: GND_KNOCK}
   C-KS2:   {label: "Cliquetis 2", type: "2 × 0,5 mm² torsadé blindé", od_mm: 4.5, shield: true, shield_cls: GND_KNOCK}
   C-LSU:   {label: "Lambda signaux", type: "4 × 0,5 mm² blindé, isolant et gaine FEP/PTFE ≥ 200 °C", od_mm: 5.5, shield: true}
@@ -827,23 +827,23 @@ wires:
   # ===== Alimentation & relais principal =====
   - {sheet: PWR, from: BATT.+, to: F0.1, mm2: 10.0, color: RD, harness: CHS, note: "Fusible au plus près de la batterie / borne B+"}
   - {sheet: PWR, from: F0.2, to: BUS30, mm2: 10.0, color: RD, harness: CHS}
-  - {sheet: PWR, from: BUS30, to: F8.1, internal: true}
-  - {sheet: PWR, from: BUS30, to: F6.1, internal: true}
-  - {sheet: PWR, from: BUS30, to: F7.1, internal: true}
+  - {sheet: PWR, from: BUS30, to: F8.1, mm2: 2.5, color: RD, harness: PDM, jumper: true, note: "Pont avant fusible, protégé seulement par F0 : < 20 cm, gainé et fixé"}
+  - {sheet: PWR, from: BUS30, to: F6.1, mm2: 2.5, color: RD, harness: PDM, jumper: true, note: "Pont avant fusible, protégé seulement par F0 : < 20 cm, gainé et fixé"}
+  - {sheet: PWR, from: BUS30, to: F7.1, mm2: 2.5, color: RD, harness: PDM, jumper: true, note: "Pont avant fusible, protégé seulement par F0 : < 20 cm, gainé et fixé"}
   - {sheet: PWR, from: F8.2, to: K1.30, mm2: 2.5, color: RD, harness: PDM}
   - {sheet: PWR, from: K1.87, to: BUS87, mm2: 2.5, color: RD/WH, harness: PDM}
-  - {sheet: PWR, from: BUS87, to: F1.1, internal: true}
-  - {sheet: PWR, from: BUS87, to: F2.1, internal: true}
-  - {sheet: PWR, from: BUS87, to: F3.1, internal: true}
-  - {sheet: PWR, from: BUS87, to: F4.1, internal: true}
-  - {sheet: PWR, from: BUS87, to: F5.1, internal: true}
+  - {sheet: PWR, from: BUS87, to: F1.1, mm2: 2.5, color: RD/WH, harness: PDM, note: "Pont du répartiteur +87 vers l'entrée du fusible"}
+  - {sheet: PWR, from: BUS87, to: F2.1, mm2: 2.5, color: RD/WH, harness: PDM, note: "Pont du répartiteur +87 vers l'entrée du fusible"}
+  - {sheet: PWR, from: BUS87, to: F3.1, mm2: 2.5, color: RD/WH, harness: PDM, note: "Pont du répartiteur +87 vers l'entrée du fusible"}
+  - {sheet: PWR, from: BUS87, to: F4.1, mm2: 2.5, color: RD/WH, harness: PDM, note: "Pont du répartiteur +87 vers l'entrée du fusible"}
+  - {sheet: PWR, from: BUS87, to: F5.1, mm2: 2.5, color: RD/WH, harness: PDM, note: "Pont du répartiteur +87 vers l'entrée du fusible"}
   - {sheet: PWR, from: F1.2, to: CMC1.M4, mm2: 1.0, color: RD/WH, harness: PDM, note: "Alimentation ECU (15 A, préconisation MaxxECU)"}
   - {sheet: PWR, from: KEY.15, to: K1.86, mm2: 0.5, color: VT, harness: CAB}
   - {sheet: PWR, from: K1.85, to: GP-CH, mm2: 0.5, color: BK, harness: PDM}
 
   # ===== Contact, démarreur & excitation alternateur =====
-  - {sheet: DEM, from: BUS30, to: F9.1, internal: true}
-  - {sheet: DEM, from: BUS30, to: F10.1, internal: true}
+  - {sheet: DEM, from: BUS30, to: F9.1, mm2: 2.5, color: RD, harness: PDM, jumper: true, note: "Pont avant fusible, protégé seulement par F0 : < 20 cm, gainé et fixé"}
+  - {sheet: DEM, from: BUS30, to: F10.1, mm2: 2.5, color: RD, harness: PDM, jumper: true, note: "Pont avant fusible, protégé seulement par F0 : < 20 cm, gainé et fixé"}
   - {sheet: DEM, from: F9.2, to: KEY.30, mm2: 0.75, color: RD, harness: CAB, note: "Alimentation de l'interrupteur de contact"}
   - {sheet: DEM, from: KEY.15, to: BTN-START.IN, mm2: 0.5, color: VT, harness: CAB, note: "Bouton alimenté par le +15 : inactif contact coupé. Cosse gigogne (piggy-back) sur la borne 15 : ce fil et celui de K1"}
   - {sheet: DEM, from: BTN-START.OUT, to: K4.86, mm2: 0.5, color: VT/YE, harness: CAB}
@@ -1112,12 +1112,14 @@ topology:
 # Articles de nomenclature non déductibles des fils
 # -----------------------------------------------------------------------------
 bom_extra:
-  - {cat: "Protection", item: "Boîte à fusibles 10 voies (la tienne)", qty: 1, unit: "pc", detail: "2 groupes d'alimentation : F1 à F5 sur le +12 V commuté (BUS87, sortie du relais principal K1, fil PWR-04) ; F6 à F10 sur le +12 V permanent (BUS30, après F0, fil PWR-02). Arrivée du groupe permanent : ≈ 52 A en continu (pompe, ventilateur, relais principal), à prévoir pour 60 A au moins et pour l'œillet 10 mm² de PWR-02. Si ta boîte n'a qu'une seule arrivée commune : elle ne reçoit que F1 à F5 (arrivée = PWR-04) et F6 à F10 passent dans les porte-fusibles de la ligne suivante"}
-  - {cat: "Protection", item: "Porte-fusibles étanches unitaires, au format de tes fusibles (seulement si ta boîte n'a qu'une arrivée commune)", qty: 5, unit: "pc", detail: "F6 20 A, F7 30 A, F8 30 A, F9 5 A, F10 30 A, tous alimentés par le +12 V permanent (PWR-02, BUS30) ; sorties pour 2,5 mm² au moins"}
+  - {cat: "Protection", item: "Boîte à fusibles 10 voies (la tienne), une entrée par fusible", qty: 1, unit: "pc", detail: "F1 à F5 alimentés par 5 ponts de 2,5 mm² depuis le répartiteur +87 (BUS87), F6 à F10 par 5 ponts de 2,5 mm² depuis le répartiteur +30 (BUS30) : voir la planche Alimentation"}
+  - {cat: "Protection", item: "Répartiteur d'alimentation à goujon M6 isolé, avec capot, 60 A mini", qty: 1, unit: "pc", detail: "BUS30 (+12 V permanent) : reçoit PWR-02 (10 mm², depuis F0) et les 5 ponts vers F6 à F10"}
+  - {cat: "Protection", item: "Répartiteur d'alimentation à goujon M6 isolé, avec capot, 30 A mini", qty: 1, unit: "pc", detail: "BUS87 (+12 V commuté) : reçoit PWR-07 (2,5 mm², depuis K1.87) et les 5 ponts vers F1 à F5"}
+  - {cat: "Cosses", item: "Cosse œillet M6 pour 2,5 mm²", qty: 11, unit: "pc", detail: "10 ponts vers les fusibles + PWR-07, côté répartiteurs"}
   - {cat: "Protection", item: "Support de relais ISO mini étanche (lames 6,3 mm)", qty: 9, unit: "pc", detail: "K1 à K4 (moteur) et K5 à K9 (boutons du pad), fixés à côté de la boîte à fusibles ; les cosses de K2 et K3 acceptent le 4 mm² de la pompe et du ventilateur"}
   - {cat: "Montage", item: "Passe-fil caoutchouc étanche pour la traversée du tablier", qty: 1, unit: "pc", detail: "à l'emplacement de la boîte électronique d'origine ; Ø intérieur ≥ 25 mm (toron d'environ 20 mm + gaine)"}
   - {cat: "Protection", item: "Porte-fusible MAXI étanche, entrée / sortie 10 mm²", qty: 1, unit: "pc", detail: "F0 — borne B+ baie moteur"}
-  - {cat: "Cosses", item: "Cosse œillet tubulaire étamée 10 mm²", qty: 4, unit: "pc", detail: "PWR-01 (B+ M8 et F0), PWR-02 (F0 et arrivée +30 permanent BUS30) : diamètres selon porte-fusible"}
+  - {cat: "Cosses", item: "Cosse œillet tubulaire étamée 10 mm²", qty: 4, unit: "pc", detail: "PWR-01 (B+ M8 et F0), PWR-02 (F0 et répartiteur +30 BUS30) : diamètres selon porte-fusible"}
   - {cat: "Contacts", item: "Contacts, joints de fil et bouchons pour chaque connecteur capteur / actionneur", qty: 1, unit: "lot", detail: "JPT / EV1, VAG 1J0 973 724, BMW, MQS, Superseal, contre-connecteur LSU : référence de contact selon la section de chaque fil (liste de coupe)"}
   - {cat: "Outillage", item: "Pinces Molex CMC 63811-9200 (petits contacts), 63811-8900 (gros 0,5–1 mm²), 63811-9000 (gros 1–2 mm²)", qty: 1, unit: "jeu", detail: "ou faire sertir les contacts CMC"}
   - {cat: "Outillage", item: "Extracteurs Molex CMC 638132400 (petits) et 638132300 (gros)", qty: 1, unit: "jeu", detail: ""}
@@ -1148,7 +1150,7 @@ audit:
     detail: "CMC1 M4 = +12 V ECU (fusible 15 A après relais principal). CMC1 L4 ET CMC2 G4 = masses moteur, toutes deux au MÊME goujon de culasse (exigence MaxxECU). Relais principal commandé par le +15 de l'interrupteur de contact : la RACE Gen1 n'a pas de sortie de commande de relais principal."
   - sev: add
     title: "Boîte fusibles/relais complète (PDM)"
-    detail: "Fusible général MAXI 80 A, 10 fusibles numérotés F1 à F10 sans trou (ta boîte 10 voies, si elle a 2 arrivées séparées) et 9 relais (K1 à K4 pour le moteur, K5 à K9 pour les boutons du pad) : chaque circuit a son fusible et chaque fil est protégé par un fusible adapté à sa section (contrôle automatique)."
+    detail: "Fusible général MAXI 80 A, 10 fusibles numérotés F1 à F10 sans trou (ta boîte 10 voies, alimentée par 2 répartiteurs) et 9 relais (K1 à K4 pour le moteur, K5 à K9 pour les boutons du pad) : chaque circuit a son fusible et chaque fil est protégé par un fusible adapté à sa section (contrôle automatique)."
   - sev: fix
     title: "Section des +12 V bobines : 1,0 mm² et non 0,75"
     detail: "Le fusible bobines est à 15 A (préconisation MaxxECU). Un fil de 0,75 mm² n'est protégé que jusqu'à 10 A : chaque dérivation bobine passe en 1,0 mm². Masses broche 4 (puissance) en 1,0 mm², broche 2 (électronique) en 0,75 mm²."
@@ -1171,8 +1173,8 @@ audit:
     title: "Révision E : fusibles F1 à F10, relais du pad"
     detail: "Les fusibles sont renumérotés F1 à F10 sans trou, pour ta boîte 10 voies. Anciens → nouveaux : F1, F2, F3 inchangés ; F4 (chauffage lambda) et F5 (VANOS, MAC, capteur PMH) regroupés en F4 ; l'emplacement F6, déjà vide en révision D, disparaît ; F7 → F5 ; F8 → F6 ; F9 → F7 ; F10 → F8 ; F11 → F9 ; F12 → F10. Les boutons 4 à 8 du pad commandent 5 relais (K5 à K9) qui mettent les entrées DIN3, DIN1, DIN2, DIN4 et DIN5 à la masse capteurs : c'est le câblage « interrupteur → masse » du plan MaxxECU, pull-up des entrées activé, sans aucune résistance."
   - sev: warn
-    title: "Boîte 10 voies : 2 arrivées séparées obligatoires"
-    detail: "F1 à F5 ne doivent recevoir que PWR-04 (sortie du relais principal K1), F6 à F10 que PWR-02 (+12 V permanent). Ne jamais relier ces deux arrivées sur la même barrette : alimentée en permanent, l'ECU, les bobines et les injecteurs resteraient sous tension contact coupé (le moteur ne s'arrêterait plus à l'interrupteur et la batterie se viderait) ; alimentée par K1, le fusible F8 qui alimente K1 se retrouverait derrière K1 et rien ne démarrerait. Si ta boîte n'a qu'une barrette commune : elle ne reçoit que F1 à F5, et F6 à F10 vont dans 5 porte-fusibles séparés (nomenclature). L'arrivée du groupe permanent porte ≈ 52 A en continu : 60 A au moins et cosse pour œillet 10 mm²."
+    title: "Boîte 10 voies à entrées séparées : 2 répartiteurs, ponts du +30 à garder courts"
+    detail: "Chaque fusible de ta boîte a sa propre entrée. F1 à F5 sont alimentés par 5 ponts de 2,5 mm² depuis le répartiteur +87 (BUS87, sortie du relais principal par PWR-07), F6 à F10 par 5 ponts de 2,5 mm² depuis le répartiteur +30 (BUS30, après F0 par PWR-02). Ne jamais relier les deux répartiteurs : l'ECU, les bobines et les injecteurs resteraient sous tension contact coupé. Les ponts du +30 ne sont protégés que par F0 (80 A) : moins de 20 cm, gainés, fixés, et capot isolant sur le répartiteur +30. Le répartiteur +30 porte ≈ 52 A en continu (pompe, ventilateur, relais principal) : 60 A mini."
   - sev: warn
     title: "F4 commun : un court-circuit VANOS, MAC ou chauffage lambda arrête le moteur"
     detail: "Le capteur PMH partage F4 avec la VANOS, la MAC et le chauffage de la sonde lambda. Un court-circuit sur l'un d'eux fait fondre F4 et coupe aussi le capteur PMH : le moteur cale, alors qu'avec des fusibles séparés il continuait à tourner. Le fil du chauffage lambda longe l'échappement : soigner sa protection thermique et sa fixation. C'est le prix de 2 fusibles en moins."
@@ -1263,15 +1265,14 @@ checks:
       - "Vérifier l'étiquette de la RACE : REV9 ou plus (LSU 4.9)."
       - "Pad : boutons 4 à 7 en mode Toggle (LED rouge), bouton 8 en mode Momentary (LED bleue), fusibles de ces 5 circuits remplacés par du 5 A ; bouton allumé = +12 V sur la sortie, éteint = 0 V ou circuit ouvert."
       - "Relais K5 à K9 : bobine 86–85 ≈ 70–90 Ω ; contact 30–87 ouvert au repos, fermé bobine sous 12 V."
-      - "Boîte à fusibles : les arrivées du groupe F1 à F5 et du groupe F6 à F10 sont isolées l'une de l'autre (multimètre en continuité)."
   - phase: "Faisceau terminé, ECU débranchée"
     items:
       - "Continuité fil par fil avec la liste de coupe (chaque repère d'extrémité)."
       - "Sensor GND (CMC1 H1) ↔ caisse : circuit ouvert."
       - "VR GND (H2), Knock GND (CMC2 E1), Shield GND (E3) ↔ caisse : circuit ouvert."
       - "+5 V (G1) ↔ toutes les masses : pas de court-circuit."
-      - "+12 V commuté (barrette 87) ↔ masse : pas de court-circuit."
-      - "Barrette 30 (F6 à F10) ↔ barrette 87 (F1 à F5) : circuit ouvert."
+      - "+12 V commuté (répartiteur 87) ↔ masse : pas de court-circuit."
+      - "Répartiteur +30 (F6 à F10) ↔ répartiteur +87 (F1 à F5) : circuit ouvert."
       - "CMC1 L4 et CMC2 G4 ↔ goujon culasse : < 0,1 Ω."
       - "Batterie − ↔ caisse (coffre) ET tresse moteur ↔ caisse présentes et serrées (≥ 25 mm²) : sur E36 la batterie est au coffre, tout le retour passe par la caisse (exigence MaxxECU)."
       - "Passe-fil du tablier étanche, faisceau maintenu sans frottement sur la tôle."

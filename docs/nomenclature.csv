@@ -86,15 +86,15 @@ Fil;FLRY-B 1 mm² BK;2,1;m;coupe 1,95 m + 10 %
 Fil;FLRY-B 1 mm² RD/WH;7,5;m;coupe 6,80 m + 10 %
 Fil;FLRY-B 1,5 mm² BK;4,8;m;coupe 4,35 m + 10 %
 Fil;FLRY-B 2,5 mm² BK;0,6;m;coupe 0,55 m + 10 %
-Fil;FLRY-B 2,5 mm² RD;0,9;m;coupe 0,80 m + 10 %
-Fil;FLRY-B 2,5 mm² RD/WH;2,6;m;coupe 2,40 m + 10 %
+Fil;FLRY-B 2,5 mm² RD;2,0;m;coupe 1,80 m + 10 %
+Fil;FLRY-B 2,5 mm² RD/WH;3,7;m;coupe 3,40 m + 10 %
 Fil;FLRY-B 2,5 mm² VT/YE;2,8;m;coupe 2,50 m + 10 %
 Fil;FLRY-B 4 mm² BK;0,4;m;coupe 0,40 m + 10 %
 Fil;FLRY-B 4 mm² RD/BU;2,5;m;coupe 2,30 m + 10 %
 Fil;FLRY-B 4 mm² RD/YE;3,5;m;coupe 3,20 m + 10 %
 Fil;FLRY-B 10 mm² RD;1,9;m;coupe 1,75 m + 10 %
-Câble;2 × 0,5 mm² torsadé blindé;3,4;m;C-CRANK — Capteur PMH
-Câble;2 × 0,5 mm² torsadé blindé;3,0;m;C-CAM — Capteur AAC
+Câble;2 × 0,5 mm² torsadé blindé (câble TRIGGER du faisceau MaxxECU : blanc = signal, marron = VR GND);3,4;m;C-CRANK — Capteur PMH
+Câble;2 × 0,5 mm² torsadé blindé (câble HOME/CAM du faisceau MaxxECU : blanc = signal, marron = VR GND);3,0;m;C-CAM — Capteur AAC
 Câble;2 × 0,5 mm² torsadé blindé;3,0;m;C-KS1 — Cliquetis 1
 Câble;2 × 0,5 mm² torsadé blindé;2,7;m;C-KS2 — Cliquetis 2
 Câble;4 × 0,5 mm² blindé, isolant et gaine FEP/PTFE ≥ 200 °C;2,1;m;C-LSU — Lambda signaux
@@ -108,13 +108,15 @@ Gaine;DR-25 3.2/1.6 mm;0,8;m;selon tronçons du formboard
 Gaine;DR-25 4.8/2.4 mm;8,0;m;selon tronçons du formboard
 Gaine;DR-25 6.4/3.2 mm;3,7;m;selon tronçons du formboard
 Gaine;DR-25 9.5/4.8 mm;1,7;m;selon tronçons du formboard
-Repérage;Étiquettes thermo imprimables (repère de fil);290;pc;une à chaque extrémité
-Protection;Boîte à fusibles 10 voies (la tienne);1;pc;"2 groupes d'alimentation : F1 à F5 sur le +12 V commuté (BUS87, sortie du relais principal K1, fil PWR-04) ; F6 à F10 sur le +12 V permanent (BUS30, après F0, fil PWR-02). Arrivée du groupe permanent : ≈ 52 A en continu (pompe, ventilateur, relais principal), à prévoir pour 60 A au moins et pour l'œillet 10 mm² de PWR-02. Si ta boîte n'a qu'une seule arrivée commune : elle ne reçoit que F1 à F5 (arrivée = PWR-04) et F6 à F10 passent dans les porte-fusibles de la ligne suivante"
-Protection;Porte-fusibles étanches unitaires, au format de tes fusibles (seulement si ta boîte n'a qu'une arrivée commune);5;pc;"F6 20 A, F7 30 A, F8 30 A, F9 5 A, F10 30 A, tous alimentés par le +12 V permanent (PWR-02, BUS30) ; sorties pour 2,5 mm² au moins"
+Repérage;Étiquettes thermo imprimables (repère de fil);310;pc;une à chaque extrémité
+Protection;Boîte à fusibles 10 voies (la tienne), une entrée par fusible;1;pc;F1 à F5 alimentés par 5 ponts de 2,5 mm² depuis le répartiteur +87 (BUS87), F6 à F10 par 5 ponts de 2,5 mm² depuis le répartiteur +30 (BUS30) : voir la planche Alimentation
+Protection;Répartiteur d'alimentation à goujon M6 isolé, avec capot, 60 A mini;1;pc;BUS30 (+12 V permanent) : reçoit PWR-02 (10 mm², depuis F0) et les 5 ponts vers F6 à F10
+Protection;Répartiteur d'alimentation à goujon M6 isolé, avec capot, 30 A mini;1;pc;BUS87 (+12 V commuté) : reçoit PWR-07 (2,5 mm², depuis K1.87) et les 5 ponts vers F1 à F5
+Cosses;Cosse œillet M6 pour 2,5 mm²;11;pc;10 ponts vers les fusibles + PWR-07, côté répartiteurs
 Protection;Support de relais ISO mini étanche (lames 6,3 mm);9;pc;"K1 à K4 (moteur) et K5 à K9 (boutons du pad), fixés à côté de la boîte à fusibles ; les cosses de K2 et K3 acceptent le 4 mm² de la pompe et du ventilateur"
 Montage;Passe-fil caoutchouc étanche pour la traversée du tablier;1;pc;"à l'emplacement de la boîte électronique d'origine ; Ø intérieur ≥ 25 mm (toron d'environ 20 mm + gaine)"
 Protection;Porte-fusible MAXI étanche, entrée / sortie 10 mm²;1;pc;F0 — borne B+ baie moteur
-Cosses;Cosse œillet tubulaire étamée 10 mm²;4;pc;PWR-01 (B+ M8 et F0), PWR-02 (F0 et arrivée +30 permanent BUS30) : diamètres selon porte-fusible
+Cosses;Cosse œillet tubulaire étamée 10 mm²;4;pc;PWR-01 (B+ M8 et F0), PWR-02 (F0 et répartiteur +30 BUS30) : diamètres selon porte-fusible
 Contacts;Contacts, joints de fil et bouchons pour chaque connecteur capteur / actionneur;1;lot;JPT / EV1, VAG 1J0 973 724, BMW, MQS, Superseal, contre-connecteur LSU : référence de contact selon la section de chaque fil (liste de coupe)
 Outillage;Pinces Molex CMC 63811-9200 (petits contacts), 63811-8900 (gros 0,5–1 mm²), 63811-9000 (gros 1–2 mm²);1;jeu;ou faire sertir les contacts CMC
 Outillage;Extracteurs Molex CMC 638132400 (petits) et 638132300 (gros);1;jeu;
