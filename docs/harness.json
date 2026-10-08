@@ -13,6 +13,7 @@
    "Longueurs de tronçons ESTIMÉES pour une baie E36 / M50 : à remplacer par des mesures à la ficelle (section topology).",
    "Fusible général MAXI 80 A sur la borne B+ de la baie moteur (câble batterie d'origine depuis le coffre).",
    "Pompe 280 l/h estimée à 15 A ; ventilateur SPAL 385 mm aspirant 19,5 A (fiche SPAL VA18-AP71/LL-59A) : à confirmer sur les étiquettes.",
+   "Boîte à fusibles 10 voies à 2 arrivées séparées : F1 à F5 sur le +12 V commuté (PWR-04, sortie du relais principal K1), F6 à F10 sur le +12 V permanent (PWR-02). Une seule arrivée commune ne convient pas : voir l'avertissement « Boîte 10 voies » de l'audit.",
    "Pas de clé ni de combiné : interrupteur de contact + bouton démarreur mécanique à côté du pad ; aucun compte-tours câblé.",
    "Pad 8 boutons avec boîtier relais / fusibles : sorties +12 V commutées. Boutons 1 à 3 (éclairage, warnings, essuie-glace) hors faisceau moteur ; boutons 4 à 8 vers l'ECU par 5 relais qui mettent les entrées à la masse."
   ],
@@ -8689,6 +8690,27 @@
    "name": "K9.86 Bobine + (sortie bouton 8 du pad)"
   },
   {
+   "id": "N057",
+   "members": [
+    "COIL1.2",
+    "COIL1.4",
+    "COIL2.2",
+    "COIL2.4",
+    "COIL3.2",
+    "COIL3.4",
+    "COIL4.2",
+    "COIL4.4",
+    "COIL5.2",
+    "COIL5.4",
+    "COIL6.2",
+    "COIL6.4",
+    "GP-COIL",
+    "SPL-COIL-PGND",
+    "SPL-COIL-SGND"
+   ],
+   "name": "Masse bobines (goujon culasse, voisin)"
+  },
+  {
    "id": "N059",
    "members": [
     "GP-CH-AR",
@@ -8717,28 +8739,7 @@
     "K9.85",
     "SPL-GND-PAD"
    ],
-   "name": "Masse des bobines des relais du pad"
-  },
-  {
-   "id": "N057",
-   "members": [
-    "COIL1.2",
-    "COIL1.4",
-    "COIL2.2",
-    "COIL2.4",
-    "COIL3.2",
-    "COIL3.4",
-    "COIL4.2",
-    "COIL4.4",
-    "COIL5.2",
-    "COIL5.4",
-    "COIL6.2",
-    "COIL6.4",
-    "GP-COIL",
-    "SPL-COIL-PGND",
-    "SPL-COIL-SGND"
-   ],
-   "name": "Masse puissance bobines (broches 4)"
+   "name": "Masse caisse habitacle (PDM)"
   },
   {
    "id": "N076",
@@ -9933,7 +9934,7 @@
   {
    "sev": "add",
    "title": "Boîte fusibles/relais complète (PDM)",
-   "detail": "Fusible général MAXI 80 A, 10 fusibles numérotés F1 à F10 sans trou (ta boîte 10 voies) et 9 relais (K1 à K4 pour le moteur, K5 à K9 pour les boutons du pad) : chaque circuit a son fusible et chaque fil est protégé par un fusible adapté à sa section (contrôle automatique)."
+   "detail": "Fusible général MAXI 80 A, 10 fusibles numérotés F1 à F10 sans trou (ta boîte 10 voies, si elle a 2 arrivées séparées) et 9 relais (K1 à K4 pour le moteur, K5 à K9 pour les boutons du pad) : chaque circuit a son fusible et chaque fil est protégé par un fusible adapté à sa section (contrôle automatique)."
   },
   {
    "sev": "fix",
@@ -9958,7 +9959,7 @@
   {
    "sev": "fix",
    "title": "Révision C : audit électrique indépendant",
-   "detail": "Quatre relectures séparées (alimentation et masses, brochage ECU, brochage des composants, fabrication), chaque point contre-vérifié. Corrigé : chauffage lambda D1 en 0,75 mm² (petite alvéole CMC) ; sorties injecteur à 4 A en continu ; blindages de cliquetis sur KNOCK GND ; boîte à fusibles à 2 barrettes indépendantes et supports de relais séparés ; contacts, bouchons et épissures dimensionnés ; connecteur lambda côté faisceau et côté froid ; protection thermique côté turbo ; +12 V du capteur PMH hors câble blindé ; notes MTune (pull-up du trigger, papillon, chauffage, compte-tours)."
+   "detail": "Quatre relectures séparées (alimentation et masses, brochage ECU, brochage des composants, fabrication), chaque point contre-vérifié. Corrigé : chauffage lambda D1 en 0,75 mm² (petite alvéole CMC) ; sorties injecteur à 4 A en continu ; blindages de cliquetis sur KNOCK GND ; fusibles en 2 groupes (+30 permanent / +87 commuté) et supports de relais séparés ; contacts, bouchons et épissures dimensionnés ; connecteur lambda côté faisceau et côté froid ; protection thermique côté turbo ; +12 V du capteur PMH hors câble blindé ; notes MTune (pull-up du trigger, papillon, chauffage, compte-tours)."
   },
   {
    "sev": "add",
@@ -9968,7 +9969,12 @@
   {
    "sev": "add",
    "title": "Révision E : fusibles F1 à F10, relais du pad",
-   "detail": "Les fusibles sont renumérotés F1 à F10 sans trou, pour ta boîte 10 voies. Anciens → nouveaux : F1, F2, F3 inchangés ; F4 (lambda), F5 (actionneurs) et F6 (PMH) regroupés en F4 ; F7 → F5 ; F8 → F6 ; F9 → F7 ; F10 → F8 ; F11 → F9 ; F12 → F10. Les boutons 4 à 8 du pad commandent 5 relais (K5 à K9) qui mettent les entrées DIN3, DIN1, DIN2, DIN4 et DIN5 à la masse capteurs : c'est le câblage « interrupteur → masse » du plan MaxxECU, pull-up des entrées activé, sans aucune résistance."
+   "detail": "Les fusibles sont renumérotés F1 à F10 sans trou, pour ta boîte 10 voies. Anciens → nouveaux : F1, F2, F3 inchangés ; F4 (chauffage lambda) et F5 (VANOS, MAC, capteur PMH) regroupés en F4 ; l'emplacement F6, déjà vide en révision D, disparaît ; F7 → F5 ; F8 → F6 ; F9 → F7 ; F10 → F8 ; F11 → F9 ; F12 → F10. Les boutons 4 à 8 du pad commandent 5 relais (K5 à K9) qui mettent les entrées DIN3, DIN1, DIN2, DIN4 et DIN5 à la masse capteurs : c'est le câblage « interrupteur → masse » du plan MaxxECU, pull-up des entrées activé, sans aucune résistance."
+  },
+  {
+   "sev": "warn",
+   "title": "Boîte 10 voies : 2 arrivées séparées obligatoires",
+   "detail": "F1 à F5 ne doivent recevoir que PWR-04 (sortie du relais principal K1), F6 à F10 que PWR-02 (+12 V permanent). Ne jamais relier ces deux arrivées sur la même barrette : alimentée en permanent, l'ECU, les bobines et les injecteurs resteraient sous tension contact coupé (le moteur ne s'arrêterait plus à l'interrupteur et la batterie se viderait) ; alimentée par K1, le fusible F8 qui alimente K1 se retrouverait derrière K1 et rien ne démarrerait. Si ta boîte n'a qu'une barrette commune : elle ne reçoit que F1 à F5, et F6 à F10 vont dans 5 porte-fusibles séparés (nomenclature). L'arrivée du groupe permanent porte ≈ 52 A en continu : 60 A au moins et cosse pour œillet 10 mm²."
   },
   {
    "sev": "warn",
@@ -10151,7 +10157,8 @@
     "Bobines : confirmer le repérage 1-2-3-4 moulé sur le connecteur.",
     "Vérifier l'étiquette de la RACE : REV9 ou plus (LSU 4.9).",
     "Pad : boutons 4 à 7 en mode Toggle (LED rouge), bouton 8 en mode Momentary (LED bleue), fusibles de ces 5 circuits remplacés par du 5 A ; bouton allumé = +12 V sur la sortie, éteint = 0 V ou circuit ouvert.",
-    "Relais K5 à K9 : bobine 86–85 ≈ 70–90 Ω ; contact 30–87 ouvert au repos, fermé bobine sous 12 V."
+    "Relais K5 à K9 : bobine 86–85 ≈ 70–90 Ω ; contact 30–87 ouvert au repos, fermé bobine sous 12 V.",
+    "Boîte à fusibles : les arrivées du groupe F1 à F5 et du groupe F6 à F10 sont isolées l'une de l'autre (multimètre en continuité)."
    ]
   },
   {
@@ -10162,6 +10169,7 @@
     "VR GND (H2), Knock GND (CMC2 E1), Shield GND (E3) ↔ caisse : circuit ouvert.",
     "+5 V (G1) ↔ toutes les masses : pas de court-circuit.",
     "+12 V commuté (barrette 87) ↔ masse : pas de court-circuit.",
+    "Barrette 30 (F6 à F10) ↔ barrette 87 (F1 à F5) : circuit ouvert.",
     "CMC1 L4 et CMC2 G4 ↔ goujon culasse : < 0,1 Ω.",
     "Batterie − ↔ caisse (coffre) ET tresse moteur ↔ caisse présentes et serrées (≥ 25 mm²) : sur E36 la batterie est au coffre, tout le retour passe par la caisse (exigence MaxxECU).",
     "Passe-fil du tablier étanche, faisceau maintenu sans frottement sur la tôle.",
@@ -10173,6 +10181,7 @@
    "phase": "Première mise sous tension (pompe et injecteurs débranchés)",
    "items": [
     "Interrupteur de contact sur ON : relais principal colle, +12 V sur CMC1 M4, voyant de charge allumé.",
+    "Contact coupé : K1 décollé, 0 V en sortie de F1 à F5 et sur CMC1 M4 ; +12 V en sortie de F6 à F10.",
     "Bouton démarreur appuyé, contact mis : K4 colle et la borne 50 du démarreur reçoit le +12 V (injecteurs débranchés). Contact coupé : le bouton ne fait rien.",
     "MTune, pad : chaque bouton 4 à 8 fait changer d'état son entrée (DIN3, DIN1, DIN2, DIN4, DIN5) ; pad éteint, ≈ 5 V sur chaque broche (pull-up activé) et toutes les fonctions inactives, ALS mis à part (autorisé bouton éteint).",
     "Bouton 8 moteur tournant : le moteur s'arrête, l'ECU reste allumée et le ventilateur continue selon la température (ou forcé par le bouton 4) ; bouton relâché, le démarreur relance le moteur.",
@@ -10965,7 +10974,14 @@
    "item": "Boîte à fusibles 10 voies (la tienne)",
    "qty": 1,
    "unit": "pc",
-   "detail": "2 groupes d'alimentation : F1 à F5 sur le +12 V commuté (BUS87, sortie du relais principal K1, fil PWR-04) ; F6 à F10 sur le +12 V permanent (BUS30, après F0, fil PWR-02). Si ta boîte n'a qu'une seule arrivée commune pour ses 10 fusibles : elle reçoit F1 à F5 (arrivée = PWR-04), et F6 à F10 passent dans tes porte-fusibles supplémentaires, alimentés par PWR-02"
+   "detail": "2 groupes d'alimentation : F1 à F5 sur le +12 V commuté (BUS87, sortie du relais principal K1, fil PWR-04) ; F6 à F10 sur le +12 V permanent (BUS30, après F0, fil PWR-02). Arrivée du groupe permanent : ≈ 52 A en continu (pompe, ventilateur, relais principal), à prévoir pour 60 A au moins et pour l'œillet 10 mm² de PWR-02. Si ta boîte n'a qu'une seule arrivée commune : elle ne reçoit que F1 à F5 (arrivée = PWR-04) et F6 à F10 passent dans les porte-fusibles de la ligne suivante"
+  },
+  {
+   "cat": "Protection",
+   "item": "Porte-fusibles étanches unitaires, au format de tes fusibles (seulement si ta boîte n'a qu'une arrivée commune)",
+   "qty": 5,
+   "unit": "pc",
+   "detail": "F6 20 A, F7 30 A, F8 30 A, F9 5 A, F10 30 A, tous alimentés par le +12 V permanent (PWR-02, BUS30) ; sorties pour 2,5 mm² au moins"
   },
   {
    "cat": "Protection",

@@ -283,7 +283,7 @@ class Harness:
         ecu = first("ecu")
         if ecu:
             return f"{ecu} {self.endpoints[ecu]['fn']}"
-        for cat in ("splice", "ground"):
+        for cat in ("ground", "splice"):   # un point de masse nomme son réseau avant une épissure
             m = first(cat)
             if m:
                 return self.endpoints[m]["fn"]

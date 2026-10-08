@@ -109,7 +109,8 @@ Gaine;DR-25 4.8/2.4 mm;8,0;m;selon tronçons du formboard
 Gaine;DR-25 6.4/3.2 mm;3,7;m;selon tronçons du formboard
 Gaine;DR-25 9.5/4.8 mm;1,7;m;selon tronçons du formboard
 Repérage;Étiquettes thermo imprimables (repère de fil);290;pc;une à chaque extrémité
-Protection;Boîte à fusibles 10 voies (la tienne);1;pc;"2 groupes d'alimentation : F1 à F5 sur le +12 V commuté (BUS87, sortie du relais principal K1, fil PWR-04) ; F6 à F10 sur le +12 V permanent (BUS30, après F0, fil PWR-02). Si ta boîte n'a qu'une seule arrivée commune pour ses 10 fusibles : elle reçoit F1 à F5 (arrivée = PWR-04), et F6 à F10 passent dans tes porte-fusibles supplémentaires, alimentés par PWR-02"
+Protection;Boîte à fusibles 10 voies (la tienne);1;pc;"2 groupes d'alimentation : F1 à F5 sur le +12 V commuté (BUS87, sortie du relais principal K1, fil PWR-04) ; F6 à F10 sur le +12 V permanent (BUS30, après F0, fil PWR-02). Arrivée du groupe permanent : ≈ 52 A en continu (pompe, ventilateur, relais principal), à prévoir pour 60 A au moins et pour l'œillet 10 mm² de PWR-02. Si ta boîte n'a qu'une seule arrivée commune : elle ne reçoit que F1 à F5 (arrivée = PWR-04) et F6 à F10 passent dans les porte-fusibles de la ligne suivante"
+Protection;Porte-fusibles étanches unitaires, au format de tes fusibles (seulement si ta boîte n'a qu'une arrivée commune);5;pc;"F6 20 A, F7 30 A, F8 30 A, F9 5 A, F10 30 A, tous alimentés par le +12 V permanent (PWR-02, BUS30) ; sorties pour 2,5 mm² au moins"
 Protection;Support de relais ISO mini étanche (lames 6,3 mm);9;pc;"K1 à K4 (moteur) et K5 à K9 (boutons du pad), fixés à côté de la boîte à fusibles ; les cosses de K2 et K3 acceptent le 4 mm² de la pompe et du ventilateur"
 Montage;Passe-fil caoutchouc étanche pour la traversée du tablier;1;pc;"à l'emplacement de la boîte électronique d'origine ; Ø intérieur ≥ 25 mm (toron d'environ 20 mm + gaine)"
 Protection;Porte-fusible MAXI étanche, entrée / sortie 10 mm²;1;pc;F0 — borne B+ baie moteur

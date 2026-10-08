@@ -22,7 +22,7 @@ CMC1 M4 = +12 V ECU (fusible 15 A après relais principal). CMC1 L4 ET CMC2 G4 =
 
 ### ➕ Ajouté — Boîte fusibles/relais complète (PDM)
 
-Fusible général MAXI 80 A, 10 fusibles numérotés F1 à F10 sans trou (ta boîte 10 voies) et 9 relais (K1 à K4 pour le moteur, K5 à K9 pour les boutons du pad) : chaque circuit a son fusible et chaque fil est protégé par un fusible adapté à sa section (contrôle automatique).
+Fusible général MAXI 80 A, 10 fusibles numérotés F1 à F10 sans trou (ta boîte 10 voies, si elle a 2 arrivées séparées) et 9 relais (K1 à K4 pour le moteur, K5 à K9 pour les boutons du pad) : chaque circuit a son fusible et chaque fil est protégé par un fusible adapté à sa section (contrôle automatique).
 
 ### 🛠 Corrigé — Section des +12 V bobines : 1,0 mm² et non 0,75
 
@@ -42,7 +42,7 @@ Pompe : relais K2, fusible 20 A, alimentation et masse en 4 mm² pour limiter la
 
 ### 🛠 Corrigé — Révision C : audit électrique indépendant
 
-Quatre relectures séparées (alimentation et masses, brochage ECU, brochage des composants, fabrication), chaque point contre-vérifié. Corrigé : chauffage lambda D1 en 0,75 mm² (petite alvéole CMC) ; sorties injecteur à 4 A en continu ; blindages de cliquetis sur KNOCK GND ; boîte à fusibles à 2 barrettes indépendantes et supports de relais séparés ; contacts, bouchons et épissures dimensionnés ; connecteur lambda côté faisceau et côté froid ; protection thermique côté turbo ; +12 V du capteur PMH hors câble blindé ; notes MTune (pull-up du trigger, papillon, chauffage, compte-tours).
+Quatre relectures séparées (alimentation et masses, brochage ECU, brochage des composants, fabrication), chaque point contre-vérifié. Corrigé : chauffage lambda D1 en 0,75 mm² (petite alvéole CMC) ; sorties injecteur à 4 A en continu ; blindages de cliquetis sur KNOCK GND ; fusibles en 2 groupes (+30 permanent / +87 commuté) et supports de relais séparés ; contacts, bouchons et épissures dimensionnés ; connecteur lambda côté faisceau et côté froid ; protection thermique côté turbo ; +12 V du capteur PMH hors câble blindé ; notes MTune (pull-up du trigger, papillon, chauffage, compte-tours).
 
 ### ➕ Ajouté — Révision D : contact sans clé, pad 8 boutons
 
@@ -50,7 +50,11 @@ Plus de clé : un interrupteur de contact alimenté par F9 donne le +15 (relais 
 
 ### ➕ Ajouté — Révision E : fusibles F1 à F10, relais du pad
 
-Les fusibles sont renumérotés F1 à F10 sans trou, pour ta boîte 10 voies. Anciens → nouveaux : F1, F2, F3 inchangés ; F4 (lambda), F5 (actionneurs) et F6 (PMH) regroupés en F4 ; F7 → F5 ; F8 → F6 ; F9 → F7 ; F10 → F8 ; F11 → F9 ; F12 → F10. Les boutons 4 à 8 du pad commandent 5 relais (K5 à K9) qui mettent les entrées DIN3, DIN1, DIN2, DIN4 et DIN5 à la masse capteurs : c'est le câblage « interrupteur → masse » du plan MaxxECU, pull-up des entrées activé, sans aucune résistance.
+Les fusibles sont renumérotés F1 à F10 sans trou, pour ta boîte 10 voies. Anciens → nouveaux : F1, F2, F3 inchangés ; F4 (chauffage lambda) et F5 (VANOS, MAC, capteur PMH) regroupés en F4 ; l'emplacement F6, déjà vide en révision D, disparaît ; F7 → F5 ; F8 → F6 ; F9 → F7 ; F10 → F8 ; F11 → F9 ; F12 → F10. Les boutons 4 à 8 du pad commandent 5 relais (K5 à K9) qui mettent les entrées DIN3, DIN1, DIN2, DIN4 et DIN5 à la masse capteurs : c'est le câblage « interrupteur → masse » du plan MaxxECU, pull-up des entrées activé, sans aucune résistance.
+
+### ⚠️ À vérifier — Boîte 10 voies : 2 arrivées séparées obligatoires
+
+F1 à F5 ne doivent recevoir que PWR-04 (sortie du relais principal K1), F6 à F10 que PWR-02 (+12 V permanent). Ne jamais relier ces deux arrivées sur la même barrette : alimentée en permanent, l'ECU, les bobines et les injecteurs resteraient sous tension contact coupé (le moteur ne s'arrêterait plus à l'interrupteur et la batterie se viderait) ; alimentée par K1, le fusible F8 qui alimente K1 se retrouverait derrière K1 et rien ne démarrerait. Si ta boîte n'a qu'une barrette commune : elle ne reçoit que F1 à F5, et F6 à F10 vont dans 5 porte-fusibles séparés (nomenclature). L'arrivée du groupe permanent porte ≈ 52 A en continu : 60 A au moins et cosse pour œillet 10 mm².
 
 ### ⚠️ À vérifier — F4 commun : un court-circuit VANOS, MAC ou chauffage lambda arrête le moteur
 
