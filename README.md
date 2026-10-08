@@ -85,7 +85,8 @@ Ouvre ensuite `docs/faisceau.html` dans un navigateur.
 11. **Révision D : contact sans clé et pad 8 boutons** : interrupteur de contact (toujours protégé par F11)
     et bouton démarreur mécanique qui commande K4 ; +12 V du capteur PMH regroupé sur F5 (emplacement F6 libre) ;
     plus de combiné ni de sortie compte-tours ; boutons 4 à 8 du pad sur AIN8, DIN1, DIN2, DIN4 et DIN5
-    par une platine de 10 résistances (pull-up désactivé dans MTune), réglages MTune de chaque bouton.
+    par une platine de 10 résistances (pull-up désactivé dans MTune), réglages MTune de chaque bouton ;
+    bouton 8 = arrêt moteur contact mis, pour laisser l'ECU piloter le ventilateur.
 
 Le détail, les points validés et les sources sont dans `docs/rapport.md`.
 

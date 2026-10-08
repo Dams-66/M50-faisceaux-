@@ -108,7 +108,7 @@ COM-03;0,5;VT/GY;1,15;;CAB;PAD.C6;Bouton 6 : ALS off;IF-PAD.3;Entrée bouton 6 (
 COM-02;0,5;VT/OG;1,15;;CAB;PAD.C5;Bouton 5 : changement de carto;IF-PAD.2;Entrée bouton 5 (+12 V pad);Habitacle : pad de commandes → ECU, CAN;;Bouton 5 : changement de carto (fusible du pad 5 A maxi)
 COM-04;0,5;VT/PK;1,15;;CAB;PAD.C7;Bouton 7 : carto de chauffe (warm-up);IF-PAD.4;Entrée bouton 7 (+12 V pad);Habitacle : pad de commandes → ECU, CAN;;Bouton 7 : carto de chauffe (fusible du pad 5 A maxi)
 COM-01;0,5;VT/RD;1,15;;CAB;PAD.C4;Bouton 4 : ventilation forcée;IF-PAD.1;Entrée bouton 4 (+12 V pad);Habitacle : pad de commandes → ECU, CAN;;Bouton 4 : ventilation forcée (fusible du pad 5 A maxi)
-COM-05;0,5;VT/WH;1,15;;CAB;PAD.C8;Bouton 8 : refroidissement (cool-down);IF-PAD.5;Entrée bouton 8 (+12 V pad);Habitacle : pad de commandes → ECU, CAN;;Bouton 8 : refroidissement (fusible du pad 5 A maxi)
+COM-05;0,5;VT/WH;1,15;;CAB;PAD.C8;Bouton 8 : arrêt moteur, contact maintenu;IF-PAD.5;Entrée bouton 8 (+12 V pad);Habitacle : pad de commandes → ECU, CAN;;Bouton 8 : arrêt moteur (fusible du pad 5 A maxi)
 DEM-03;0,5;VT/YE;1,35;;CAB;BTN-START.OUT;Sortie démarrage → bobine K4;K4.86;Bobine + (bouton démarreur);Contact, démarreur & excitation alternateur;F11;
 DBW-03;0,5;WH;2,80;;ENG;CMC1.G2;THROTTLE SENSOR (TPS);ETB.1;TPS 1;Papillon motorisé & pédale;;
 KNK-01;0,5;WH;2,70;C-KS1;ENG;CMC2.E2;KNOCK 1;KS1.1;Signal;Cliquetis;;
@@ -122,7 +122,7 @@ DBW-10;0,5;WH/BU;1,40;;CAB;CMC1.J4;ANALOG IN 4 (0-5 V);APP.4;Signal piste 1;Papi
 DBW-12;0,5;WH/GN;1,40;;CAB;CMC2.G3;ANALOG IN 5 (0-5 V);APP.6;Signal piste 2;Papillon motorisé & pédale;;
 COM-09;0,5;WH/GY;0,35;;CAB;IF-PAD.9;Sortie voie 4 → DIN4;CMC2.F3;DIGITAL / VR IN 4;Habitacle : pad de commandes → ECU, CAN;;DIN4 = carto de chauffe (Internal output → limiteur secondaire), pull-up OFF
 COM-08;0,5;WH/OG;0,35;;CAB;IF-PAD.8;Sortie voie 3 → DIN2;CMC1.K4;DIGITAL IN 2;Habitacle : pad de commandes → ECU, CAN;;DIN2 = ALS off (Anti-lag enable, actif bas), pull-up OFF
-COM-10;0,5;WH/PK;0,35;;CAB;IF-PAD.10;Sortie voie 5 → DIN5;CMC2.F4;DIGITAL / VR IN 5;Habitacle : pad de commandes → ECU, CAN;;DIN5 = refroidissement (Boost target switch (use table 3) + ventilateur), pull-up OFF
+COM-10;0,5;WH/PK;0,35;;CAB;IF-PAD.10;Sortie voie 5 → DIN5;CMC2.F4;DIGITAL / VR IN 5;Habitacle : pad de commandes → ECU, CAN;;DIN5 = arrêt moteur (Stop engine/prevent start), pull-up OFF
 COM-07;0,5;WH/RD;0,35;;CAB;IF-PAD.7;Sortie voie 2 → DIN1;CMC1.K3;DIGITAL IN 1;Habitacle : pad de commandes → ECU, CAN;;DIN1 = changement de carto (Boost target switch (use table 2)), pull-up OFF
 SNS-16;0,5;WH/VT;2,30;;ENG;CMC2.F1;ANALOG IN 7 (0-5 V);FUEL.2;Pression 0,5–4,5 V;Capteurs température / pression & distribution 5 V / Sensor GND;;
 COM-06;0,5;WH/YE;0,35;;CAB;IF-PAD.6;Sortie voie 1 → AIN8 (rappel 4,7 kΩ);CMC2.F2;ANALOG IN 8 (0-5 V);Habitacle : pad de commandes → ECU, CAN;;AIN8 en entrée digitale (seuil 3,0 V) = ventilation forcée (Fan override input)

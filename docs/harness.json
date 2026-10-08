@@ -62,6 +62,14 @@
     "url": "https://www.maxxecu.com/webhelp/settings-motorsport-anti_lag.html"
    },
    {
+    "label": "MaxxECU — Stop engine/prevent start (arrêt moteur par entrée, ECU alimentée)",
+    "url": "https://www.maxxecu.com/webhelp/input_functions-stop_engine_or_prevent_start.html"
+   },
+   {
+    "label": "MaxxECU — sortie pompe (coupée dès la perte du signal PMH) et Engine fan (« disable fan when engine off »)",
+    "url": "https://www.maxxecu.com/webhelp/output_functions-fuel_pump_relay.html"
+   },
+   {
     "label": "Molex CMC 48 voies 64320 — plan SD-64320-001 (rangées A–K = CP 0.6, L–M = CP 1.5)",
     "url": "https://www.farnell.com/cad/2790198.pdf"
    },
@@ -1907,7 +1915,7 @@
    "node": "CAB_PAD",
    "system": "COM",
    "harness": "CAB",
-   "notes": "Boutons 4 à 8 en mode Toggle (LED rouge) : l'ECU lit un état maintenu, pas une impulsion. Leurs fusibles passent à 5 A ou moins (le manuel autorise un calibre égal ou inférieur) : ils ne débitent que 0,7 mA chacun. Boutons 1 à 3 : fusibles d'origine selon leur charge. Interrupteur du boîtier sur BATTERY : warnings utilisables contact coupé. Boîtier alimenté par son propre câble batterie avec fusible, masse à la caisse (hors faisceau moteur). Éteindre le pad (ON/OFF) en quittant la voiture : un bouton resté allumé garde son relais collé. Si un bouton devient intermittent (contact de relais qui ne voit que 0,7 mA), ajouter 1,2 kΩ ½ W entre sa sortie et la masse, côté pad.",
+   "notes": "Boutons 4 à 7 en mode Toggle (LED rouge) : l'ECU lit un état maintenu, pas une impulsion. Bouton 8 (arrêt moteur) en mode Momentary (LED bleue) : on le tient jusqu'à l'arrêt du moteur, puis le démarreur peut relancer sans rien désarmer (en Toggle, il sert d'anti-démarrage tant qu'il est allumé). Les fusibles des boutons 4 à 8 passent à 5 A ou moins (le manuel autorise un calibre égal ou inférieur) : ils ne débitent que 0,7 mA chacun. Boutons 1 à 3 : fusibles d'origine selon leur charge. Interrupteur du boîtier sur BATTERY : warnings utilisables contact coupé. Boîtier alimenté par son propre câble batterie avec fusible, masse à la caisse (hors faisceau moteur). Éteindre le pad (ON/OFF) en quittant la voiture : un bouton resté allumé garde son relais collé. Si un bouton devient intermittent (contact de relais qui ne voit que 0,7 mA), ajouter 1,2 kΩ ½ W entre sa sortie et la masse, côté pad.",
    "verify": "Au multimètre : bouton allumé = +12 V sur la sortie, bouton éteint = 0 V ou circuit ouvert (sortie +12 V côté haut, à confirmer).",
    "rating_a": null,
    "load_a": null,
@@ -1927,7 +1935,7 @@
    "node": "N_IFPAD",
    "system": "COM",
    "harness": "CAB",
-   "notes": "Chaque voie : entrée → 10 kΩ → sortie, puis une résistance de rappel de la sortie vers la broche 11 : 4,7 kΩ sur la voie 1 (AIN8, entrée 0–5 V), 10 kΩ sur les voies 2 à 5 (DIN). Bouton allumé : ≈ 3,8–4,6 V sur AIN8 (seuil 3,0 V), ≈ 6–7 V sur les DIN (seuil 3,3–3,5 V, 12 V tolérés) ; bouton éteint : 0 V franc, au lieu d'une entrée en l'air. Dans MTune, le pull-up de ces entrées DOIT être désactivé, sinon l'entrée reste active pad éteint. Montage : plaque pastillée dans un petit boîtier étanche, ou résistances en ligne sous gaine thermo à colle.",
+   "notes": "Pourquoi : bouton éteint, la sortie du pad n'est reliée à rien (fil en l'air, ni 0 ni 12 V) et l'ECU pourrait lire « allumé » à cause des parasites ; la résistance de rappel tient le fil à 0 V. La résistance en série ramène les 14,4 V du pad sous ce que l'entrée accepte (12 V garantis par MaxxECU, 5 V sur AIN8). Chaque voie : entrée → 10 kΩ → sortie, puis une résistance de rappel de la sortie vers la broche 11 : 4,7 kΩ sur la voie 1 (AIN8, entrée 0–5 V), 10 kΩ sur les voies 2 à 5 (DIN). Bouton allumé : ≈ 3,8–4,6 V sur AIN8 (seuil 3,0 V), ≈ 6–7 V sur les DIN (seuil 3,3–3,5 V, 12 V tolérés) ; bouton éteint : 0 V franc, au lieu d'une entrée en l'air. Dans MTune, le pull-up de ces entrées DOIT être désactivé, sinon l'entrée reste active pad éteint. Montage : plaque pastillée dans un petit boîtier étanche, ou résistances en ligne sous gaine thermo à colle.",
    "verify": "ECU débranchée, batterie à 12,5 V : pad éteint, 0 V sur les broches 6 à 10 ; bouton allumé, ≈ 4 V sur la broche 6 et ≈ 6 V sur les broches 7 à 10.",
    "rating_a": null,
    "load_a": null,
@@ -3846,7 +3854,7 @@
    "owner": "PAD",
    "pin": "C8",
    "cat": "comp",
-   "fn": "Bouton 8 : refroidissement (cool-down)",
+   "fn": "Bouton 8 : arrêt moteur, contact maintenu",
    "cls": "PWR12",
    "source": true
   },
@@ -7505,7 +7513,7 @@
    "harness": "CAB",
    "internal": false,
    "drain": false,
-   "note": "Bouton 8 : refroidissement (fusible du pad 5 A maxi)",
+   "note": "Bouton 8 : arrêt moteur (fusible du pad 5 A maxi)",
    "net": "N070",
    "route_m": 0.95,
    "length_m": 1.15,
@@ -7602,7 +7610,7 @@
    "harness": "CAB",
    "internal": false,
    "drain": false,
-   "note": "DIN5 = refroidissement (Boost target switch (use table 3) + ventilateur), pull-up OFF",
+   "note": "DIN5 = arrêt moteur (Stop engine/prevent start), pull-up OFF",
    "net": "N050",
    "route_m": 0.15,
    "length_m": 0.35,
@@ -9597,7 +9605,7 @@
   {
    "sev": "add",
    "title": "Révision D : contact sans clé, pad 8 boutons, F6 regroupé dans F5",
-   "detail": "Plus de clé : un interrupteur de contact alimenté par F11 donne le +15 (relais principal K1) et alimente le bouton démarreur mécanique, qui commande K4 ; le démarreur ne peut donc pas être lancé contact coupé. F11 reste nécessaire : c'est lui qui protège le fil qui va de la barrette +30 jusqu'à l'interrupteur. Le +12 V du capteur PMH est pris sur F5 avec la VANOS et la MAC (épissure à l'arrière de la culasse, 0,75 mm²). Plus de combiné : la sortie compte-tours (GPO8, CMC1 A4) est libre. Les boutons 4 à 8 du pad arrivent sur AIN8, DIN1, DIN2, DIN4 et DIN5 par une platine de 10 résistances (une en série, une de rappel vers Sensor GND par bouton), pull-up des entrées désactivé dans MTune. Le ventilateur, seule fonction directe, est sur AIN8 ; les trois modes qui passent par l'Internal output system sont sur des DIN, dont l'état « DIN x Active » est utilisable comme condition."
+   "detail": "Plus de clé : un interrupteur de contact alimenté par F11 donne le +15 (relais principal K1) et alimente le bouton démarreur mécanique, qui commande K4 ; le démarreur ne peut donc pas être lancé contact coupé. F11 reste nécessaire : c'est lui qui protège le fil qui va de la barrette +30 jusqu'à l'interrupteur. Le +12 V du capteur PMH est pris sur F5 avec la VANOS et la MAC (épissure à l'arrière de la culasse, 0,75 mm²). Plus de combiné : la sortie compte-tours (GPO8, CMC1 A4) est libre. Les boutons 4 à 8 du pad arrivent sur AIN8, DIN1, DIN2, DIN4 et DIN5 par une platine de 10 résistances (une en série, une de rappel vers Sensor GND par bouton), pull-up des entrées désactivé dans MTune. Le ventilateur, fonction directe, est sur AIN8 ; la carto et la chauffe, qui passent par l'Internal output system, sont sur des DIN, dont l'état « DIN x Active » est utilisable comme condition. Le bouton 8 arrête le moteur (Stop engine/prevent start) sans couper le contact : l'ECU reste alimentée et continue de piloter le ventilateur pour refroidir."
   },
   {
    "sev": "warn",
@@ -9606,8 +9614,13 @@
   },
   {
    "sev": "warn",
+   "title": "Bouton 8 : moteur arrêté, contact mis = batterie qui se vide",
+   "detail": "Moteur arrêté par le bouton 8, l'alternateur ne charge plus (voyant de charge allumé, c'est normal) alors que le ventilateur tire 19,5 A, plus ECU, papillon et relais : environ 22 A, soit à peu près 2 Ah pour 5 minutes. La pompe à essence, elle, s'arrête seule (MaxxECU coupe sa sortie dès que le signal PMH disparaît). Couper le contact une fois le moteur refroidi."
+  },
+  {
+   "sev": "warn",
    "title": "Entrées DIN / VR toutes occupées par le pad",
-   "detail": "DIN1, DIN2, DIN4 et DIN5 sont les seules entrées capables de lire un capteur de vitesse de roue ou de boîte (VR / Hall). Si tu en ajoutes un plus tard, le bouton le moins utile devra passer sur DIN3 (CMC1 C1), qui a un pull-up fixe et ne se commande qu'à la masse : il faudra alors un relais ou un transistor inverseur à la place des résistances pour ce bouton. Même chose pour le ventilateur après coupure (power hold) : il demande une entrée « Ignition key » qui n'est plus libre ; la solution simple est un relais câblé en parallèle de K3, indépendant de l'ECU."
+   "detail": "DIN1, DIN2, DIN4 et DIN5 sont les seules entrées capables de lire un capteur de vitesse de roue ou de boîte (VR / Hall). Si tu en ajoutes un plus tard, le bouton le moins utile devra passer sur DIN3 (CMC1 C1), qui a un pull-up fixe et ne se commande qu'à la masse : il faudra alors un relais ou un transistor inverseur à la place des résistances pour ce bouton. Pas de maintien d'alimentation (power hold) : il demanderait une entrée « Ignition key » qui n'est plus libre. Pour refroidir moteur arrêté, on utilise le bouton 8 (arrêt moteur, contact laissé mis)."
   },
   {
    "sev": "add",
@@ -9733,7 +9746,7 @@
   },
   {
    "item": "Pad : réglages communs",
-   "value": "DIN1, DIN2, DIN4, DIN5 (Inputs → Digital inputs) : Input type = Digital input (jamais VR), Pullup = OFF (obligatoire avec la platine IF-PAD), Latch = None (le bouton du pad en mode Toggle tient l'état), Active level = rising sauf ALS off. AIN8 : Use as = Digital input, Pullup resistor = aucun si l'option apparaît, actif haut. Vérifier qu'il reste au moins 3 Internal outputs libres"
+   "value": "DIN1, DIN2, DIN4, DIN5 (Inputs → Digital inputs) : Input type = Digital input (jamais VR), Pullup = OFF (obligatoire avec la platine IF-PAD), Latch = None (le bouton du pad en mode Toggle tient l'état), Active level = rising sauf ALS off. AIN8 : Use as = Digital input, Pullup resistor = aucun si l'option apparaît, actif haut. Vérifier qu'il reste au moins 2 Internal outputs libres"
   },
   {
    "item": "AIN8 (CMC2 F2) — bouton 4",
@@ -9741,7 +9754,7 @@
   },
   {
    "item": "DIN1 (CMC1 K3) — bouton 5",
-   "value": "Changement de carto : Function = Boost target switch (use table 2), Boost control → target tables = Triple (switch activated). Internal output 1 : condition DIN 1 Active = 1 → Input to control = Extra ignition table 1 activation switch, Additional input = Extra fuel table 1 activation switch ; tables extra en « … when input active ». Ne pas utiliser « Extra fuel/ign table activation switch (all) » : il déclencherait aussi la table de chauffe"
+   "value": "Changement de carto : Function = Boost target switch (use table 2), Boost control → target tables = Dual table (switch activated). Internal output 1 : condition DIN 1 Active = 1 → Input to control = Extra ignition table 1 activation switch, Additional input = Extra fuel table 1 activation switch ; tables extra en « … when input active ». Ne pas utiliser « Extra fuel/ign table activation switch (all) » : il déclencherait aussi la table de chauffe"
   },
   {
    "item": "DIN2 (CMC1 K4) — bouton 6",
@@ -9753,7 +9766,11 @@
   },
   {
    "item": "DIN5 (CMC2 F4) — bouton 8",
-   "value": "Refroidissement : Function = Boost target switch (use table 3), table de boost réduite. Internal output 3 : condition DIN 5 Active → Input to control = Fan override input (en OU avec le bouton 4). Pas de ventilateur moteur coupé : le power hold demanderait une entrée « Ignition key » qui n'est plus libre"
+   "value": "Arrêt moteur : Function = Stop engine/prevent start, Active level = rising, Latch = None. Doc MaxxECU : « engine will not start or will be stopped if running ». L'ECU reste alimentée ; la pompe s'arrête seule (sortie coupée dès la perte du signal PMH)"
+  },
+  {
+   "item": "Ventilateur moteur arrêté",
+   "value": "Engine fan : « disable fan when engine off » = NON (sinon le ventilateur s'arrête avec le moteur) ; Start temperature réglée comme d'habitude. Le bouton 4 (Fan override input) force le ventilateur dans tous les cas"
   }
  ],
  "checks": [
@@ -9770,7 +9787,7 @@
     "Capteur PMH : confirmer alim / signal / masse sur sa doc ou par essai (12 V + pull-up, passage d'une pièce acier) ; dans MTune, pull-up du trigger activé.",
     "Bobines : confirmer le repérage 1-2-3-4 moulé sur le connecteur.",
     "Vérifier l'étiquette de la RACE : REV9 ou plus (LSU 4.9).",
-    "Pad : boutons 4 à 8 en mode Toggle (LED rouge), fusibles de ces 5 circuits remplacés par du 5 A ; bouton allumé = +12 V sur la sortie, éteint = 0 V ou circuit ouvert.",
+    "Pad : boutons 4 à 7 en mode Toggle (LED rouge), bouton 8 en mode Momentary (LED bleue), fusibles de ces 5 circuits remplacés par du 5 A ; bouton allumé = +12 V sur la sortie, éteint = 0 V ou circuit ouvert.",
     "Platine IF-PAD : 10 kΩ ± 1 % entre chaque entrée (1 à 5) et sa sortie (6 à 10) ; 4,7 kΩ entre la broche 6 et la broche 11, 10 kΩ entre chacune des broches 7 à 10 et la broche 11."
    ]
   },
@@ -9795,6 +9812,7 @@
     "Interrupteur de contact sur ON : relais principal colle, +12 V sur CMC1 M4, voyant de charge allumé.",
     "Bouton démarreur appuyé, contact mis : K4 colle et la borne 50 du démarreur reçoit le +12 V (injecteurs débranchés). Contact coupé : le bouton ne fait rien.",
     "MTune, pad : chaque bouton 4 à 8 fait passer son entrée (AIN8, DIN1, DIN2, DIN4, DIN5) de 0 à 1 ; pad éteint, toutes à 0 V et à 0 (≈ 4,5 V pad éteint = pull-up resté activé ; si l'option n'existe pas, cette entrée doit être commutée à la masse par relais).",
+    "Bouton 8 moteur tournant : le moteur s'arrête, l'ECU reste allumée et le ventilateur continue selon la température (ou forcé par le bouton 4) ; bouton relâché, le démarreur relance le moteur.",
     "Moteur tournant, bouton allumé : au moins 5 V sur chaque DIN, ECU branchée (sinon passer la résistance série de cette voie à 4,7 kΩ) ; ventilateur, ALS, table de boost et tables extra suivent chaque bouton dans RealTime Data.",
     "Moteur tournant : voyant de charge éteint, 13,8–14,4 V aux bornes de la batterie.",
     "En lançant le démarreur : moins de 0,2 V entre la borne − de la batterie et le goujon GP-HEAD (sinon tresse moteur ↔ caisse à reprendre).",
