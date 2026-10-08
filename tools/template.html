@@ -166,6 +166,7 @@ h3 { font: 600 19px/1.15 var(--font-display); text-transform: uppercase; letter-
 .chip.fix { color: var(--accent); }
 .chip.add { color: var(--ink-2); }
 .chip.info { color: var(--muted); }
+.chip.mx { color: var(--accent); padding: 2px 5px; font-size: 10px; }
 
 /* ---------- Synthèse ---------- */
 .checklist-v { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
@@ -2006,7 +2007,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
         }
       }
       g.append(sv("path", { class: "w-hit", d: d }));
-      g.append(sv("title", null, w.id + " — " + w.from + " → " + w.to + (w.internal ? " (barrette)" : w.drain ? " (blindage)" : " — " + mm2(w.mm2) + " mm² " + w.color + " · " + dec(w.length_m) + " m")));
+      g.append(sv("title", null, w.id + " — " + w.from + " → " + w.to + (w.internal ? (w.premade ? " (fait par MaxxECU)" : " (barrette)") : w.drain ? (w.premade ? " (blindage, fait par MaxxECU)" : " (blindage)") : " — " + mm2(w.mm2) + " mm² " + w.color + " · " + dec(w.length_m) + " m")));
       gW.append(g);
     });
     const hit = (a, b) => a.x < b.x + b.w + 3 && b.x < a.x + a.w + 3 && a.y < b.y + b.h + 1 && b.y < a.y + a.h + 1;
@@ -2312,9 +2313,10 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       h("td", { class: "c-to" }, h("span", { class: "mono" }, w.to), h("div", { class: "fn" }, EP[w.to].fn)),
       h("td", { class: "c-cable mono fn" }, w.cable || ""),
       h("td", { class: "c-harn fn" }, HN[w.harness] || w.harness),
-      h("td", { class: "c-note fn" }, w.note),
+      h("td", { class: "c-note fn" }, w.lead ? h("span", { class: "chip mx", title: "Fil fourni par MaxxECU, déjà serti côté ECU" }, "MaxxECU") : null, w.lead ? " " : null, w.note),
       h("td", { class: "c-path" }, w.from + " → " + w.to),
       h("td", { class: "c-det" }, h("div", null, h("span", { class: "mono" }, w.from), " · ", EP[w.from].fn), h("div", null, h("span", { class: "mono" }, w.to), " · ", EP[w.to].fn),
+        w.lead ? h("div", null, h("span", { class: "chip mx" }, "MaxxECU"), " ", w.lead.action) : null,
         h("div", { class: "muted" }, [w.cable ? "Câble " + w.cable : null, "Faisceau " + (HN[w.harness] || w.harness), w.note].filter(Boolean).join(" · "))),
       h("td", { class: "c-act" },
         h("button", { class: "btn primary", onclick: ev => { ev.stopPropagation(); goSheet(w.sheet, { wire: w.id }, "coupe", w.id); } }, icon("planches"), "Planche " + w.sheet),
@@ -2352,18 +2354,19 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     const sh = h("select", { id: "cut-s", "aria-label": "Planche" }, h("option", { value: "" }, "Toutes les planches"), SHEET_IDS.map(id => h("option", { value: id }, id + " · " + sheetShort(id))));
     const sort = h("select", { id: "cut-o", "aria-label": "Ordre" }, h("option", { value: "cut" }, "Ordre de coupe (par bobine)"), h("option", { value: "id" }, "Par repère"), h("option", { value: "len" }, "Par longueur"));
     const state = h("select", { id: "cut-d", "aria-label": "Avancement" }, h("option", { value: "" }, "Tous les fils"), h("option", { value: "todo" }, "À couper"), h("option", { value: "done" }, "Coupés"));
-    harn.value = saved.h || ""; sh.value = saved.s || ""; sort.value = saved.o || "cut"; state.value = saved.d || "";
+    const orig = h("select", { id: "cut-m", "aria-label": "Origine" }, h("option", { value: "" }, "Fils MaxxECU et à fabriquer"), h("option", { value: "own" }, "Fils à fabriquer"), h("option", { value: "mx" }, "Fils MaxxECU à recouper"));
+    harn.value = saved.h || ""; sh.value = saved.s || ""; sort.value = saved.o || "cut"; state.value = saved.d || ""; orig.value = saved.m || "";
     const count = h("span", { class: "count" }), countM = h("span", { class: "count" });
     const prog = h("span", { class: "progress" }), progM = h("span", { class: "progress" });
     const tbody = h("tbody");
-    const selWrap = h("div", { class: "toolbar d-only" }, harn, sh, sort, state);
+    const selWrap = h("div", { class: "toolbar d-only" }, orig, harn, sh, sort, state);
     const filtN = h("span", { class: "n", hidden: true });
     const filtBtn = h("button", { class: "btn m-flex", "aria-haspopup": "dialog" }, icon("filter"), "Filtres", filtN);
     filtBtn.addEventListener("click", () => {
       const f = h("div", { class: "filters" },
-        h("label", null, "Avancement", state), h("label", null, "Ordre", sort), h("label", null, "Planche", sh), h("label", null, "Faisceau", harn),
-        h("button", { class: "btn", onclick: () => { harn.value = ""; sh.value = ""; state.value = ""; sort.value = "cut"; fillRows(); } }, "Réinitialiser les filtres"));
-      openSheet("Filtres de la liste", f, () => selWrap.append(harn, sh, sort, state));
+        h("label", null, "Fils", orig), h("label", null, "Avancement", state), h("label", null, "Ordre", sort), h("label", null, "Planche", sh), h("label", null, "Faisceau", harn),
+        h("button", { class: "btn", onclick: () => { orig.value = ""; harn.value = ""; sh.value = ""; state.value = ""; sort.value = "cut"; fillRows(); } }, "Réinitialiser les filtres"));
+      openSheet("Filtres de la liste", f, () => selWrap.append(orig, harn, sh, sort, state));
     });
     function progress() {
       const n = REAL.filter(w => isCut(w.id)).length;
@@ -2371,19 +2374,20 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     }
     let grpInfo = [];
     const grpText = (w, grp) => { const done = grp.filter(x => isCut(x.id)).length;
+      if (w.lead) return "Fils MaxxECU déjà sertis côté ECU, à recouper — " + grp.length + " fil" + (grp.length > 1 ? "s" : "") + (done ? " · " + done + " fait" + (done > 1 ? "s" : "") : "");
       return mm2(w.mm2) + " mm² · " + w.color + " — " + grp.length + " fil" + (grp.length > 1 ? "s" : "") + " · " + dec(sumCm(grp) / 100, 2) + " m" + (done ? " · " + done + " coupé" + (done > 1 ? "s" : "") : ""); };
     let tempFilter = false, userF = null;
     function fillRows(noStore) {
       // Un lien croisé filtre la liste sans écraser les filtres choisis par l'utilisateur
-      if (noStore !== true) { tempFilter = false; userF = null; store("cutf", { q: q.value, h: harn.value, s: sh.value, o: sort.value, d: state.value }); }
-      const nf = [harn.value, sh.value, state.value].filter(Boolean).length + (sort.value !== "cut" ? 1 : 0);
+      if (noStore !== true) { tempFilter = false; userF = null; store("cutf", { q: q.value, h: harn.value, s: sh.value, o: sort.value, d: state.value, m: orig.value }); }
+      const nf = [orig.value, harn.value, sh.value, state.value].filter(Boolean).length + (sort.value !== "cut" ? 1 : 0);
       filtN.hidden = !nf; filtN.textContent = nf;
       const t = norm(q.value), t0 = t.replace(/([a-z])0+$/, "$1");
-      let rows = REAL.filter(w => (!harn.value || w.harness === harn.value) && (!sh.value || w.sheet === sh.value) &&
+      let rows = REAL.filter(w => (!orig.value || (orig.value === "mx") === !!w.lead) && (!harn.value || w.harness === harn.value) && (!sh.value || w.sheet === sh.value) &&
         (!state.value || (state.value === "done") === isCut(w.id)) &&
         (!t || norm([w.id, w.from, w.to, EP[w.from].fn, EP[w.to].fn, w.color, w.cable, w.note, mm2(w.mm2)].join(" ")).includes(t) ||
           (t0 !== t && norm([w.id, w.from, w.to].join(" ")).includes(t0))));
-      if (sort.value === "cut") rows.sort((a, b) => b.mm2 - a.mm2 || natural(a.color, b.color) || natural(a.id, b.id));
+      if (sort.value === "cut") rows.sort((a, b) => (!!a.lead - !!b.lead) || (a.lead ? SHEET_IDS.indexOf(a.sheet) - SHEET_IDS.indexOf(b.sheet) || natural(a.id, b.id) : b.mm2 - a.mm2 || natural(a.color, b.color) || natural(a.id, b.id)));
       else if (sort.value === "len") rows.sort((a, b) => b.length_m - a.length_m || natural(a.id, b.id));
       else rows.sort((a, b) => SHEET_IDS.indexOf(a.sheet) - SHEET_IDS.indexOf(b.sheet) || natural(a.id, b.id));
       count.textContent = countM.textContent = rows.length + (rows.length > 1 ? " fils · " : " fil · ") + totM(rows) + " m";
@@ -2393,11 +2397,12 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
         // En-têtes de bobine : une section et une couleur = un passage au dérouleur
         let key = null;
         rows.forEach(w => {
-          const k = w.mm2 + "|" + w.color;
+          const gk = x => x.lead ? "MX" : x.mm2 + "|" + x.color;
+          const k = gk(w);
           if (k !== key) {
             key = k;
-            const grp = rows.filter(x => x.mm2 + "|" + x.color === k);
-            const span = h("span", { class: "cc" }, swatch(w.color), grpText(w, grp));
+            const grp = rows.filter(x => gk(x) === k);
+            const span = h("span", { class: "cc" }, w.lead ? h("span", { class: "chip mx" }, "MaxxECU") : swatch(w.color), grpText(w, grp));
             grpInfo.push({ span: span, w: w, grp: grp });
             out.push(h("tr", { class: "group" }, h("td", { colspan: 10 }, span)));
           }
@@ -2411,7 +2416,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     // Cocher un fil : on met à jour sur place (la carte reste ouverte, le focus reste sur la case)
     cutListeners.push(() => {
       progress();
-      if (!state.value) { grpInfo.forEach(g => fill(g.span, swatch(g.w.color), grpText(g.w, g.grp))); return; }
+      if (!state.value) { grpInfo.forEach(g => fill(g.span, g.w.lead ? h("span", { class: "chip mx" }, "MaxxECU") : swatch(g.w.color), grpText(g.w, g.grp))); return; }
       const y = window.scrollY, open = [...tbody.querySelectorAll("tr.open")].map(t => t.dataset.w);
       const a = document.activeElement, fr = a && tbody.contains(a) ? a.closest("tr[data-w]") : null;
       const nb = fr ? [...tbody.querySelectorAll("tr[data-w]")] : null, fi = nb ? nb.indexOf(fr) : -1;
@@ -2428,7 +2433,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       set: f => { q.value = f.q; harn.value = f.h; sh.value = f.s; sort.value = f.o; state.value = f.d; fillRows(!!f.temp); tempFilter = !!f.temp; userF = f.temp ? f.user : null; } };
     // Revenir sur la Coupe par la navigation efface le filtre temporaire posé par un lien croisé
     ENTER.coupe = () => { if (tempFilter && userF) SNAP.coupe.set(userF); };
-    [q, harn, sh, sort, state].forEach(el => el.addEventListener("input", fillRows));
+    [q, orig, harn, sh, sort, state].forEach(el => el.addEventListener("input", fillRows));
     fillRows();
     coupeOpenImpl = function (wid, from, row) {
       navigate("coupe", { noScroll: true }); pushBack(from, row);
@@ -2489,7 +2494,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
             const ws = wiresAt[e] || [];
             if (!ws.length) return h("tr", null, h("td", { class: "mono" }, EP[e].pin), h("td", null, EP[e].fn), h("td", { colspan: 2, class: "muted" }, EP[e].nc ? "non câblée" : "non raccordée"));
             return ws.map(w => h("tr", { dataset: { w: w.id } }, h("td", { class: "mono" }, EP[e].pin), h("td", null, EP[e].fn),
-              h("td", null, w.internal || w.drain ? h("span", { class: "muted mono" }, w.drain ? "blindage" : "barrette") : h("span", { class: "cc", style: "white-space:normal;flex-wrap:wrap" }, wireTag(w, () => goSheet(w.sheet, { wire: w.id }, "connecteurs", oid)), swatch(w.color), h("span", { class: "mono" }, mm2(w.mm2)))),
+              h("td", null, w.internal || w.drain ? h("span", { class: "muted mono" }, w.premade ? "fait par MaxxECU" : w.drain ? "blindage" : "barrette") : h("span", { class: "cc", style: "white-space:normal;flex-wrap:wrap" }, wireTag(w, () => goSheet(w.sheet, { wire: w.id }, "connecteurs", oid)), swatch(w.color), h("span", { class: "mono" }, mm2(w.mm2)))),
               h("td", null, h("span", { class: "mono" }, otherEnd(w, e)), h("div", { class: "fn" }, EP[otherEnd(w, e)].fn))));
           })))));
       card._text = norm([oid, o.label, o.ref, o.type, o.connector, pins.map(e => EP[e].fn).join(" ")].join(" "));

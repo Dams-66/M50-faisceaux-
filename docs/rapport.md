@@ -1,13 +1,16 @@
 # Faisceau moteur M50B25 VANOS Turbo — rapport de vérification
 
-*MaxxECU RACE Gen1 (REV9+) · révision E · 2026-10-08 · Étude — à valider sur véhicule*
+*MaxxECU RACE Gen1 (REV9+) · révision F · 2026-10-08 · Étude — à valider sur véhicule*
 
 > Généré par `tools/build_harness.py` depuis `harness/m50b25_vanos_turbo.yaml`. Ne pas éditer à la main.
 
-**155 fils** · **182.8 m de fil coupé** · 17 épissures/barrettes · 11 fusibles · 9 relais
+**152 fils** · **182.2 m de fil coupé** · 17 épissures/barrettes · 11 fusibles · 9 relais
 
-## Contrôle des règles électriques : 0 erreur(s), 0 alerte(s)
+## Contrôle des règles électriques : 0 erreur(s), 3 alerte(s)
 
+- ⚠️ SYNC-01 : fil MaxxECU « TRIGGER, (H3) — câble TRIGGER » (3 m) trop court pour 3,10 m estimés — mesurer sur la voiture, rallonge de 0,20 m probable
+- ⚠️ SYNC-02 : fil MaxxECU « VR GND, (H2) — câble TRIGGER » (3 m) trop court pour 3,10 m estimés — mesurer sur la voiture, rallonge de 0,20 m probable
+- ⚠️ ACT-01 : fil MaxxECU « GP OUT 1, (B4) » (3 m) trop court pour 3,15 m estimés — mesurer sur la voiture, rallonge de 0,25 m probable
 - ℹ️ PWR-01 : liaison batterie → fusible général, garder la plus courte possible
 
 ## Audit du plan d'origine
@@ -47,6 +50,18 @@ Quatre relectures séparées (alimentation et masses, brochage ECU, brochage des
 ### ➕ Ajouté — Révision D : contact sans clé, pad 8 boutons
 
 Plus de clé : un interrupteur de contact alimenté par F9 donne le +15 (relais principal K1) et alimente le bouton démarreur mécanique, qui commande K4 ; le démarreur ne peut donc pas être lancé contact coupé. F9 reste nécessaire : c'est lui qui protège le fil qui va de la barrette +30 jusqu'à l'interrupteur. Plus de combiné : la sortie compte-tours (GPO8, CMC1 A4) est libre. Le bouton 8 arrête le moteur (Stop engine/prevent start) sans couper le contact : l'ECU reste alimentée et continue de piloter le ventilateur pour refroidir.
+
+### ➕ Ajouté — Révision F : faisceaux MaxxECU du kit Premium
+
+Le kit RACE Premium fournit les deux faisceaux MaxxECU REV2 : tous les fils sortent déjà sertis des connecteurs de l'ECU, avec une étiquette imprimée, et font 3 m. Plus rien à sertir côté ECU, ni pince ni contact Molex. Pour chaque fil qui part de l'ECU, la liste de coupe donne la longueur à garder ou la rallonge à faire, et sa couleur est celle du fil MaxxECU. Les câbles blindés TRIGGER (PMH), HOME/CAM (AAC), WBO2 1 (lambda), KNOCK 1 et 2 sont fournis avec leurs masses (VR GND, KNOCK GND) et leurs blindages déjà reliés côté ECU : ces liaisons sont marquées « fait par MaxxECU ». Il reste à faire les épissures +5 V et Sensor GND, toutes les alimentations, les masses, les relais et le pad.
+
+### ⚠️ À vérifier — Fils MaxxECU de 3 m : mesurer avant de couper
+
+Les longueurs du dossier sont estimées. Trois fils dépassent 3 m : GPO1 vers la MAC (≈ 3,15 m) et le câble TRIGGER vers le capteur PMH (≈ 3,10 m, signal et masse). Poser tout le faisceau, mesurer, puis couper : jamais l'inverse. Si un fil est trop court, le rallonger avec un manchon à souder ; pour le câble blindé TRIGGER, rallonger avec du câble 2 × 0,5 mm² blindé et reprendre le blindage, ou rapprocher le passage du tablier. Les fils non utilisés restent à longueur, isolés au bout et repliés dans le faisceau.
+
+### ⚠️ À vérifier — LSU 4.2 ou 4.9 ?
+
+Le kit Premium est livré avec une sonde LSU 4.2 et son connecteur, alors que le dossier est câblé pour une LSU 4.9 (brochage différent, voir le plan MaxxECU). À confirmer avant de câbler la sonde : si tu montes la 4.2 fournie, le brochage du connecteur et le réglage MTune changent.
 
 ### ➕ Ajouté — Révision E : fusibles F1 à F10, relais du pad
 
@@ -104,7 +119,7 @@ Le M50 d'origine utilise un capteur inductif en face de la cible 60-2 avant. Le 
 
 La RACE Gen1 n'a qu'un +5 V (G1) et qu'une Sensor GND (H1) : pédale et papillon les partagent. C'est normal ; un court-circuit sur le +5 V fait passer le papillon en sécurité. Consommation totale estimée ≈ 45 mA.
 
-### 🛠 Corrigé — Alvéoles CMC : chauffage lambda (D1) en 0,75 mm²
+### ✅ Validé — Alvéoles CMC : sans objet avec les faisceaux MaxxECU (déjà sertis)
 
 CMC1 (Molex 64320) : rangées A à K = petites alvéoles CP 0.6 (0,75 mm² maxi), rangées L et M = grandes alvéoles CP 1.5. CMC2 (Molex 64319) : rangées A à F = CP 0.6, G et H = CP 1.5. Le fil de chauffage lambda en D1 était en 1,0 mm² : impossible à sertir et à étancher, il passe en 0,75 mm². Contacts : 64322-1039 pour 0,5 mm² et 64322-1029 pour 0,75 mm² en petite alvéole (K1, K2, B4, D4, D1) ; 64323-1029 pour 0,5–1 mm² et 64323-1039 pour 1–2 mm² en grande alvéole (L4, CMC2 G4). Bouchons 64325-1010 / 64325-1023 sur les alvéoles vides.
 
@@ -176,54 +191,54 @@ Consommation estimée sur le +5 V capteurs (G1) : **45 mA**.
 | CMC1.B2 | IGNITION CYL 3 | IGN-03 | 0,5 | BU | COIL3.3 (Commande IGN) |
 | CMC1.B3 | IGNITION CYL 4 | IGN-04 | 0,5 | BU | COIL4.3 (Commande IGN) |
 | CMC1.B4 | GP OUT 1 | ACT-01 | 0,75 | GN | MAC.2 (Commande GPO1) |
-| CMC1.C1 | DIGITAL IN 3 (GP OUT 7 déclaré en entrée) | COM-06 | 0,5 | WH/YE | K5.30 (Contact → entrée DIN3 (CMC1 C1)) |
+| CMC1.C1 | DIGITAL IN 3 (GP OUT 7 déclaré en entrée) | COM-06 | 0,5 | GN | K5.30 (Contact → entrée DIN3 (CMC1 C1)) |
 | CMC1.C2 | IGNITION CYL 5 | IGN-05 | 0,5 | BU | COIL5.3 (Commande IGN) |
 | CMC1.C3 | IGNITION CYL 6 | IGN-06 | 0,5 | BU | COIL6.3 (Commande IGN) |
 | CMC1.C4 | GP OUT 2 | RLY-01 | 0,5 | GN | K2.85 (Bobine − (GPO2)) |
 | CMC1.D1 | WBO2 HTR (pin 3 LSU 4.9) / GP OUT 9 | WBO-05 | 0,75 | GN | LSU.3 (Chauffage −) |
 | CMC1.D4 | GP OUT 3 | ACT-02 | 0,75 | GN | VANOS.2 (Commande (masse)) |
-| CMC1.E1 | CAN H (120 Ω intégrée) | COM-23 | 0,5 | YE/BK | CANDEV.H (CAN H) |
-| CMC1.E2 | CAN L | COM-24 | 0,5 | GN/BK | CANDEV.L (CAN L) |
-| CMC1.E3 | SHIELD GND | SYNC-07 | 0,5 | BK/WH | SPL-SHLD (Blindages → Shield GND — déjà fait dans le faisceau MaxxECU pré-câblé) |
-| CMC1.F1 | COOLANT SENSOR (CLT) | SNS-12 | 0,5 | YE | CLT.1 (Signal NTC) |
-| CMC1.F2 | AIR TEMP SENSOR (IAT) | SNS-11 | 0,5 | YE/BK | IAT.1 (Signal NTC) |
+| CMC1.E1 | CAN H (120 Ω intégrée) | COM-23 | 0,5 | GY | CANDEV.H (CAN H) |
+| CMC1.E2 | CAN L | COM-24 | 0,5 | PK | CANDEV.L (CAN L) |
+| CMC1.E3 | SHIELD GND | MX-02 | 0,5 | BK/WH | SPL-SHLD (Blindages → Shield GND, fait par MaxxECU) |
+| CMC1.F1 | COOLANT SENSOR (CLT) | SNS-12 | 0,5 | BK | CLT.1 (Signal NTC) |
+| CMC1.F2 | AIR TEMP SENSOR (IAT) | SNS-11 | 0,5 | BK | IAT.1 (Signal NTC) |
 | CMC1.F3 | WBO2 COM | WBO-02 | 0,5 | YE | LSU.2 (VM / COM) |
 | CMC1.F4 | WBO2 VS / O2 IN | WBO-04 | 0,5 | BN | LSU.6 (VS (UN / Nernst)) |
-| CMC1.G1 | +5 V SENSOR SUPPLY | SNS-01 | 0,5 | OG | SPL-5V-MAIN (+5 V — départ ECU) |
-| CMC1.G2 | THROTTLE SENSOR (TPS) | DBW-03 | 0,5 | WH | ETB.1 (TPS 1) |
+| CMC1.G1 | +5 V SENSOR SUPPLY | SNS-01 | 0,5 | RD | SPL-5V-MAIN (+5 V — départ ECU) |
+| CMC1.G2 | THROTTLE SENSOR (TPS) | DBW-03 | 0,5 | BK | ETB.1 (TPS 1) |
 | CMC1.G3 | WBO2 IP | WBO-01 | 0,5 | WH | LSU.1 (IP (pompe)) |
 | CMC1.G4 | WBO2 RCAL | WBO-03 | 0,5 | GN | LSU.5 (RCAL (IA)) |
 | CMC1.H1 | SENSOR GND | SNS-05 | 0,5 | BN | SPL-SG-MAIN (Sensor GND — départ ECU) |
-| CMC1.H2 | VR GND | SYNC-06 | 0,5 | BN | SPL-VRG (VR GND (PMH + AAC) — déjà fait dans le faisceau MaxxECU pré-câblé) |
+| CMC1.H2 | VR GND | MX-01 | 0,5 | BN | SPL-VRG (VR GND (PMH + AAC), fait par MaxxECU) |
 | CMC1.H3 | TRIGGER | SYNC-01 | 0,5 | WH | CRANK.2 (Signal Hall) |
 | CMC1.H4 | HOME / CAM | SYNC-04 | 0,5 | WH | CAM.1 (Signal (+)) |
-| CMC1.J1 | ANALOG IN 1 (TEMP) | SNS-13 | 0,5 | YE/BN | OIL.5 (Température NTC) |
-| CMC1.J2 | ANALOG IN 2 (TEMP) | SNS-15 | 0,5 | YE/VT | FUEL.5 (Température NTC) |
-| CMC1.J3 | ANALOG IN 3 (0-5 V) | DBW-04 | 0,5 | WH/BK | ETB.4 (TPS 2) |
-| CMC1.J4 | ANALOG IN 4 (0-5 V) | DBW-10 | 0,5 | WH/BU | APP.4 (Signal piste 1) |
+| CMC1.J1 | ANALOG IN 1 (TEMP) | SNS-13 | 0,5 | BK | OIL.5 (Température NTC) |
+| CMC1.J2 | ANALOG IN 2 (TEMP) | SNS-15 | 0,5 | BK | FUEL.5 (Température NTC) |
+| CMC1.J3 | ANALOG IN 3 (0-5 V) | DBW-04 | 0,5 | BK | ETB.4 (TPS 2) |
+| CMC1.J4 | ANALOG IN 4 (0-5 V) | DBW-10 | 0,5 | BK | APP.4 (Signal piste 1) |
 | CMC1.K1 | INJECTOR CYL 1 | INJ-01 | 0,75 | GY | INJ1.2 (Commande ECU) |
 | CMC1.K2 | INJECTOR CYL 2 | INJ-02 | 0,75 | GY | INJ2.2 (Commande ECU) |
-| CMC1.K3 | DIGITAL IN 1 | COM-07 | 0,5 | WH/RD | K6.30 (Contact → entrée DIN1 (CMC1 K3)) |
-| CMC1.K4 | DIGITAL IN 2 | COM-08 | 0,5 | WH/OG | K7.30 (Contact → entrée DIN2 (CMC1 K4)) |
+| CMC1.K3 | DIGITAL IN 1 | COM-07 | 0,5 | BK | K6.30 (Contact → entrée DIN1 (CMC1 K3)) |
+| CMC1.K4 | DIGITAL IN 2 | COM-08 | 0,5 | BK | K7.30 (Contact → entrée DIN2 (CMC1 K4)) |
 | CMC1.L3 | INJECTOR CYL 6 | INJ-06 | 0,75 | GY | INJ6.2 (Commande ECU) |
-| CMC1.L4 | ENGINE GROUND | GND-01 | 1,5 | BK | GP-HEAD (Masse moteur ECU (goujon arrière culasse)) |
+| CMC1.L4 | ENGINE GROUND | GND-01 | 1,5 | BN | GP-HEAD (Masse moteur ECU (goujon arrière culasse)) |
 | CMC1.M1 | INJECTOR CYL 3 | INJ-03 | 0,75 | GY | INJ3.2 (Commande ECU) |
 | CMC1.M2 | INJECTOR CYL 4 | INJ-04 | 0,75 | GY | INJ4.2 (Commande ECU) |
 | CMC1.M3 | INJECTOR CYL 5 | INJ-05 | 0,75 | GY | INJ5.2 (Commande ECU) |
-| CMC1.M4 | +12 V ECU | PWR-13 | 1 | RD/WH | F1.2 (Sortie) |
+| CMC1.M4 | +12 V ECU | PWR-13 | 1 | RD | F1.2 (Sortie) |
 | CMC2.C1 | EGT1+ | WBO-07 | 0,5 | YE | EGT1.+ (K+ (chromel)) |
 | CMC2.D1 | EGT1- | WBO-08 | 0,5 | RD | EGT1.- (K− (alumel)) |
-| CMC2.E1 | KNOCK GND | KNK-05 | 0,5 | BN | SPL-KGND (Knock GND (2 capteurs)) |
+| CMC2.E1 | KNOCK GND | MX-03 | 0,5 | BN | SPL-KGND (Knock GND (2 capteurs), fait par MaxxECU) |
 | CMC2.E2 | KNOCK 1 | KNK-01 | 0,5 | WH | KS1.1 (Signal) |
 | CMC2.E3 | KNOCK 2 | KNK-03 | 0,5 | WH | KS2.1 (Signal) |
-| CMC2.E4 | ANALOG IN 6 (0-5 V) | SNS-14 | 0,5 | WH/BN | OIL.2 (Pression 0,5–4,5 V) |
-| CMC2.F1 | ANALOG IN 7 (0-5 V) | SNS-16 | 0,5 | WH/VT | FUEL.2 (Pression 0,5–4,5 V) |
-| CMC2.F3 | DIGITAL / VR IN 4 | COM-09 | 0,5 | WH/GY | K8.30 (Contact → entrée DIN4 (CMC2 F3)) |
-| CMC2.F4 | DIGITAL / VR IN 5 | COM-10 | 0,5 | WH/PK | K9.30 (Contact → entrée DIN5 (CMC2 F4)) |
-| CMC2.G3 | ANALOG IN 5 (0-5 V) | DBW-12 | 0,5 | WH/GN | APP.6 (Signal piste 2) |
-| CMC2.G4 | ENGINE GROUND 2 | GND-02 | 1,5 | BK | GP-HEAD (Masse moteur ECU (goujon arrière culasse)) |
-| CMC2.H2 | MOTOR 1- / GPO 11 | DBW-06 | 1 | PK/BK | ETB.5 (Moteur −) |
-| CMC2.H4 | MOTOR 1+ / GPO 12 | DBW-05 | 1 | PK | ETB.3 (Moteur +) |
+| CMC2.E4 | ANALOG IN 6 (0-5 V) | SNS-14 | 0,5 | BK | OIL.2 (Pression 0,5–4,5 V) |
+| CMC2.F1 | ANALOG IN 7 (0-5 V) | SNS-16 | 0,5 | BK | FUEL.2 (Pression 0,5–4,5 V) |
+| CMC2.F3 | DIGITAL / VR IN 4 | COM-09 | 0,5 | BK | K8.30 (Contact → entrée DIN4 (CMC2 F3)) |
+| CMC2.F4 | DIGITAL / VR IN 5 | COM-10 | 0,5 | BK | K9.30 (Contact → entrée DIN5 (CMC2 F4)) |
+| CMC2.G3 | ANALOG IN 5 (0-5 V) | DBW-12 | 0,5 | BK | APP.6 (Signal piste 2) |
+| CMC2.G4 | ENGINE GROUND 2 | GND-02 | 1,5 | BN | GP-HEAD (Masse moteur ECU (goujon arrière culasse)) |
+| CMC2.H2 | MOTOR 1- / GPO 11 | DBW-06 | 1 | RD | ETB.5 (Moteur −) |
+| CMC2.H4 | MOTOR 1+ / GPO 12 | DBW-05 | 1 | RD | ETB.3 (Moteur +) |
 
 Broches libres : CMC1.A1 (GP OUT 5), CMC1.A4 (TACH / GP OUT 8), CMC1.D2 (IGNITION CYL 7), CMC1.D3 (IGNITION CYL 8), CMC1.E4 (GP OUT 4), CMC1.L1 (INJECTOR CYL 8), CMC1.L2 (INJECTOR CYL 7), CMC2.A1 (EGT5+), CMC2.A2 (EGT6+), CMC2.A3 (EGT7+), CMC2.A4 (EGT8+), CMC2.B1 (EGT5-), CMC2.B2 (EGT6-), CMC2.B3 (EGT7-), CMC2.B4 (EGT8-), CMC2.C2 (EGT2+), CMC2.C3 (EGT3+), CMC2.C4 (EGT4+), CMC2.D2 (EGT2-), CMC2.D3 (EGT3-), CMC2.D4 (EGT4-), CMC2.F2 (ANALOG IN 8 (0-5 V)), CMC2.G1 (GP OUT 15 (+12 V, 2 A)), CMC2.G2 (GP OUT 16 (+12 V, 2 A)), CMC2.H1 (MOTOR 2+ / GPO 14), CMC2.H3 (MOTOR 2- / GPO 13)
 

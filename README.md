@@ -5,6 +5,11 @@ turbo en E36 (caisse vide), gestion MaxxECU RACE Gen1 (REV9+), papillon
 motorisé, LSU 4.9, EGT, bobines intelligentes, injecteurs 870 cc, pompe 280 l/h,
 ventilateur SPAL 385 mm, démarrage sans clé et pad 8 boutons relié à l'ECU.
 
+L'ECU est livrée avec ses **faisceaux MaxxECU** (kit RACE Premium, harness 1 et 2 REV2) : tous les fils
+sortent déjà sertis des connecteurs, repérés par une étiquette et longs de 3 m. Le dossier dit, pour chacun,
+à quelle longueur le couper (ou de combien le rallonger) et décrit tout le reste à fabriquer : alimentations,
+fusibles, relais, masses, épissures +5 V / Sensor GND, pad de commandes.
+
 Tout est généré depuis **un seul fichier** : on modifie la définition, on
 relance le générateur, et planches, liste de coupe, nomenclature et contrôles
 suivent. Aucun schéma n'est dessiné à la main, donc rien ne peut diverger.
@@ -53,6 +58,7 @@ Ouvre ensuite `docs/faisceau.html` dans un navigateur.
 - chaque fil protégé par un fusible compatible avec sa section ;
 - charge de chaque fusible (alerte au-delà de 80 %) ;
 - courant de chaque sortie ECU sous sa limite (GPO 2 A, GPO9 5 A, INJ 4 A en continu) ;
+- fils qui partent de l'ECU : couleur du fil MaxxECU réellement fourni, et alerte si les 3 m ne suffisent pas ;
 - section de chaque fil compatible avec son alvéole Molex CMC (0,75 mm² maxi en petite alvéole) ;
 - chute de tension aller + retour des charges fortes (pompe, ventilateur), alerte au-delà de 3 % ;
 - broches de composants non raccordées, épissures trop chargées.
@@ -89,6 +95,9 @@ Ouvre ensuite `docs/faisceau.html` dans un navigateur.
     10 voies ; VANOS, MAC, capteur PMH et chauffage lambda regroupés sur F4 ; les boutons 4 à 8 du pad
     commandent 5 relais (K5 à K9) qui mettent les entrées DIN1 à DIN5 à la masse capteurs, comme le plan
     MaxxECU (pull-up activé, aucune résistance).
+13. **Révision F : faisceaux MaxxECU du kit Premium** : plus rien à sertir côté ECU ; liste de coupe
+    « fil MaxxECU à recouper » / « fil à fabriquer », couleurs MaxxECU, câbles blindés et masses VR / Knock
+    déjà faits par MaxxECU, alerte sur les fils de 3 m trop justes (MAC, PMH).
 
 Le détail, les points validés et les sources sont dans `docs/rapport.md`.
 
@@ -101,5 +110,7 @@ Le détail, les points validés et les sources sont dans `docs/rapport.md`.
 - Pompe 280 l/h estimée à 15 A, ventilateur SPAL 385 mm aspirant à 19,5 A : à confirmer sur les étiquettes.
 - Longueurs de tronçons estimées : à mesurer sur la voiture (dont démarreur et alternateur).
 - Démarreur : solénoïde estimé à 10 A en maintien (30–40 A à l'appel, absorbé par le fusible 30 A temporisé).
+- Fils MaxxECU de 3 m : MAC et câble TRIGGER (PMH) au plus juste, à mesurer avant de couper.
+- Sonde lambda : le kit fournit une LSU 4.2, le dossier est câblé pour une LSU 4.9 (à confirmer).
 - Pad 8 boutons : sorties +12 V commutées côté haut (à vérifier au multimètre) ; boutons 1 à 3 (éclairage,
   warnings, essuie-glace) câblés hors faisceau moteur.

@@ -96,7 +96,8 @@ class Harness:
                 self._add_endpoint(
                     f"{cid}.{pin}", owner=cid, pin=pin, cat="ecu", fn=p["fn"],
                     kind=p["kind"], max_a=p.get("max_a"),
-                    cls=ECU_KIND_CLASS.get(p["kind"]))
+                    cls=ECU_KIND_CLASS.get(p["kind"]),
+                    lead=p.get("lead"), mark=p.get("mark"))
 
         for cid, c in self.d["components"].items():
             ctype = c.get("type", "")
@@ -131,7 +132,8 @@ class Harness:
 
         for sid, s in self.d["splices"].items():
             self._add_owner(sid, cat="splice", label=s["label"], node=s["node"],
-                            system="REF", busbar=bool(s.get("busbar")), rank=s.get("rank"))
+                            system="REF", busbar=bool(s.get("busbar")), rank=s.get("rank"),
+                            maxxecu=bool(s.get("maxxecu")))
             self._add_endpoint(sid, owner=sid, pin="", cat="splice", fn=s["label"],
                                cls=s.get("cls"))
 
@@ -147,6 +149,16 @@ class Harness:
     def _load_wires(self):
         self.wires = []
         counters = defaultdict(int)
+        harness = self.d["ecu"].get("harness") or {}
+        self.supplied = bool(harness.get("supplied"))
+        mx_spl = {sid for sid, sp in self.d["splices"].items() if sp.get("maxxecu")}
+        cat_of = lambda eid: self.endpoints.get(eid, {}).get("cat")
+        # Épissure MaxxECU → broche ECU qui l'alimente (pour l'étiquette des fils qui en repartent)
+        self.mx_source = {}
+        for w in self.d["wires"]:
+            for a, b in ((w["from"], w["to"]), (w["to"], w["from"])):
+                if a in mx_spl and cat_of(b) == "ecu":
+                    self.mx_source[a] = b
         for idx, w in enumerate(self.d["wires"]):
             for end in ("from", "to"):
                 if w[end] not in self.endpoints:
@@ -156,7 +168,20 @@ class Harness:
                 self.errors.append(f"Fil n°{idx + 1} : planche inconnue « {sheet} »")
             internal = bool(w.get("internal"))
             drain = bool(w.get("drain"))
-            if internal:
+            ends = (w["from"], w["to"])
+            # Fait par MaxxECU : liaison ECU ↔ épissure MaxxECU, ou blindage repris sur une épissure MaxxECU
+            premade = self.supplied and any(e in mx_spl for e in ends) and (
+                drain or any(cat_of(e) == "ecu" for e in ends))
+            if premade and not drain:
+                internal = True
+            lead_src = None
+            if self.supplied and not premade and not drain:
+                lead_src = next((e for e in ends if cat_of(e) == "ecu"), None) or \
+                    next((self.mx_source.get(e) for e in ends if e in mx_spl), None)
+            if premade and not drain:
+                counters["MX"] += 1
+                wid = f"MX-{counters['MX']:02d}"
+            elif internal:
                 counters["BUS"] += 1
                 wid = f"BUS-{counters['BUS']:02d}"
             elif drain:
@@ -179,7 +204,12 @@ class Harness:
                 "mm2": w.get("mm2"), "color": w.get("color"), "cable": cable,
                 "harness": w.get("harness") or self._infer_harness(w),
                 "internal": internal, "drain": drain, "note": w.get("note", ""),
-                "jumper": bool(w.get("jumper")),
+                "jumper": bool(w.get("jumper")), "premade": premade,
+                "lead": {"src": lead_src,
+                         "mark": (self.endpoints[lead_src].get("mark") or self.endpoints[lead_src]["fn"]) + (
+                             f" — câble {self.d['cables'][cable]['mx_name']}"
+                             if cable in self.d["cables"] and self.d["cables"][cable].get("mx_name") else ""),
+                         "color": self.endpoints[lead_src].get("lead")} if lead_src else None,
             })
 
     def _infer_harness(self, w):
@@ -386,6 +416,12 @@ class Harness:
             self.owners[sid]["wires"] = len(ws)
             self.owners[sid]["csa"] = round(total, 2)
 
+        # Fils MaxxECU : la couleur indiquée doit être celle du fil réellement fourni
+        for w in self.wires:
+            lead = w.get("lead")
+            if lead and lead["color"] and w["color"] != lead["color"]:
+                self.warnings.append(f"{w['id']} : couleur {w['color']} alors que le fil MaxxECU « {lead['mark']} » est {lead['color']}")
+
         self._fuse_checks()
         self._output_checks()
 
@@ -574,6 +610,23 @@ class Harness:
             w["route_m"] = round(dist, 3)
             w["length_m"] = round(math.ceil(raw / step - 1e-9) * step, 2)
             w["path"] = segs
+            lead = w.get("lead")
+            if lead:
+                lead_m = (self.d["ecu"].get("harness") or {}).get("lead_m", 3.0)
+                lead["supplied_m"] = lead_m
+                extend = 0.0
+                if w["length_m"] > lead_m:
+                    extend = round(math.ceil((w["length_m"] - lead_m + 0.10) / step - 1e-9) * step, 2)
+                    self.warnings.append(
+                        f"{w['id']} : fil MaxxECU « {lead['mark']} » ({lead_m:g} m) trop court pour {w['length_m']:.2f} m "
+                        f"estimés — mesurer sur la voiture, rallonge de {extend:.2f} m probable".replace(".", ","))
+                lead["extend_m"] = extend
+                action = (f"rallonger de {extend:.2f} m (manchon à souder)" if extend else
+                          f"couper à {w['length_m']:.2f} m").replace(".", ",")
+                if extend and w["cable"]:
+                    action += ", avec du câble blindé et le blindage repris"
+                lead["action"] = action
+                w["note"] = f"Fil MaxxECU « {lead['mark']} » : {action}." + (" " + w["note"] if w["note"] else "")
             if w["jumper"] and w["route_m"] > 0.2:
                 self.warnings.append(f"{w['id']} : pont avant fusible de {w['route_m']:.2f} m, "
                                      "protégé seulement par le fusible général — le raccourcir (< 20 cm)")
@@ -675,6 +728,13 @@ class Harness:
                     used[e["owner"]].add(e["pin"])
 
         for cid, conn in self.d["ecu"]["connectors"].items():
+            if self.supplied:
+                n = len(used[cid])
+                rows.append({"cat": "Faisceau MaxxECU (fourni)", "item": f"{conn['title']} — fils MaxxECU de "
+                             f"{(self.d['ecu'].get('harness') or {}).get('lead_m', 3.0):g} m déjà sertis et repérés",
+                             "qty": 1, "detail": f"{n} fils utilisés sur {len(conn['pins'])} ; les autres : laisser à "
+                             "longueur, isoler chaque bout (gaine thermo) et les replier dans le faisceau"})
+                continue
             rows.append({"cat": "Connecteurs", "item": conn["title"], "qty": 1,
                          "detail": f"{len(used[cid])} contacts utilisés / {len(conn['pins'])}"})
             # Contacts et bouchons Molex CMC selon la taille d'alvéole et la section (plans SD-64320 / SD-64319)
@@ -735,7 +795,7 @@ class Harness:
         # Épissures : pièce choisie selon la section cumulée du côté des départs (toutes sauf la plus grosse)
         by_part = defaultdict(list)
         for sid, v in self.d["splices"].items():
-            if v.get("busbar"):
+            if v.get("busbar") or (self.supplied and v.get("maxxecu")):
                 continue
             secs = sorted((w["mm2"] or 0 for w in self.wires
                            if sid in (w["from"], w["to"]) and not w["internal"] and not w["drain"]), reverse=True)
@@ -754,14 +814,31 @@ class Harness:
                              "detail": self.owners[gid]["label"]})
 
         meters = defaultdict(float)
+        ext_cable = defaultdict(float)
         for w in self.wires:
-            if w["internal"] or w["drain"] or w["cable"]:
+            if w["internal"] or w["drain"]:
+                continue
+            if w.get("lead"):
+                # Fil MaxxECU : seule une éventuelle rallonge est à acheter
+                if w["lead"].get("extend_m"):
+                    if w["cable"]:
+                        ext_cable[w["cable"]] = max(ext_cable[w["cable"]], w["lead"]["extend_m"])
+                    else:
+                        meters[(w["mm2"], w["color"])] += w["lead"]["extend_m"]
+                continue
+            if w["cable"]:
                 continue
             meters[(w["mm2"], w["color"])] += w["length_m"]
         for (mm2, color), m in sorted(meters.items(), key=lambda kv: (kv[0][0], kv[0][1])):
             rows.append({"cat": "Fil", "item": f"FLRY-B {fmt_mm2(mm2)} mm² {color}",
                          "qty": round(m * 1.1, 1), "unit": "m", "detail": f"coupe {m:.2f} m + 10 %".replace(".", ",")})
         for c in self.cable_table:
+            if self.supplied and self.d["cables"][c["id"]].get("maxxecu"):
+                if ext_cable.get(c["id"]):
+                    rows.append({"cat": "Câble", "item": f"Rallonge {c['id']} : câble 2 × 0,5 mm² torsadé blindé",
+                                 "qty": round(ext_cable[c["id"]] + 0.2, 1), "unit": "m",
+                                 "detail": "seulement si le câble MaxxECU est trop court une fois posé"})
+                continue
             rows.append({"cat": "Câble", "item": c["type"], "qty": round(c["length_m"] * 1.1, 1),
                          "unit": "m", "detail": f"{c['id']} — {c['label']}"})
         sleeves = defaultdict(float)
@@ -826,12 +903,14 @@ def write_outputs(h, data, out):
     with open(out / "liste_de_coupe.csv", "w", newline="", encoding="utf-8") as f:
         wr = csv.writer(f, delimiter=";")
         wr.writerow(["Repère", "Section mm²", "Couleur", "Longueur coupe m", "Câble", "Faisceau",
-                     "De", "Fonction (de)", "Vers", "Fonction (vers)", "Planche", "Fusible amont", "Note"])
+                     "De", "Fonction (de)", "Vers", "Fonction (vers)", "Planche", "Fusible amont",
+                     "Fil MaxxECU", "Note"])
         for w in order:
             wr.writerow([w["id"], fmt_mm2(w["mm2"]), w["color"], f"{w['length_m']:.2f}".replace(".", ","),
                          w["cable"] or "", w["harness"], w["from"], h.endpoints[w["from"]]["fn"],
                          w["to"], h.endpoints[w["to"]]["fn"], h.d["sheets"][w["sheet"]]["title"],
-                         w.get("fuse", ""), w["note"]])
+                         w.get("fuse", ""),
+                         f"{w['lead']['mark']} : {w['lead']['action']}" if w.get("lead") else "", w["note"]])
     with open(out / "brochage_ecu.csv", "w", newline="", encoding="utf-8") as f:
         wr = csv.writer(f, delimiter=";")
         wr.writerow(["Broche", "Fonction MaxxECU", "Repère fil", "Section mm²", "Couleur", "Destination"])

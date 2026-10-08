@@ -3,7 +3,7 @@
   "project": "Faisceau moteur M50B25 VANOS Turbo",
   "engine": "BMW M50B25 VANOS — turbo — BMW E36",
   "ecu": "MaxxECU RACE Gen1 (REV9+)",
-  "revision": "E",
+  "revision": "F",
   "date": "2026-10-08",
   "status": "Étude — à valider sur véhicule",
   "assumptions": [
@@ -14,6 +14,7 @@
    "Fusible général MAXI 80 A sur la borne B+ de la baie moteur (câble batterie d'origine depuis le coffre).",
    "Pompe 280 l/h estimée à 15 A ; ventilateur SPAL 385 mm aspirant 19,5 A (fiche SPAL VA18-AP71/LL-59A) : à confirmer sur les étiquettes.",
    "Boîte à fusibles 10 voies dont chaque fusible a sa propre entrée : F1 à F5 alimentés depuis un répartiteur +12 V commuté (sortie du relais principal K1), F6 à F10 depuis un répartiteur +12 V permanent (après F0).",
+   "Kit MaxxECU RACE Premium : faisceaux 1 et 2 REV2 fournis, tous les fils déjà sertis côté ECU, repérés et longs de 3 m.",
    "Pas de clé ni de combiné : interrupteur de contact + bouton démarreur mécanique à côté du pad ; aucun compte-tours câblé.",
    "Pad 8 boutons avec boîtier relais / fusibles : sorties +12 V commutées. Boutons 1 à 3 (éclairage, warnings, essuie-glace) hors faisceau moteur ; boutons 4 à 8 vers l'ECU par 5 relais qui mettent les entrées à la masse."
   ],
@@ -65,6 +66,18 @@
    {
     "label": "MaxxECU — sortie pompe (coupée dès la perte du signal PMH) et Engine fan (« disable fan when engine off »)",
     "url": "https://www.maxxecu.com/webhelp/output_functions-fuel_pump_relay.html"
+   },
+   {
+    "label": "MaxxECU RACE PREMIUM — contenu du kit (faisceaux 1 et 2, LSU 4.2, connecteurs EGT…)",
+    "url": "https://www.maxxecu.com/store/engine-control-or-electronics/maxxecu-standalone-ecu/maxxecu-race-premium-ecu-harnesses-accessories-and-lsu-42"
+   },
+   {
+    "label": "MaxxECU V1/RACE/PRO flying lead harness connector 1 — REV2 : tous les fils 3 m",
+    "url": "https://www.maxxecu.com/store/engine-control-or-electronics/maxxecu-wiring-harness/maxxecu-flying-lead-wiring-harness"
+   },
+   {
+    "label": "MaxxECU RACE harness 2 (EGT, E-Throttle, extra) — REV2 : tous les fils 3 m, connecteurs type K fournis",
+    "url": "https://www.maxxecu.com/store/engine-control-or-electronics/maxxecu-wiring-harness/maxxecu-race-harness-2-egt-e-throttle-extra"
    },
    {
     "label": "Molex CMC 48 voies 64320 — plan SD-64320-001 (rangées A–K = CP 0.6, L–M = CP 1.5)",
@@ -137,7 +150,7 @@
  "color_legend": [
   {
    "code": "RD",
-   "role": "+12 V permanent batterie (30), avant relais"
+   "role": "+12 V permanent batterie (30), avant relais. Fils MaxxECU rouges : 12V ECU (M4), 5V SENSOR SUPPLY (G1), moteur papillon"
   },
   {
    "code": "RD/WH",
@@ -149,39 +162,39 @@
   },
   {
    "code": "BK",
-   "role": "Masse puissance (culasse / caisse)"
+   "role": "Masse puissance (culasse / caisse). Fils MaxxECU noirs : signaux capteurs et entrées, à repérer par leur étiquette"
   },
   {
    "code": "BN",
-   "role": "Masses de référence ECU : Sensor GND, VR GND, Knock GND — JAMAIS à la caisse"
+   "role": "Masses de référence ECU (Sensor GND, VR GND, Knock GND : JAMAIS à la caisse) et masses moteur MaxxECU L4 / G4"
   },
   {
    "code": "OG",
-   "role": "+5 V capteurs (CMC1 G1)"
-  },
-  {
-   "code": "YE",
-   "role": "Signaux température (NTC), rayure = capteur"
+   "role": "+5 V capteurs après l'épissure (le fil MaxxECU G1 qui l'alimente est rouge)"
   },
   {
    "code": "WH",
-   "role": "Signaux analogiques 0–5 V et signaux capteurs, rayure = fonction"
+   "role": "Fils MaxxECU des câbles blindés : TRIGGER, HOME/CAM, KNOCK 1 / 2, WBO2 IP"
+  },
+  {
+   "code": "YE",
+   "role": "Fils MaxxECU : EGT+ (thermocouple), WBO2 COM"
   },
   {
    "code": "BU",
-   "role": "Commandes allumage IGN1→6"
+   "role": "Commandes allumage IGN1→6 (fils MaxxECU bleus)"
   },
   {
    "code": "GY",
-   "role": "Commandes injecteurs INJ1→6"
+   "role": "Commandes injecteurs INJ1→6 et CAN H (fils MaxxECU gris)"
   },
   {
    "code": "GN",
-   "role": "Sorties GPO (actionneurs, relais, chauffage lambda)"
+   "role": "Sorties GPO (actionneurs, relais, chauffage lambda, DIN3) : fils MaxxECU verts"
   },
   {
    "code": "PK",
-   "role": "Moteur papillon (PK = +, PK/BK = −)"
+   "role": "CAN L (fil MaxxECU rose)"
   },
   {
    "code": "VT/YE",
@@ -194,10 +207,6 @@
   {
    "code": "VT/RD",
    "role": "Sorties +12 V du pad → bobines des relais K5 à K9, un fil par bouton : VT/RD, VT/OG, VT/GY, VT/PK, VT/WH (boutons 4 à 8)"
-  },
-  {
-   "code": "WH/RD",
-   "role": "Contacts des relais du pad → entrées ECU : WH/YE (DIN3), WH/RD (DIN1), WH/OG (DIN2), WH/GY (DIN4), WH/PK (DIN5)"
   }
  ],
  "rules": {
@@ -583,7 +592,7 @@
     "kind": "shield_gnd",
     "max_a": null,
     "wires": [
-     "SYNC-07"
+     "MX-02"
     ],
     "sheet": "SYNC"
    },
@@ -713,7 +722,7 @@
     "kind": "vr_gnd",
     "max_a": null,
     "wires": [
-     "SYNC-06"
+     "MX-01"
     ],
     "sheet": "SYNC"
    },
@@ -1101,7 +1110,7 @@
     "kind": "knock_gnd",
     "max_a": null,
     "wires": [
-     "KNK-05"
+     "MX-03"
     ],
     "sheet": "KNK"
    },
@@ -2536,6 +2545,7 @@
    "system": "REF",
    "busbar": false,
    "rank": null,
+   "maxxecu": false,
    "wires": 4,
    "csa": 2.0
   },
@@ -2546,6 +2556,7 @@
    "system": "REF",
    "busbar": false,
    "rank": null,
+   "maxxecu": false,
    "wires": 4,
    "csa": 2.0
   },
@@ -2556,6 +2567,7 @@
    "system": "REF",
    "busbar": false,
    "rank": null,
+   "maxxecu": false,
    "wires": 5,
    "csa": 2.5
   },
@@ -2566,38 +2578,42 @@
    "system": "REF",
    "busbar": false,
    "rank": null,
+   "maxxecu": false,
    "wires": 6,
    "csa": 3.0
   },
   "SPL-VRG": {
    "cat": "splice",
-   "label": "VR GND (PMH + AAC) — déjà fait dans le faisceau MaxxECU pré-câblé",
+   "label": "VR GND (PMH + AAC), fait par MaxxECU",
    "node": "ECU",
    "system": "REF",
    "busbar": false,
    "rank": null,
-   "wires": 3,
-   "csa": 1.5
+   "maxxecu": true,
+   "wires": 2,
+   "csa": 1.0
   },
   "SPL-SHLD": {
    "cat": "splice",
-   "label": "Blindages → Shield GND — déjà fait dans le faisceau MaxxECU pré-câblé",
+   "label": "Blindages → Shield GND, fait par MaxxECU",
    "node": "ECU",
    "system": "REF",
    "busbar": false,
    "rank": null,
-   "wires": 4,
-   "csa": 0.5
+   "maxxecu": true,
+   "wires": 3,
+   "csa": 0
   },
   "SPL-KGND": {
    "cat": "splice",
-   "label": "Knock GND (2 capteurs)",
+   "label": "Knock GND (2 capteurs), fait par MaxxECU",
    "node": "ECU",
    "system": "REF",
    "busbar": false,
    "rank": null,
-   "wires": 5,
-   "csa": 1.5
+   "maxxecu": true,
+   "wires": 4,
+   "csa": 1.0
   },
   "SPL-COIL12": {
    "cat": "splice",
@@ -2606,6 +2622,7 @@
    "system": "REF",
    "busbar": false,
    "rank": null,
+   "maxxecu": false,
    "wires": 7,
    "csa": 8.5
   },
@@ -2616,6 +2633,7 @@
    "system": "REF",
    "busbar": false,
    "rank": null,
+   "maxxecu": false,
    "wires": 7,
    "csa": 6.0
   },
@@ -2626,6 +2644,7 @@
    "system": "REF",
    "busbar": false,
    "rank": null,
+   "maxxecu": false,
    "wires": 7,
    "csa": 8.5
   },
@@ -2636,6 +2655,7 @@
    "system": "REF",
    "busbar": false,
    "rank": null,
+   "maxxecu": false,
    "wires": 7,
    "csa": 5.5
   },
@@ -2646,6 +2666,7 @@
    "system": "REF",
    "busbar": false,
    "rank": null,
+   "maxxecu": false,
    "wires": 5,
    "csa": 4.0
   },
@@ -2656,6 +2677,7 @@
    "system": "REF",
    "busbar": false,
    "rank": null,
+   "maxxecu": false,
    "wires": 4,
    "csa": 2.0
   },
@@ -2666,6 +2688,7 @@
    "system": "REF",
    "busbar": false,
    "rank": 60,
+   "maxxecu": false,
    "wires": 6,
    "csa": 3.0
   },
@@ -2676,6 +2699,7 @@
    "system": "REF",
    "busbar": false,
    "rank": 70,
+   "maxxecu": false,
    "wires": 6,
    "csa": 3.25
   },
@@ -2686,6 +2710,7 @@
    "system": "REF",
    "busbar": true,
    "rank": null,
+   "maxxecu": false,
    "wires": 6,
    "csa": 22.5
   },
@@ -2696,6 +2721,7 @@
    "system": "REF",
    "busbar": true,
    "rank": null,
+   "maxxecu": false,
    "wires": 6,
    "csa": 15.0
   },
@@ -2742,21 +2768,27 @@
    "cat": "ecu",
    "fn": "GP OUT 5",
    "kind": "gpo",
-   "max_a": 2
+   "max_a": 2,
+   "lead": "GN",
+   "mark": "GP OUT 5, (A1)"
   },
   "CMC1.A2": {
    "owner": "CMC1",
    "pin": "A2",
    "cat": "ecu",
    "fn": "IGNITION CYL 1",
-   "kind": "ign"
+   "kind": "ign",
+   "lead": "BU",
+   "mark": "IGNITION CYL 1, (A2)"
   },
   "CMC1.A3": {
    "owner": "CMC1",
    "pin": "A3",
    "cat": "ecu",
    "fn": "IGNITION CYL 2",
-   "kind": "ign"
+   "kind": "ign",
+   "lead": "BU",
+   "mark": "IGNITION CYL 2, (A3)"
   },
   "CMC1.A4": {
    "owner": "CMC1",
@@ -2764,7 +2796,9 @@
    "cat": "ecu",
    "fn": "TACH / GP OUT 8",
    "kind": "gpo",
-   "max_a": 2
+   "max_a": 2,
+   "lead": "GN",
+   "mark": "TACH/GP OUT 8, (A4)"
   },
   "CMC1.B1": {
    "owner": "CMC1",
@@ -2772,21 +2806,27 @@
    "cat": "ecu",
    "fn": "GP OUT 6",
    "kind": "gpo",
-   "max_a": 2
+   "max_a": 2,
+   "lead": "GN",
+   "mark": "GP OUT 6, (B1)"
   },
   "CMC1.B2": {
    "owner": "CMC1",
    "pin": "B2",
    "cat": "ecu",
    "fn": "IGNITION CYL 3",
-   "kind": "ign"
+   "kind": "ign",
+   "lead": "BU",
+   "mark": "IGNITION CYL 3, (B2)"
   },
   "CMC1.B3": {
    "owner": "CMC1",
    "pin": "B3",
    "cat": "ecu",
    "fn": "IGNITION CYL 4",
-   "kind": "ign"
+   "kind": "ign",
+   "lead": "BU",
+   "mark": "IGNITION CYL 4, (B3)"
   },
   "CMC1.B4": {
    "owner": "CMC1",
@@ -2794,28 +2834,36 @@
    "cat": "ecu",
    "fn": "GP OUT 1",
    "kind": "gpo",
-   "max_a": 2
+   "max_a": 2,
+   "lead": "GN",
+   "mark": "GP OUT 1, (B4)"
   },
   "CMC1.C1": {
    "owner": "CMC1",
    "pin": "C1",
    "cat": "ecu",
    "fn": "DIGITAL IN 3 (GP OUT 7 déclaré en entrée)",
-   "kind": "din"
+   "kind": "din",
+   "lead": "GN",
+   "mark": "GP OUT 7, (C1)"
   },
   "CMC1.C2": {
    "owner": "CMC1",
    "pin": "C2",
    "cat": "ecu",
    "fn": "IGNITION CYL 5",
-   "kind": "ign"
+   "kind": "ign",
+   "lead": "BU",
+   "mark": "IGNITION CYL 5, (C2)"
   },
   "CMC1.C3": {
    "owner": "CMC1",
    "pin": "C3",
    "cat": "ecu",
    "fn": "IGNITION CYL 6",
-   "kind": "ign"
+   "kind": "ign",
+   "lead": "BU",
+   "mark": "IGNITION CYL 6, (C3)"
   },
   "CMC1.C4": {
    "owner": "CMC1",
@@ -2823,7 +2871,9 @@
    "cat": "ecu",
    "fn": "GP OUT 2",
    "kind": "gpo",
-   "max_a": 2
+   "max_a": 2,
+   "lead": "GN",
+   "mark": "GP OUT 2, (C4)"
   },
   "CMC1.D1": {
    "owner": "CMC1",
@@ -2831,21 +2881,27 @@
    "cat": "ecu",
    "fn": "WBO2 HTR (pin 3 LSU 4.9) / GP OUT 9",
    "kind": "gpo",
-   "max_a": 5
+   "max_a": 5,
+   "lead": "GN",
+   "mark": "WBO2 HTR PIN 4 / GP OUT 9, (D1)"
   },
   "CMC1.D2": {
    "owner": "CMC1",
    "pin": "D2",
    "cat": "ecu",
    "fn": "IGNITION CYL 7",
-   "kind": "ign"
+   "kind": "ign",
+   "lead": "BU",
+   "mark": "IGNITION CYL 7, (D2)"
   },
   "CMC1.D3": {
    "owner": "CMC1",
    "pin": "D3",
    "cat": "ecu",
    "fn": "IGNITION CYL 8",
-   "kind": "ign"
+   "kind": "ign",
+   "lead": "BU",
+   "mark": "IGNITION CYL 8, (D3)"
   },
   "CMC1.D4": {
    "owner": "CMC1",
@@ -2853,21 +2909,27 @@
    "cat": "ecu",
    "fn": "GP OUT 3",
    "kind": "gpo",
-   "max_a": 2
+   "max_a": 2,
+   "lead": "GN",
+   "mark": "GP OUT 3, (D4)"
   },
   "CMC1.E1": {
    "owner": "CMC1",
    "pin": "E1",
    "cat": "ecu",
    "fn": "CAN H (120 Ω intégrée)",
-   "kind": "can"
+   "kind": "can",
+   "lead": "GY",
+   "mark": "CAN H"
   },
   "CMC1.E2": {
    "owner": "CMC1",
    "pin": "E2",
    "cat": "ecu",
    "fn": "CAN L",
-   "kind": "can"
+   "kind": "can",
+   "lead": "PK",
+   "mark": "CAN L"
   },
   "CMC1.E3": {
    "owner": "CMC1",
@@ -2875,7 +2937,9 @@
    "cat": "ecu",
    "fn": "SHIELD GND",
    "kind": "shield_gnd",
-   "cls": "GND_SHIELD"
+   "cls": "GND_SHIELD",
+   "lead": "BK/WH",
+   "mark": "SHIELD GND"
   },
   "CMC1.E4": {
    "owner": "CMC1",
@@ -2883,35 +2947,45 @@
    "cat": "ecu",
    "fn": "GP OUT 4",
    "kind": "gpo",
-   "max_a": 2
+   "max_a": 2,
+   "lead": "GN",
+   "mark": "GP OUT 4, (E4)"
   },
   "CMC1.F1": {
    "owner": "CMC1",
    "pin": "F1",
    "cat": "ecu",
    "fn": "COOLANT SENSOR (CLT)",
-   "kind": "ain"
+   "kind": "ain",
+   "lead": "BK",
+   "mark": "COOLANT SENSOR, (F1)"
   },
   "CMC1.F2": {
    "owner": "CMC1",
    "pin": "F2",
    "cat": "ecu",
    "fn": "AIR TEMP SENSOR (IAT)",
-   "kind": "ain"
+   "kind": "ain",
+   "lead": "BK",
+   "mark": "AIR TEMP SENSOR, (F2)"
   },
   "CMC1.F3": {
    "owner": "CMC1",
    "pin": "F3",
    "cat": "ecu",
    "fn": "WBO2 COM",
-   "kind": "wbo"
+   "kind": "wbo",
+   "lead": "YE",
+   "mark": "WBO2 COM"
   },
   "CMC1.F4": {
    "owner": "CMC1",
    "pin": "F4",
    "cat": "ecu",
    "fn": "WBO2 VS / O2 IN",
-   "kind": "wbo"
+   "kind": "wbo",
+   "lead": "BN",
+   "mark": "WBO2 VS/O2 IN"
   },
   "CMC1.G1": {
    "owner": "CMC1",
@@ -2919,28 +2993,36 @@
    "cat": "ecu",
    "fn": "+5 V SENSOR SUPPLY",
    "kind": "v5",
-   "cls": "V5"
+   "cls": "V5",
+   "lead": "RD",
+   "mark": "5V SENSOR SUPPLY, (G1)"
   },
   "CMC1.G2": {
    "owner": "CMC1",
    "pin": "G2",
    "cat": "ecu",
    "fn": "THROTTLE SENSOR (TPS)",
-   "kind": "ain"
+   "kind": "ain",
+   "lead": "BK",
+   "mark": "THROTTLE SENSOR, (G2)"
   },
   "CMC1.G3": {
    "owner": "CMC1",
    "pin": "G3",
    "cat": "ecu",
    "fn": "WBO2 IP",
-   "kind": "wbo"
+   "kind": "wbo",
+   "lead": "WH",
+   "mark": "WBO2 IP"
   },
   "CMC1.G4": {
    "owner": "CMC1",
    "pin": "G4",
    "cat": "ecu",
    "fn": "WBO2 RCAL",
-   "kind": "wbo"
+   "kind": "wbo",
+   "lead": "GN",
+   "mark": "WBO2 RCAL"
   },
   "CMC1.H1": {
    "owner": "CMC1",
@@ -2948,7 +3030,9 @@
    "cat": "ecu",
    "fn": "SENSOR GND",
    "kind": "sensor_gnd",
-   "cls": "GND_SENS"
+   "cls": "GND_SENS",
+   "lead": "BN",
+   "mark": "SENSOR GND"
   },
   "CMC1.H2": {
    "owner": "CMC1",
@@ -2956,49 +3040,63 @@
    "cat": "ecu",
    "fn": "VR GND",
    "kind": "vr_gnd",
-   "cls": "GND_VR"
+   "cls": "GND_VR",
+   "lead": "BN",
+   "mark": "VR GND, (H2)"
   },
   "CMC1.H3": {
    "owner": "CMC1",
    "pin": "H3",
    "cat": "ecu",
    "fn": "TRIGGER",
-   "kind": "trig"
+   "kind": "trig",
+   "lead": "WH",
+   "mark": "TRIGGER, (H3)"
   },
   "CMC1.H4": {
    "owner": "CMC1",
    "pin": "H4",
    "cat": "ecu",
    "fn": "HOME / CAM",
-   "kind": "trig"
+   "kind": "trig",
+   "lead": "WH",
+   "mark": "HOME/CAM, (H4)"
   },
   "CMC1.J1": {
    "owner": "CMC1",
    "pin": "J1",
    "cat": "ecu",
    "fn": "ANALOG IN 1 (TEMP)",
-   "kind": "ain"
+   "kind": "ain",
+   "lead": "BK",
+   "mark": "ANALOG IN 1, TEMP, (J1)"
   },
   "CMC1.J2": {
    "owner": "CMC1",
    "pin": "J2",
    "cat": "ecu",
    "fn": "ANALOG IN 2 (TEMP)",
-   "kind": "ain"
+   "kind": "ain",
+   "lead": "BK",
+   "mark": "ANALOG IN 2, TEMP, (J2)"
   },
   "CMC1.J3": {
    "owner": "CMC1",
    "pin": "J3",
    "cat": "ecu",
    "fn": "ANALOG IN 3 (0-5 V)",
-   "kind": "ain"
+   "kind": "ain",
+   "lead": "BK",
+   "mark": "ANALOG IN 3, 0-5V, (J3)"
   },
   "CMC1.J4": {
    "owner": "CMC1",
    "pin": "J4",
    "cat": "ecu",
    "fn": "ANALOG IN 4 (0-5 V)",
-   "kind": "ain"
+   "kind": "ain",
+   "lead": "BK",
+   "mark": "ANALOG IN 4, 0-5V, (J4)"
   },
   "CMC1.K1": {
    "owner": "CMC1",
@@ -3006,7 +3104,9 @@
    "cat": "ecu",
    "fn": "INJECTOR CYL 1",
    "kind": "inj",
-   "max_a": 4
+   "max_a": 4,
+   "lead": "GY",
+   "mark": "INJECTOR CYL 1, (K1)"
   },
   "CMC1.K2": {
    "owner": "CMC1",
@@ -3014,21 +3114,27 @@
    "cat": "ecu",
    "fn": "INJECTOR CYL 2",
    "kind": "inj",
-   "max_a": 4
+   "max_a": 4,
+   "lead": "GY",
+   "mark": "INJECTOR CYL 2, (K2)"
   },
   "CMC1.K3": {
    "owner": "CMC1",
    "pin": "K3",
    "cat": "ecu",
    "fn": "DIGITAL IN 1",
-   "kind": "din"
+   "kind": "din",
+   "lead": "BK",
+   "mark": "DIGITAL IN 1, (K3)"
   },
   "CMC1.K4": {
    "owner": "CMC1",
    "pin": "K4",
    "cat": "ecu",
    "fn": "DIGITAL IN 2",
-   "kind": "din"
+   "kind": "din",
+   "lead": "BK",
+   "mark": "DIGITAL IN 2, (K4)"
   },
   "CMC1.L1": {
    "owner": "CMC1",
@@ -3036,7 +3142,9 @@
    "cat": "ecu",
    "fn": "INJECTOR CYL 8",
    "kind": "inj",
-   "max_a": 4
+   "max_a": 4,
+   "lead": "GY",
+   "mark": "INJECTOR CYL 8, (L1)"
   },
   "CMC1.L2": {
    "owner": "CMC1",
@@ -3044,7 +3152,9 @@
    "cat": "ecu",
    "fn": "INJECTOR CYL 7",
    "kind": "inj",
-   "max_a": 4
+   "max_a": 4,
+   "lead": "GY",
+   "mark": "INJECTOR CYL 7, (L2)"
   },
   "CMC1.L3": {
    "owner": "CMC1",
@@ -3052,7 +3162,9 @@
    "cat": "ecu",
    "fn": "INJECTOR CYL 6",
    "kind": "inj",
-   "max_a": 4
+   "max_a": 4,
+   "lead": "GY",
+   "mark": "INJECTOR CYL 6, (L3)"
   },
   "CMC1.L4": {
    "owner": "CMC1",
@@ -3060,7 +3172,9 @@
    "cat": "ecu",
    "fn": "ENGINE GROUND",
    "kind": "ecu_gnd",
-   "cls": "GND_PWR"
+   "cls": "GND_PWR",
+   "lead": "BN",
+   "mark": "ENGINE GROUND, (L4)"
   },
   "CMC1.M1": {
    "owner": "CMC1",
@@ -3068,7 +3182,9 @@
    "cat": "ecu",
    "fn": "INJECTOR CYL 3",
    "kind": "inj",
-   "max_a": 4
+   "max_a": 4,
+   "lead": "GY",
+   "mark": "INJECTOR CYL 3, (M1)"
   },
   "CMC1.M2": {
    "owner": "CMC1",
@@ -3076,7 +3192,9 @@
    "cat": "ecu",
    "fn": "INJECTOR CYL 4",
    "kind": "inj",
-   "max_a": 4
+   "max_a": 4,
+   "lead": "GY",
+   "mark": "INJECTOR CYL 4, (M2)"
   },
   "CMC1.M3": {
    "owner": "CMC1",
@@ -3084,7 +3202,9 @@
    "cat": "ecu",
    "fn": "INJECTOR CYL 5",
    "kind": "inj",
-   "max_a": 4
+   "max_a": 4,
+   "lead": "GY",
+   "mark": "INJECTOR CYL 5, (M3)"
   },
   "CMC1.M4": {
    "owner": "CMC1",
@@ -3092,119 +3212,153 @@
    "cat": "ecu",
    "fn": "+12 V ECU",
    "kind": "ecu_12v",
-   "cls": "PWR12"
+   "cls": "PWR12",
+   "lead": "RD",
+   "mark": "12V ECU, (M4)"
   },
   "CMC2.A1": {
    "owner": "CMC2",
    "pin": "A1",
    "cat": "ecu",
    "fn": "EGT5+",
-   "kind": "egt"
+   "kind": "egt",
+   "lead": "YE",
+   "mark": "EGT5+"
   },
   "CMC2.A2": {
    "owner": "CMC2",
    "pin": "A2",
    "cat": "ecu",
    "fn": "EGT6+",
-   "kind": "egt"
+   "kind": "egt",
+   "lead": "YE",
+   "mark": "EGT6+"
   },
   "CMC2.A3": {
    "owner": "CMC2",
    "pin": "A3",
    "cat": "ecu",
    "fn": "EGT7+",
-   "kind": "egt"
+   "kind": "egt",
+   "lead": "YE",
+   "mark": "EGT7+"
   },
   "CMC2.A4": {
    "owner": "CMC2",
    "pin": "A4",
    "cat": "ecu",
    "fn": "EGT8+",
-   "kind": "egt"
+   "kind": "egt",
+   "lead": "YE",
+   "mark": "EGT8+"
   },
   "CMC2.B1": {
    "owner": "CMC2",
    "pin": "B1",
    "cat": "ecu",
    "fn": "EGT5-",
-   "kind": "egt"
+   "kind": "egt",
+   "lead": "RD",
+   "mark": "EGT5-"
   },
   "CMC2.B2": {
    "owner": "CMC2",
    "pin": "B2",
    "cat": "ecu",
    "fn": "EGT6-",
-   "kind": "egt"
+   "kind": "egt",
+   "lead": "RD",
+   "mark": "EGT6-"
   },
   "CMC2.B3": {
    "owner": "CMC2",
    "pin": "B3",
    "cat": "ecu",
    "fn": "EGT7-",
-   "kind": "egt"
+   "kind": "egt",
+   "lead": "RD",
+   "mark": "EGT7-"
   },
   "CMC2.B4": {
    "owner": "CMC2",
    "pin": "B4",
    "cat": "ecu",
    "fn": "EGT8-",
-   "kind": "egt"
+   "kind": "egt",
+   "lead": "RD",
+   "mark": "EGT8-"
   },
   "CMC2.C1": {
    "owner": "CMC2",
    "pin": "C1",
    "cat": "ecu",
    "fn": "EGT1+",
-   "kind": "egt"
+   "kind": "egt",
+   "lead": "YE",
+   "mark": "EGT1+"
   },
   "CMC2.C2": {
    "owner": "CMC2",
    "pin": "C2",
    "cat": "ecu",
    "fn": "EGT2+",
-   "kind": "egt"
+   "kind": "egt",
+   "lead": "YE",
+   "mark": "EGT2+"
   },
   "CMC2.C3": {
    "owner": "CMC2",
    "pin": "C3",
    "cat": "ecu",
    "fn": "EGT3+",
-   "kind": "egt"
+   "kind": "egt",
+   "lead": "YE",
+   "mark": "EGT3+"
   },
   "CMC2.C4": {
    "owner": "CMC2",
    "pin": "C4",
    "cat": "ecu",
    "fn": "EGT4+",
-   "kind": "egt"
+   "kind": "egt",
+   "lead": "YE",
+   "mark": "EGT4+"
   },
   "CMC2.D1": {
    "owner": "CMC2",
    "pin": "D1",
    "cat": "ecu",
    "fn": "EGT1-",
-   "kind": "egt"
+   "kind": "egt",
+   "lead": "RD",
+   "mark": "EGT1-"
   },
   "CMC2.D2": {
    "owner": "CMC2",
    "pin": "D2",
    "cat": "ecu",
    "fn": "EGT2-",
-   "kind": "egt"
+   "kind": "egt",
+   "lead": "RD",
+   "mark": "EGT2-"
   },
   "CMC2.D3": {
    "owner": "CMC2",
    "pin": "D3",
    "cat": "ecu",
    "fn": "EGT3-",
-   "kind": "egt"
+   "kind": "egt",
+   "lead": "RD",
+   "mark": "EGT3-"
   },
   "CMC2.D4": {
    "owner": "CMC2",
    "pin": "D4",
    "cat": "ecu",
    "fn": "EGT4-",
-   "kind": "egt"
+   "kind": "egt",
+   "lead": "RD",
+   "mark": "EGT4-"
   },
   "CMC2.E1": {
    "owner": "CMC2",
@@ -3212,56 +3366,72 @@
    "cat": "ecu",
    "fn": "KNOCK GND",
    "kind": "knock_gnd",
-   "cls": "GND_KNOCK"
+   "cls": "GND_KNOCK",
+   "lead": "BN",
+   "mark": "KNOCK GND"
   },
   "CMC2.E2": {
    "owner": "CMC2",
    "pin": "E2",
    "cat": "ecu",
    "fn": "KNOCK 1",
-   "kind": "knock"
+   "kind": "knock",
+   "lead": "WH",
+   "mark": "KNOCK 1"
   },
   "CMC2.E3": {
    "owner": "CMC2",
    "pin": "E3",
    "cat": "ecu",
    "fn": "KNOCK 2",
-   "kind": "knock"
+   "kind": "knock",
+   "lead": "WH",
+   "mark": "KNOCK 2"
   },
   "CMC2.E4": {
    "owner": "CMC2",
    "pin": "E4",
    "cat": "ecu",
    "fn": "ANALOG IN 6 (0-5 V)",
-   "kind": "ain"
+   "kind": "ain",
+   "lead": "BK",
+   "mark": "ANALOG IN 6 (0-5V)"
   },
   "CMC2.F1": {
    "owner": "CMC2",
    "pin": "F1",
    "cat": "ecu",
    "fn": "ANALOG IN 7 (0-5 V)",
-   "kind": "ain"
+   "kind": "ain",
+   "lead": "BK",
+   "mark": "ANALOG IN 7 (0-5V)"
   },
   "CMC2.F2": {
    "owner": "CMC2",
    "pin": "F2",
    "cat": "ecu",
    "fn": "ANALOG IN 8 (0-5 V)",
-   "kind": "ain"
+   "kind": "ain",
+   "lead": "BK",
+   "mark": "ANALOG IN 8 (0-5V)"
   },
   "CMC2.F3": {
    "owner": "CMC2",
    "pin": "F3",
    "cat": "ecu",
    "fn": "DIGITAL / VR IN 4",
-   "kind": "din"
+   "kind": "din",
+   "lead": "BK",
+   "mark": "DIGITAL/VR IN 4"
   },
   "CMC2.F4": {
    "owner": "CMC2",
    "pin": "F4",
    "cat": "ecu",
    "fn": "DIGITAL / VR IN 5",
-   "kind": "din"
+   "kind": "din",
+   "lead": "BK",
+   "mark": "DIGITAL/VR IN 5"
   },
   "CMC2.G1": {
    "owner": "CMC2",
@@ -3269,7 +3439,8 @@
    "cat": "ecu",
    "fn": "GP OUT 15 (+12 V, 2 A)",
    "kind": "gpo_hs",
-   "max_a": 2
+   "max_a": 2,
+   "mark": "GP OUT 15 (12V)"
   },
   "CMC2.G2": {
    "owner": "CMC2",
@@ -3277,14 +3448,17 @@
    "cat": "ecu",
    "fn": "GP OUT 16 (+12 V, 2 A)",
    "kind": "gpo_hs",
-   "max_a": 2
+   "max_a": 2,
+   "mark": "GP OUT 16 (12V)"
   },
   "CMC2.G3": {
    "owner": "CMC2",
    "pin": "G3",
    "cat": "ecu",
    "fn": "ANALOG IN 5 (0-5 V)",
-   "kind": "ain"
+   "kind": "ain",
+   "lead": "BK",
+   "mark": "ANALOG IN 5 (0-5V)"
   },
   "CMC2.G4": {
    "owner": "CMC2",
@@ -3292,35 +3466,45 @@
    "cat": "ecu",
    "fn": "ENGINE GROUND 2",
    "kind": "ecu_gnd",
-   "cls": "GND_PWR"
+   "cls": "GND_PWR",
+   "lead": "BN",
+   "mark": "ENGINE GROUND 2"
   },
   "CMC2.H1": {
    "owner": "CMC2",
    "pin": "H1",
    "cat": "ecu",
    "fn": "MOTOR 2+ / GPO 14",
-   "kind": "motor"
+   "kind": "motor",
+   "lead": "RD",
+   "mark": "MOTOR 2+"
   },
   "CMC2.H2": {
    "owner": "CMC2",
    "pin": "H2",
    "cat": "ecu",
    "fn": "MOTOR 1- / GPO 11",
-   "kind": "motor"
+   "kind": "motor",
+   "lead": "RD",
+   "mark": "MOTOR 1-"
   },
   "CMC2.H3": {
    "owner": "CMC2",
    "pin": "H3",
    "cat": "ecu",
    "fn": "MOTOR 2- / GPO 13",
-   "kind": "motor"
+   "kind": "motor",
+   "lead": "RD",
+   "mark": "MOTOR 2-"
   },
   "CMC2.H4": {
    "owner": "CMC2",
    "pin": "H4",
    "cat": "ecu",
    "fn": "MOTOR 1+ / GPO 12",
-   "kind": "motor"
+   "kind": "motor",
+   "lead": "RD",
+   "mark": "MOTOR 1+"
   },
   "IAT.1": {
    "owner": "IAT",
@@ -4522,19 +4706,19 @@
   "SPL-VRG": {
    "owner": "SPL-VRG",
    "cat": "splice",
-   "fn": "VR GND (PMH + AAC) — déjà fait dans le faisceau MaxxECU pré-câblé",
+   "fn": "VR GND (PMH + AAC), fait par MaxxECU",
    "cls": "GND_VR"
   },
   "SPL-SHLD": {
    "owner": "SPL-SHLD",
    "cat": "splice",
-   "fn": "Blindages → Shield GND — déjà fait dans le faisceau MaxxECU pré-câblé",
+   "fn": "Blindages → Shield GND, fait par MaxxECU",
    "cls": "GND_SHIELD"
   },
   "SPL-KGND": {
    "owner": "SPL-KGND",
    "cat": "splice",
-   "fn": "Knock GND (2 capteurs)",
+   "fn": "Knock GND (2 capteurs), fait par MaxxECU",
    "cls": "GND_KNOCK"
   },
   "SPL-COIL12": {
@@ -4642,6 +4826,8 @@
    "drain": false,
    "note": "Fusible au plus près de la batterie / borne B+",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N073",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -4660,6 +4846,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N074",
    "fuse": "F0",
    "route_m": 1.35,
@@ -4684,6 +4872,8 @@
    "drain": false,
    "note": "Pont avant fusible, protégé seulement par F0 : < 20 cm, gainé et fixé",
    "jumper": true,
+   "premade": false,
+   "lead": null,
    "net": "N074",
    "fuse": "F0",
    "route_m": 0.0,
@@ -4703,6 +4893,8 @@
    "drain": false,
    "note": "Pont avant fusible, protégé seulement par F0 : < 20 cm, gainé et fixé",
    "jumper": true,
+   "premade": false,
+   "lead": null,
    "net": "N074",
    "fuse": "F0",
    "route_m": 0.0,
@@ -4722,6 +4914,8 @@
    "drain": false,
    "note": "Pont avant fusible, protégé seulement par F0 : < 20 cm, gainé et fixé",
    "jumper": true,
+   "premade": false,
+   "lead": null,
    "net": "N074",
    "fuse": "F0",
    "route_m": 0.0,
@@ -4741,6 +4935,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N078",
    "fuse": "F8",
    "route_m": 0.0,
@@ -4760,6 +4956,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N075",
    "fuse": "F8",
    "route_m": 0.0,
@@ -4779,6 +4977,8 @@
    "drain": false,
    "note": "Pont du répartiteur +87 vers l'entrée du fusible",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N075",
    "fuse": "F8",
    "route_m": 0.0,
@@ -4798,6 +4998,8 @@
    "drain": false,
    "note": "Pont du répartiteur +87 vers l'entrée du fusible",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N075",
    "fuse": "F8",
    "route_m": 0.0,
@@ -4817,6 +5019,8 @@
    "drain": false,
    "note": "Pont du répartiteur +87 vers l'entrée du fusible",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N075",
    "fuse": "F8",
    "route_m": 0.0,
@@ -4836,6 +5040,8 @@
    "drain": false,
    "note": "Pont du répartiteur +87 vers l'entrée du fusible",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N075",
    "fuse": "F8",
    "route_m": 0.0,
@@ -4855,6 +5061,8 @@
    "drain": false,
    "note": "Pont du répartiteur +87 vers l'entrée du fusible",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N075",
    "fuse": "F8",
    "route_m": 0.0,
@@ -4867,13 +5075,22 @@
    "to": "CMC1.M4",
    "sheet": "PWR",
    "mm2": 1.0,
-   "color": "RD/WH",
+   "color": "RD",
    "cable": null,
    "harness": "PDM",
    "internal": false,
    "drain": false,
-   "note": "Alimentation ECU (15 A, préconisation MaxxECU)",
+   "note": "Fil MaxxECU « 12V ECU, (M4) » : couper à 0,65 m. Alimentation ECU (15 A, préconisation MaxxECU)",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.M4",
+    "mark": "12V ECU, (M4)",
+    "color": "RD",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 0,65 m"
+   },
    "net": "N041",
    "fuse": "F1",
    "route_m": 0.45,
@@ -4896,6 +5113,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N063",
    "fuse": "F9",
    "route_m": 1.15,
@@ -4918,6 +5137,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N080",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -4936,6 +5157,8 @@
    "drain": false,
    "note": "Pont avant fusible, protégé seulement par F0 : < 20 cm, gainé et fixé",
    "jumper": true,
+   "premade": false,
+   "lead": null,
    "net": "N074",
    "fuse": "F0",
    "route_m": 0.0,
@@ -4955,6 +5178,8 @@
    "drain": false,
    "note": "Pont avant fusible, protégé seulement par F0 : < 20 cm, gainé et fixé",
    "jumper": true,
+   "premade": false,
+   "lead": null,
    "net": "N074",
    "fuse": "F0",
    "route_m": 0.0,
@@ -4974,6 +5199,8 @@
    "drain": false,
    "note": "Alimentation de l'interrupteur de contact",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N062",
    "fuse": "F9",
    "route_m": 1.15,
@@ -4996,6 +5223,8 @@
    "drain": false,
    "note": "Bouton alimenté par le +15 : inactif contact coupé. Cosse gigogne (piggy-back) sur la borne 15 : ce fil et celui de K1",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N063",
    "fuse": "F9",
    "route_m": 0.0,
@@ -5015,6 +5244,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N064",
    "fuse": "F9",
    "route_m": 1.15,
@@ -5037,6 +5268,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N080",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -5055,6 +5288,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N079",
    "fuse": "F10",
    "route_m": 0.0,
@@ -5074,6 +5309,8 @@
    "drain": false,
    "note": "Commande solénoïde : 2,5 mm² pour le courant d'appel",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N070",
    "fuse": "F10",
    "route_m": 2.3,
@@ -5099,6 +5336,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N072",
    "fuse": "F5",
    "route_m": 1.35,
@@ -5121,6 +5360,8 @@
    "drain": false,
    "note": "Excitation alternateur, traverse le tablier",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N071",
    "route_m": 3.755,
    "length_m": 3.95,
@@ -5145,13 +5386,22 @@
    "to": "GP-HEAD",
    "sheet": "GND",
    "mm2": 1.5,
-   "color": "BK",
+   "color": "BN",
    "cable": null,
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "Même point que CMC2 G4",
+   "note": "Fil MaxxECU « ENGINE GROUND, (L4) » : couper à 1,90 m. Même point que CMC2 G4",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.L4",
+    "mark": "ENGINE GROUND, (L4)",
+    "color": "BN",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 1,90 m"
+   },
    "net": "N037",
    "route_m": 1.7,
    "length_m": 1.9,
@@ -5169,13 +5419,22 @@
    "to": "GP-HEAD",
    "sheet": "GND",
    "mm2": 1.5,
-   "color": "BK",
+   "color": "BN",
    "cable": null,
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "Obligatoire — même point que CMC1 L4",
+   "note": "Fil MaxxECU « ENGINE GROUND 2 » : couper à 1,90 m. Obligatoire — même point que CMC1 L4",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC2.G4",
+    "mark": "ENGINE GROUND 2",
+    "color": "BN",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 1,90 m"
+   },
    "net": "N037",
    "route_m": 1.7,
    "length_m": 1.9,
@@ -5198,8 +5457,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « IGNITION CYL 1, (A2) » : couper à 2,45 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.A2",
+    "mark": "IGNITION CYL 1, (A2)",
+    "color": "BU",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,45 m"
+   },
    "net": "N001",
    "route_m": 2.255,
    "length_m": 2.45,
@@ -5227,8 +5495,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « IGNITION CYL 2, (A3) » : couper à 2,35 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.A3",
+    "mark": "IGNITION CYL 2, (A3)",
+    "color": "BU",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,35 m"
+   },
    "net": "N002",
    "route_m": 2.164,
    "length_m": 2.35,
@@ -5255,8 +5532,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « IGNITION CYL 3, (B2) » : couper à 2,25 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.B2",
+    "mark": "IGNITION CYL 3, (B2)",
+    "color": "BU",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,25 m"
+   },
    "net": "N004",
    "route_m": 2.073,
    "length_m": 2.25,
@@ -5282,8 +5568,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « IGNITION CYL 4, (B3) » : couper à 2,15 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.B3",
+    "mark": "IGNITION CYL 4, (B3)",
+    "color": "BU",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,15 m"
+   },
    "net": "N005",
    "route_m": 1.982,
    "length_m": 2.15,
@@ -5308,8 +5603,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « IGNITION CYL 5, (C2) » : couper à 2,10 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.C2",
+    "mark": "IGNITION CYL 5, (C2)",
+    "color": "BU",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,10 m"
+   },
    "net": "N008",
    "route_m": 1.891,
    "length_m": 2.1,
@@ -5333,8 +5637,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « IGNITION CYL 6, (C3) » : couper à 2,00 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.C3",
+    "mark": "IGNITION CYL 6, (C3)",
+    "color": "BU",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,00 m"
+   },
    "net": "N009",
    "route_m": 1.8,
    "length_m": 2.0,
@@ -5359,6 +5672,8 @@
    "drain": false,
    "note": "Un seul fil du fusible jusqu'au-dessus des bobines, puis 6 dérivations courtes de 1 mm² : jamais 6 fils dans la même sortie de fusible",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N056",
    "fuse": "F2",
    "route_m": 2.032,
@@ -5386,6 +5701,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N056",
    "fuse": "F2",
    "route_m": 0.273,
@@ -5409,6 +5726,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N056",
    "fuse": "F2",
    "route_m": 0.182,
@@ -5431,6 +5750,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N056",
    "fuse": "F2",
    "route_m": 0.091,
@@ -5452,6 +5773,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N056",
    "fuse": "F2",
    "route_m": 0.0,
@@ -5471,6 +5794,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N056",
    "fuse": "F2",
    "route_m": 0.091,
@@ -5492,6 +5817,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N056",
    "fuse": "F2",
    "route_m": 0.182,
@@ -5514,6 +5841,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N057",
    "route_m": 0.273,
    "length_m": 0.45,
@@ -5536,6 +5865,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N057",
    "route_m": 0.182,
    "length_m": 0.35,
@@ -5557,6 +5888,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N057",
    "route_m": 0.091,
    "length_m": 0.3,
@@ -5577,6 +5910,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N057",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -5595,6 +5930,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N057",
    "route_m": 0.091,
    "length_m": 0.3,
@@ -5615,6 +5952,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N057",
    "route_m": 0.182,
    "length_m": 0.35,
@@ -5636,6 +5975,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N057",
    "route_m": 0.382,
    "length_m": 0.55,
@@ -5659,6 +6000,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N057",
    "route_m": 0.273,
    "length_m": 0.45,
@@ -5681,6 +6024,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N057",
    "route_m": 0.182,
    "length_m": 0.35,
@@ -5702,6 +6047,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N057",
    "route_m": 0.091,
    "length_m": 0.3,
@@ -5722,6 +6069,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N057",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -5740,6 +6089,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N057",
    "route_m": 0.091,
    "length_m": 0.3,
@@ -5760,6 +6111,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N057",
    "route_m": 0.182,
    "length_m": 0.35,
@@ -5781,6 +6134,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N057",
    "route_m": 0.382,
    "length_m": 0.55,
@@ -5802,8 +6157,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « INJECTOR CYL 1, (K1) » : couper à 2,55 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.K1",
+    "mark": "INJECTOR CYL 1, (K1)",
+    "color": "GY",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,55 m"
+   },
    "net": "N032",
    "route_m": 2.355,
    "length_m": 2.55,
@@ -5831,8 +6195,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « INJECTOR CYL 2, (K2) » : couper à 2,45 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.K2",
+    "mark": "INJECTOR CYL 2, (K2)",
+    "color": "GY",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,45 m"
+   },
    "net": "N033",
    "route_m": 2.264,
    "length_m": 2.45,
@@ -5859,8 +6232,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « INJECTOR CYL 3, (M1) » : couper à 2,35 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.M1",
+    "mark": "INJECTOR CYL 3, (M1)",
+    "color": "GY",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,35 m"
+   },
    "net": "N038",
    "route_m": 2.173,
    "length_m": 2.35,
@@ -5886,8 +6268,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « INJECTOR CYL 4, (M2) » : couper à 2,25 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.M2",
+    "mark": "INJECTOR CYL 4, (M2)",
+    "color": "GY",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,25 m"
+   },
    "net": "N039",
    "route_m": 2.082,
    "length_m": 2.25,
@@ -5912,8 +6303,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « INJECTOR CYL 5, (M3) » : couper à 2,20 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.M3",
+    "mark": "INJECTOR CYL 5, (M3)",
+    "color": "GY",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,20 m"
+   },
    "net": "N040",
    "route_m": 1.991,
    "length_m": 2.2,
@@ -5937,8 +6337,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « INJECTOR CYL 6, (L3) » : couper à 2,10 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.L3",
+    "mark": "INJECTOR CYL 6, (L3)",
+    "color": "GY",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,10 m"
+   },
    "net": "N036",
    "route_m": 1.9,
    "length_m": 2.1,
@@ -5963,6 +6372,8 @@
    "drain": false,
    "note": "Un seul fil du fusible jusqu'à la rampe, puis 6 dérivations de 0,75 mm² vers les injecteurs",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N055",
    "fuse": "F3",
    "route_m": 2.132,
@@ -5990,6 +6401,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N055",
    "fuse": "F3",
    "route_m": 0.273,
@@ -6013,6 +6426,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N055",
    "fuse": "F3",
    "route_m": 0.182,
@@ -6035,6 +6450,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N055",
    "fuse": "F3",
    "route_m": 0.091,
@@ -6056,6 +6473,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N055",
    "fuse": "F3",
    "route_m": 0.0,
@@ -6075,6 +6494,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N055",
    "fuse": "F3",
    "route_m": 0.091,
@@ -6096,6 +6517,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N055",
    "fuse": "F3",
    "route_m": 0.182,
@@ -6116,8 +6539,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « TRIGGER, (H3) — câble TRIGGER » : rallonger de 0,20 m (manchon à souder), avec du câble blindé et le blindage repris.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.H3",
+    "mark": "TRIGGER, (H3) — câble TRIGGER",
+    "color": "WH",
+    "supplied_m": 3.0,
+    "extend_m": 0.2,
+    "action": "rallonger de 0,20 m (manchon à souder), avec du câble blindé et le blindage repris"
+   },
    "net": "N026",
    "route_m": 2.905,
    "length_m": 3.1,
@@ -6147,8 +6579,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « VR GND, (H2) — câble TRIGGER » : rallonger de 0,20 m (manchon à souder), avec du câble blindé et le blindage repris.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.H2",
+    "mark": "VR GND, (H2) — câble TRIGGER",
+    "color": "BN",
+    "supplied_m": 3.0,
+    "extend_m": 0.2,
+    "action": "rallonger de 0,20 m (manchon à souder), avec du câble blindé et le blindage repris"
+   },
    "net": "N025",
    "route_m": 2.905,
    "length_m": 3.1,
@@ -6180,6 +6621,8 @@
    "drain": false,
    "note": "+12 V capteur PMH pris sur F4 (épissure actionneurs, arrière culasse) : fil séparé, hors câble blindé ; 0,75 mm² derrière un fusible de 10 A",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N054",
    "fuse": "F4",
    "route_m": 1.255,
@@ -6206,8 +6649,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « HOME/CAM, (H4) — câble HOME/CAM » : couper à 2,75 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.H4",
+    "mark": "HOME/CAM, (H4) — câble HOME/CAM",
+    "color": "WH",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,75 m"
+   },
    "net": "N027",
    "route_m": 2.575,
    "length_m": 2.75,
@@ -6237,8 +6689,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "CORRIGÉ : retour AAC sur VR GND (H2), pas sur Sensor GND",
+   "note": "Fil MaxxECU « VR GND, (H2) — câble HOME/CAM » : couper à 2,75 m. CORRIGÉ : retour AAC sur VR GND (H2), pas sur Sensor GND",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.H2",
+    "mark": "VR GND, (H2) — câble HOME/CAM",
+    "color": "BN",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,75 m"
+   },
    "net": "N025",
    "route_m": 2.575,
    "length_m": 2.75,
@@ -6258,7 +6719,7 @@
    ]
   },
   {
-   "id": "SYNC-06",
+   "id": "MX-01",
    "from": "CMC1.H2",
    "to": "SPL-VRG",
    "sheet": "SYNC",
@@ -6266,13 +6727,14 @@
    "color": "BN",
    "cable": null,
    "harness": "ENG",
-   "internal": false,
+   "internal": true,
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": true,
+   "lead": null,
    "net": "N025",
-   "route_m": 0.0,
-   "length_m": 0.2,
+   "length_m": 0,
    "path": []
   },
   {
@@ -6288,6 +6750,8 @@
    "drain": true,
    "note": "",
    "jumper": false,
+   "premade": true,
+   "lead": null,
    "net": "N015",
    "length_m": 0,
    "path": []
@@ -6305,6 +6769,8 @@
    "drain": true,
    "note": "",
    "jumper": false,
+   "premade": true,
+   "lead": null,
    "net": "N015",
    "length_m": 0,
    "path": []
@@ -6322,12 +6788,14 @@
    "drain": true,
    "note": "Seulement si la broche 3 est isolée du corps du capteur",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N015",
    "length_m": 0,
    "path": []
   },
   {
-   "id": "SYNC-07",
+   "id": "MX-02",
    "from": "SPL-SHLD",
    "to": "CMC1.E3",
    "sheet": "SYNC",
@@ -6335,13 +6803,14 @@
    "color": "BK/WH",
    "cable": null,
    "harness": "ENG",
-   "internal": false,
+   "internal": true,
    "drain": false,
    "note": "Blindages reliés côté ECU uniquement",
    "jumper": false,
+   "premade": true,
+   "lead": null,
    "net": "N015",
-   "route_m": 0.0,
-   "length_m": 0.2,
+   "length_m": 0,
    "path": []
   },
   {
@@ -6350,13 +6819,22 @@
    "to": "SPL-5V-MAIN",
    "sheet": "SNS",
    "mm2": 0.5,
-   "color": "OG",
+   "color": "RD",
    "cable": null,
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « 5V SENSOR SUPPLY, (G1) » : couper à 0,20 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.G1",
+    "mark": "5V SENSOR SUPPLY, (G1)",
+    "color": "RD",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 0,20 m"
+   },
    "net": "N020",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -6375,6 +6853,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N020",
    "route_m": 1.65,
    "length_m": 1.85,
@@ -6398,6 +6878,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N020",
    "route_m": 0.923,
    "length_m": 1.1,
@@ -6422,6 +6904,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N020",
    "route_m": 0.45,
    "length_m": 0.65,
@@ -6441,8 +6925,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « SENSOR GND » : couper à 0,20 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.H1",
+    "mark": "SENSOR GND",
+    "color": "BN",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 0,20 m"
+   },
    "net": "N024",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -6461,6 +6954,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N024",
    "route_m": 1.65,
    "length_m": 1.85,
@@ -6484,6 +6979,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N024",
    "route_m": 1.155,
    "length_m": 1.35,
@@ -6511,6 +7008,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N024",
    "route_m": 0.955,
    "length_m": 1.15,
@@ -6538,6 +7037,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N024",
    "route_m": 0.923,
    "length_m": 1.1,
@@ -6562,6 +7063,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N024",
    "route_m": 0.45,
    "length_m": 0.65,
@@ -6576,13 +7079,22 @@
    "to": "IAT.1",
    "sheet": "SNS",
    "mm2": 0.5,
-   "color": "YE/BK",
+   "color": "BK",
    "cable": null,
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « AIR TEMP SENSOR, (F2) » : couper à 3,00 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.F2",
+    "mark": "AIR TEMP SENSOR, (F2)",
+    "color": "BK",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 3,00 m"
+   },
    "net": "N017",
    "route_m": 2.805,
    "length_m": 3.0,
@@ -6607,13 +7119,22 @@
    "to": "CLT.1",
    "sheet": "SNS",
    "mm2": 0.5,
-   "color": "YE",
+   "color": "BK",
    "cable": null,
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « COOLANT SENSOR, (F1) » : couper à 2,80 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.F1",
+    "mark": "COOLANT SENSOR, (F1)",
+    "color": "BK",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,80 m"
+   },
    "net": "N016",
    "route_m": 2.605,
    "length_m": 2.8,
@@ -6638,13 +7159,22 @@
    "to": "OIL.5",
    "sheet": "SNS",
    "mm2": 0.5,
-   "color": "YE/BN",
+   "color": "BK",
    "cable": null,
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « ANALOG IN 1, TEMP, (J1) » : couper à 2,75 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.J1",
+    "mark": "ANALOG IN 1, TEMP, (J1)",
+    "color": "BK",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,75 m"
+   },
    "net": "N028",
    "route_m": 2.573,
    "length_m": 2.75,
@@ -6666,13 +7196,22 @@
    "to": "OIL.2",
    "sheet": "SNS",
    "mm2": 0.5,
-   "color": "WH/BN",
+   "color": "BK",
    "cable": null,
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « ANALOG IN 6 (0-5V) » : couper à 2,75 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC2.E4",
+    "mark": "ANALOG IN 6 (0-5V)",
+    "color": "BK",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,75 m"
+   },
    "net": "N047",
    "route_m": 2.573,
    "length_m": 2.75,
@@ -6694,13 +7233,22 @@
    "to": "FUEL.5",
    "sheet": "SNS",
    "mm2": 0.5,
-   "color": "YE/VT",
+   "color": "BK",
    "cable": null,
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « ANALOG IN 2, TEMP, (J2) » : couper à 2,30 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.J2",
+    "mark": "ANALOG IN 2, TEMP, (J2)",
+    "color": "BK",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,30 m"
+   },
    "net": "N029",
    "route_m": 2.1,
    "length_m": 2.3,
@@ -6719,13 +7267,22 @@
    "to": "FUEL.2",
    "sheet": "SNS",
    "mm2": 0.5,
-   "color": "WH/VT",
+   "color": "BK",
    "cable": null,
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « ANALOG IN 7 (0-5V) » : couper à 2,30 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC2.F1",
+    "mark": "ANALOG IN 7 (0-5V)",
+    "color": "BK",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,30 m"
+   },
    "net": "N048",
    "route_m": 2.1,
    "length_m": 2.3,
@@ -6751,6 +7308,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N020",
    "route_m": 0.955,
    "length_m": 1.15,
@@ -6777,6 +7336,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N024",
    "route_m": 0.955,
    "length_m": 1.15,
@@ -6796,13 +7357,22 @@
    "to": "ETB.1",
    "sheet": "DBW",
    "mm2": 0.5,
-   "color": "WH",
+   "color": "BK",
    "cable": null,
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « THROTTLE SENSOR, (G2) » : couper à 2,80 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.G2",
+    "mark": "THROTTLE SENSOR, (G2)",
+    "color": "BK",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,80 m"
+   },
    "net": "N021",
    "route_m": 2.605,
    "length_m": 2.8,
@@ -6826,13 +7396,22 @@
    "to": "ETB.4",
    "sheet": "DBW",
    "mm2": 0.5,
-   "color": "WH/BK",
+   "color": "BK",
    "cable": null,
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « ANALOG IN 3, 0-5V, (J3) » : couper à 2,80 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.J3",
+    "mark": "ANALOG IN 3, 0-5V, (J3)",
+    "color": "BK",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,80 m"
+   },
    "net": "N030",
    "route_m": 2.605,
    "length_m": 2.8,
@@ -6856,13 +7435,22 @@
    "to": "ETB.3",
    "sheet": "DBW",
    "mm2": 1.0,
-   "color": "PK",
+   "color": "RD",
    "cable": "C-ETBM",
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « MOTOR 1+ » : couper à 2,80 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC2.H4",
+    "mark": "MOTOR 1+",
+    "color": "RD",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,80 m"
+   },
    "net": "N053",
    "route_m": 2.605,
    "length_m": 2.8,
@@ -6886,13 +7474,22 @@
    "to": "ETB.5",
    "sheet": "DBW",
    "mm2": 1.0,
-   "color": "PK/BK",
+   "color": "RD",
    "cable": "C-ETBM",
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « MOTOR 1- » : couper à 2,80 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC2.H2",
+    "mark": "MOTOR 1-",
+    "color": "RD",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,80 m"
+   },
    "net": "N052",
    "route_m": 2.605,
    "length_m": 2.8,
@@ -6923,6 +7520,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N024",
    "route_m": 1.2,
    "length_m": 1.4,
@@ -6944,6 +7543,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N024",
    "route_m": 1.2,
    "length_m": 1.4,
@@ -6965,6 +7566,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N020",
    "route_m": 1.2,
    "length_m": 1.4,
@@ -6979,13 +7582,22 @@
    "to": "APP.4",
    "sheet": "DBW",
    "mm2": 0.5,
-   "color": "WH/BU",
+   "color": "BK",
    "cable": null,
    "harness": "CAB",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « ANALOG IN 4, 0-5V, (J4) » : couper à 1,40 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.J4",
+    "mark": "ANALOG IN 4, 0-5V, (J4)",
+    "color": "BK",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 1,40 m"
+   },
    "net": "N031",
    "route_m": 1.2,
    "length_m": 1.4,
@@ -7007,6 +7619,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N020",
    "route_m": 1.2,
    "length_m": 1.4,
@@ -7021,13 +7635,22 @@
    "to": "APP.6",
    "sheet": "DBW",
    "mm2": 0.5,
-   "color": "WH/GN",
+   "color": "BK",
    "cable": null,
    "harness": "CAB",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « ANALOG IN 5 (0-5V) » : couper à 1,40 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC2.G3",
+    "mark": "ANALOG IN 5 (0-5V)",
+    "color": "BK",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 1,40 m"
+   },
    "net": "N051",
    "route_m": 1.2,
    "length_m": 1.4,
@@ -7047,8 +7670,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « WBO2 IP — câble WBO2 1 » : couper à 1,95 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.G3",
+    "mark": "WBO2 IP — câble WBO2 1",
+    "color": "WH",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 1,95 m"
+   },
    "net": "N022",
    "route_m": 1.75,
    "length_m": 1.95,
@@ -7071,8 +7703,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « WBO2 COM — câble WBO2 1 » : couper à 1,95 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.F3",
+    "mark": "WBO2 COM — câble WBO2 1",
+    "color": "YE",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 1,95 m"
+   },
    "net": "N018",
    "route_m": 1.75,
    "length_m": 1.95,
@@ -7095,8 +7736,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « WBO2 RCAL — câble WBO2 1 » : couper à 1,95 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.G4",
+    "mark": "WBO2 RCAL — câble WBO2 1",
+    "color": "GN",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 1,95 m"
+   },
    "net": "N023",
    "route_m": 1.75,
    "length_m": 1.95,
@@ -7119,8 +7769,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « WBO2 VS/O2 IN — câble WBO2 1 » : couper à 1,95 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.F4",
+    "mark": "WBO2 VS/O2 IN — câble WBO2 1",
+    "color": "BN",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 1,95 m"
+   },
    "net": "N019",
    "route_m": 1.75,
    "length_m": 1.95,
@@ -7145,6 +7804,8 @@
    "drain": true,
    "note": "",
    "jumper": false,
+   "premade": true,
+   "lead": null,
    "net": "N015",
    "length_m": 0,
    "path": []
@@ -7160,8 +7821,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "Chauffage − piloté par GPO9 (5 A). Alvéole CP 0.6 : 0,75 mm² maxi (contact Molex 64322-1029)",
+   "note": "Fil MaxxECU « WBO2 HTR PIN 4 / GP OUT 9, (D1) » : couper à 1,95 m. Chauffage − piloté par GPO9 (5 A)",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.D1",
+    "mark": "WBO2 HTR PIN 4 / GP OUT 9, (D1)",
+    "color": "GN",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 1,95 m"
+   },
    "net": "N011",
    "route_m": 1.75,
    "length_m": 1.95,
@@ -7186,6 +7856,8 @@
    "drain": false,
    "note": "+12 V chauffage lambda pris sur l'épissure actionneurs (même fusible que VANOS, MAC et PMH) ; 0,75 mm² derrière un fusible de 10 A",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N054",
    "fuse": "F4",
    "route_m": 1.5,
@@ -7207,8 +7879,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "Conducteur K+ (jaune en norme ANSI, vert en IEC)",
+   "note": "Fil MaxxECU « EGT1+ » : couper à 2,20 m. Conducteur K+ (jaune en norme ANSI, vert en IEC)",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC2.C1",
+    "mark": "EGT1+",
+    "color": "YE",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,20 m"
+   },
    "net": "N042",
    "route_m": 2.0,
    "length_m": 2.2,
@@ -7232,8 +7913,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "Conducteur K− (rouge en norme ANSI, blanc en IEC)",
+   "note": "Fil MaxxECU « EGT1- » : couper à 2,20 m. Conducteur K− (rouge en norme ANSI, blanc en IEC)",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC2.D1",
+    "mark": "EGT1-",
+    "color": "RD",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,20 m"
+   },
    "net": "N043",
    "route_m": 2.0,
    "length_m": 2.2,
@@ -7257,8 +7947,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « KNOCK 1 — câble KNOCK 1 » : couper à 2,70 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC2.E2",
+    "mark": "KNOCK 1 — câble KNOCK 1",
+    "color": "WH",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,70 m"
+   },
    "net": "N045",
    "route_m": 2.514,
    "length_m": 2.7,
@@ -7286,8 +7985,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « KNOCK GND — câble KNOCK 1 » : couper à 2,70 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC2.E1",
+    "mark": "KNOCK GND — câble KNOCK 1",
+    "color": "BN",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,70 m"
+   },
    "net": "N044",
    "route_m": 2.514,
    "length_m": 2.7,
@@ -7315,8 +8023,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « KNOCK 2 — câble KNOCK 2 » : couper à 2,45 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC2.E3",
+    "mark": "KNOCK 2 — câble KNOCK 2",
+    "color": "WH",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,45 m"
+   },
    "net": "N046",
    "route_m": 2.241,
    "length_m": 2.45,
@@ -7341,8 +8058,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « KNOCK GND — câble KNOCK 2 » : couper à 2,45 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC2.E1",
+    "mark": "KNOCK GND — câble KNOCK 2",
+    "color": "BN",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,45 m"
+   },
    "net": "N044",
    "route_m": 2.241,
    "length_m": 2.45,
@@ -7357,7 +8083,7 @@
    ]
   },
   {
-   "id": "KNK-05",
+   "id": "MX-03",
    "from": "CMC2.E1",
    "to": "SPL-KGND",
    "sheet": "KNK",
@@ -7365,13 +8091,14 @@
    "color": "BN",
    "cable": null,
    "harness": "ENG",
-   "internal": false,
+   "internal": true,
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": true,
+   "lead": null,
    "net": "N044",
-   "route_m": 0.0,
-   "length_m": 0.2,
+   "length_m": 0,
    "path": []
   },
   {
@@ -7387,6 +8114,8 @@
    "drain": true,
    "note": "",
    "jumper": false,
+   "premade": true,
+   "lead": null,
    "net": "N044",
    "length_m": 0,
    "path": []
@@ -7404,6 +8133,8 @@
    "drain": true,
    "note": "",
    "jumper": false,
+   "premade": true,
+   "lead": null,
    "net": "N044",
    "length_m": 0,
    "path": []
@@ -7419,8 +8150,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "GPO1 = boost (préconisation MaxxECU M50)",
+   "note": "Fil MaxxECU « GP OUT 1, (B4) » : rallonger de 0,25 m (manchon à souder). GPO1 = boost (préconisation MaxxECU M50)",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.B4",
+    "mark": "GP OUT 1, (B4)",
+    "color": "GN",
+    "supplied_m": 3.0,
+    "extend_m": 0.25,
+    "action": "rallonger de 0,25 m (manchon à souder)"
+   },
    "net": "N006",
    "route_m": 2.955,
    "length_m": 3.15,
@@ -7450,8 +8190,17 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "GPO3 = VANOS en direct (préconisation MaxxECU M50)",
+   "note": "Fil MaxxECU « GP OUT 3, (D4) » : couper à 2,75 m. GPO3 = VANOS en direct (préconisation MaxxECU M50)",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.D4",
+    "mark": "GP OUT 3, (D4)",
+    "color": "GN",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 2,75 m"
+   },
    "net": "N012",
    "route_m": 2.555,
    "length_m": 2.75,
@@ -7483,6 +8232,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N054",
    "fuse": "F4",
    "route_m": 1.7,
@@ -7507,6 +8258,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N054",
    "fuse": "F4",
    "route_m": 1.305,
@@ -7535,6 +8288,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N054",
    "fuse": "F4",
    "route_m": 0.905,
@@ -7561,8 +8316,17 @@
    "harness": "PDM",
    "internal": false,
    "drain": false,
-   "note": "GPO2 = pompe",
+   "note": "Fil MaxxECU « GP OUT 2, (C4) » : couper à 0,65 m. GPO2 = pompe",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.C4",
+    "mark": "GP OUT 2, (C4)",
+    "color": "GN",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 0,65 m"
+   },
    "net": "N010",
    "route_m": 0.45,
    "length_m": 0.65,
@@ -7582,8 +8346,17 @@
    "harness": "PDM",
    "internal": false,
    "drain": false,
-   "note": "GPO6 = ventilateur",
+   "note": "Fil MaxxECU « GP OUT 6, (B1) » : couper à 0,65 m. GPO6 = ventilateur",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.B1",
+    "mark": "GP OUT 6, (B1)",
+    "color": "GN",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 0,65 m"
+   },
    "net": "N003",
    "route_m": 0.45,
    "length_m": 0.65,
@@ -7605,6 +8378,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N072",
    "fuse": "F5",
    "route_m": 0.0,
@@ -7624,6 +8399,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N072",
    "fuse": "F5",
    "route_m": 0.0,
@@ -7643,6 +8420,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N072",
    "fuse": "F5",
    "route_m": 0.0,
@@ -7662,6 +8441,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N076",
    "fuse": "F6",
    "route_m": 0.0,
@@ -7681,6 +8462,8 @@
    "drain": false,
    "note": "2,5 mm² mini derrière un fusible de 30 A : vérifier que la sortie de ta boîte à fusibles accepte cette section",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N077",
    "fuse": "F7",
    "route_m": 0.0,
@@ -7700,6 +8483,8 @@
    "drain": false,
    "note": "4 mm² pour limiter la chute de tension sur 3 m (débit pompe)",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N058",
    "fuse": "F6",
    "route_m": 3.0,
@@ -7721,6 +8506,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N059",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -7739,6 +8526,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N060",
    "fuse": "F7",
    "route_m": 2.1,
@@ -7763,6 +8552,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N061",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -7781,6 +8572,8 @@
    "drain": false,
    "note": "Bouton 4 : ventilation forcée → bobine de K5 (fusible du pad 5 A maxi)",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N065",
    "route_m": 0.85,
    "length_m": 1.05,
@@ -7802,6 +8595,8 @@
    "drain": false,
    "note": "Bouton 5 : changement de carto → bobine de K6 (fusible du pad 5 A maxi)",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N066",
    "route_m": 0.85,
    "length_m": 1.05,
@@ -7823,6 +8618,8 @@
    "drain": false,
    "note": "Bouton 6 : ALS off → bobine de K7 (fusible du pad 5 A maxi)",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N067",
    "route_m": 0.85,
    "length_m": 1.05,
@@ -7844,6 +8641,8 @@
    "drain": false,
    "note": "Bouton 7 : carto de chauffe → bobine de K8 (fusible du pad 5 A maxi)",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N068",
    "route_m": 0.85,
    "length_m": 1.05,
@@ -7865,6 +8664,8 @@
    "drain": false,
    "note": "Bouton 8 : arrêt moteur → bobine de K9 (fusible du pad 5 A maxi)",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N069",
    "route_m": 0.85,
    "length_m": 1.05,
@@ -7879,13 +8680,22 @@
    "to": "CMC1.C1",
    "sheet": "COM",
    "mm2": 0.5,
-   "color": "WH/YE",
+   "color": "GN",
    "cable": null,
    "harness": "PDM",
    "internal": false,
    "drain": false,
-   "note": "DIN3 = ventilation forcée (Fan override input) ; relais collé = entrée à la masse, pull-up activé",
+   "note": "Fil MaxxECU « GP OUT 7, (C1) » : couper à 0,65 m. DIN3 = ventilation forcée (Fan override input) ; relais collé = entrée à la masse, pull-up activé",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.C1",
+    "mark": "GP OUT 7, (C1)",
+    "color": "GN",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 0,65 m"
+   },
    "net": "N007",
    "route_m": 0.45,
    "length_m": 0.65,
@@ -7900,13 +8710,22 @@
    "to": "CMC1.K3",
    "sheet": "COM",
    "mm2": 0.5,
-   "color": "WH/RD",
+   "color": "BK",
    "cable": null,
    "harness": "PDM",
    "internal": false,
    "drain": false,
-   "note": "DIN1 = changement de carto (Boost target switch (use table 2)) ; relais collé = entrée à la masse, pull-up activé",
+   "note": "Fil MaxxECU « DIGITAL IN 1, (K3) » : couper à 0,65 m. DIN1 = changement de carto (Boost target switch (use table 2)) ; relais collé = entrée à la masse, pull-up activé",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.K3",
+    "mark": "DIGITAL IN 1, (K3)",
+    "color": "BK",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 0,65 m"
+   },
    "net": "N034",
    "route_m": 0.45,
    "length_m": 0.65,
@@ -7921,13 +8740,22 @@
    "to": "CMC1.K4",
    "sheet": "COM",
    "mm2": 0.5,
-   "color": "WH/OG",
+   "color": "BK",
    "cable": null,
    "harness": "PDM",
    "internal": false,
    "drain": false,
-   "note": "DIN2 = ALS off (Anti-lag enable) ; relais collé = entrée à la masse, pull-up activé",
+   "note": "Fil MaxxECU « DIGITAL IN 2, (K4) » : couper à 0,65 m. DIN2 = ALS off (Anti-lag enable) ; relais collé = entrée à la masse, pull-up activé",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.K4",
+    "mark": "DIGITAL IN 2, (K4)",
+    "color": "BK",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 0,65 m"
+   },
    "net": "N035",
    "route_m": 0.45,
    "length_m": 0.65,
@@ -7942,13 +8770,22 @@
    "to": "CMC2.F3",
    "sheet": "COM",
    "mm2": 0.5,
-   "color": "WH/GY",
+   "color": "BK",
    "cable": null,
    "harness": "PDM",
    "internal": false,
    "drain": false,
-   "note": "DIN4 = carto de chauffe (Internal output → limiteur secondaire) ; relais collé = entrée à la masse, pull-up activé",
+   "note": "Fil MaxxECU « DIGITAL/VR IN 4 » : couper à 0,65 m. DIN4 = carto de chauffe (Internal output → limiteur secondaire) ; relais collé = entrée à la masse, pull-up activé",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC2.F3",
+    "mark": "DIGITAL/VR IN 4",
+    "color": "BK",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 0,65 m"
+   },
    "net": "N049",
    "route_m": 0.45,
    "length_m": 0.65,
@@ -7963,13 +8800,22 @@
    "to": "CMC2.F4",
    "sheet": "COM",
    "mm2": 0.5,
-   "color": "WH/PK",
+   "color": "BK",
    "cable": null,
    "harness": "PDM",
    "internal": false,
    "drain": false,
-   "note": "DIN5 = arrêt moteur (Stop engine/prevent start) ; relais collé = entrée à la masse, pull-up activé",
+   "note": "Fil MaxxECU « DIGITAL/VR IN 5 » : couper à 0,65 m. DIN5 = arrêt moteur (Stop engine/prevent start) ; relais collé = entrée à la masse, pull-up activé",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC2.F4",
+    "mark": "DIGITAL/VR IN 5",
+    "color": "BK",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 0,65 m"
+   },
    "net": "N050",
    "route_m": 0.45,
    "length_m": 0.65,
@@ -7991,6 +8837,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N024",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -8009,6 +8857,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N024",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -8027,6 +8877,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N024",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -8045,6 +8897,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N024",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -8063,6 +8917,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N024",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -8081,6 +8937,8 @@
    "drain": false,
    "note": "Masse capteurs (fil marron du plan MaxxECU), jamais à la caisse",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N024",
    "route_m": 0.45,
    "length_m": 0.65,
@@ -8102,6 +8960,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N080",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -8120,6 +8980,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N080",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -8138,6 +9000,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N080",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -8156,6 +9020,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N080",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -8174,6 +9040,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N080",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -8192,6 +9060,8 @@
    "drain": false,
    "note": "",
    "jumper": false,
+   "premade": false,
+   "lead": null,
    "net": "N080",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -8203,13 +9073,22 @@
    "to": "CANDEV.H",
    "sheet": "COM",
    "mm2": 0.5,
-   "color": "YE/BK",
+   "color": "GY",
    "cable": "C-CAN",
    "harness": "CAB",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « CAN H — câble CAN » : couper à 1,50 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.E1",
+    "mark": "CAN H — câble CAN",
+    "color": "GY",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 1,50 m"
+   },
    "net": "N013",
    "route_m": 1.3,
    "length_m": 1.5,
@@ -8224,13 +9103,22 @@
    "to": "CANDEV.L",
    "sheet": "COM",
    "mm2": 0.5,
-   "color": "GN/BK",
+   "color": "PK",
    "cable": "C-CAN",
    "harness": "CAB",
    "internal": false,
    "drain": false,
-   "note": "",
+   "note": "Fil MaxxECU « CAN L — câble CAN » : couper à 1,50 m.",
    "jumper": false,
+   "premade": false,
+   "lead": {
+    "src": "CMC1.E2",
+    "mark": "CAN L — câble CAN",
+    "color": "PK",
+    "supplied_m": 3.0,
+    "extend_m": 0.0,
+    "action": "couper à 1,50 m"
+   },
    "net": "N014",
    "route_m": 1.3,
    "length_m": 1.5,
@@ -9019,7 +9907,7 @@
   {
    "id": "C-KS1",
    "label": "Cliquetis 1",
-   "type": "2 × 0,5 mm² torsadé blindé",
+   "type": "2 × 0,5 mm² torsadé blindé (câble KNOCK 1 du faisceau MaxxECU : blanc = signal, marron = KNOCK GND)",
    "od_mm": 4.5,
    "length_m": 2.7,
    "cores": [
@@ -9043,7 +9931,7 @@
   {
    "id": "C-KS2",
    "label": "Cliquetis 2",
-   "type": "2 × 0,5 mm² torsadé blindé",
+   "type": "2 × 0,5 mm² torsadé blindé (câble KNOCK 2 du faisceau MaxxECU : blanc = signal, marron = KNOCK GND)",
    "od_mm": 4.5,
    "length_m": 2.45,
    "cores": [
@@ -9064,7 +9952,7 @@
   {
    "id": "C-LSU",
    "label": "Lambda signaux",
-   "type": "4 × 0,5 mm² blindé, isolant et gaine FEP/PTFE ≥ 200 °C",
+   "type": "4 × 0,5 mm² blindé (câble WBO2 1 du faisceau MaxxECU, gaine noire) : protéger par la gaine réfléchissante côté échappement",
    "od_mm": 5.5,
    "length_m": 1.95,
    "cores": [
@@ -9085,7 +9973,7 @@
   {
    "id": "C-EGT",
    "label": "EGT",
-   "type": "Câble d'extension thermocouple type K (2 × 0,5), isolant fibre de verre ou PFA ≥ 260 °C",
+   "type": "Fils thermocouple type K EGT1+ / EGT1- du faisceau MaxxECU 2 (jaune / rouge), connecteur mini-K fourni",
    "od_mm": 4.0,
    "length_m": 2.2,
    "cores": [
@@ -9105,7 +9993,7 @@
   {
    "id": "C-ETBM",
    "label": "Moteur papillon",
-   "type": "2 × 1,0 mm² torsadé",
+   "type": "2 fils rouges MaxxECU MOTOR 1+ / MOTOR 1- à torsader ensemble",
    "od_mm": 4.4,
    "length_m": 2.8,
    "cores": [
@@ -9130,7 +10018,7 @@
   {
    "id": "C-CAN",
    "label": "CAN",
-   "type": "2 × 0,5 mm² torsadé (paire CAN)",
+   "type": "Paire CAN du faisceau MaxxECU (CAN H gris, CAN L rose)",
    "od_mm": 3.4,
    "length_m": 1.5,
    "cores": [
@@ -10149,6 +11037,21 @@
   },
   {
    "sev": "add",
+   "title": "Révision F : faisceaux MaxxECU du kit Premium",
+   "detail": "Le kit RACE Premium fournit les deux faisceaux MaxxECU REV2 : tous les fils sortent déjà sertis des connecteurs de l'ECU, avec une étiquette imprimée, et font 3 m. Plus rien à sertir côté ECU, ni pince ni contact Molex. Pour chaque fil qui part de l'ECU, la liste de coupe donne la longueur à garder ou la rallonge à faire, et sa couleur est celle du fil MaxxECU. Les câbles blindés TRIGGER (PMH), HOME/CAM (AAC), WBO2 1 (lambda), KNOCK 1 et 2 sont fournis avec leurs masses (VR GND, KNOCK GND) et leurs blindages déjà reliés côté ECU : ces liaisons sont marquées « fait par MaxxECU ». Il reste à faire les épissures +5 V et Sensor GND, toutes les alimentations, les masses, les relais et le pad."
+  },
+  {
+   "sev": "warn",
+   "title": "Fils MaxxECU de 3 m : mesurer avant de couper",
+   "detail": "Les longueurs du dossier sont estimées. Trois fils dépassent 3 m : GPO1 vers la MAC (≈ 3,15 m) et le câble TRIGGER vers le capteur PMH (≈ 3,10 m, signal et masse). Poser tout le faisceau, mesurer, puis couper : jamais l'inverse. Si un fil est trop court, le rallonger avec un manchon à souder ; pour le câble blindé TRIGGER, rallonger avec du câble 2 × 0,5 mm² blindé et reprendre le blindage, ou rapprocher le passage du tablier. Les fils non utilisés restent à longueur, isolés au bout et repliés dans le faisceau."
+  },
+  {
+   "sev": "warn",
+   "title": "LSU 4.2 ou 4.9 ?",
+   "detail": "Le kit Premium est livré avec une sonde LSU 4.2 et son connecteur, alors que le dossier est câblé pour une LSU 4.9 (brochage différent, voir le plan MaxxECU). À confirmer avant de câbler la sonde : si tu montes la 4.2 fournie, le brochage du connecteur et le réglage MTune changent."
+  },
+  {
+   "sev": "add",
    "title": "Révision E : fusibles F1 à F10, relais du pad",
    "detail": "Les fusibles sont renumérotés F1 à F10 sans trou, pour ta boîte 10 voies. Anciens → nouveaux : F1, F2, F3 inchangés ; F4 (chauffage lambda) et F5 (VANOS, MAC, capteur PMH) regroupés en F4 ; l'emplacement F6, déjà vide en révision D, disparaît ; F7 → F5 ; F8 → F6 ; F9 → F7 ; F10 → F8 ; F11 → F9 ; F12 → F10. Les boutons 4 à 8 du pad commandent 5 relais (K5 à K9) qui mettent les entrées DIN3, DIN1, DIN2, DIN4 et DIN5 à la masse capteurs : c'est le câblage « interrupteur → masse » du plan MaxxECU, pull-up des entrées activé, sans aucune résistance."
   },
@@ -10218,8 +11121,8 @@
    "detail": "La RACE Gen1 n'a qu'un +5 V (G1) et qu'une Sensor GND (H1) : pédale et papillon les partagent. C'est normal ; un court-circuit sur le +5 V fait passer le papillon en sécurité. Consommation totale estimée ≈ 45 mA."
   },
   {
-   "sev": "fix",
-   "title": "Alvéoles CMC : chauffage lambda (D1) en 0,75 mm²",
+   "sev": "ok",
+   "title": "Alvéoles CMC : sans objet avec les faisceaux MaxxECU (déjà sertis)",
    "detail": "CMC1 (Molex 64320) : rangées A à K = petites alvéoles CP 0.6 (0,75 mm² maxi), rangées L et M = grandes alvéoles CP 1.5. CMC2 (Molex 64319) : rangées A à F = CP 0.6, G et H = CP 1.5. Le fil de chauffage lambda en D1 était en 1,0 mm² : impossible à sertir et à étancher, il passe en 0,75 mm². Contacts : 64322-1039 pour 0,5 mm² et 64322-1029 pour 0,75 mm² en petite alvéole (K1, K2, B4, D4, D1) ; 64323-1029 pour 0,5–1 mm² et 64323-1039 pour 1–2 mm² en grande alvéole (L4, CMC2 G4). Bouchons 64325-1010 / 64325-1023 sur les alvéoles vides."
   },
   {
@@ -10337,6 +11240,7 @@
     "Capteur PMH : confirmer alim / signal / masse sur sa doc ou par essai (12 V + pull-up, passage d'une pièce acier) ; dans MTune, pull-up du trigger activé.",
     "Bobines : confirmer le repérage 1-2-3-4 moulé sur le connecteur.",
     "Vérifier l'étiquette de la RACE : REV9 ou plus (LSU 4.9).",
+    "Faisceaux MaxxECU : repérer chaque fil utilisé par son étiquette ; poser le faisceau et mesurer avant de couper (fils de 3 m, MAC et TRIGGER au plus juste).",
     "Pad : boutons 4 à 7 en mode Toggle (LED rouge), bouton 8 en mode Momentary (LED bleue), fusibles de ces 5 circuits remplacés par du 5 A ; bouton allumé = +12 V sur la sortie, éteint = 0 V ou circuit ouvert.",
     "Relais K5 à K9 : bobine 86–85 ≈ 70–90 Ω ; contact 30–87 ouvert au repos, fermé bobine sous 12 V."
    ]
@@ -10380,94 +11284,17 @@
  ],
  "bom": [
   {
-   "cat": "Connecteurs",
-   "item": "Connecteur 1 — Molex CMC 48 voies",
+   "cat": "Faisceau MaxxECU (fourni)",
+   "item": "Connecteur 1 — Molex CMC 48 voies — fils MaxxECU de 3 m déjà sertis et repérés",
    "qty": 1,
-   "detail": "41 contacts utilisés / 48",
+   "detail": "39 fils utilisés sur 48 ; les autres : laisser à longueur, isoler chaque bout (gaine thermo) et les replier dans le faisceau",
    "unit": "pc"
   },
   {
-   "cat": "Contacts",
-   "item": "Contact Molex CMC 643221029 (petit, 0,75 mm²) — CMC1",
-   "qty": 5,
-   "detail": "B4 D1 D4 K1 K2",
-   "unit": "pc"
-  },
-  {
-   "cat": "Contacts",
-   "item": "Contact Molex CMC 643221039 (petit, 0,5 mm²) — CMC1",
-   "qty": 30,
-   "detail": "A2 A3 B1 B2 B3 C1 C2 C3 C4 E1 E2 E3 F1 F2 F3 F4 G1 G2 G3 G4 H1 H2 H3 H4 J1 J2 J3 J4 K3 K4",
-   "unit": "pc"
-  },
-  {
-   "cat": "Contacts",
-   "item": "Contact Molex CMC 643231029 (gros, 0,5–1 mm²) — CMC1",
-   "qty": 5,
-   "detail": "L3 M1 M2 M3 M4",
-   "unit": "pc"
-  },
-  {
-   "cat": "Contacts",
-   "item": "Contact Molex CMC 643231039 (gros, 1–2 mm²) — CMC1",
+   "cat": "Faisceau MaxxECU (fourni)",
+   "item": "Connecteur 2 — Molex CMC 32 voies — fils MaxxECU de 3 m déjà sertis et repérés",
    "qty": 1,
-   "detail": "L4",
-   "unit": "pc"
-  },
-  {
-   "cat": "Contacts",
-   "item": "Bouchon d'alvéole CMC 643251010 (petit) — CMC1",
-   "qty": 5,
-   "detail": "A1 A4 D2 D3 E4",
-   "unit": "pc"
-  },
-  {
-   "cat": "Contacts",
-   "item": "Bouchon d'alvéole CMC 643251023 (gros) — CMC1",
-   "qty": 2,
-   "detail": "L1 L2",
-   "unit": "pc"
-  },
-  {
-   "cat": "Connecteurs",
-   "item": "Connecteur 2 — Molex CMC 32 voies",
-   "qty": 1,
-   "detail": "13 contacts utilisés / 32",
-   "unit": "pc"
-  },
-  {
-   "cat": "Contacts",
-   "item": "Contact Molex CMC 643221039 (petit, 0,5 mm²) — CMC2",
-   "qty": 9,
-   "detail": "C1 D1 E1 E2 E3 E4 F1 F3 F4",
-   "unit": "pc"
-  },
-  {
-   "cat": "Contacts",
-   "item": "Contact Molex CMC 643231029 (gros, 0,5–1 mm²) — CMC2",
-   "qty": 3,
-   "detail": "G3 H2 H4",
-   "unit": "pc"
-  },
-  {
-   "cat": "Contacts",
-   "item": "Contact Molex CMC 643231039 (gros, 1–2 mm²) — CMC2",
-   "qty": 1,
-   "detail": "G4",
-   "unit": "pc"
-  },
-  {
-   "cat": "Contacts",
-   "item": "Bouchon d'alvéole CMC 643251010 (petit) — CMC2",
-   "qty": 15,
-   "detail": "A1 A2 A3 A4 B1 B2 B3 B4 C2 C3 C4 D2 D3 D4 F2",
-   "unit": "pc"
-  },
-  {
-   "cat": "Contacts",
-   "item": "Bouchon d'alvéole CMC 643251023 (gros) — CMC2",
-   "qty": 4,
-   "detail": "G1 G2 H1 H3",
+   "detail": "12 fils utilisés sur 32 ; les autres : laisser à longueur, isoler chaque bout (gaine thermo) et les replier dans le faisceau",
    "unit": "pc"
   },
   {
@@ -10661,20 +11488,6 @@
   },
   {
    "cat": "Épissures",
-   "item": "Épissure D-436-36 (≤ 0,75 mm² par côté) + thermo à colle",
-   "qty": 1,
-   "detail": "SPL-SHLD (0,5 mm²)",
-   "unit": "pc"
-  },
-  {
-   "cat": "Épissures",
-   "item": "Épissure D-436-37 (≤ 1,34 mm² par côté) + thermo à colle",
-   "qty": 2,
-   "detail": "SPL-VRG (1 mm²), SPL-KGND (1 mm²)",
-   "unit": "pc"
-  },
-  {
-   "cat": "Épissures",
    "item": "Épissure D-436-38 (≤ 3,3 mm² par côté) + thermo à colle",
    "qty": 8,
    "detail": "SPL-5V-MAIN (1,5 mm²), SPL-5V-ENG (1,5 mm²), SPL-SG-MAIN (2 mm²), SPL-SG-ENG (2,5 mm²), SPL-ACT12 (3 mm²), SPL-RLY (1,5 mm²), SPL-SG-PAD (2,5 mm²), SPL-GND-PAD (2,5 mm²)",
@@ -10724,38 +11537,17 @@
   },
   {
    "cat": "Fil",
-   "item": "FLRY-B 0,5 mm² BK/WH",
-   "qty": 0.2,
-   "unit": "m",
-   "detail": "coupe 0,20 m + 10 %"
-  },
-  {
-   "cat": "Fil",
    "item": "FLRY-B 0,5 mm² BN",
-   "qty": 13.5,
+   "qty": 12.9,
    "unit": "m",
-   "detail": "coupe 12,30 m + 10 %"
-  },
-  {
-   "cat": "Fil",
-   "item": "FLRY-B 0,5 mm² BU",
-   "qty": 14.6,
-   "unit": "m",
-   "detail": "coupe 13,30 m + 10 %"
-  },
-  {
-   "cat": "Fil",
-   "item": "FLRY-B 0,5 mm² GN",
-   "qty": 1.4,
-   "unit": "m",
-   "detail": "coupe 1,30 m + 10 %"
+   "detail": "coupe 11,70 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² OG",
-   "qty": 8.5,
+   "qty": 8.3,
    "unit": "m",
-   "detail": "coupe 7,75 m + 10 %"
+   "detail": "coupe 7,55 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -10815,111 +11607,6 @@
   },
   {
    "cat": "Fil",
-   "item": "FLRY-B 0,5 mm² WH",
-   "qty": 3.1,
-   "unit": "m",
-   "detail": "coupe 2,80 m + 10 %"
-  },
-  {
-   "cat": "Fil",
-   "item": "FLRY-B 0,5 mm² WH/BK",
-   "qty": 3.1,
-   "unit": "m",
-   "detail": "coupe 2,80 m + 10 %"
-  },
-  {
-   "cat": "Fil",
-   "item": "FLRY-B 0,5 mm² WH/BN",
-   "qty": 3.0,
-   "unit": "m",
-   "detail": "coupe 2,75 m + 10 %"
-  },
-  {
-   "cat": "Fil",
-   "item": "FLRY-B 0,5 mm² WH/BU",
-   "qty": 1.5,
-   "unit": "m",
-   "detail": "coupe 1,40 m + 10 %"
-  },
-  {
-   "cat": "Fil",
-   "item": "FLRY-B 0,5 mm² WH/GN",
-   "qty": 1.5,
-   "unit": "m",
-   "detail": "coupe 1,40 m + 10 %"
-  },
-  {
-   "cat": "Fil",
-   "item": "FLRY-B 0,5 mm² WH/GY",
-   "qty": 0.7,
-   "unit": "m",
-   "detail": "coupe 0,65 m + 10 %"
-  },
-  {
-   "cat": "Fil",
-   "item": "FLRY-B 0,5 mm² WH/OG",
-   "qty": 0.7,
-   "unit": "m",
-   "detail": "coupe 0,65 m + 10 %"
-  },
-  {
-   "cat": "Fil",
-   "item": "FLRY-B 0,5 mm² WH/PK",
-   "qty": 0.7,
-   "unit": "m",
-   "detail": "coupe 0,65 m + 10 %"
-  },
-  {
-   "cat": "Fil",
-   "item": "FLRY-B 0,5 mm² WH/RD",
-   "qty": 0.7,
-   "unit": "m",
-   "detail": "coupe 0,65 m + 10 %"
-  },
-  {
-   "cat": "Fil",
-   "item": "FLRY-B 0,5 mm² WH/VT",
-   "qty": 2.5,
-   "unit": "m",
-   "detail": "coupe 2,30 m + 10 %"
-  },
-  {
-   "cat": "Fil",
-   "item": "FLRY-B 0,5 mm² WH/YE",
-   "qty": 0.7,
-   "unit": "m",
-   "detail": "coupe 0,65 m + 10 %"
-  },
-  {
-   "cat": "Fil",
-   "item": "FLRY-B 0,5 mm² YE",
-   "qty": 3.1,
-   "unit": "m",
-   "detail": "coupe 2,80 m + 10 %"
-  },
-  {
-   "cat": "Fil",
-   "item": "FLRY-B 0,5 mm² YE/BK",
-   "qty": 3.3,
-   "unit": "m",
-   "detail": "coupe 3,00 m + 10 %"
-  },
-  {
-   "cat": "Fil",
-   "item": "FLRY-B 0,5 mm² YE/BN",
-   "qty": 3.0,
-   "unit": "m",
-   "detail": "coupe 2,75 m + 10 %"
-  },
-  {
-   "cat": "Fil",
-   "item": "FLRY-B 0,5 mm² YE/VT",
-   "qty": 2.5,
-   "unit": "m",
-   "detail": "coupe 2,30 m + 10 %"
-  },
-  {
-   "cat": "Fil",
    "item": "FLRY-B 0,75 mm² BK",
    "qty": 2.4,
    "unit": "m",
@@ -10935,16 +11622,9 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 0,75 mm² GN",
-   "qty": 8.6,
+   "qty": 0.3,
    "unit": "m",
-   "detail": "coupe 7,85 m + 10 %"
-  },
-  {
-   "cat": "Fil",
-   "item": "FLRY-B 0,75 mm² GY",
-   "qty": 15.3,
-   "unit": "m",
-   "detail": "coupe 13,90 m + 10 %"
+   "detail": "coupe 0,25 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -10970,16 +11650,16 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 1 mm² RD/WH",
-   "qty": 7.5,
+   "qty": 6.8,
    "unit": "m",
-   "detail": "coupe 6,80 m + 10 %"
+   "detail": "coupe 6,15 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 1,5 mm² BK",
-   "qty": 4.8,
+   "qty": 0.6,
    "unit": "m",
-   "detail": "coupe 4,35 m + 10 %"
+   "detail": "coupe 0,55 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -11039,59 +11719,17 @@
   },
   {
    "cat": "Câble",
-   "item": "2 × 0,5 mm² torsadé blindé (câble TRIGGER du faisceau MaxxECU : blanc = signal, marron = VR GND)",
-   "qty": 3.4,
+   "item": "Rallonge C-CRANK : câble 2 × 0,5 mm² torsadé blindé",
+   "qty": 0.4,
    "unit": "m",
-   "detail": "C-CRANK — Capteur PMH"
+   "detail": "seulement si le câble MaxxECU est trop court une fois posé"
   },
   {
    "cat": "Câble",
-   "item": "2 × 0,5 mm² torsadé blindé (câble HOME/CAM du faisceau MaxxECU : blanc = signal, marron = VR GND)",
-   "qty": 3.0,
-   "unit": "m",
-   "detail": "C-CAM — Capteur AAC"
-  },
-  {
-   "cat": "Câble",
-   "item": "2 × 0,5 mm² torsadé blindé",
-   "qty": 3.0,
-   "unit": "m",
-   "detail": "C-KS1 — Cliquetis 1"
-  },
-  {
-   "cat": "Câble",
-   "item": "2 × 0,5 mm² torsadé blindé",
-   "qty": 2.7,
-   "unit": "m",
-   "detail": "C-KS2 — Cliquetis 2"
-  },
-  {
-   "cat": "Câble",
-   "item": "4 × 0,5 mm² blindé, isolant et gaine FEP/PTFE ≥ 200 °C",
-   "qty": 2.1,
-   "unit": "m",
-   "detail": "C-LSU — Lambda signaux"
-  },
-  {
-   "cat": "Câble",
-   "item": "Câble d'extension thermocouple type K (2 × 0,5), isolant fibre de verre ou PFA ≥ 260 °C",
-   "qty": 2.4,
-   "unit": "m",
-   "detail": "C-EGT — EGT"
-  },
-  {
-   "cat": "Câble",
-   "item": "2 × 1,0 mm² torsadé",
+   "item": "2 fils rouges MaxxECU MOTOR 1+ / MOTOR 1- à torsader ensemble",
    "qty": 3.1,
    "unit": "m",
    "detail": "C-ETBM — Moteur papillon"
-  },
-  {
-   "cat": "Câble",
-   "item": "2 × 0,5 mm² torsadé (paire CAN)",
-   "qty": 1.7,
-   "unit": "m",
-   "detail": "C-CAN — CAN"
   },
   {
    "cat": "Gaine",
@@ -11145,7 +11783,7 @@
   {
    "cat": "Repérage",
    "item": "Étiquettes thermo imprimables (repère de fil)",
-   "qty": 310,
+   "qty": 304,
    "detail": "une à chaque extrémité",
    "unit": "pc"
   },
@@ -11213,18 +11851,32 @@
    "detail": "JPT / EV1, VAG 1J0 973 724, BMW, MQS, Superseal, contre-connecteur LSU : référence de contact selon la section de chaque fil (liste de coupe)"
   },
   {
-   "cat": "Outillage",
-   "item": "Pinces Molex CMC 63811-9200 (petits contacts), 63811-8900 (gros 0,5–1 mm²), 63811-9000 (gros 1–2 mm²)",
-   "qty": 1,
-   "unit": "jeu",
-   "detail": "ou faire sertir les contacts CMC"
+   "cat": "Faisceau MaxxECU (fourni)",
+   "item": "Connecteurs EGT mini-K (type K)",
+   "qty": 8,
+   "unit": "pc",
+   "detail": "fournis avec le faisceau 2 ; un seul utilisé (EGT1)"
   },
   {
-   "cat": "Outillage",
-   "item": "Extracteurs Molex CMC 638132400 (petits) et 638132300 (gros)",
+   "cat": "Faisceau MaxxECU (fourni)",
+   "item": "Sonde lambda Bosch LSU 4.2 et son connecteur 6 voies",
    "qty": 1,
-   "unit": "jeu",
-   "detail": ""
+   "unit": "pc",
+   "detail": "fournis dans le kit Premium ; le dossier est câblé pour une LSU 4.9 : voir l'avertissement « LSU 4.2 ou 4.9 »"
+  },
+  {
+   "cat": "Faisceau MaxxECU (fourni)",
+   "item": "Câble d'installation MaxxECU (bobines de couleur)",
+   "qty": 1,
+   "unit": "lot",
+   "detail": "fourni dans le kit : utilisable pour les fils qui ne partent pas de l'ECU (alimentations, relais, pad, rallonges), section à vérifier sur chaque bobine"
+  },
+  {
+   "cat": "Épissures",
+   "item": "Manchons à souder (Raychem D-436-36 ou équivalent) pour rallonges de fils MaxxECU",
+   "qty": 5,
+   "unit": "pc",
+   "detail": "MAC (GPO1) et câble TRIGGER si trop courts une fois posés, plus réserve"
   },
   {
    "cat": "Gaine",
@@ -11320,7 +11972,11 @@
  ],
  "validation": {
   "errors": [],
-  "warnings": [],
+  "warnings": [
+   "SYNC-01 : fil MaxxECU « TRIGGER, (H3) — câble TRIGGER » (3 m) trop court pour 3,10 m estimés — mesurer sur la voiture, rallonge de 0,20 m probable",
+   "SYNC-02 : fil MaxxECU « VR GND, (H2) — câble TRIGGER » (3 m) trop court pour 3,10 m estimés — mesurer sur la voiture, rallonge de 0,20 m probable",
+   "ACT-01 : fil MaxxECU « GP OUT 1, (B4) » (3 m) trop court pour 3,15 m estimés — mesurer sur la voiture, rallonge de 0,25 m probable"
+  ],
   "infos": [
    "PWR-01 : liaison batterie → fusible général, garder la plus courte possible"
   ]
