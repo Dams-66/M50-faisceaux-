@@ -718,7 +718,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     const c = (ownerSheetCount[o] = ownerSheetCount[o] || {}); c[w.sheet] = (c[w.sheet] || 0) + (w.internal || w.drain ? 0.01 : 1);
   }));
   const bestSheet = o => { const c = ownerSheetCount[o] || {}; return Object.keys(c).sort((a, b) => c[b] - c[a])[0]; };
-  const FAM = { PWR: "pwr", GND: "pwr", IGN: "fire", INJ: "fire", SYNC: "sens", SNS: "sens", KNK: "sens", DBW: "dbw", WBO: "wbo", ACT: "out", RLY: "out", COM: "out", REF: "ref" };
+  const FAM = { PWR: "pwr", DEM: "pwr", GND: "pwr", IGN: "fire", INJ: "fire", SYNC: "sens", SNS: "sens", KNK: "sens", DBW: "dbw", WBO: "wbo", ACT: "out", RLY: "out", COM: "out", REF: "ref" };
   const FAM_LABEL = { fire: "Allumage & injection", wbo: "Lambda & EGT", sens: "Capteurs & synchro", dbw: "Papillon & pédale", out: "Sorties & habitacle", pwr: "Alimentation & masses" };
   const FAM_ORDER = ["fire", "wbo", "sens", "dbw", "out", "pwr"];
   const famVar = f => "var(--fam-" + (f || "ref") + ")";

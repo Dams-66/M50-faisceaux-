@@ -38,6 +38,7 @@ CLASS_LABEL = {
     "PWR12": "+12 V",
     "V5": "+5 V capteurs",
     "V15": "+15 contact",
+    "V50": "+50 démarrage",
     "GND_PWR": "masse puissance",
     "GND_SENS": "Sensor GND",
     "GND_VR": "VR GND",
@@ -109,14 +110,15 @@ class Harness:
                             load_a=c.get("load_a"), r_ohm=c.get("r_ohm"),
                             supply5_ma=c.get("supply5_ma"),
                             external=bool(c.get("external")),
-                            optional=bool(c.get("optional")))
+                            optional=bool(c.get("optional")),
+                            switch={str(k): [str(x) for x in v] for k, v in (c.get("switch") or {}).items()})
             for pin, p in c["pins"].items():
                 cls = p.get("cls")
                 if cat == "fuse" or (cat == "relay" and str(pin) in ("30", "87")):
                     cls = "PWR12"
                 self._add_endpoint(f"{cid}.{pin}", owner=cid, pin=str(pin), cat=cat,
                                    fn=p["fn"], cls=cls, nc=bool(p.get("nc")),
-                                   supply=bool(p.get("supply")))
+                                   supply=bool(p.get("supply")), source=bool(p.get("source")))
 
         for gid, g in self.d["grounds"].items():
             self._add_owner(gid, cat="ground", label=g["label"], node=g["node"],
@@ -300,7 +302,8 @@ class Harness:
             return True
         if e["cat"] == "ecu" and e["kind"] in ("v5",):
             return True
-        return e["owner"] in ("BATT", "KEY")
+        # Sources externes : batterie, et sorties déclarées « source » (contacteur 15 / 50)
+        return e["owner"] == "BATT" or bool(e.get("source"))
 
     def erc(self):
         for net in self.nets:
@@ -388,6 +391,11 @@ class Harness:
             e = self.endpoints[m]
             if e["cat"] == "relay" and e["pin"] == "30":
                 sub_n, sub_f = self._downstream(f"{e['owner']}.87", seen)
+                nets += sub_n
+                fuses += sub_f
+            # Contacteur : l'entrée 30 alimente ses sorties (15, 50) — elles restent derrière le même fusible
+            for out in (self.owners[e["owner"]].get("switch") or {}).get(e["pin"], []):
+                sub_n, sub_f = self._downstream(f"{e['owner']}.{out}", seen)
                 nets += sub_n
                 fuses += sub_f
             if e["cat"] == "fuse" and e["pin"] == "1" and m != eid:

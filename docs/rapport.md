@@ -4,7 +4,7 @@
 
 > Généré par `tools/build_harness.py` depuis `harness/m50b25_vanos_turbo.yaml`. Ne pas éditer à la main.
 
-**116 fils** · **166.4 m de fil coupé** · 15 épissures/barrettes · 11 fusibles · 3 relais
+**123 fils** · **177.9 m de fil coupé** · 15 épissures/barrettes · 13 fusibles · 4 relais
 
 ## Contrôle des règles électriques : 0 erreur(s), 0 alerte(s)
 
@@ -39,6 +39,10 @@ Sur un M50 en E36 conduite à gauche, la boîte électronique d'origine est côt
 ### ➕ Ajouté — Pompe 280 l/h et ventilateur SPAL 385 mm
 
 Pompe : relais K2, fusible 20 A, alimentation et masse en 4 mm² pour limiter la chute de tension sur le trajet jusqu'au réservoir. Ventilateur SPAL 385 mm aspirant (19,5 A d'après la fiche SPAL VA18-AP71/LL-59A) : relais K3 40 A, fusible 30 A, fils 4 mm². Les deux sont alimentés en direct batterie, hors relais principal.
+
+### ➕ Ajouté — Contact, démarreur et alternateur ajoutés (oubli de la révision B)
+
+Caisse vide : rien n'alimentait le contacteur, le démarreur ni l'excitation de l'alternateur. Ajouts : F11 5 A alimente la borne 30 du contacteur ; la borne 50 commande un relais de démarreur K4 (fusible F12 30 A, 2,5 mm² jusqu'au solénoïde) ; l'alternateur est excité comme d'origine, par un voyant de charge 2 W entre le +12 V commuté et D+. Les gros câbles (batterie → démarreur, B+ alternateur → démarreur, tresses de masse) sont listés dans la nomenclature, hors faisceau.
 
 ### ➕ Ajouté — Épissures obligatoires
 
@@ -88,17 +92,19 @@ Capteur interne MaxxECU RACE : jusqu'à 3 bar de pression de suralimentation. Du
 
 | Fusible | Circuit | Calibre | Section mini | Charge estimée | Taux |
 |---|---|---|---|---|---|
-| F0 | Fusible général | 80 A | 10 mm² | 52.0 A | 65% |
+| F0 | Fusible général | 80 A | 10 mm² | 62.4 A | 78% |
 | F1 | Fusible ECU | 15 A | 1 mm² | 1.5 A | 10% |
 | F2 | Fusible bobines | 15 A | 1 mm² | 6.0 A | 40% |
 | F3 | Fusible injecteurs | 10 A | 0,75 mm² | 6.0 A | 60% |
 | F4 | Fusible chauffage lambda | 10 A | 0,75 mm² | 1.5 A | 15% |
 | F5 | Fusible actionneurs (VANOS, MAC) | 10 A | 0,75 mm² | 2.1 A | 21% |
 | F6 | Fusible capteur PMH | 5 A | 0,35 mm² | 0.0 A | 0% |
-| F7 | Fusible bobines de relais | 5 A | 0,35 mm² | 0.3 A | 6% |
+| F7 | Fusible commandes (bobines relais pompe / ventilo, voyant de charge) | 5 A | 0,35 mm² | 0.5 A | 9% |
 | F8 | Fusible pompe à essence | 20 A | 1,5 mm² | 15.0 A | 75% |
 | F9 | Fusible ventilateur | 30 A | 2,5 mm² | 19.5 A | 65% |
-| F10 | Fusible relais principal | 30 A | 2,5 mm² | 17.5 A | 58% |
+| F10 | Fusible relais principal | 30 A | 2,5 mm² | 17.6 A | 59% |
+| F11 | Fusible contacteur (+30 clé) | 5 A | 0,35 mm² | 0.3 A | 6% |
+| F12 | Fusible démarreur (borne 50) | 30 A | 2,5 mm² | 10.0 A | 33% |
 
 ## Sorties ECU chargées
 
@@ -131,6 +137,7 @@ Capteur interne MaxxECU RACE : jusqu'à 3 bar de pression de suralimentation. Du
 |---|---|---|---|---|
 | PUMP Pompe à essence | 15 A | RLY-08, RLY-06, RLY-09 | 17.9 mΩ | 0.27 V (2.0 %) |
 | FAN Ventilateur électrique | 19.5 A | RLY-10, RLY-07, RLY-11 | 13.0 mΩ | 0.25 V (1.9 %) |
+| STARTER Démarreur | 10 A | DEM-05, DEM-04 | 20.8 mΩ | 0.21 V (1.5 %) |
 
 Consommation estimée sur le +5 V capteurs (G1) : **45 mA**.
 

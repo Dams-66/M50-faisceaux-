@@ -7,10 +7,12 @@ RLY-07;4;RD;0,20;;PDM;F9.2;Sortie;K3.30;Contact — entrée;Pompe à essence & v
 RLY-10;4;RD/BU;2,30;;ENG;K3.87;Contact — sortie;FAN.+;+12 V;Pompe à essence & ventilateur;F9;
 RLY-08;4;RD/YE;3,20;;CHS;K2.87;Contact — sortie;PUMP.+;+12 V;Pompe à essence & ventilateur;F8;4 mm² pour limiter la chute de tension sur 3 m (débit pompe)
 IGN-27;2,5;BK;0,55;;ENG;SPL-COIL-PGND;Masse puissance bobines (broches 4);GP-COIL;Masse bobines (goujon culasse, voisin);Allumage — 6 bobines intelligentes;;
+DEM-04;2,5;RD;0,20;;PDM;F12.2;Sortie;K4.30;Contact — entrée;Contact, démarreur & excitation alternateur;F12;
 PWR-03;2,5;RD;0,20;;PDM;F10.2;Sortie;K1.30;Contact — entrée;Alimentation & relais principal;F10;
 RLY-06;2,5;RD;0,20;;PDM;F8.2;Sortie;K2.30;Contact — entrée;Pompe à essence & ventilateur;F8;
 IGN-07;2,5;RD/WH;2,20;;ENG;F2.2;Sortie;SPL-COIL12;+12 V bobines;Allumage — 6 bobines intelligentes;F2;
 PWR-04;2,5;RD/WH;0,20;;PDM;K1.87;Contact — sortie;BUS87;Barrette +12 V commuté (relais principal);Alimentation & relais principal;F10;
+DEM-05;2,5;VT/YE;2,50;;ENG;K4.87;Contact — sortie vers borne 50;STARTER.50;Commande solénoïde (50);Contact, démarreur & excitation alternateur;F12;Commande solénoïde : 2,5 mm² pour le courant d'appel
 GND-01;1,5;BK;1,90;;ENG;CMC1.L4;ENGINE GROUND;GP-HEAD;Masse moteur ECU (goujon arrière culasse);Masses ECU;;Même point que CMC2 G4
 GND-02;1,5;BK;1,90;;ENG;CMC2.G4;ENGINE GROUND 2;GP-HEAD;Masse moteur ECU (goujon arrière culasse);Masses ECU;;Obligatoire — même point que CMC1 L4
 IGN-20;1,5;BK;0,55;;ENG;SPL-COIL-SGND;Masse électronique bobines (broches 2);GP-COIL;Masse bobines (goujon culasse, voisin);Allumage — 6 bobines intelligentes;;
@@ -39,6 +41,7 @@ IGN-16;0,75;BK;0,30;;ENG;COIL3.2;Masse électronique;SPL-COIL-SGND;Masse électr
 IGN-17;0,75;BK;0,20;;ENG;COIL4.2;Masse électronique;SPL-COIL-SGND;Masse électronique bobines (broches 2);Allumage — 6 bobines intelligentes;;
 IGN-18;0,75;BK;0,30;;ENG;COIL5.2;Masse électronique;SPL-COIL-SGND;Masse électronique bobines (broches 2);Allumage — 6 bobines intelligentes;;
 IGN-19;0,75;BK;0,35;;ENG;COIL6.2;Masse électronique;SPL-COIL-SGND;Masse électronique bobines (broches 2);Allumage — 6 bobines intelligentes;;
+DEM-07;0,75;BU/RD;4,15;;ENG;LAMP.2;Sortie vers D+;ALT.D+;D+ excitation (61);Contact, démarreur & excitation alternateur;;Excitation alternateur, traverse le tablier
 ACT-01;0,75;GN;3,15;;ENG;CMC1.B4;GP OUT 1;MAC.2;Commande GPO1;VANOS & MAC valve (boost);;GPO1 = boost (préconisation MaxxECU M50)
 ACT-02;0,75;GN;2,75;;ENG;CMC1.D4;GP OUT 3;VANOS.2;Commande (masse);VANOS & MAC valve (boost);;GPO3 = VANOS en direct (préconisation MaxxECU M50)
 INJ-01;0,75;GY;2,55;;ENG;CMC1.K1;INJECTOR CYL 1;INJ1.2;Commande ECU;Injection — 6 × 870 cc;;
@@ -47,6 +50,7 @@ INJ-03;0,75;GY;2,35;;ENG;CMC1.M1;INJECTOR CYL 3;INJ3.2;Commande ECU;Injection �
 INJ-04;0,75;GY;2,25;;ENG;CMC1.M2;INJECTOR CYL 4;INJ4.2;Commande ECU;Injection — 6 × 870 cc;;
 INJ-05;0,75;GY;2,20;;ENG;CMC1.M3;INJECTOR CYL 5;INJ5.2;Commande ECU;Injection — 6 × 870 cc;;
 INJ-06;0,75;GY;2,10;;ENG;CMC1.L3;INJECTOR CYL 6;INJ6.2;Commande ECU;Injection — 6 × 870 cc;;
+DEM-01;0,75;RD;1,35;;CAB;F11.2;Sortie;KEY.30;+30 entrée (permanent, fusible F11);Contact, démarreur & excitation alternateur;F11;Alimentation du contacteur
 ACT-04;0,75;RD/WH;2,30;;ENG;SPL-ACT12;+12 V actionneurs;MAC.1;+12 V;VANOS & MAC valve (boost);F5;
 ACT-05;0,75;RD/WH;0,30;;ENG;SPL-ACT12;+12 V actionneurs;VANOS.1;+12 V;VANOS & MAC valve (boost);F5;
 INJ-08;0,75;RD/WH;0,45;;ENG;SPL-INJ12;+12 V injecteurs;INJ1.1;+12 V;Injection — 6 × 870 cc;F3;
@@ -55,6 +59,7 @@ INJ-10;0,75;RD/WH;0,30;;ENG;SPL-INJ12;+12 V injecteurs;INJ3.1;+12 V;Injection �
 INJ-11;0,75;RD/WH;0,20;;ENG;SPL-INJ12;+12 V injecteurs;INJ4.1;+12 V;Injection — 6 × 870 cc;F3;
 INJ-12;0,75;RD/WH;0,30;;ENG;SPL-INJ12;+12 V injecteurs;INJ5.1;+12 V;Injection — 6 × 870 cc;F3;
 INJ-13;0,75;RD/WH;0,35;;ENG;SPL-INJ12;+12 V injecteurs;INJ6.1;+12 V;Injection — 6 × 870 cc;F3;
+DEM-03;0,5;BK;0,20;;PDM;K4.85;Bobine −;GP-CH;Masse caisse habitacle (PDM);Contact, démarreur & excitation alternateur;;
 PWR-07;0,5;BK;0,20;;PDM;K1.85;Bobine −;GP-CH;Masse caisse habitacle (PDM);Alimentation & relais principal;;
 SYNC-07;0,5;BK/WH;0,20;;ENG;SPL-SHLD;Blindages → Shield GND;CMC1.E3;SHIELD GND;Synchronisation PMH / AAC & blindages;;Blindages reliés côté ECU uniquement
 DBW-02;0,5;BN;1,15;;ENG;SPL-SG-ENG;Sensor GND — branche moteur;ETB.6;Masse capteur;Papillon motorisé & pédale;;
@@ -93,10 +98,12 @@ SNS-03;0,5;OG;1,10;;ENG;SPL-5V-ENG;+5 V — branche moteur;OIL.3;+5 V;Capteurs t
 SNS-04;0,5;OG;0,65;;ENG;SPL-5V-ENG;+5 V — branche moteur;FUEL.3;+5 V;Capteurs température / pression & distribution 5 V / Sensor GND;;
 SYNC-03;0,5;RD;3,15;C-CRANK;ENG;F6.2;Sortie;CRANK.1;+12 V;Synchronisation PMH / AAC & blindages;F6;Conducteur rouge du câble 3 voies, +12 V après relais
 WBO-08;0,5;RD;2,20;C-EGT;ENG;CMC2.D1;EGT1-;EGT1.-;K− (alumel);Lambda LSU 4.9 & EGT;;Conducteur K− (rouge en norme ANSI, blanc en IEC)
+DEM-06;0,5;RD/WH;1,75;;CAB;SPL-RLY;+12 V bobines relais;LAMP.1;+12 V commuté;Contact, démarreur & excitation alternateur;F7;
 RLY-03;0,5;RD/WH;0,20;;PDM;F7.2;Sortie;SPL-RLY;+12 V bobines relais;Pompe à essence & ventilateur;F7;
 RLY-04;0,5;RD/WH;0,20;;PDM;SPL-RLY;+12 V bobines relais;K2.86;Bobine +;Pompe à essence & ventilateur;F7;
 RLY-05;0,5;RD/WH;0,20;;PDM;SPL-RLY;+12 V bobines relais;K3.86;Bobine +;Pompe à essence & ventilateur;F7;
-PWR-06;0,5;VT;1,35;;CAB;KEY.15;+15 contact;K1.86;Bobine +;Alimentation & relais principal;;
+PWR-06;0,5;VT;1,35;;CAB;KEY.15;+15 contact mis (reste alimenté en position démarrage);K1.86;Bobine +;Alimentation & relais principal;F11;
+DEM-02;0,5;VT/YE;1,35;;CAB;KEY.50;+50 démarrage (position démarreur);K4.86;Bobine + (50 clé);Contact, démarreur & excitation alternateur;F11;
 DBW-03;0,5;WH;2,80;;ENG;CMC1.G2;THROTTLE SENSOR (TPS);ETB.1;TPS 1;Papillon motorisé & pédale;;
 KNK-01;0,5;WH;2,70;C-KS1;ENG;CMC2.E2;KNOCK 1;KS1.1;Signal;Cliquetis;;
 KNK-03;0,5;WH;2,45;C-KS2;ENG;CMC2.E3;KNOCK 2;KS2.1;Signal;Cliquetis;;

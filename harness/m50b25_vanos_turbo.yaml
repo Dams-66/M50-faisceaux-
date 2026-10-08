@@ -63,6 +63,8 @@ color_legend:
   - {code: "GY", role: "Commandes injecteurs INJ1→6"}
   - {code: "GN", role: "Sorties GPO (actionneurs, relais, chauffage lambda)"}
   - {code: "PK", role: "Moteur papillon (PK = +, PK/BK = −)"}
+  - {code: "VT/YE", role: "Commande démarreur : 50 clé → relais K4 → solénoïde du démarreur"}
+  - {code: "BU/RD", role: "Excitation alternateur : voyant de charge → D+ (61)"}
 
 wire_rules:
   insulation: "FLRY-B (ou Tefzel / M22759 pour le haut de gamme)"
@@ -97,6 +99,7 @@ sheets:
   KNK:  {short: "Cliquetis", title: "Cliquetis", layout: ecu}
   ACT:  {short: "VANOS & boost", title: "VANOS & MAC valve (boost)", layout: ecu}
   RLY:  {short: "Pompe & ventilo", title: "Pompe à essence & ventilateur", layout: flow, root: CMC1}
+  DEM:  {short: "Démarrage & charge", title: "Contact, démarreur & excitation alternateur", layout: flow, root: BUS30}
   COM:  {short: "Habitacle", title: "Habitacle (compte-tours, CAN)", layout: ecu}
 
 systems:
@@ -111,6 +114,7 @@ systems:
   KNK:  {label: "Cliquetis"}
   ACT:  {label: "Actionneurs"}
   RLY:  {label: "Relais"}
+  DEM:  {label: "Démarrage & charge"}
   COM:  {label: "Habitacle / CAN"}
   REF:  {label: "Références ECU"}
 
@@ -491,16 +495,20 @@ components:
 
   # ---------------- Habitacle ----------------
   KEY:
-    label: "Contact (+15)"
-    ref: "Contacteur à clé ou interrupteur de tableau de bord"
-    type: "Source externe"
-    connector: "Selon véhicule"
-    system: PWR
+    label: "Contacteur (30 / 15 / 50)"
+    ref: "Contacteur à clé E36 ou interrupteur contact + bouton démarreur"
+    type: "Contacteur : 30 entrée permanente, 15 contact mis, 50 démarrage"
+    connector: "Selon contacteur (cosses 6,3 mm)"
+    system: DEM
     node: CAB_KEY
     harness: CAB
     external: true
+    switch: {"30": ["15", "50"]}
     pins:
-      "15": {fn: "+15 contact", cls: V15}
+      "30": {fn: "+30 entrée (permanent, fusible F11)", cls: PWR12}
+      "15": {fn: "+15 contact mis (reste alimenté en position démarrage)", cls: V15, source: true}
+      "50": {fn: "+50 démarrage (position démarreur)", cls: V50, source: true}
+    notes: "Contacteur à clé E36 : 30, 15 et 50 sur ses cosses. Avec un interrupteur + bouton, le bouton démarreur prend le +15 et sort sur 50."
   CLUSTER:
     label: "Combiné (compte-tours)"
     ref: "Combiné E36 ou afficheur"
@@ -528,6 +536,45 @@ components:
       "L": {fn: "CAN L"}
     notes: "Résistance 120 Ω déjà intégrée côté ECU : ajouter 120 Ω à l'autre extrémité du bus."
 
+  # ---------------- Démarrage & charge ----------------
+  STARTER:
+    label: "Démarreur"
+    ref: "Démarreur Bosch d'origine M50 (borne 50 = solénoïde)"
+    type: "Solénoïde : appel ≈ 30–40 A pendant 50 ms, maintien ≈ 10 A"
+    connector: "Cosse de la borne 50 (selon démarreur)"
+    system: DEM
+    node: N_START
+    harness: ENG
+    load_a: 10
+    pins:
+      "50": {fn: "Commande solénoïde (50)", cls: PWR12, supply: true}
+    notes: "Borne 30 du démarreur : câble batterie d'origine (coffre) et câble B+ de l'alternateur, hors faisceau (voir nomenclature)."
+  ALT:
+    label: "Alternateur"
+    ref: "Alternateur Bosch d'origine M50 (B+ et D+)"
+    type: "Excitation par voyant de charge (D+ / 61)"
+    connector: "Cosse / fiche D+ de l'alternateur"
+    system: DEM
+    node: N_ALT
+    harness: ENG
+    pins:
+      "D+": {fn: "D+ excitation (61)"}
+    notes: "Montage d'origine BMW : le +12 V contact traverse le voyant de charge et arrive sur D+. Voyant allumé contact mis, il s'éteint dès que l'alternateur charge. B+ : câble de charge vers la borne 30 du démarreur, hors faisceau."
+    verify: "Repérer la borne D+ (fil bleu d'origine) sur ton alternateur avant de sertir."
+  LAMP:
+    label: "Voyant de charge"
+    ref: "Voyant 12 V 2 W (ou LED + résistance 100 Ω 2 W en parallèle)"
+    type: "Lampe de pré-excitation alternateur"
+    connector: "Selon voyant"
+    system: DEM
+    node: CAB_DASH
+    harness: CAB
+    load_a: 0.17
+    pins:
+      "1": {fn: "+12 V commuté", cls: PWR12, supply: true}
+      "2": {fn: "Sortie vers D+"}
+    notes: "Une LED seule ne laisse pas passer assez de courant pour exciter l'alternateur : ampoule 2 W, ou LED avec une résistance de 100 Ω / 2 W en parallèle. Si tu gardes le combiné E36, son voyant de charge fait le même travail."
+
   # ---------------- Distribution d'énergie (PDM) ----------------
   BATT:
     label: "Borne B+ baie moteur"
@@ -548,9 +595,11 @@ components:
   F4:  {label: "Fusible chauffage lambda", ref: "10 A", type: fuse, rating_a: 10, system: WBO, node: PDM, connector: "Boîte fusibles/relais étanche", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
   F5:  {label: "Fusible actionneurs (VANOS, MAC)", ref: "10 A", type: fuse, rating_a: 10, system: ACT, node: PDM, connector: "Boîte fusibles/relais étanche", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
   F6:  {label: "Fusible capteur PMH", ref: "5 A", type: fuse, rating_a: 5, system: SYNC, node: PDM, connector: "Boîte fusibles/relais étanche", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
-  F7:  {label: "Fusible bobines de relais", ref: "5 A", type: fuse, rating_a: 5, system: RLY, node: PDM, connector: "Boîte fusibles/relais étanche", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
+  F7:  {label: "Fusible commandes (bobines relais pompe / ventilo, voyant de charge)", ref: "5 A", type: fuse, rating_a: 5, system: RLY, node: PDM, connector: "Boîte fusibles/relais étanche", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
   F8:  {label: "Fusible pompe à essence", ref: "20 A", type: fuse, rating_a: 20, system: RLY, node: PDM, connector: "Boîte fusibles/relais étanche", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
   F9:  {label: "Fusible ventilateur", ref: "30 A", type: fuse, rating_a: 30, system: RLY, node: PDM, connector: "Boîte fusibles/relais étanche", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
+  F11: {label: "Fusible contacteur (+30 clé)", ref: "5 A", type: fuse, rating_a: 5, system: DEM, node: PDM, connector: "Boîte fusibles/relais étanche", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
+  F12: {label: "Fusible démarreur (borne 50)", ref: "30 A", type: fuse, rating_a: 30, system: DEM, node: PDM, connector: "Boîte fusibles/relais étanche", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
   K1:
     label: "Relais principal"
     ref: "Relais ISO mini 40 A"
@@ -593,6 +642,21 @@ components:
       "87": {fn: "Contact — sortie"}
       "86": {fn: "Bobine +", cls: PWR12, supply: true}
       "85": {fn: "Bobine − (GPO6)"}
+  K4:
+    label: "Relais démarreur"
+    ref: "Relais ISO mini 40 A"
+    type: relay
+    rating_a: 40
+    system: DEM
+    node: PDM
+    connector: "Boîte fusibles/relais étanche"
+    load_a: 0.15
+    pins:
+      "30": {fn: "Contact — entrée"}
+      "87": {fn: "Contact — sortie vers borne 50"}
+      "86": {fn: "Bobine + (50 clé)", cls: V50, supply: true}
+      "85": {fn: "Bobine −", cls: GND_PWR}
+    notes: "Le contacteur ne commande plus que la bobine (0,15 A) : le courant d'appel du solénoïde passe par le relais, au plus près de la batterie."
 
 # -----------------------------------------------------------------------------
 # Points de masse
@@ -660,6 +724,17 @@ wires:
   - {sheet: PWR, from: F1.2, to: CMC1.M4, mm2: 1.0, color: RD/WH, harness: PDM, note: "Alimentation ECU (15 A, préconisation MaxxECU)"}
   - {sheet: PWR, from: KEY.15, to: K1.86, mm2: 0.5, color: VT, harness: CAB}
   - {sheet: PWR, from: K1.85, to: GP-CH, mm2: 0.5, color: BK, harness: PDM}
+
+  # ===== Contact, démarreur & excitation alternateur =====
+  - {sheet: DEM, from: BUS30, to: F11.1, internal: true}
+  - {sheet: DEM, from: BUS30, to: F12.1, internal: true}
+  - {sheet: DEM, from: F11.2, to: KEY.30, mm2: 0.75, color: RD, harness: CAB, note: "Alimentation du contacteur"}
+  - {sheet: DEM, from: KEY.50, to: K4.86, mm2: 0.5, color: VT/YE, harness: CAB}
+  - {sheet: DEM, from: K4.85, to: GP-CH, mm2: 0.5, color: BK, harness: PDM}
+  - {sheet: DEM, from: F12.2, to: K4.30, mm2: 2.5, color: RD, harness: PDM}
+  - {sheet: DEM, from: K4.87, to: STARTER.50, mm2: 2.5, color: VT/YE, note: "Commande solénoïde : 2,5 mm² pour le courant d'appel"}
+  - {sheet: DEM, from: SPL-RLY, to: LAMP.1, mm2: 0.5, color: RD/WH, harness: CAB}
+  - {sheet: DEM, from: LAMP.2, to: ALT.D+, mm2: 0.75, color: BU/RD, harness: ENG, note: "Excitation alternateur, traverse le tablier"}
 
   # ===== Masses ECU =====
   - {sheet: GND, from: CMC1.L4, to: GP-HEAD, mm2: 1.5, color: BK, note: "Même point que CMC2 G4"}
@@ -848,6 +923,8 @@ topology:
     N_EGT: "Sonde EGT"
     N_LSU: "Sonde lambda"
     N_PUMP: "Pompe à essence"
+    N_START: "Démarreur (borne 50)"
+    N_ALT: "Alternateur (D+)"
   segments:
     - [ECU, HB, 0.20]
     - [PDM, HB, 0.25]
@@ -890,6 +967,8 @@ topology:
     - [TURBO, N_EGT, 0.25]
     - [TURBO, N_LSU, 0.60]
     - [PDM, N_PUMP, 3.00]
+    - [T1, N_START, 0.60]
+    - [FRONT, N_ALT, 0.40]
 
 # -----------------------------------------------------------------------------
 # Articles de nomenclature non déductibles des fils
@@ -898,6 +977,10 @@ bom_extra:
   - {cat: "Montage", item: "Passe-fil caoutchouc étanche pour la traversée du tablier", qty: 1, unit: "pc", detail: "à l'emplacement de la boîte électronique d'origine"}
   - {cat: "Montage", item: "Goujon / vis M8 de masse sur culasse", qty: 2, unit: "pc", detail: "GP-HEAD (ECU) et GP-COIL (bobines), surfaces mises à nu"}
   - {cat: "Montage", item: "Colliers P-clip / fixations de faisceau", qty: 20, unit: "pc", detail: "un tous les 20–25 cm environ"}
+  - {cat: "Câbles de puissance (hors faisceau)", item: "Câble batterie + (coffre) → borne 30 du démarreur et borne B+ de la baie", qty: 1, unit: "ens.", detail: "câble d'origine E36 si conservé, sinon 35 mm² ; il alimente la borne B+ où se trouve F0"}
+  - {cat: "Câbles de puissance (hors faisceau)", item: "Câble de charge alternateur B+ → borne 30 du démarreur", qty: 1, unit: "pc", detail: "16 mm² minimum (25 mm² si alternateur 140 A), cosses œillet M6/M8, gaine de protection"}
+  - {cat: "Câbles de puissance (hors faisceau)", item: "Tresse de masse moteur ↔ caisse", qty: 1, unit: "pc", detail: "25 mm² minimum ; sur E36 la batterie est au coffre, tout le retour du démarreur passe par là"}
+  - {cat: "Câbles de puissance (hors faisceau)", item: "Câble batterie − → caisse (coffre)", qty: 1, unit: "pc", detail: "câble d'origine ou 35 mm², contact sur tôle mise à nu"}
 
 # -----------------------------------------------------------------------------
 # Audit du plan d'origine
@@ -925,6 +1008,9 @@ audit:
   - sev: add
     title: "Pompe 280 l/h et ventilateur SPAL 385 mm"
     detail: "Pompe : relais K2, fusible 20 A, alimentation et masse en 4 mm² pour limiter la chute de tension sur le trajet jusqu'au réservoir. Ventilateur SPAL 385 mm aspirant (19,5 A d'après la fiche SPAL VA18-AP71/LL-59A) : relais K3 40 A, fusible 30 A, fils 4 mm². Les deux sont alimentés en direct batterie, hors relais principal."
+  - sev: add
+    title: "Contact, démarreur et alternateur ajoutés (oubli de la révision B)"
+    detail: "Caisse vide : rien n'alimentait le contacteur, le démarreur ni l'excitation de l'alternateur. Ajouts : F11 5 A alimente la borne 30 du contacteur ; la borne 50 commande un relais de démarreur K4 (fusible F12 30 A, 2,5 mm² jusqu'au solénoïde) ; l'alternateur est excité comme d'origine, par un voyant de charge 2 W entre le +12 V commuté et D+. Les gros câbles (batterie → démarreur, B+ alternateur → démarreur, tresses de masse) sont listés dans la nomenclature, hors faisceau."
   - sev: add
     title: "Épissures obligatoires"
     detail: "Une alvéole CMC ne reçoit qu'un fil. +5 V, Sensor GND, VR GND, Knock GND et Shield GND passent par des épissures dédiées, placées au ras de l'ECU pour les références et sur la branche moteur pour les distributions."
@@ -1009,7 +1095,9 @@ checks:
       - "Blindages : reliés uniquement côté ECU (aucune continuité vers le moteur)."
   - phase: "Première mise sous tension (pompe et injecteurs débranchés)"
     items:
-      - "Contact mis : relais principal colle, +12 V sur CMC1 M4."
+      - "Contact mis : relais principal colle, +12 V sur CMC1 M4, voyant de charge allumé."
+      - "Position démarreur : K4 colle et la borne 50 du démarreur reçoit le +12 V (démarreur débranché ou injecteurs débranchés)."
+      - "Moteur tournant : voyant de charge éteint, 13,8–14,4 V aux bornes de la batterie."
       - "5,0 V mesurés au connecteur papillon et aux capteurs de pression."
       - "MTune : températures plausibles, pressions à 0 bar, TPS / pédale 0 → 100 %."
       - "Calibration E-throttle : sens d'ouverture correct (sinon inverser H2/H4)."

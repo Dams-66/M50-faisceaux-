@@ -14,7 +14,7 @@ suivent. Aucun schéma n'est dessiné à la main, donc rien ne peut diverger.
 | Fichier | Contenu |
 |---|---|
 | [`harness/m50b25_vanos_turbo.yaml`](harness/m50b25_vanos_turbo.yaml) | **Source de vérité** : brochage ECU officiel, composants, fils, épissures, fusibles/relais, topologie, audit, contrôles |
-| [`docs/faisceau.html`](docs/faisceau.html) | Dossier interactif : brochage ECU cliquable, 12 planches, liste de coupe filtrable, fiches connecteurs, bilan énergie, formboard à l'échelle, check-lists |
+| [`docs/faisceau.html`](docs/faisceau.html) | Dossier interactif : brochage ECU cliquable, 13 planches, liste de coupe filtrable, fiches connecteurs, bilan énergie, formboard à l'échelle, check-lists |
 | [`docs/rapport.md`](docs/rapport.md) | Rapport de vérification lisible sur GitHub (audit, ERC, fusibles, brochage) |
 | [`docs/liste_de_coupe.csv`](docs/liste_de_coupe.csv) | Liste de coupe triée par section puis couleur (ouvrable dans Excel / LibreOffice, séparateur `;`) |
 | [`docs/brochage_ecu.csv`](docs/brochage_ecu.csv) | Les 80 broches CMC1/CMC2 avec fil, section, couleur, destination |
@@ -74,6 +74,9 @@ Ouvre ensuite `docs/faisceau.html` dans un navigateur.
 6. **VANOS en direct sur GPO3**, comme sur le faisceau M50 de MaxxECU (électrovanne ≈ 8,5–12 Ω, 1,2–1,7 A < 2 A).
 7. **ECU et boîte fusibles/relais dans l'habitacle** (E36 : la boîte électronique d'origine est côté turbo).
 8. **Pompe et ventilateur en 4 mm²** sur relais, alimentés en direct batterie.
+9. **Contact, démarreur et alternateur** : contacteur alimenté par F11 (5 A), relais de démarreur K4
+   (F12 30 A, 2,5 mm² jusqu'à la borne 50), alternateur excité par un voyant de charge 2 W sur D+
+   comme d'origine. Les câbles de puissance (batterie, B+ alternateur, tresses de masse) sont dans la nomenclature.
 
 Le détail, les points validés et les sources sont dans `docs/rapport.md`.
 
@@ -82,4 +85,5 @@ Le détail, les points validés et les sources sont dans `docs/rapport.md`.
 - E36 conduite à gauche ; ECU et PDM derrière la boîte à gants, traversée du tablier par passe-fil.
 - Fusible général MAXI 80 A sur la borne B+ de la baie moteur.
 - Pompe 280 l/h estimée à 15 A, ventilateur SPAL 385 mm aspirant à 19,5 A : à confirmer sur les étiquettes.
-- Longueurs de tronçons estimées : à mesurer sur la voiture.
+- Longueurs de tronçons estimées : à mesurer sur la voiture (dont démarreur et alternateur).
+- Démarreur : solénoïde estimé à 10 A en maintien (30–40 A à l'appel, absorbé par le fusible 30 A temporisé).

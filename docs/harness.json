@@ -147,6 +147,14 @@
   {
    "code": "PK",
    "role": "Moteur papillon (PK = +, PK/BK = −)"
+  },
+  {
+   "code": "VT/YE",
+   "role": "Commande démarreur : 50 clé → relais K4 → solénoïde du démarreur"
+  },
+  {
+   "code": "BU/RD",
+   "role": "Excitation alternateur : voyant de charge → D+ (61)"
   }
  ],
  "rules": {
@@ -213,6 +221,12 @@
    "layout": "flow",
    "root": "CMC1"
   },
+  "DEM": {
+   "short": "Démarrage & charge",
+   "title": "Contact, démarreur & excitation alternateur",
+   "layout": "flow",
+   "root": "BUS30"
+  },
   "COM": {
    "short": "Habitacle",
    "title": "Habitacle (compte-tours, CAN)",
@@ -252,6 +266,9 @@
   },
   "RLY": {
    "label": "Relais"
+  },
+  "DEM": {
+   "label": "Démarrage & charge"
   },
   "COM": {
    "label": "Habitacle / CAN"
@@ -1240,7 +1257,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "CLT": {
    "cat": "comp",
@@ -1258,7 +1276,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "OIL": {
    "cat": "comp",
@@ -1276,7 +1295,8 @@
    "r_ohm": null,
    "supply5_ma": 10,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "FUEL": {
    "cat": "comp",
@@ -1294,7 +1314,8 @@
    "r_ohm": null,
    "supply5_ma": 10,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "CRANK": {
    "cat": "comp",
@@ -1312,7 +1333,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "CAM": {
    "cat": "comp",
@@ -1330,7 +1352,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "KS1": {
    "cat": "comp",
@@ -1348,7 +1371,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "KS2": {
    "cat": "comp",
@@ -1366,7 +1390,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "LSU": {
    "cat": "comp",
@@ -1384,7 +1409,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "EGT1": {
    "cat": "comp",
@@ -1402,7 +1428,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "ETB": {
    "cat": "comp",
@@ -1420,7 +1447,8 @@
    "r_ohm": null,
    "supply5_ma": 5,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "APP": {
    "cat": "comp",
@@ -1438,7 +1466,8 @@
    "r_ohm": null,
    "supply5_ma": 20,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "INJ1": {
    "cat": "comp",
@@ -1456,7 +1485,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "INJ2": {
    "cat": "comp",
@@ -1474,7 +1504,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "INJ3": {
    "cat": "comp",
@@ -1492,7 +1523,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "INJ4": {
    "cat": "comp",
@@ -1510,7 +1542,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "INJ5": {
    "cat": "comp",
@@ -1528,7 +1561,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "INJ6": {
    "cat": "comp",
@@ -1546,7 +1580,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "COIL1": {
    "cat": "comp",
@@ -1564,7 +1599,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "COIL2": {
    "cat": "comp",
@@ -1582,7 +1618,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "COIL3": {
    "cat": "comp",
@@ -1600,7 +1637,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "COIL4": {
    "cat": "comp",
@@ -1618,7 +1656,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "COIL5": {
    "cat": "comp",
@@ -1636,7 +1675,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "COIL6": {
    "cat": "comp",
@@ -1654,7 +1694,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "MAC": {
    "cat": "comp",
@@ -1672,7 +1713,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "VANOS": {
    "cat": "comp",
@@ -1693,7 +1735,8 @@
    ],
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "PUMP": {
    "cat": "comp",
@@ -1711,7 +1754,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "FAN": {
    "cat": "comp",
@@ -1729,25 +1773,32 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "KEY": {
    "cat": "comp",
-   "label": "Contact (+15)",
-   "ref": "Contacteur à clé ou interrupteur de tableau de bord",
-   "type": "Source externe",
-   "connector": "Selon véhicule",
+   "label": "Contacteur (30 / 15 / 50)",
+   "ref": "Contacteur à clé E36 ou interrupteur contact + bouton démarreur",
+   "type": "Contacteur : 30 entrée permanente, 15 contact mis, 50 démarrage",
+   "connector": "Selon contacteur (cosses 6,3 mm)",
    "node": "CAB_KEY",
-   "system": "PWR",
+   "system": "DEM",
    "harness": "CAB",
-   "notes": "",
+   "notes": "Contacteur à clé E36 : 30, 15 et 50 sur ses cosses. Avec un interrupteur + bouton, le bouton démarreur prend le +15 et sort sur 50.",
    "verify": "",
    "rating_a": null,
    "load_a": null,
    "r_ohm": null,
    "supply5_ma": null,
    "external": true,
-   "optional": false
+   "optional": false,
+   "switch": {
+    "30": [
+     "15",
+     "50"
+    ]
+   }
   },
   "CLUSTER": {
    "cat": "comp",
@@ -1765,7 +1816,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": true,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "CANDEV": {
    "cat": "comp",
@@ -1783,7 +1835,65 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": true,
-   "optional": true
+   "optional": true,
+   "switch": {}
+  },
+  "STARTER": {
+   "cat": "comp",
+   "label": "Démarreur",
+   "ref": "Démarreur Bosch d'origine M50 (borne 50 = solénoïde)",
+   "type": "Solénoïde : appel ≈ 30–40 A pendant 50 ms, maintien ≈ 10 A",
+   "connector": "Cosse de la borne 50 (selon démarreur)",
+   "node": "N_START",
+   "system": "DEM",
+   "harness": "ENG",
+   "notes": "Borne 30 du démarreur : câble batterie d'origine (coffre) et câble B+ de l'alternateur, hors faisceau (voir nomenclature).",
+   "verify": "",
+   "rating_a": null,
+   "load_a": 10,
+   "r_ohm": null,
+   "supply5_ma": null,
+   "external": false,
+   "optional": false,
+   "switch": {}
+  },
+  "ALT": {
+   "cat": "comp",
+   "label": "Alternateur",
+   "ref": "Alternateur Bosch d'origine M50 (B+ et D+)",
+   "type": "Excitation par voyant de charge (D+ / 61)",
+   "connector": "Cosse / fiche D+ de l'alternateur",
+   "node": "N_ALT",
+   "system": "DEM",
+   "harness": "ENG",
+   "notes": "Montage d'origine BMW : le +12 V contact traverse le voyant de charge et arrive sur D+. Voyant allumé contact mis, il s'éteint dès que l'alternateur charge. B+ : câble de charge vers la borne 30 du démarreur, hors faisceau.",
+   "verify": "Repérer la borne D+ (fil bleu d'origine) sur ton alternateur avant de sertir.",
+   "rating_a": null,
+   "load_a": null,
+   "r_ohm": null,
+   "supply5_ma": null,
+   "external": false,
+   "optional": false,
+   "switch": {}
+  },
+  "LAMP": {
+   "cat": "comp",
+   "label": "Voyant de charge",
+   "ref": "Voyant 12 V 2 W (ou LED + résistance 100 Ω 2 W en parallèle)",
+   "type": "Lampe de pré-excitation alternateur",
+   "connector": "Selon voyant",
+   "node": "CAB_DASH",
+   "system": "DEM",
+   "harness": "CAB",
+   "notes": "Une LED seule ne laisse pas passer assez de courant pour exciter l'alternateur : ampoule 2 W, ou LED avec une résistance de 100 Ω / 2 W en parallèle. Si tu gardes le combiné E36, son voyant de charge fait le même travail.",
+   "verify": "",
+   "rating_a": null,
+   "load_a": 0.17,
+   "r_ohm": null,
+   "supply5_ma": null,
+   "external": false,
+   "optional": false,
+   "switch": {}
   },
   "BATT": {
    "cat": "comp",
@@ -1801,7 +1911,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": true,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "F0": {
    "cat": "fuse",
@@ -1819,7 +1930,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "F10": {
    "cat": "fuse",
@@ -1837,7 +1949,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "F1": {
    "cat": "fuse",
@@ -1855,7 +1968,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "F2": {
    "cat": "fuse",
@@ -1873,7 +1987,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "F3": {
    "cat": "fuse",
@@ -1891,7 +2006,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "F4": {
    "cat": "fuse",
@@ -1909,7 +2025,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "F5": {
    "cat": "fuse",
@@ -1927,7 +2044,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "F6": {
    "cat": "fuse",
@@ -1945,11 +2063,12 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "F7": {
    "cat": "fuse",
-   "label": "Fusible bobines de relais",
+   "label": "Fusible commandes (bobines relais pompe / ventilo, voyant de charge)",
    "ref": "5 A",
    "type": "fuse",
    "connector": "Boîte fusibles/relais étanche",
@@ -1963,7 +2082,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "F8": {
    "cat": "fuse",
@@ -1981,7 +2101,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "F9": {
    "cat": "fuse",
@@ -1999,7 +2120,46 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
+  },
+  "F11": {
+   "cat": "fuse",
+   "label": "Fusible contacteur (+30 clé)",
+   "ref": "5 A",
+   "type": "fuse",
+   "connector": "Boîte fusibles/relais étanche",
+   "node": "PDM",
+   "system": "DEM",
+   "harness": null,
+   "notes": "",
+   "verify": "",
+   "rating_a": 5,
+   "load_a": null,
+   "r_ohm": null,
+   "supply5_ma": null,
+   "external": false,
+   "optional": false,
+   "switch": {}
+  },
+  "F12": {
+   "cat": "fuse",
+   "label": "Fusible démarreur (borne 50)",
+   "ref": "30 A",
+   "type": "fuse",
+   "connector": "Boîte fusibles/relais étanche",
+   "node": "PDM",
+   "system": "DEM",
+   "harness": null,
+   "notes": "",
+   "verify": "",
+   "rating_a": 30,
+   "load_a": null,
+   "r_ohm": null,
+   "supply5_ma": null,
+   "external": false,
+   "optional": false,
+   "switch": {}
   },
   "K1": {
    "cat": "relay",
@@ -2017,7 +2177,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "K2": {
    "cat": "relay",
@@ -2035,7 +2196,8 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
   },
   "K3": {
    "cat": "relay",
@@ -2053,7 +2215,27 @@
    "r_ohm": null,
    "supply5_ma": null,
    "external": false,
-   "optional": false
+   "optional": false,
+   "switch": {}
+  },
+  "K4": {
+   "cat": "relay",
+   "label": "Relais démarreur",
+   "ref": "Relais ISO mini 40 A",
+   "type": "relay",
+   "connector": "Boîte fusibles/relais étanche",
+   "node": "PDM",
+   "system": "DEM",
+   "harness": null,
+   "notes": "Le contacteur ne commande plus que la bobine (0,15 A) : le courant d'appel du solénoïde passe par le relais, au plus près de la batterie.",
+   "verify": "",
+   "rating_a": 40,
+   "load_a": 0.15,
+   "r_ohm": null,
+   "supply5_ma": null,
+   "external": false,
+   "optional": false,
+   "switch": {}
   },
   "GP-HEAD": {
    "cat": "ground",
@@ -2214,8 +2396,8 @@
    "node": "PDM",
    "system": "REF",
    "busbar": false,
-   "wires": 3,
-   "csa": 1.5
+   "wires": 4,
+   "csa": 2.0
   },
   "BUS30": {
    "cat": "splice",
@@ -3456,12 +3638,28 @@
    "fn": "Masse",
    "cls": "GND_PWR"
   },
+  "KEY.30": {
+   "owner": "KEY",
+   "pin": "30",
+   "cat": "comp",
+   "fn": "+30 entrée (permanent, fusible F11)",
+   "cls": "PWR12"
+  },
   "KEY.15": {
    "owner": "KEY",
    "pin": "15",
    "cat": "comp",
-   "fn": "+15 contact",
-   "cls": "V15"
+   "fn": "+15 contact mis (reste alimenté en position démarrage)",
+   "cls": "V15",
+   "source": true
+  },
+  "KEY.50": {
+   "owner": "KEY",
+   "pin": "50",
+   "cat": "comp",
+   "fn": "+50 démarrage (position démarreur)",
+   "cls": "V50",
+   "source": true
   },
   "CLUSTER.TD": {
    "owner": "CLUSTER",
@@ -3480,6 +3678,34 @@
    "pin": "L",
    "cat": "comp",
    "fn": "CAN L"
+  },
+  "STARTER.50": {
+   "owner": "STARTER",
+   "pin": "50",
+   "cat": "comp",
+   "fn": "Commande solénoïde (50)",
+   "cls": "PWR12",
+   "supply": true
+  },
+  "ALT.D+": {
+   "owner": "ALT",
+   "pin": "D+",
+   "cat": "comp",
+   "fn": "D+ excitation (61)"
+  },
+  "LAMP.1": {
+   "owner": "LAMP",
+   "pin": "1",
+   "cat": "comp",
+   "fn": "+12 V commuté",
+   "cls": "PWR12",
+   "supply": true
+  },
+  "LAMP.2": {
+   "owner": "LAMP",
+   "pin": "2",
+   "cat": "comp",
+   "fn": "Sortie vers D+"
   },
   "BATT.+": {
    "owner": "BATT",
@@ -3642,6 +3868,34 @@
    "fn": "Sortie",
    "cls": "PWR12"
   },
+  "F11.1": {
+   "owner": "F11",
+   "pin": "1",
+   "cat": "fuse",
+   "fn": "Entrée",
+   "cls": "PWR12"
+  },
+  "F11.2": {
+   "owner": "F11",
+   "pin": "2",
+   "cat": "fuse",
+   "fn": "Sortie",
+   "cls": "PWR12"
+  },
+  "F12.1": {
+   "owner": "F12",
+   "pin": "1",
+   "cat": "fuse",
+   "fn": "Entrée",
+   "cls": "PWR12"
+  },
+  "F12.2": {
+   "owner": "F12",
+   "pin": "2",
+   "cat": "fuse",
+   "fn": "Sortie",
+   "cls": "PWR12"
+  },
   "K1.30": {
    "owner": "K1",
    "pin": "30",
@@ -3726,6 +3980,35 @@
    "pin": "85",
    "cat": "relay",
    "fn": "Bobine − (GPO6)"
+  },
+  "K4.30": {
+   "owner": "K4",
+   "pin": "30",
+   "cat": "relay",
+   "fn": "Contact — entrée",
+   "cls": "PWR12"
+  },
+  "K4.87": {
+   "owner": "K4",
+   "pin": "87",
+   "cat": "relay",
+   "fn": "Contact — sortie vers borne 50",
+   "cls": "PWR12"
+  },
+  "K4.86": {
+   "owner": "K4",
+   "pin": "86",
+   "cat": "relay",
+   "fn": "Bobine + (50 clé)",
+   "cls": "V50",
+   "supply": true
+  },
+  "K4.85": {
+   "owner": "K4",
+   "pin": "85",
+   "cat": "relay",
+   "fn": "Bobine −",
+   "cls": "GND_PWR"
   },
   "GP-HEAD": {
    "owner": "GP-HEAD",
@@ -3891,7 +4174,7 @@
    "internal": false,
    "drain": false,
    "note": "Fusible au plus près de la batterie / borne B+",
-   "net": "N061",
+   "net": "N066",
    "route_m": 0.0,
    "length_m": 0.2,
    "path": []
@@ -3908,7 +4191,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N062",
+   "net": "N067",
    "fuse": "F0",
    "route_m": 1.35,
    "length_m": 1.55,
@@ -3931,7 +4214,7 @@
    "internal": true,
    "drain": false,
    "note": "",
-   "net": "N062",
+   "net": "N067",
    "length_m": 0,
    "path": []
   },
@@ -3947,7 +4230,7 @@
    "internal": true,
    "drain": false,
    "note": "",
-   "net": "N062",
+   "net": "N067",
    "length_m": 0,
    "path": []
   },
@@ -3963,7 +4246,7 @@
    "internal": true,
    "drain": false,
    "note": "",
-   "net": "N062",
+   "net": "N067",
    "length_m": 0,
    "path": []
   },
@@ -3979,7 +4262,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N063",
+   "net": "N068",
    "fuse": "F10",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -3997,7 +4280,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N064",
+   "net": "N069",
    "fuse": "F10",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -4015,7 +4298,7 @@
    "internal": true,
    "drain": false,
    "note": "",
-   "net": "N064",
+   "net": "N069",
    "length_m": 0,
    "path": []
   },
@@ -4031,7 +4314,7 @@
    "internal": true,
    "drain": false,
    "note": "",
-   "net": "N064",
+   "net": "N069",
    "length_m": 0,
    "path": []
   },
@@ -4047,7 +4330,7 @@
    "internal": true,
    "drain": false,
    "note": "",
-   "net": "N064",
+   "net": "N069",
    "length_m": 0,
    "path": []
   },
@@ -4063,7 +4346,7 @@
    "internal": true,
    "drain": false,
    "note": "",
-   "net": "N064",
+   "net": "N069",
    "length_m": 0,
    "path": []
   },
@@ -4079,7 +4362,7 @@
    "internal": true,
    "drain": false,
    "note": "",
-   "net": "N064",
+   "net": "N069",
    "length_m": 0,
    "path": []
   },
@@ -4095,7 +4378,7 @@
    "internal": true,
    "drain": false,
    "note": "",
-   "net": "N064",
+   "net": "N069",
    "length_m": 0,
    "path": []
   },
@@ -4111,7 +4394,7 @@
    "internal": true,
    "drain": false,
    "note": "",
-   "net": "N064",
+   "net": "N069",
    "length_m": 0,
    "path": []
   },
@@ -4148,7 +4431,8 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N060",
+   "net": "N061",
+   "fuse": "F11",
    "route_m": 1.15,
    "length_m": 1.35,
    "path": [
@@ -4168,10 +4452,196 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N068",
+   "net": "N073",
    "route_m": 0.0,
    "length_m": 0.2,
    "path": []
+  },
+  {
+   "id": "BUS-11",
+   "from": "BUS30",
+   "to": "F11.1",
+   "sheet": "DEM",
+   "mm2": null,
+   "color": null,
+   "cable": null,
+   "harness": "ENG",
+   "internal": true,
+   "drain": false,
+   "note": "",
+   "net": "N067",
+   "length_m": 0,
+   "path": []
+  },
+  {
+   "id": "BUS-12",
+   "from": "BUS30",
+   "to": "F12.1",
+   "sheet": "DEM",
+   "mm2": null,
+   "color": null,
+   "cable": null,
+   "harness": "ENG",
+   "internal": true,
+   "drain": false,
+   "note": "",
+   "net": "N067",
+   "length_m": 0,
+   "path": []
+  },
+  {
+   "id": "DEM-01",
+   "from": "F11.2",
+   "to": "KEY.30",
+   "sheet": "DEM",
+   "mm2": 0.75,
+   "color": "RD",
+   "cable": null,
+   "harness": "CAB",
+   "internal": false,
+   "drain": false,
+   "note": "Alimentation du contacteur",
+   "net": "N060",
+   "fuse": "F11",
+   "route_m": 1.15,
+   "length_m": 1.35,
+   "path": [
+    "PDM~HB",
+    "HB~CAB_KEY"
+   ]
+  },
+  {
+   "id": "DEM-02",
+   "from": "KEY.50",
+   "to": "K4.86",
+   "sheet": "DEM",
+   "mm2": 0.5,
+   "color": "VT/YE",
+   "cable": null,
+   "harness": "CAB",
+   "internal": false,
+   "drain": false,
+   "note": "",
+   "net": "N062",
+   "fuse": "F11",
+   "route_m": 1.15,
+   "length_m": 1.35,
+   "path": [
+    "HB~CAB_KEY",
+    "PDM~HB"
+   ]
+  },
+  {
+   "id": "DEM-03",
+   "from": "K4.85",
+   "to": "GP-CH",
+   "sheet": "DEM",
+   "mm2": 0.5,
+   "color": "BK",
+   "cable": null,
+   "harness": "PDM",
+   "internal": false,
+   "drain": false,
+   "note": "",
+   "net": "N073",
+   "route_m": 0.0,
+   "length_m": 0.2,
+   "path": []
+  },
+  {
+   "id": "DEM-04",
+   "from": "F12.2",
+   "to": "K4.30",
+   "sheet": "DEM",
+   "mm2": 2.5,
+   "color": "RD",
+   "cable": null,
+   "harness": "PDM",
+   "internal": false,
+   "drain": false,
+   "note": "",
+   "net": "N072",
+   "fuse": "F12",
+   "route_m": 0.0,
+   "length_m": 0.2,
+   "path": []
+  },
+  {
+   "id": "DEM-05",
+   "from": "K4.87",
+   "to": "STARTER.50",
+   "sheet": "DEM",
+   "mm2": 2.5,
+   "color": "VT/YE",
+   "cable": null,
+   "harness": "ENG",
+   "internal": false,
+   "drain": false,
+   "note": "Commande solénoïde : 2,5 mm² pour le courant d'appel",
+   "net": "N063",
+   "fuse": "F12",
+   "route_m": 2.3,
+   "length_m": 2.5,
+   "path": [
+    "PDM~HB",
+    "HB~FW",
+    "FW~T0",
+    "T0~T1",
+    "T1~N_START"
+   ]
+  },
+  {
+   "id": "DEM-06",
+   "from": "SPL-RLY",
+   "to": "LAMP.1",
+   "sheet": "DEM",
+   "mm2": 0.5,
+   "color": "RD/WH",
+   "cable": null,
+   "harness": "CAB",
+   "internal": false,
+   "drain": false,
+   "note": "",
+   "net": "N065",
+   "fuse": "F7",
+   "route_m": 1.55,
+   "length_m": 1.75,
+   "path": [
+    "PDM~HB",
+    "HB~CAB_CLUSTER",
+    "CAB_CLUSTER~CAB_DASH"
+   ]
+  },
+  {
+   "id": "DEM-07",
+   "from": "LAMP.2",
+   "to": "ALT.D+",
+   "sheet": "DEM",
+   "mm2": 0.75,
+   "color": "BU/RD",
+   "cable": null,
+   "harness": "ENG",
+   "internal": false,
+   "drain": false,
+   "note": "Excitation alternateur, traverse le tablier",
+   "net": "N064",
+   "route_m": 3.955,
+   "length_m": 4.15,
+   "path": [
+    "CAB_CLUSTER~CAB_DASH",
+    "HB~CAB_CLUSTER",
+    "HB~FW",
+    "FW~T0",
+    "T0~T1",
+    "T1~TOP6",
+    "TOP6~TOP5",
+    "TOP5~TOP4",
+    "TOP4~TOP3",
+    "TOP3~TOP2",
+    "TOP2~TOP1",
+    "TOP1~FRONT",
+    "FRONT~N_ALT"
+   ]
   },
   {
    "id": "GND-01",
@@ -6608,7 +7078,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N066",
+   "net": "N070",
    "fuse": "F8",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -6626,7 +7096,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N067",
+   "net": "N071",
    "fuse": "F9",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -6803,6 +7273,7 @@
     "F7.2",
     "K2.86",
     "K3.86",
+    "LAMP.1",
     "SPL-RLY"
    ],
    "name": "+12 V bobines relais"
@@ -6822,7 +7293,15 @@
    "name": "+12 V injecteurs"
   },
   {
-   "id": "N061",
+   "id": "N064",
+   "members": [
+    "ALT.D+",
+    "LAMP.2"
+   ],
+   "name": "ALT.D+"
+  },
+  {
+   "id": "N066",
    "members": [
     "BATT.+",
     "F0.1"
@@ -6830,7 +7309,7 @@
    "name": "BATT.+"
   },
   {
-   "id": "N064",
+   "id": "N069",
    "members": [
     "BUS87",
     "F1.1",
@@ -6845,13 +7324,15 @@
    "name": "Barrette +12 V commuté (relais principal)"
   },
   {
-   "id": "N062",
+   "id": "N067",
    "members": [
     "BUS30",
     "F0.2",
     "F8.1",
     "F9.1",
-    "F10.1"
+    "F10.1",
+    "F11.1",
+    "F12.1"
    ],
    "name": "Barrette +12 V permanent"
   },
@@ -7273,7 +7754,7 @@
    "name": "CMC2.H4 MOTOR 1+ / GPO 12"
   },
   {
-   "id": "N060",
+   "id": "N061",
    "members": [
     "K1.86",
     "KEY.15"
@@ -7297,6 +7778,22 @@
    "name": "K3.87 Contact — sortie"
   },
   {
+   "id": "N062",
+   "members": [
+    "K4.86",
+    "KEY.50"
+   ],
+   "name": "K4.86 Bobine + (50 clé)"
+  },
+  {
+   "id": "N063",
+   "members": [
+    "K4.87",
+    "STARTER.50"
+   ],
+   "name": "K4.87 Contact — sortie vers borne 50"
+  },
+  {
    "id": "N057",
    "members": [
     "GP-CH-AR",
@@ -7313,10 +7810,11 @@
    "name": "Masse caisse avant (ventilateur)"
   },
   {
-   "id": "N068",
+   "id": "N073",
    "members": [
     "GP-CH",
-    "K1.85"
+    "K1.85",
+    "K4.85"
    ],
    "name": "Masse caisse habitacle (PDM)"
   },
@@ -7358,7 +7856,7 @@
    "name": "Sortie F6"
   },
   {
-   "id": "N066",
+   "id": "N070",
    "members": [
     "F8.2",
     "K2.30"
@@ -7366,7 +7864,7 @@
    "name": "Sortie F8"
   },
   {
-   "id": "N067",
+   "id": "N071",
    "members": [
     "F9.2",
     "K3.30"
@@ -7374,12 +7872,28 @@
    "name": "Sortie F9"
   },
   {
-   "id": "N063",
+   "id": "N068",
    "members": [
     "F10.2",
     "K1.30"
    ],
    "name": "Sortie F10"
+  },
+  {
+   "id": "N060",
+   "members": [
+    "F11.2",
+    "KEY.30"
+   ],
+   "name": "Sortie F11"
+  },
+  {
+   "id": "N072",
+   "members": [
+    "F12.2",
+    "K4.30"
+   ],
+   "name": "Sortie F12"
   }
  ],
  "cables": [
@@ -7612,7 +8126,9 @@
    "TURBO": "Turbo",
    "N_EGT": "Sonde EGT",
    "N_LSU": "Sonde lambda",
-   "N_PUMP": "Pompe à essence"
+   "N_PUMP": "Pompe à essence",
+   "N_START": "Démarreur (borne 50)",
+   "N_ALT": "Alternateur (D+)"
   },
   "segments": [
    {
@@ -7629,8 +8145,8 @@
     "a": "PDM",
     "b": "HB",
     "length": 0.25,
-    "wires": 11,
-    "bundle_mm": 11.7,
+    "wires": 15,
+    "bundle_mm": 12.7,
     "sleeve": "DR-25 19.1/9.5 mm"
    },
    {
@@ -7638,8 +8154,8 @@
     "a": "HB",
     "b": "FW",
     "length": 0.45,
-    "wires": 50,
-    "bundle_mm": 20.1,
+    "wires": 52,
+    "bundle_mm": 20.5,
     "sleeve": "DR-25 25.4/12.7 mm"
    },
    {
@@ -7647,8 +8163,8 @@
     "a": "FW",
     "b": "T0",
     "length": 0.3,
-    "wires": 50,
-    "bundle_mm": 20.1,
+    "wires": 52,
+    "bundle_mm": 20.5,
     "sleeve": "DR-25 25.4/12.7 mm"
    },
    {
@@ -7674,17 +8190,17 @@
     "a": "HB",
     "b": "CAB_KEY",
     "length": 0.9,
-    "wires": 1,
-    "bundle_mm": 1.6,
-    "sleeve": "DR-25 3.2/1.6 mm"
+    "wires": 3,
+    "bundle_mm": 3.4,
+    "sleeve": "DR-25 4.8/2.4 mm"
    },
    {
     "id": "HB~CAB_CLUSTER",
     "a": "HB",
     "b": "CAB_CLUSTER",
     "length": 1.0,
-    "wires": 3,
-    "bundle_mm": 4.3,
+    "wires": 5,
+    "bundle_mm": 5.2,
     "sleeve": "DR-25 6.4/3.2 mm"
    },
    {
@@ -7692,17 +8208,17 @@
     "a": "CAB_CLUSTER",
     "b": "CAB_DASH",
     "length": 0.3,
-    "wires": 2,
-    "bundle_mm": 3.4,
-    "sleeve": "DR-25 4.8/2.4 mm"
+    "wires": 4,
+    "bundle_mm": 4.8,
+    "sleeve": "DR-25 6.4/3.2 mm"
    },
    {
     "id": "T0~T1",
     "a": "T0",
     "b": "T1",
     "length": 0.7,
-    "wires": 40,
-    "bundle_mm": 16.4,
+    "wires": 42,
+    "bundle_mm": 16.9,
     "sleeve": "DR-25 25.4/12.7 mm"
    },
    {
@@ -7719,8 +8235,8 @@
     "a": "T1",
     "b": "TOP6",
     "length": 0.15,
-    "wires": 19,
-    "bundle_mm": 11.6,
+    "wires": 20,
+    "bundle_mm": 11.8,
     "sleeve": "DR-25 19.1/9.5 mm"
    },
    {
@@ -7728,8 +8244,8 @@
     "a": "TOP6",
     "b": "TOP5",
     "length": 0.091,
-    "wires": 21,
-    "bundle_mm": 12.1,
+    "wires": 22,
+    "bundle_mm": 12.3,
     "sleeve": "DR-25 19.1/9.5 mm"
    },
    {
@@ -7737,8 +8253,8 @@
     "a": "TOP5",
     "b": "TOP4",
     "length": 0.091,
-    "wires": 23,
-    "bundle_mm": 12.6,
+    "wires": 24,
+    "bundle_mm": 12.8,
     "sleeve": "DR-25 19.1/9.5 mm"
    },
    {
@@ -7746,8 +8262,8 @@
     "a": "TOP4",
     "b": "TOP3",
     "length": 0.091,
-    "wires": 22,
-    "bundle_mm": 11.9,
+    "wires": 23,
+    "bundle_mm": 12.1,
     "sleeve": "DR-25 19.1/9.5 mm"
    },
    {
@@ -7755,8 +8271,8 @@
     "a": "TOP3",
     "b": "TOP2",
     "length": 0.091,
-    "wires": 18,
-    "bundle_mm": 11.0,
+    "wires": 19,
+    "bundle_mm": 11.2,
     "sleeve": "DR-25 19.1/9.5 mm"
    },
    {
@@ -7764,8 +8280,8 @@
     "a": "TOP2",
     "b": "TOP1",
     "length": 0.091,
-    "wires": 14,
-    "bundle_mm": 10.1,
+    "wires": 15,
+    "bundle_mm": 10.3,
     "sleeve": "DR-25 12.7/6.4 mm"
    },
    {
@@ -7773,8 +8289,8 @@
     "a": "TOP1",
     "b": "FRONT",
     "length": 0.2,
-    "wires": 10,
-    "bundle_mm": 9.1,
+    "wires": 11,
+    "bundle_mm": 9.3,
     "sleeve": "DR-25 12.7/6.4 mm"
    },
    {
@@ -7983,6 +8499,24 @@
     "wires": 1,
     "bundle_mm": 3.7,
     "sleeve": "DR-25 4.8/2.4 mm"
+   },
+   {
+    "id": "T1~N_START",
+    "a": "T1",
+    "b": "N_START",
+    "length": 0.6,
+    "wires": 1,
+    "bundle_mm": 3.0,
+    "sleeve": "DR-25 4.8/2.4 mm"
+   },
+   {
+    "id": "FRONT~N_ALT",
+    "a": "FRONT",
+    "b": "N_ALT",
+    "length": 0.4,
+    "wires": 1,
+    "bundle_mm": 1.9,
+    "sleeve": "DR-25 3.2/1.6 mm"
    }
   ]
  },
@@ -7992,8 +8526,8 @@
    "label": "Fusible général",
    "rating": 80,
    "min_mm2": 10.0,
-   "load": 51.96,
-   "ratio": 0.65,
+   "load": 62.43,
+   "ratio": 0.78,
    "status": "ok",
    "loads": [
     {
@@ -8006,7 +8540,15 @@
     },
     {
      "id": "F10",
-     "a": 17.46
+     "a": 17.63
+    },
+    {
+     "id": "F11",
+     "a": 0.3
+    },
+    {
+     "id": "F12",
+     "a": 10.0
     }
    ]
   },
@@ -8146,11 +8688,11 @@
   },
   {
    "id": "F7",
-   "label": "Fusible bobines de relais",
+   "label": "Fusible commandes (bobines relais pompe / ventilo, voyant de charge)",
    "rating": 5,
    "min_mm2": 0.35,
-   "load": 0.3,
-   "ratio": 0.06,
+   "load": 0.47,
+   "ratio": 0.09,
    "status": "ok",
    "loads": [
     {
@@ -8160,6 +8702,10 @@
     {
      "id": "K3",
      "a": 0.15
+    },
+    {
+     "id": "LAMP",
+     "a": 0.17
     }
    ]
   },
@@ -8198,8 +8744,8 @@
    "label": "Fusible relais principal",
    "rating": 30,
    "min_mm2": 2.5,
-   "load": 17.46,
-   "ratio": 0.58,
+   "load": 17.63,
+   "ratio": 0.59,
    "status": "ok",
    "loads": [
     {
@@ -8228,7 +8774,41 @@
     },
     {
      "id": "F7",
-     "a": 0.3
+     "a": 0.47
+    }
+   ]
+  },
+  {
+   "id": "F11",
+   "label": "Fusible contacteur (+30 clé)",
+   "rating": 5,
+   "min_mm2": 0.35,
+   "load": 0.3,
+   "ratio": 0.06,
+   "status": "ok",
+   "loads": [
+    {
+     "id": "K1",
+     "a": 0.15
+    },
+    {
+     "id": "K4",
+     "a": 0.15
+    }
+   ]
+  },
+  {
+   "id": "F12",
+   "label": "Fusible démarreur (borne 50)",
+   "rating": 30,
+   "min_mm2": 2.5,
+   "load": 10.0,
+   "ratio": 0.33,
+   "status": "ok",
+   "loads": [
+    {
+     "id": "STARTER",
+     "a": 10
     }
    ]
   }
@@ -8484,6 +9064,19 @@
    "drop_v": 0.25,
    "pct": 1.9,
    "status": "ok"
+  },
+  {
+   "id": "STARTER",
+   "label": "Démarreur",
+   "a": 10,
+   "wires": [
+    "DEM-05",
+    "DEM-04"
+   ],
+   "r_mohm": 20.8,
+   "drop_v": 0.21,
+   "pct": 1.5,
+   "status": "ok"
   }
  ],
  "audit": [
@@ -8521,6 +9114,11 @@
    "sev": "add",
    "title": "Pompe 280 l/h et ventilateur SPAL 385 mm",
    "detail": "Pompe : relais K2, fusible 20 A, alimentation et masse en 4 mm² pour limiter la chute de tension sur le trajet jusqu'au réservoir. Ventilateur SPAL 385 mm aspirant (19,5 A d'après la fiche SPAL VA18-AP71/LL-59A) : relais K3 40 A, fusible 30 A, fils 4 mm². Les deux sont alimentés en direct batterie, hors relais principal."
+  },
+  {
+   "sev": "add",
+   "title": "Contact, démarreur et alternateur ajoutés (oubli de la révision B)",
+   "detail": "Caisse vide : rien n'alimentait le contacteur, le démarreur ni l'excitation de l'alternateur. Ajouts : F11 5 A alimente la borne 30 du contacteur ; la borne 50 commande un relais de démarreur K4 (fusible F12 30 A, 2,5 mm² jusqu'au solénoïde) ; l'alternateur est excité comme d'origine, par un voyant de charge 2 W entre le +12 V commuté et D+. Les gros câbles (batterie → démarreur, B+ alternateur → démarreur, tresses de masse) sont listés dans la nomenclature, hors faisceau."
   },
   {
    "sev": "add",
@@ -8677,7 +9275,9 @@
   {
    "phase": "Première mise sous tension (pompe et injecteurs débranchés)",
    "items": [
-    "Contact mis : relais principal colle, +12 V sur CMC1 M4.",
+    "Contact mis : relais principal colle, +12 V sur CMC1 M4, voyant de charge allumé.",
+    "Position démarreur : K4 colle et la borne 50 du démarreur reçoit le +12 V (démarreur débranché ou injecteurs débranchés).",
+    "Moteur tournant : voyant de charge éteint, 13,8–14,4 V aux bornes de la batterie.",
     "5,0 V mesurés au connecteur papillon et aux capteurs de pression.",
     "MTune : températures plausibles, pressions à 0 bar, TPS / pédale 0 → 100 %.",
     "Calibration E-throttle : sens d'ouverture correct (sinon inverser H2/H4).",
@@ -8761,6 +9361,20 @@
   },
   {
    "cat": "Connecteurs",
+   "item": "Cosse / fiche D+ de l'alternateur",
+   "qty": 1,
+   "detail": "ALT — 1 contacts",
+   "unit": "pc"
+  },
+  {
+   "cat": "Connecteurs",
+   "item": "Cosse de la borne 50 (selon démarreur)",
+   "qty": 1,
+   "detail": "STARTER — 1 contacts",
+   "unit": "pc"
+  },
+  {
+   "cat": "Connecteurs",
    "item": "LSU 4.9 6 voies (Bosch 1 928 404 682)",
    "qty": 1,
    "detail": "LSU — 6 contacts",
@@ -8778,6 +9392,13 @@
    "item": "Selon pompe",
    "qty": 1,
    "detail": "PUMP — 2 contacts",
+   "unit": "pc"
+  },
+  {
+   "cat": "Connecteurs",
+   "item": "Selon voyant",
+   "qty": 1,
+   "detail": "LAMP — 2 contacts",
    "unit": "pc"
   },
   {
@@ -8804,7 +9425,7 @@
   {
    "cat": "Protection",
    "item": "Fusible 5 A",
-   "qty": 2,
+   "qty": 3,
    "detail": "",
    "unit": "pc"
   },
@@ -8832,7 +9453,7 @@
   {
    "cat": "Protection",
    "item": "Fusible 30 A",
-   "qty": 2,
+   "qty": 3,
    "detail": "",
    "unit": "pc"
   },
@@ -8846,7 +9467,7 @@
   {
    "cat": "Protection",
    "item": "Relais ISO mini 40 A",
-   "qty": 2,
+   "qty": 3,
    "detail": "",
    "unit": "pc"
   },
@@ -8888,7 +9509,7 @@
   {
    "cat": "Masses",
    "item": "Cosse œillet M8 étamée — GP-CH",
-   "qty": 1,
+   "qty": 2,
    "detail": "Masse caisse habitacle (PDM)",
    "unit": "pc"
   },
@@ -8909,9 +9530,9 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² BK",
-   "qty": 0.2,
+   "qty": 0.4,
    "unit": "m",
-   "detail": "coupe 0,20 m + 10 %"
+   "detail": "coupe 0,40 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -8958,13 +9579,20 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² RD/WH",
-   "qty": 0.7,
+   "qty": 2.6,
    "unit": "m",
-   "detail": "coupe 0,60 m + 10 %"
+   "detail": "coupe 2,35 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² VT",
+   "qty": 1.5,
+   "unit": "m",
+   "detail": "coupe 1,35 m + 10 %"
+  },
+  {
+   "cat": "Fil",
+   "item": "FLRY-B 0,5 mm² VT/YE",
    "qty": 1.5,
    "unit": "m",
    "detail": "coupe 1,35 m + 10 %"
@@ -9048,6 +9676,13 @@
   },
   {
    "cat": "Fil",
+   "item": "FLRY-B 0,75 mm² BU/RD",
+   "qty": 4.6,
+   "unit": "m",
+   "detail": "coupe 4,15 m + 10 %"
+  },
+  {
+   "cat": "Fil",
    "item": "FLRY-B 0,75 mm² GN",
    "qty": 6.5,
    "unit": "m",
@@ -9059,6 +9694,13 @@
    "qty": 15.3,
    "unit": "m",
    "detail": "coupe 13,90 m + 10 %"
+  },
+  {
+   "cat": "Fil",
+   "item": "FLRY-B 0,75 mm² RD",
+   "qty": 1.5,
+   "unit": "m",
+   "detail": "coupe 1,35 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -9105,9 +9747,9 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 2,5 mm² RD",
-   "qty": 0.4,
+   "qty": 0.7,
    "unit": "m",
-   "detail": "coupe 0,40 m + 10 %"
+   "detail": "coupe 0,60 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -9115,6 +9757,13 @@
    "qty": 2.6,
    "unit": "m",
    "detail": "coupe 2,40 m + 10 %"
+  },
+  {
+   "cat": "Fil",
+   "item": "FLRY-B 2,5 mm² VT/YE",
+   "qty": 2.8,
+   "unit": "m",
+   "detail": "coupe 2,50 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -9231,21 +9880,21 @@
   {
    "cat": "Gaine",
    "item": "DR-25 3.2/1.6 mm",
-   "qty": 1.4,
+   "qty": 0.8,
    "unit": "m",
    "detail": "selon tronçons du formboard"
   },
   {
    "cat": "Gaine",
    "item": "DR-25 4.8/2.4 mm",
-   "qty": 6.3,
+   "qty": 7.6,
    "unit": "m",
    "detail": "selon tronçons du formboard"
   },
   {
    "cat": "Gaine",
    "item": "DR-25 6.4/3.2 mm",
-   "qty": 3.4,
+   "qty": 3.7,
    "unit": "m",
    "detail": "selon tronçons du formboard"
   },
@@ -9259,7 +9908,7 @@
   {
    "cat": "Repérage",
    "item": "Étiquettes thermo imprimables (repère de fil)",
-   "qty": 232,
+   "qty": 246,
    "detail": "une à chaque extrémité",
    "unit": "pc"
   },
@@ -9283,6 +9932,34 @@
    "qty": 20,
    "unit": "pc",
    "detail": "un tous les 20–25 cm environ"
+  },
+  {
+   "cat": "Câbles de puissance (hors faisceau)",
+   "item": "Câble batterie + (coffre) → borne 30 du démarreur et borne B+ de la baie",
+   "qty": 1,
+   "unit": "ens.",
+   "detail": "câble d'origine E36 si conservé, sinon 35 mm² ; il alimente la borne B+ où se trouve F0"
+  },
+  {
+   "cat": "Câbles de puissance (hors faisceau)",
+   "item": "Câble de charge alternateur B+ → borne 30 du démarreur",
+   "qty": 1,
+   "unit": "pc",
+   "detail": "16 mm² minimum (25 mm² si alternateur 140 A), cosses œillet M6/M8, gaine de protection"
+  },
+  {
+   "cat": "Câbles de puissance (hors faisceau)",
+   "item": "Tresse de masse moteur ↔ caisse",
+   "qty": 1,
+   "unit": "pc",
+   "detail": "25 mm² minimum ; sur E36 la batterie est au coffre, tout le retour du démarreur passe par là"
+  },
+  {
+   "cat": "Câbles de puissance (hors faisceau)",
+   "item": "Câble batterie − → caisse (coffre)",
+   "qty": 1,
+   "unit": "pc",
+   "detail": "câble d'origine ou 35 mm², contact sur tôle mise à nu"
   }
  ],
  "validation": {
