@@ -1,10 +1,10 @@
 # Faisceau moteur M50B25 VANOS Turbo — rapport de vérification
 
-*MaxxECU RACE Gen1 (REV9+) · révision D · 2026-10-08 · Étude — à valider sur véhicule*
+*MaxxECU RACE Gen1 (REV9+) · révision E · 2026-10-08 · Étude — à valider sur véhicule*
 
 > Généré par `tools/build_harness.py` depuis `harness/m50b25_vanos_turbo.yaml`. Ne pas éditer à la main.
 
-**134 fils** · **177.6 m de fil coupé** · 15 épissures/barrettes · 12 fusibles · 4 relais
+**145 fils** · **180.8 m de fil coupé** · 17 épissures/barrettes · 11 fusibles · 9 relais
 
 ## Contrôle des règles électriques : 0 erreur(s), 0 alerte(s)
 
@@ -22,7 +22,7 @@ CMC1 M4 = +12 V ECU (fusible 15 A après relais principal). CMC1 L4 ET CMC2 G4 =
 
 ### ➕ Ajouté — Boîte fusibles/relais complète (PDM)
 
-Fusible général MAXI 80 A, 11 fusibles (F1 à F5, F7 à F12 ; F6 regroupé dans F5 en révision D) et 4 relais : chaque circuit a son fusible et chaque fil est protégé par un fusible adapté à sa section (contrôle automatique).
+Fusible général MAXI 80 A, 10 fusibles numérotés F1 à F10 sans trou (ta boîte 10 voies) et 9 relais (K1 à K4 pour le moteur, K5 à K9 pour les boutons du pad) : chaque circuit a son fusible et chaque fil est protégé par un fusible adapté à sa section (contrôle automatique).
 
 ### 🛠 Corrigé — Section des +12 V bobines : 1,0 mm² et non 0,75
 
@@ -44,25 +44,29 @@ Pompe : relais K2, fusible 20 A, alimentation et masse en 4 mm² pour limiter la
 
 Quatre relectures séparées (alimentation et masses, brochage ECU, brochage des composants, fabrication), chaque point contre-vérifié. Corrigé : chauffage lambda D1 en 0,75 mm² (petite alvéole CMC) ; sorties injecteur à 4 A en continu ; blindages de cliquetis sur KNOCK GND ; boîte à fusibles à 2 barrettes indépendantes et supports de relais séparés ; contacts, bouchons et épissures dimensionnés ; connecteur lambda côté faisceau et côté froid ; protection thermique côté turbo ; +12 V du capteur PMH hors câble blindé ; notes MTune (pull-up du trigger, papillon, chauffage, compte-tours).
 
-### ➕ Ajouté — Révision D : contact sans clé, pad 8 boutons, F6 regroupé dans F5
+### ➕ Ajouté — Révision D : contact sans clé, pad 8 boutons
 
-Plus de clé : un interrupteur de contact alimenté par F11 donne le +15 (relais principal K1) et alimente le bouton démarreur mécanique, qui commande K4 ; le démarreur ne peut donc pas être lancé contact coupé. F11 reste nécessaire : c'est lui qui protège le fil qui va de la barrette +30 jusqu'à l'interrupteur. Le +12 V du capteur PMH est pris sur F5 avec la VANOS et la MAC (épissure à l'arrière de la culasse, 0,75 mm²). Plus de combiné : la sortie compte-tours (GPO8, CMC1 A4) est libre. Les boutons 4 à 8 du pad arrivent sur AIN8, DIN1, DIN2, DIN4 et DIN5 par une platine de 10 résistances (une en série, une de rappel vers Sensor GND par bouton), pull-up des entrées désactivé dans MTune. Le ventilateur, fonction directe, est sur AIN8 ; la carto et la chauffe, qui passent par l'Internal output system, sont sur des DIN, dont l'état « DIN x Active » est utilisable comme condition. Le bouton 8 arrête le moteur (Stop engine/prevent start) sans couper le contact : l'ECU reste alimentée et continue de piloter le ventilateur pour refroidir.
+Plus de clé : un interrupteur de contact alimenté par F9 donne le +15 (relais principal K1) et alimente le bouton démarreur mécanique, qui commande K4 ; le démarreur ne peut donc pas être lancé contact coupé. F9 reste nécessaire : c'est lui qui protège le fil qui va de la barrette +30 jusqu'à l'interrupteur. Plus de combiné : la sortie compte-tours (GPO8, CMC1 A4) est libre. Le bouton 8 arrête le moteur (Stop engine/prevent start) sans couper le contact : l'ECU reste alimentée et continue de piloter le ventilateur pour refroidir.
 
-### ⚠️ À vérifier — F5 commun : un court-circuit VANOS / MAC arrête le moteur
+### ➕ Ajouté — Révision E : fusibles F1 à F10, relais du pad
 
-Avec le capteur PMH sur F5, un court-circuit sur l'électrovanne VANOS ou la MAC fait fondre F5 et coupe aussi le capteur PMH : le moteur cale, alors qu'avec un fusible séparé il continuait à tourner sans VANOS ni boost. C'est le prix d'un fusible en moins ; l'emplacement F6 reste libre si tu veux revenir en arrière.
+Les fusibles sont renumérotés F1 à F10 sans trou, pour ta boîte 10 voies. Anciens → nouveaux : F1, F2, F3 inchangés ; F4 (lambda), F5 (actionneurs) et F6 (PMH) regroupés en F4 ; F7 → F5 ; F8 → F6 ; F9 → F7 ; F10 → F8 ; F11 → F9 ; F12 → F10. Les boutons 4 à 8 du pad commandent 5 relais (K5 à K9) qui mettent les entrées DIN3, DIN1, DIN2, DIN4 et DIN5 à la masse capteurs : c'est le câblage « interrupteur → masse » du plan MaxxECU, pull-up des entrées activé, sans aucune résistance.
+
+### ⚠️ À vérifier — F4 commun : un court-circuit VANOS, MAC ou chauffage lambda arrête le moteur
+
+Le capteur PMH partage F4 avec la VANOS, la MAC et le chauffage de la sonde lambda. Un court-circuit sur l'un d'eux fait fondre F4 et coupe aussi le capteur PMH : le moteur cale, alors qu'avec des fusibles séparés il continuait à tourner. Le fil du chauffage lambda longe l'échappement : soigner sa protection thermique et sa fixation. C'est le prix de 2 fusibles en moins.
 
 ### ⚠️ À vérifier — Bouton 8 : moteur arrêté, contact mis = batterie qui se vide
 
 Moteur arrêté par le bouton 8, l'alternateur ne charge plus (voyant de charge allumé, c'est normal) alors que le ventilateur tire 19,5 A, plus ECU, papillon et relais : environ 22 A, soit à peu près 2 Ah pour 5 minutes. La pompe à essence, elle, s'arrête seule (MaxxECU coupe sa sortie dès que le signal PMH disparaît). Couper le contact une fois le moteur refroidi.
 
-### ⚠️ À vérifier — Entrées DIN / VR toutes occupées par le pad
+### ⚠️ À vérifier — Entrées digitales toutes occupées par le pad
 
-DIN1, DIN2, DIN4 et DIN5 sont les seules entrées capables de lire un capteur de vitesse de roue ou de boîte (VR / Hall). Si tu en ajoutes un plus tard, le bouton le moins utile devra passer sur DIN3 (CMC1 C1), qui a un pull-up fixe et ne se commande qu'à la masse : il faudra alors un relais ou un transistor inverseur à la place des résistances pour ce bouton. Pas de maintien d'alimentation (power hold) : il demanderait une entrée « Ignition key » qui n'est plus libre. Pour refroidir moteur arrêté, on utilise le bouton 8 (arrêt moteur, contact laissé mis).
+Les 5 entrées digitales (DIN1 à DIN5) sont prises par les boutons. DIN1, DIN2, DIN4 et DIN5 sont aussi les seules capables de lire un capteur de vitesse de roue ou de boîte (VR / Hall) : si tu en ajoutes un plus tard, le bouton le moins utile devra passer sur AIN8 (CMC2 F2), avec une résistance de rappel vers +5 V puisque cette entrée n'a pas de pull-up. Pas de maintien d'alimentation (power hold) non plus : il demanderait une entrée « Ignition key ». Pour refroidir moteur arrêté, on utilise le bouton 8 (arrêt moteur, contact laissé mis).
 
 ### ➕ Ajouté — Contact, démarreur et alternateur ajoutés (oubli de la révision B)
 
-Caisse vide : rien n'alimentait le contacteur, le démarreur ni l'excitation de l'alternateur. Ajouts : F11 5 A alimente la borne 30 du contacteur ; la borne 50 commande un relais de démarreur K4 (fusible F12 30 A, 2,5 mm² jusqu'au solénoïde) ; l'alternateur est excité comme d'origine, par un voyant de charge 2 W entre le +12 V commuté et D+. Les gros câbles (batterie → démarreur, B+ alternateur → démarreur, tresses de masse) sont listés dans la nomenclature, hors faisceau.
+Caisse vide : rien n'alimentait le contacteur, le démarreur ni l'excitation de l'alternateur. Ajouts : F9 5 A alimente la borne 30 du contacteur ; la borne 50 commande un relais de démarreur K4 (fusible F10 30 A, 2,5 mm² jusqu'au solénoïde) ; l'alternateur est excité comme d'origine, par un voyant de charge 2 W entre le +12 V commuté et D+. Les gros câbles (batterie → démarreur, B+ alternateur → démarreur, tresses de masse) sont listés dans la nomenclature, hors faisceau.
 
 ### ➕ Ajouté — Épissures obligatoires
 
@@ -70,7 +74,7 @@ Une alvéole CMC ne reçoit qu'un fil. +5 V, Sensor GND, VR GND, Knock GND et Sh
 
 ### ✅ Validé — Brochage ECU conforme au schéma officiel RACE REV9+
 
-IGN1→6 (A2, A3, B2, B3, C2, C3), INJ1→6 (K1, K2, M1, M2, M3, L3), GPO1/2/3/6 (B4, C4, D4, B1), entrées DIN1/2/4/5 et AIN8 du pad (K3, K4, CMC2 F3/F4/F2), lambda (G3, F3, D1, G4, F4), cliquetis (CMC2 E1/E2/E3, blindages sur KNOCK GND E1), EGT1 (CMC2 C1/D1), AIN5-7 (CMC2 G3, E4, F1), moteur papillon (CMC2 H4 + / H2 −) : tout est conforme.
+IGN1→6 (A2, A3, B2, B3, C2, C3), INJ1→6 (K1, K2, M1, M2, M3, L3), GPO1/2/3/6 (B4, C4, D4, B1), entrées DIN1 à DIN5 du pad (K3, K4, C1, CMC2 F3/F4), lambda (G3, F3, D1, G4, F4), cliquetis (CMC2 E1/E2/E3, blindages sur KNOCK GND E1), EGT1 (CMC2 C1/D1), AIN5-7 (CMC2 G3, E4, F1), moteur papillon (CMC2 H4 + / H2 −) : tout est conforme.
 
 ### ✅ Validé — Capteur AAC 12141726590 = bonne solution pour une culasse VANOS
 
@@ -116,14 +120,13 @@ Capteur interne MaxxECU RACE : jusqu'à 3 bar de pression de suralimentation. Du
 | F1 | Fusible ECU | 15 A | 1 mm² | 1.5 A | 10% |
 | F2 | Fusible bobines | 15 A | 1 mm² | 6.0 A | 40% |
 | F3 | Fusible injecteurs | 10 A | 0,75 mm² | 6.0 A | 60% |
-| F4 | Fusible chauffage lambda | 10 A | 0,75 mm² | 1.5 A | 15% |
-| F5 | Fusible actionneurs + capteur PMH (VANOS, MAC, PMH) | 10 A | 0,75 mm² | 2.2 A | 22% |
-| F7 | Fusible commandes (bobines relais pompe / ventilo, voyant de charge) | 5 A | 0,35 mm² | 0.5 A | 9% |
-| F8 | Fusible pompe à essence | 20 A | 1,5 mm² | 15.0 A | 75% |
-| F9 | Fusible ventilateur | 30 A | 2,5 mm² | 19.5 A | 65% |
-| F10 | Fusible relais principal | 30 A | 2,5 mm² | 17.6 A | 59% |
-| F11 | Fusible interrupteur de contact / bouton démarreur | 5 A | 0,35 mm² | 0.3 A | 6% |
-| F12 | Fusible démarreur (borne 50) | 30 A | 2,5 mm² | 10.0 A | 33% |
+| F4 | Fusible actionneurs, capteur PMH et chauffage lambda | 10 A | 0,75 mm² | 3.7 A | 37% |
+| F5 | Fusible bobines des relais K2 (pompe) et K3 (ventilo) + voyant de charge | 5 A | 0,35 mm² | 0.5 A | 9% |
+| F6 | Fusible pompe à essence | 20 A | 1,5 mm² | 15.0 A | 75% |
+| F7 | Fusible ventilateur | 30 A | 2,5 mm² | 19.5 A | 65% |
+| F8 | Fusible relais principal | 30 A | 2,5 mm² | 17.6 A | 59% |
+| F9 | Fusible interrupteur de contact / bouton démarreur | 5 A | 0,35 mm² | 0.3 A | 6% |
+| F10 | Fusible démarreur (borne 50) | 30 A | 2,5 mm² | 10.0 A | 33% |
 
 ## Sorties ECU chargées
 
@@ -169,13 +172,14 @@ Consommation estimée sur le +5 V capteurs (G1) : **45 mA**.
 | CMC1.B2 | IGNITION CYL 3 | IGN-03 | 0,5 | BU | COIL3.3 (Commande IGN) |
 | CMC1.B3 | IGNITION CYL 4 | IGN-04 | 0,5 | BU | COIL4.3 (Commande IGN) |
 | CMC1.B4 | GP OUT 1 | ACT-01 | 0,75 | GN | MAC.2 (Commande GPO1) |
+| CMC1.C1 | DIGITAL IN 3 (GP OUT 7 déclaré en entrée) | COM-06 | 0,5 | WH/YE | K5.30 (Contact → entrée DIN3 (CMC1 C1)) |
 | CMC1.C2 | IGNITION CYL 5 | IGN-05 | 0,5 | BU | COIL5.3 (Commande IGN) |
 | CMC1.C3 | IGNITION CYL 6 | IGN-06 | 0,5 | BU | COIL6.3 (Commande IGN) |
 | CMC1.C4 | GP OUT 2 | RLY-01 | 0,5 | GN | K2.85 (Bobine − (GPO2)) |
 | CMC1.D1 | WBO2 HTR (pin 3 LSU 4.9) / GP OUT 9 | WBO-05 | 0,75 | GN | LSU.3 (Chauffage −) |
 | CMC1.D4 | GP OUT 3 | ACT-02 | 0,75 | GN | VANOS.2 (Commande (masse)) |
-| CMC1.E1 | CAN H (120 Ω intégrée) | COM-12 | 0,5 | YE/BK | CANDEV.H (CAN H) |
-| CMC1.E2 | CAN L | COM-13 | 0,5 | GN/BK | CANDEV.L (CAN L) |
+| CMC1.E1 | CAN H (120 Ω intégrée) | COM-23 | 0,5 | YE/BK | CANDEV.H (CAN H) |
+| CMC1.E2 | CAN L | COM-24 | 0,5 | GN/BK | CANDEV.L (CAN L) |
 | CMC1.E3 | SHIELD GND | SYNC-07 | 0,5 | BK/WH | SPL-SHLD (Blindages → Shield GND) |
 | CMC1.F1 | COOLANT SENSOR (CLT) | SNS-12 | 0,5 | YE | CLT.1 (Signal NTC) |
 | CMC1.F2 | AIR TEMP SENSOR (IAT) | SNS-11 | 0,5 | YE/BK | IAT.1 (Signal NTC) |
@@ -195,8 +199,8 @@ Consommation estimée sur le +5 V capteurs (G1) : **45 mA**.
 | CMC1.J4 | ANALOG IN 4 (0-5 V) | DBW-10 | 0,5 | WH/BU | APP.4 (Signal piste 1) |
 | CMC1.K1 | INJECTOR CYL 1 | INJ-01 | 0,75 | GY | INJ1.2 (Commande ECU) |
 | CMC1.K2 | INJECTOR CYL 2 | INJ-02 | 0,75 | GY | INJ2.2 (Commande ECU) |
-| CMC1.K3 | DIGITAL IN 1 | COM-07 | 0,5 | WH/RD | IF-PAD.7 (Sortie voie 2 → DIN1) |
-| CMC1.K4 | DIGITAL IN 2 | COM-08 | 0,5 | WH/OG | IF-PAD.8 (Sortie voie 3 → DIN2) |
+| CMC1.K3 | DIGITAL IN 1 | COM-07 | 0,5 | WH/RD | K6.30 (Contact → entrée DIN1 (CMC1 K3)) |
+| CMC1.K4 | DIGITAL IN 2 | COM-08 | 0,5 | WH/OG | K7.30 (Contact → entrée DIN2 (CMC1 K4)) |
 | CMC1.L3 | INJECTOR CYL 6 | INJ-06 | 0,75 | GY | INJ6.2 (Commande ECU) |
 | CMC1.L4 | ENGINE GROUND | GND-01 | 1,5 | BK | GP-HEAD (Masse moteur ECU (goujon arrière culasse)) |
 | CMC1.M1 | INJECTOR CYL 3 | INJ-03 | 0,75 | GY | INJ3.2 (Commande ECU) |
@@ -210,15 +214,14 @@ Consommation estimée sur le +5 V capteurs (G1) : **45 mA**.
 | CMC2.E3 | KNOCK 2 | KNK-03 | 0,5 | WH | KS2.1 (Signal) |
 | CMC2.E4 | ANALOG IN 6 (0-5 V) | SNS-14 | 0,5 | WH/BN | OIL.2 (Pression 0,5–4,5 V) |
 | CMC2.F1 | ANALOG IN 7 (0-5 V) | SNS-16 | 0,5 | WH/VT | FUEL.2 (Pression 0,5–4,5 V) |
-| CMC2.F2 | ANALOG IN 8 (0-5 V) | COM-06 | 0,5 | WH/YE | IF-PAD.6 (Sortie voie 1 → AIN8 (rappel 4,7 kΩ)) |
-| CMC2.F3 | DIGITAL / VR IN 4 | COM-09 | 0,5 | WH/GY | IF-PAD.9 (Sortie voie 4 → DIN4) |
-| CMC2.F4 | DIGITAL / VR IN 5 | COM-10 | 0,5 | WH/PK | IF-PAD.10 (Sortie voie 5 → DIN5) |
+| CMC2.F3 | DIGITAL / VR IN 4 | COM-09 | 0,5 | WH/GY | K8.30 (Contact → entrée DIN4 (CMC2 F3)) |
+| CMC2.F4 | DIGITAL / VR IN 5 | COM-10 | 0,5 | WH/PK | K9.30 (Contact → entrée DIN5 (CMC2 F4)) |
 | CMC2.G3 | ANALOG IN 5 (0-5 V) | DBW-12 | 0,5 | WH/GN | APP.6 (Signal piste 2) |
 | CMC2.G4 | ENGINE GROUND 2 | GND-02 | 1,5 | BK | GP-HEAD (Masse moteur ECU (goujon arrière culasse)) |
 | CMC2.H2 | MOTOR 1- / GPO 11 | DBW-06 | 1 | PK/BK | ETB.5 (Moteur −) |
 | CMC2.H4 | MOTOR 1+ / GPO 12 | DBW-05 | 1 | PK | ETB.3 (Moteur +) |
 
-Broches libres : CMC1.A1 (GP OUT 5), CMC1.A4 (TACH / GP OUT 8), CMC1.C1 (GP OUT 7 / DIGITAL IN 3), CMC1.D2 (IGNITION CYL 7), CMC1.D3 (IGNITION CYL 8), CMC1.E4 (GP OUT 4), CMC1.L1 (INJECTOR CYL 8), CMC1.L2 (INJECTOR CYL 7), CMC2.A1 (EGT5+), CMC2.A2 (EGT6+), CMC2.A3 (EGT7+), CMC2.A4 (EGT8+), CMC2.B1 (EGT5-), CMC2.B2 (EGT6-), CMC2.B3 (EGT7-), CMC2.B4 (EGT8-), CMC2.C2 (EGT2+), CMC2.C3 (EGT3+), CMC2.C4 (EGT4+), CMC2.D2 (EGT2-), CMC2.D3 (EGT3-), CMC2.D4 (EGT4-), CMC2.G1 (GP OUT 15 (+12 V, 2 A)), CMC2.G2 (GP OUT 16 (+12 V, 2 A)), CMC2.H1 (MOTOR 2+ / GPO 14), CMC2.H3 (MOTOR 2- / GPO 13)
+Broches libres : CMC1.A1 (GP OUT 5), CMC1.A4 (TACH / GP OUT 8), CMC1.D2 (IGNITION CYL 7), CMC1.D3 (IGNITION CYL 8), CMC1.E4 (GP OUT 4), CMC1.L1 (INJECTOR CYL 8), CMC1.L2 (INJECTOR CYL 7), CMC2.A1 (EGT5+), CMC2.A2 (EGT6+), CMC2.A3 (EGT7+), CMC2.A4 (EGT8+), CMC2.B1 (EGT5-), CMC2.B2 (EGT6-), CMC2.B3 (EGT7-), CMC2.B4 (EGT8-), CMC2.C2 (EGT2+), CMC2.C3 (EGT3+), CMC2.C4 (EGT4+), CMC2.D2 (EGT2-), CMC2.D3 (EGT3-), CMC2.D4 (EGT4-), CMC2.F2 (ANALOG IN 8 (0-5 V)), CMC2.G1 (GP OUT 15 (+12 V, 2 A)), CMC2.G2 (GP OUT 16 (+12 V, 2 A)), CMC2.H1 (MOTOR 2+ / GPO 14), CMC2.H3 (MOTOR 2- / GPO 13)
 
 ## Réglages MTune liés au câblage
 
@@ -239,10 +242,10 @@ Broches libres : CMC1.A1 (GP OUT 5), CMC1.A4 (TACH / GP OUT 8), CMC1.C1 (GP OUT 
 | GPO2 | Fuel pump (relais K2) |
 | GPO3 | VANOS tout-ou-rien (seuil de régime / charge à définir sur la cartographie) |
 | GPO6 | Engine fan (relais K3) |
-| Pad : réglages communs | DIN1, DIN2, DIN4, DIN5 (Inputs → Digital inputs) : Input type = Digital input (jamais VR), Pullup = OFF (obligatoire avec la platine IF-PAD), Latch = None (le bouton du pad en mode Toggle tient l'état), Active level = rising sauf ALS off. AIN8 : Use as = Digital input, Pullup resistor = aucun si l'option apparaît, actif haut. Vérifier qu'il reste au moins 2 Internal outputs libres |
-| AIN8 (CMC2 F2) — bouton 4 | Ventilation forcée : Function = Fan override input. GPO6 reste en Radiator FAN 1 ; l'override passe outre la température et « disable fan when engine off », mais seulement ECU alimentée |
+| Pad : réglages communs | Inputs → Digital inputs, DIN1, DIN2, DIN4, DIN5 : Input type = Digital input (jamais VR), Pullup = ON (1 kΩ vers +5 V), Latch = None, Active level = falling (actif quand le relais met l'entrée à la masse) sauf ALS off. DIN3 : Outputs → Output config, GPO7 = Digital input 3 (pull-up +5 V fixe), puis Active level = falling. Vérifier qu'il reste au moins 2 Internal outputs libres |
+| DIN3 (CMC1 C1) — bouton 4 | Ventilation forcée : Function = Fan override input. GPO6 reste en Radiator FAN 1 ; l'override passe outre la température et « disable fan when engine off », mais seulement ECU alimentée |
 | DIN1 (CMC1 K3) — bouton 5 | Changement de carto : Function = Boost target switch (use table 2), Boost control → target tables = Dual table (switch activated). Internal output 1 : condition DIN 1 Active = 1 → Input to control = Extra ignition table 1 activation switch, Additional input = Extra fuel table 1 activation switch ; tables extra en « … when input active ». Ne pas utiliser « Extra fuel/ign table activation switch (all) » : il déclencherait aussi la table de chauffe |
-| DIN2 (CMC1 K4) — bouton 6 | ALS off : Motorsport → Anti-lag, Enable method = Switch input ; DIN2 Function = Anti-lag enable, Active level = falling : ALS autorisé bouton éteint, coupé bouton allumé. Attention : pad éteint, pad redémarré éteint, fusible du pad grillé ou fil coupé = ALS autorisé. Plus sûr : Active level = rising et le bouton devient « ALS ON » (aucun recâblage). Garder Min CLT, Max EGT et le timeout |
+| DIN2 (CMC1 K4) — bouton 6 | ALS off : Motorsport → Anti-lag, Enable method = Switch input ; DIN2 Function = Anti-lag enable, Active level = rising : ALS autorisé bouton éteint (relais ouvert, entrée à 5 V), coupé bouton allumé. Attention : pad éteint, pad redémarré éteint, fusible du pad grillé ou fil coupé = ALS autorisé. Plus sûr : Active level = falling et le bouton devient « ALS ON » (aucun recâblage). Garder Min CLT, Max EGT et le timeout |
 | DIN4 (CMC2 F3) — bouton 7 | Carto de chauffe : Internal output 2, condition A = DIN 4 Active, condition B = Coolant temp < 70 °C (hystérésis 5 °C), Output function = A and B → Input to control = RPM limit, use secondary limit RPM (Rev limit RPM source = Two values, switch activated, ex. 4000 tr/min), Additional input = Extra ignition table 2 activation switch. Le mode s'arrête seul une fois chaud ; enrichissement et ralenti de chauffe restent automatiques |
-| DIN5 (CMC2 F4) — bouton 8 | Arrêt moteur : Function = Stop engine/prevent start, Active level = rising, Latch = None. Doc MaxxECU : « engine will not start or will be stopped if running ». L'ECU reste alimentée ; la pompe s'arrête seule (sortie coupée dès la perte du signal PMH) |
+| DIN5 (CMC2 F4) — bouton 8 | Arrêt moteur : Function = Stop engine/prevent start, Active level = falling, Latch = None. Doc MaxxECU : « engine will not start or will be stopped if running ». L'ECU reste alimentée ; la pompe s'arrête seule (sortie coupée dès la perte du signal PMH) |
 | Ventilateur moteur arrêté | Engine fan : « disable fan when engine off » = NON (sinon le ventilateur s'arrête avec le moteur) ; Start temperature réglée comme d'habitude. Le bouton 4 (Fan override input) force le ventilateur dans tous les cas |

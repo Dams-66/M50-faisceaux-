@@ -111,10 +111,12 @@ class Harness:
                             supply5_ma=c.get("supply5_ma"),
                             external=bool(c.get("external")),
                             optional=bool(c.get("optional")), rank=c.get("rank"),
+                            signal=bool(c.get("signal")),
                             switch={str(k): [str(x) for x in v] for k, v in (c.get("switch") or {}).items()})
             for pin, p in c["pins"].items():
                 cls = p.get("cls")
-                if cat == "fuse" or (cat == "relay" and str(pin) in ("30", "87")):
+                # Contacts de relais = +12 V, sauf relais de signal (contact vers une entrée ECU)
+                if cat == "fuse" or (cat == "relay" and not c.get("signal") and str(pin) in ("30", "87")):
                     cls = "PWR12"
                 self._add_endpoint(f"{cid}.{pin}", owner=cid, pin=str(pin), cat=cat,
                                    fn=p["fn"], cls=cls, nc=bool(p.get("nc")),
@@ -122,14 +124,14 @@ class Harness:
 
         for gid, g in self.d["grounds"].items():
             self._add_owner(gid, cat="ground", label=g["label"], node=g["node"],
-                            system="GND", ground_kind=g["kind"],
+                            system="GND", ground_kind=g["kind"], rank=g.get("rank"),
                             harness=g.get("harness"), notes=g.get("notes", ""))
             self._add_endpoint(gid, owner=gid, pin="", cat="ground", fn=g["label"],
                                cls="GND_PWR")
 
         for sid, s in self.d["splices"].items():
             self._add_owner(sid, cat="splice", label=s["label"], node=s["node"],
-                            system="REF", busbar=bool(s.get("busbar")))
+                            system="REF", busbar=bool(s.get("busbar")), rank=s.get("rank"))
             self._add_endpoint(sid, owner=sid, pin="", cat="splice", fn=s["label"],
                                cls=s.get("cls"))
 
@@ -299,7 +301,7 @@ class Harness:
         e = self.endpoints[eid]
         if e["cat"] == "fuse" and e["pin"] == "2":
             return True
-        if e["cat"] == "relay" and e["pin"] == "87":
+        if e["cat"] == "relay" and e["pin"] == "87" and not self.owners[e["owner"]].get("signal"):
             return True
         if e["cat"] == "ecu" and e["kind"] in ("v5",):
             return True
@@ -408,7 +410,7 @@ class Harness:
         fuses = []
         for m in self.net_by_id[net]["members"]:
             e = self.endpoints[m]
-            if e["cat"] == "relay" and e["pin"] == "30":
+            if e["cat"] == "relay" and e["pin"] == "30" and not self.owners[e["owner"]].get("signal"):
                 sub_n, sub_f = self._downstream(f"{e['owner']}.87", seen)
                 nets += sub_n
                 fuses += sub_f

@@ -3,7 +3,7 @@
   "project": "Faisceau moteur M50B25 VANOS Turbo",
   "engine": "BMW M50B25 VANOS — turbo — BMW E36",
   "ecu": "MaxxECU RACE Gen1 (REV9+)",
-  "revision": "D",
+  "revision": "E",
   "date": "2026-10-08",
   "status": "Étude — à valider sur véhicule",
   "assumptions": [
@@ -14,7 +14,7 @@
    "Fusible général MAXI 80 A sur la borne B+ de la baie moteur (câble batterie d'origine depuis le coffre).",
    "Pompe 280 l/h estimée à 15 A ; ventilateur SPAL 385 mm aspirant 19,5 A (fiche SPAL VA18-AP71/LL-59A) : à confirmer sur les étiquettes.",
    "Pas de clé ni de combiné : interrupteur de contact + bouton démarreur mécanique à côté du pad ; aucun compte-tours câblé.",
-   "Pad 8 boutons avec boîtier relais / fusibles : sorties +12 V commutées. Boutons 1 à 3 (éclairage, warnings, essuie-glace) hors faisceau moteur ; boutons 4 à 8 vers l'ECU par une platine d'interface."
+   "Pad 8 boutons avec boîtier relais / fusibles : sorties +12 V commutées. Boutons 1 à 3 (éclairage, warnings, essuie-glace) hors faisceau moteur ; boutons 4 à 8 vers l'ECU par 5 relais qui mettent les entrées à la masse."
   ],
   "sources": [
    {
@@ -42,16 +42,12 @@
     "url": "https://maxxecu.com/webhelp/output_functions-injector_output.html"
    },
    {
-    "label": "MaxxECU — câblage des entrées digitales (DIN : 12 V tolérés, pull-up 1 kΩ désactivable)",
+    "label": "MaxxECU — câblage des entrées digitales (interrupteur → masse, pull-up 1 kΩ ; GPO7/DIN3 à pull-up fixe)",
     "url": "https://www.maxxecu.com/webhelp/wirings-digital-inputs.html"
    },
    {
-    "label": "MaxxECU — réglages Digital inputs (pull-up OFF : entrée commandée par +5 / +12 V)",
+    "label": "MaxxECU — réglages Digital inputs (pull-up, active level, latch)",
     "url": "https://www.maxxecu.com/webhelp/settings-inputs-digital_inputs.html"
-   },
-   {
-    "label": "MaxxECU — Analog inputs utilisées en entrée digitale (seuil 3,0 V)",
-    "url": "https://www.maxxecu.com/webhelp/settings-analog_inputs.html"
    },
    {
     "label": "MaxxECU — Internal output system (une entrée → plusieurs fonctions)",
@@ -196,11 +192,11 @@
   },
   {
    "code": "VT/RD",
-   "role": "Sorties +12 V du pad → platine d'interface, un fil par bouton : VT/RD, VT/OG, VT/GY, VT/PK, VT/WH (boutons 4 à 8)"
+   "role": "Sorties +12 V du pad → bobines des relais K5 à K9, un fil par bouton : VT/RD, VT/OG, VT/GY, VT/PK, VT/WH (boutons 4 à 8)"
   },
   {
    "code": "WH/RD",
-   "role": "Platine d'interface → entrées ECU : WH/YE (AIN8), WH/RD (DIN1), WH/OG (DIN2), WH/GY (DIN4), WH/PK (DIN5)"
+   "role": "Contacts des relais du pad → entrées ECU : WH/YE (DIN3), WH/RD (DIN1), WH/OG (DIN2), WH/GY (DIN4), WH/PK (DIN5)"
   }
  ],
  "rules": {
@@ -466,11 +462,13 @@
     "id": "CMC1.C1",
     "conn": "CMC1",
     "pin": "C1",
-    "fn": "GP OUT 7 / DIGITAL IN 3",
-    "kind": "gpo",
-    "max_a": 2,
-    "wires": [],
-    "sheet": null
+    "fn": "DIGITAL IN 3 (GP OUT 7 déclaré en entrée)",
+    "kind": "din",
+    "max_a": null,
+    "wires": [
+     "COM-06"
+    ],
+    "sheet": "COM"
    },
    {
     "id": "CMC1.C2",
@@ -560,7 +558,7 @@
     "kind": "can",
     "max_a": null,
     "wires": [
-     "COM-12"
+     "COM-23"
     ],
     "sheet": "COM"
    },
@@ -572,7 +570,7 @@
     "kind": "can",
     "max_a": null,
     "wires": [
-     "COM-13"
+     "COM-24"
     ],
     "sheet": "COM"
    },
@@ -1161,10 +1159,8 @@
     "fn": "ANALOG IN 8 (0-5 V)",
     "kind": "ain",
     "max_a": null,
-    "wires": [
-     "COM-06"
-    ],
-    "sheet": "COM"
+    "wires": [],
+    "sheet": null
    },
    {
     "id": "CMC2.F3",
@@ -1313,6 +1309,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "CLT": {
@@ -1333,6 +1330,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "OIL": {
@@ -1353,6 +1351,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "FUEL": {
@@ -1373,6 +1372,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "CRANK": {
@@ -1393,6 +1393,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "CAM": {
@@ -1413,6 +1414,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "KS1": {
@@ -1433,6 +1435,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "KS2": {
@@ -1453,6 +1456,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "LSU": {
@@ -1473,6 +1477,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "EGT1": {
@@ -1493,6 +1498,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "ETB": {
@@ -1513,6 +1519,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "APP": {
@@ -1533,6 +1540,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "INJ1": {
@@ -1553,6 +1561,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "INJ2": {
@@ -1573,6 +1582,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "INJ3": {
@@ -1593,6 +1603,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "INJ4": {
@@ -1613,6 +1624,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "INJ5": {
@@ -1633,6 +1645,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "INJ6": {
@@ -1653,6 +1666,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "COIL1": {
@@ -1673,6 +1687,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "COIL2": {
@@ -1693,6 +1708,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "COIL3": {
@@ -1713,6 +1729,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "COIL4": {
@@ -1733,6 +1750,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "COIL5": {
@@ -1753,6 +1771,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "COIL6": {
@@ -1773,6 +1792,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "MAC": {
@@ -1793,6 +1813,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "VANOS": {
@@ -1816,6 +1837,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "PUMP": {
@@ -1836,6 +1858,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "FAN": {
@@ -1856,6 +1879,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "KEY": {
@@ -1867,7 +1891,7 @@
    "node": "CAB_KEY",
    "system": "DEM",
    "harness": "CAB",
-   "notes": "Remplace le contacteur à clé : il ne porte que 0,3 A (bobines de K1 et K4). Il reste alimenté par F11 : sans fusible, un court-circuit sur ce fil ne serait coupé que par F0 (80 A), bien trop gros pour du 0,75 mm².",
+   "notes": "Remplace le contacteur à clé : il ne porte que 0,3 A (bobines de K1 et K4). Il reste alimenté par F9 : sans fusible, un court-circuit sur ce fil ne serait coupé que par F0 (80 A), bien trop gros pour du 0,75 mm².",
    "verify": "",
    "rating_a": null,
    "load_a": null,
@@ -1876,6 +1900,7 @@
    "external": true,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {
     "30": [
      "15"
@@ -1900,6 +1925,7 @@
    "external": true,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {
     "IN": [
      "OUT"
@@ -1915,7 +1941,7 @@
    "node": "CAB_PAD",
    "system": "COM",
    "harness": "CAB",
-   "notes": "Boutons 4 à 7 en mode Toggle (LED rouge) : l'ECU lit un état maintenu, pas une impulsion. Bouton 8 (arrêt moteur) en mode Momentary (LED bleue) : on le tient jusqu'à l'arrêt du moteur, puis le démarreur peut relancer sans rien désarmer (en Toggle, il sert d'anti-démarrage tant qu'il est allumé). Les fusibles des boutons 4 à 8 passent à 5 A ou moins (le manuel autorise un calibre égal ou inférieur) : ils ne débitent que 0,7 mA chacun. Boutons 1 à 3 : fusibles d'origine selon leur charge. Interrupteur du boîtier sur BATTERY : warnings utilisables contact coupé. Boîtier alimenté par son propre câble batterie avec fusible, masse à la caisse (hors faisceau moteur). Éteindre le pad (ON/OFF) en quittant la voiture : un bouton resté allumé garde son relais collé. Si un bouton devient intermittent (contact de relais qui ne voit que 0,7 mA), ajouter 1,2 kΩ ½ W entre sa sortie et la masse, côté pad.",
+   "notes": "Boutons 4 à 7 en mode Toggle (LED rouge) : l'ECU lit un état maintenu, pas une impulsion. Bouton 8 (arrêt moteur) en mode Momentary (LED bleue) : on le tient jusqu'à l'arrêt du moteur, puis le démarreur peut relancer sans rien désarmer (en Toggle, il sert d'anti-démarrage tant qu'il est allumé). Les boutons 4 à 8 ne commandent que la bobine d'un relais (0,15 A) : leurs fusibles passent à 5 A ou moins (le manuel autorise un calibre égal ou inférieur). Boutons 1 à 3 : fusibles d'origine selon leur charge. Interrupteur du boîtier sur BATTERY : warnings utilisables contact coupé. Boîtier alimenté par son propre câble batterie avec fusible, masse à la caisse (hors faisceau moteur). Éteindre le pad (ON/OFF) en quittant la voiture : un bouton resté allumé garde ses relais collés (environ 0,3 A).",
    "verify": "Au multimètre : bouton allumé = +12 V sur la sortie, bouton éteint = 0 V ou circuit ouvert (sortie +12 V côté haut, à confirmer).",
    "rating_a": null,
    "load_a": null,
@@ -1924,26 +1950,7 @@
    "external": true,
    "optional": false,
    "rank": null,
-   "switch": {}
-  },
-  "IF-PAD": {
-   "cat": "comp",
-   "label": "Platine d'interface pad → ECU",
-   "ref": "Voie AIN8 : 10 kΩ série + 4,7 kΩ vers Sensor GND ; voies DIN : 10 kΩ série + 10 kΩ vers Sensor GND (¼ W, 1 %)",
-   "type": "Diviseurs : 12 V → 3,8 V (AIN8, reste dans 0–5 V) et 12 V → 6 V (DIN) ; 1,4 mA maxi vers l'ECU même éteinte",
-   "connector": "Deutsch DTM 12 voies (DTM04-12PA côté platine / DTM06-12SA côté faisceau)",
-   "node": "N_IFPAD",
-   "system": "COM",
-   "harness": "CAB",
-   "notes": "Pourquoi : bouton éteint, la sortie du pad n'est reliée à rien (fil en l'air, ni 0 ni 12 V) et l'ECU pourrait lire « allumé » à cause des parasites ; la résistance de rappel tient le fil à 0 V. La résistance en série ramène les 14,4 V du pad sous ce que l'entrée accepte (12 V garantis par MaxxECU, 5 V sur AIN8). Chaque voie : entrée → 10 kΩ → sortie, puis une résistance de rappel de la sortie vers la broche 11 : 4,7 kΩ sur la voie 1 (AIN8, entrée 0–5 V), 10 kΩ sur les voies 2 à 5 (DIN). Bouton allumé : ≈ 3,8–4,6 V sur AIN8 (seuil 3,0 V), ≈ 6–7 V sur les DIN (seuil 3,3–3,5 V, 12 V tolérés) ; bouton éteint : 0 V franc, au lieu d'une entrée en l'air. Dans MTune, le pull-up de ces entrées DOIT être désactivé, sinon l'entrée reste active pad éteint. Montage : plaque pastillée dans un petit boîtier étanche, ou résistances en ligne sous gaine thermo à colle.",
-   "verify": "ECU débranchée, batterie à 12,5 V : pad éteint, 0 V sur les broches 6 à 10 ; bouton allumé, ≈ 4 V sur la broche 6 et ≈ 6 V sur les broches 7 à 10.",
-   "rating_a": null,
-   "load_a": null,
-   "r_ohm": null,
-   "supply5_ma": null,
-   "external": false,
-   "optional": false,
-   "rank": 100,
+   "signal": false,
    "switch": {}
   },
   "CANDEV": {
@@ -1964,6 +1971,7 @@
    "external": true,
    "optional": true,
    "rank": 100,
+   "signal": false,
    "switch": {}
   },
   "STARTER": {
@@ -1984,6 +1992,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "ALT": {
@@ -2004,6 +2013,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "LAMP": {
@@ -2024,6 +2034,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "BATT": {
@@ -2044,6 +2055,7 @@
    "external": true,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "F0": {
@@ -2064,26 +2076,7 @@
    "external": false,
    "optional": false,
    "rank": null,
-   "switch": {}
-  },
-  "F10": {
-   "cat": "fuse",
-   "label": "Fusible relais principal",
-   "ref": "30 A",
-   "type": "fuse",
-   "connector": "Boîte à fusibles étanche à 2 barrettes",
-   "node": "PDM",
-   "system": "PWR",
-   "harness": null,
-   "notes": "",
-   "verify": "",
-   "rating_a": 30,
-   "load_a": null,
-   "r_ohm": null,
-   "supply5_ma": null,
-   "external": false,
-   "optional": false,
-   "rank": null,
+   "signal": false,
    "switch": {}
   },
   "F1": {
@@ -2091,7 +2084,7 @@
    "label": "Fusible ECU",
    "ref": "15 A",
    "type": "fuse",
-   "connector": "Boîte à fusibles étanche à 2 barrettes",
+   "connector": "Boîte à fusibles 10 voies",
    "node": "PDM",
    "system": "PWR",
    "harness": null,
@@ -2104,6 +2097,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "F2": {
@@ -2111,7 +2105,7 @@
    "label": "Fusible bobines",
    "ref": "15 A",
    "type": "fuse",
-   "connector": "Boîte à fusibles étanche à 2 barrettes",
+   "connector": "Boîte à fusibles 10 voies",
    "node": "PDM",
    "system": "IGN",
    "harness": null,
@@ -2124,6 +2118,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "F3": {
@@ -2131,7 +2126,7 @@
    "label": "Fusible injecteurs",
    "ref": "10 A",
    "type": "fuse",
-   "connector": "Boîte à fusibles étanche à 2 barrettes",
+   "connector": "Boîte à fusibles 10 voies",
    "node": "PDM",
    "system": "INJ",
    "harness": null,
@@ -2144,34 +2139,15 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "F4": {
    "cat": "fuse",
-   "label": "Fusible chauffage lambda",
+   "label": "Fusible actionneurs, capteur PMH et chauffage lambda",
    "ref": "10 A",
    "type": "fuse",
-   "connector": "Boîte à fusibles étanche à 2 barrettes",
-   "node": "PDM",
-   "system": "WBO",
-   "harness": null,
-   "notes": "",
-   "verify": "",
-   "rating_a": 10,
-   "load_a": null,
-   "r_ohm": null,
-   "supply5_ma": null,
-   "external": false,
-   "optional": false,
-   "rank": null,
-   "switch": {}
-  },
-  "F5": {
-   "cat": "fuse",
-   "label": "Fusible actionneurs + capteur PMH (VANOS, MAC, PMH)",
-   "ref": "10 A",
-   "type": "fuse",
-   "connector": "Boîte à fusibles étanche à 2 barrettes",
+   "connector": "Boîte à fusibles 10 voies",
    "node": "PDM",
    "system": "ACT",
    "harness": null,
@@ -2184,14 +2160,15 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
-  "F7": {
+  "F5": {
    "cat": "fuse",
-   "label": "Fusible commandes (bobines relais pompe / ventilo, voyant de charge)",
+   "label": "Fusible bobines des relais K2 (pompe) et K3 (ventilo) + voyant de charge",
    "ref": "5 A",
    "type": "fuse",
-   "connector": "Boîte à fusibles étanche à 2 barrettes",
+   "connector": "Boîte à fusibles 10 voies",
    "node": "PDM",
    "system": "RLY",
    "harness": null,
@@ -2204,14 +2181,15 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
-  "F8": {
+  "F6": {
    "cat": "fuse",
    "label": "Fusible pompe à essence",
    "ref": "20 A",
    "type": "fuse",
-   "connector": "Boîte à fusibles étanche à 2 barrettes",
+   "connector": "Boîte à fusibles 10 voies",
    "node": "PDM",
    "system": "RLY",
    "harness": null,
@@ -2224,14 +2202,15 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
-  "F9": {
+  "F7": {
    "cat": "fuse",
    "label": "Fusible ventilateur",
    "ref": "30 A",
    "type": "fuse",
-   "connector": "Boîte à fusibles étanche à 2 barrettes",
+   "connector": "Boîte à fusibles 10 voies",
    "node": "PDM",
    "system": "RLY",
    "harness": null,
@@ -2244,14 +2223,36 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
-  "F11": {
+  "F8": {
+   "cat": "fuse",
+   "label": "Fusible relais principal",
+   "ref": "30 A",
+   "type": "fuse",
+   "connector": "Boîte à fusibles 10 voies",
+   "node": "PDM",
+   "system": "PWR",
+   "harness": null,
+   "notes": "",
+   "verify": "",
+   "rating_a": 30,
+   "load_a": null,
+   "r_ohm": null,
+   "supply5_ma": null,
+   "external": false,
+   "optional": false,
+   "rank": null,
+   "signal": false,
+   "switch": {}
+  },
+  "F9": {
    "cat": "fuse",
    "label": "Fusible interrupteur de contact / bouton démarreur",
    "ref": "5 A",
    "type": "fuse",
-   "connector": "Boîte à fusibles étanche à 2 barrettes",
+   "connector": "Boîte à fusibles 10 voies",
    "node": "PDM",
    "system": "DEM",
    "harness": null,
@@ -2264,14 +2265,15 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
-  "F12": {
+  "F10": {
    "cat": "fuse",
    "label": "Fusible démarreur (borne 50)",
    "ref": "30 A",
    "type": "fuse",
-   "connector": "Boîte à fusibles étanche à 2 barrettes",
+   "connector": "Boîte à fusibles 10 voies",
    "node": "PDM",
    "system": "DEM",
    "harness": null,
@@ -2284,6 +2286,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "K1": {
@@ -2304,6 +2307,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "K2": {
@@ -2324,6 +2328,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "K3": {
@@ -2344,6 +2349,7 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
    "switch": {}
   },
   "K4": {
@@ -2364,6 +2370,112 @@
    "external": false,
    "optional": false,
    "rank": null,
+   "signal": false,
+   "switch": {}
+  },
+  "K5": {
+   "cat": "relay",
+   "label": "Relais bouton 4 (ventilation forcée)",
+   "ref": "Relais ISO mini 4 broches (contact travail)",
+   "type": "relay",
+   "connector": "Support de relais ISO mini étanche (lames 6,3 mm)",
+   "node": "PDM",
+   "system": "COM",
+   "harness": null,
+   "notes": "Bouton allumé, le relais colle et met l'entrée ECU à la masse capteurs : c'est le câblage « interrupteur → masse » du plan MaxxECU, avec le pull-up de l'entrée activé. Le contact ne coupe que 5 mA sous 5 V : un relais ISO standard convient, mais si un bouton devient capricieux avec les années, changer le relais (ou en prendre un à contacts dorés).",
+   "verify": "",
+   "rating_a": 30,
+   "load_a": 0.15,
+   "r_ohm": null,
+   "supply5_ma": null,
+   "external": false,
+   "optional": false,
+   "rank": 100,
+   "signal": true,
+   "switch": {}
+  },
+  "K6": {
+   "cat": "relay",
+   "label": "Relais bouton 5 (changement de carto)",
+   "ref": "Relais ISO mini 4 broches (contact travail)",
+   "type": "relay",
+   "connector": "Support de relais ISO mini étanche (lames 6,3 mm)",
+   "node": "PDM",
+   "system": "COM",
+   "harness": null,
+   "notes": "",
+   "verify": "",
+   "rating_a": 30,
+   "load_a": 0.15,
+   "r_ohm": null,
+   "supply5_ma": null,
+   "external": false,
+   "optional": false,
+   "rank": 100,
+   "signal": true,
+   "switch": {}
+  },
+  "K7": {
+   "cat": "relay",
+   "label": "Relais bouton 6 (ALS off)",
+   "ref": "Relais ISO mini 4 broches (contact travail)",
+   "type": "relay",
+   "connector": "Support de relais ISO mini étanche (lames 6,3 mm)",
+   "node": "PDM",
+   "system": "COM",
+   "harness": null,
+   "notes": "",
+   "verify": "",
+   "rating_a": 30,
+   "load_a": 0.15,
+   "r_ohm": null,
+   "supply5_ma": null,
+   "external": false,
+   "optional": false,
+   "rank": 100,
+   "signal": true,
+   "switch": {}
+  },
+  "K8": {
+   "cat": "relay",
+   "label": "Relais bouton 7 (carto de chauffe)",
+   "ref": "Relais ISO mini 4 broches (contact travail)",
+   "type": "relay",
+   "connector": "Support de relais ISO mini étanche (lames 6,3 mm)",
+   "node": "PDM",
+   "system": "COM",
+   "harness": null,
+   "notes": "",
+   "verify": "",
+   "rating_a": 30,
+   "load_a": 0.15,
+   "r_ohm": null,
+   "supply5_ma": null,
+   "external": false,
+   "optional": false,
+   "rank": 100,
+   "signal": true,
+   "switch": {}
+  },
+  "K9": {
+   "cat": "relay",
+   "label": "Relais bouton 8 (arrêt moteur)",
+   "ref": "Relais ISO mini 4 broches (contact travail)",
+   "type": "relay",
+   "connector": "Support de relais ISO mini étanche (lames 6,3 mm)",
+   "node": "PDM",
+   "system": "COM",
+   "harness": null,
+   "notes": "",
+   "verify": "",
+   "rating_a": 30,
+   "load_a": 0.15,
+   "r_ohm": null,
+   "supply5_ma": null,
+   "external": false,
+   "optional": false,
+   "rank": 100,
+   "signal": true,
    "switch": {}
   },
   "GP-HEAD": {
@@ -2372,6 +2484,7 @@
    "node": "GND_HEAD",
    "system": "GND",
    "ground_kind": "engine",
+   "rank": null,
    "harness": null,
    "notes": "CMC1 L4 et CMC2 G4 au MÊME point (exigence MaxxECU)."
   },
@@ -2381,6 +2494,7 @@
    "node": "GND_HEAD",
    "system": "GND",
    "ground_kind": "engine",
+   "rank": null,
    "harness": null,
    "notes": ""
   },
@@ -2390,6 +2504,7 @@
    "node": "PDM",
    "system": "GND",
    "ground_kind": "chassis",
+   "rank": 65,
    "harness": null,
    "notes": ""
   },
@@ -2399,6 +2514,7 @@
    "node": "N_FAN",
    "system": "GND",
    "ground_kind": "chassis",
+   "rank": null,
    "harness": null,
    "notes": ""
   },
@@ -2408,6 +2524,7 @@
    "node": "N_PUMP",
    "system": "GND",
    "ground_kind": "chassis",
+   "rank": null,
    "harness": "CHS",
    "notes": ""
   },
@@ -2417,6 +2534,7 @@
    "node": "ECU",
    "system": "REF",
    "busbar": false,
+   "rank": null,
    "wires": 4,
    "csa": 2.0
   },
@@ -2426,6 +2544,7 @@
    "node": "T1",
    "system": "REF",
    "busbar": false,
+   "rank": null,
    "wires": 4,
    "csa": 2.0
   },
@@ -2435,6 +2554,7 @@
    "node": "ECU",
    "system": "REF",
    "busbar": false,
+   "rank": null,
    "wires": 5,
    "csa": 2.5
   },
@@ -2444,6 +2564,7 @@
    "node": "T1",
    "system": "REF",
    "busbar": false,
+   "rank": null,
    "wires": 6,
    "csa": 3.0
   },
@@ -2453,6 +2574,7 @@
    "node": "ECU",
    "system": "REF",
    "busbar": false,
+   "rank": null,
    "wires": 3,
    "csa": 1.5
   },
@@ -2462,6 +2584,7 @@
    "node": "ECU",
    "system": "REF",
    "busbar": false,
+   "rank": null,
    "wires": 4,
    "csa": 0.5
   },
@@ -2471,6 +2594,7 @@
    "node": "ECU",
    "system": "REF",
    "busbar": false,
+   "rank": null,
    "wires": 5,
    "csa": 1.5
   },
@@ -2480,6 +2604,7 @@
    "node": "TOP4",
    "system": "REF",
    "busbar": false,
+   "rank": null,
    "wires": 7,
    "csa": 8.5
   },
@@ -2489,6 +2614,7 @@
    "node": "TOP4",
    "system": "REF",
    "busbar": false,
+   "rank": null,
    "wires": 7,
    "csa": 6.0
   },
@@ -2498,6 +2624,7 @@
    "node": "TOP4",
    "system": "REF",
    "busbar": false,
+   "rank": null,
    "wires": 7,
    "csa": 8.5
   },
@@ -2507,26 +2634,49 @@
    "node": "INT4",
    "system": "REF",
    "busbar": false,
+   "rank": null,
    "wires": 7,
    "csa": 5.5
   },
   "SPL-ACT12": {
    "cat": "splice",
-   "label": "+12 V actionneurs + capteur PMH",
+   "label": "+12 V VANOS, MAC, capteur PMH et chauffage lambda",
    "node": "T1",
    "system": "REF",
    "busbar": false,
-   "wires": 4,
-   "csa": 3.25
+   "rank": null,
+   "wires": 5,
+   "csa": 4.0
   },
   "SPL-RLY": {
    "cat": "splice",
-   "label": "+12 V bobines relais",
+   "label": "+12 V bobines K2 / K3 et voyant de charge",
    "node": "PDM",
    "system": "REF",
    "busbar": false,
+   "rank": null,
    "wires": 4,
    "csa": 2.0
+  },
+  "SPL-SG-PAD": {
+   "cat": "splice",
+   "label": "Sensor GND — contacts des relais du pad",
+   "node": "PDM",
+   "system": "REF",
+   "busbar": false,
+   "rank": 60,
+   "wires": 6,
+   "csa": 3.0
+  },
+  "SPL-GND-PAD": {
+   "cat": "splice",
+   "label": "Masse des bobines des relais du pad",
+   "node": "PDM",
+   "system": "REF",
+   "busbar": false,
+   "rank": 70,
+   "wires": 6,
+   "csa": 3.25
   },
   "BUS30": {
    "cat": "splice",
@@ -2534,6 +2684,7 @@
    "node": "PDM",
    "system": "REF",
    "busbar": true,
+   "rank": null,
    "wires": 1,
    "csa": 10.0
   },
@@ -2543,6 +2694,7 @@
    "node": "PDM",
    "system": "REF",
    "busbar": true,
+   "rank": null,
    "wires": 1,
    "csa": 2.5
   },
@@ -2647,9 +2799,8 @@
    "owner": "CMC1",
    "pin": "C1",
    "cat": "ecu",
-   "fn": "GP OUT 7 / DIGITAL IN 3",
-   "kind": "gpo",
-   "max_a": 2
+   "fn": "DIGITAL IN 3 (GP OUT 7 déclaré en entrée)",
+   "kind": "din"
   },
   "CMC1.C2": {
    "owner": "CMC1",
@@ -3771,7 +3922,7 @@
    "owner": "KEY",
    "pin": "30",
    "cat": "comp",
-   "fn": "+30 entrée (permanent, fusible F11)",
+   "fn": "+30 entrée (permanent, fusible F9)",
    "cls": "PWR12"
   },
   "KEY.15": {
@@ -3858,85 +4009,6 @@
    "cls": "PWR12",
    "source": true
   },
-  "IF-PAD.1": {
-   "owner": "IF-PAD",
-   "pin": "1",
-   "cat": "comp",
-   "fn": "Entrée bouton 4 (+12 V pad)",
-   "cls": "PWR12"
-  },
-  "IF-PAD.2": {
-   "owner": "IF-PAD",
-   "pin": "2",
-   "cat": "comp",
-   "fn": "Entrée bouton 5 (+12 V pad)",
-   "cls": "PWR12"
-  },
-  "IF-PAD.3": {
-   "owner": "IF-PAD",
-   "pin": "3",
-   "cat": "comp",
-   "fn": "Entrée bouton 6 (+12 V pad)",
-   "cls": "PWR12"
-  },
-  "IF-PAD.4": {
-   "owner": "IF-PAD",
-   "pin": "4",
-   "cat": "comp",
-   "fn": "Entrée bouton 7 (+12 V pad)",
-   "cls": "PWR12"
-  },
-  "IF-PAD.5": {
-   "owner": "IF-PAD",
-   "pin": "5",
-   "cat": "comp",
-   "fn": "Entrée bouton 8 (+12 V pad)",
-   "cls": "PWR12"
-  },
-  "IF-PAD.6": {
-   "owner": "IF-PAD",
-   "pin": "6",
-   "cat": "comp",
-   "fn": "Sortie voie 1 → AIN8 (rappel 4,7 kΩ)"
-  },
-  "IF-PAD.7": {
-   "owner": "IF-PAD",
-   "pin": "7",
-   "cat": "comp",
-   "fn": "Sortie voie 2 → DIN1"
-  },
-  "IF-PAD.8": {
-   "owner": "IF-PAD",
-   "pin": "8",
-   "cat": "comp",
-   "fn": "Sortie voie 3 → DIN2"
-  },
-  "IF-PAD.9": {
-   "owner": "IF-PAD",
-   "pin": "9",
-   "cat": "comp",
-   "fn": "Sortie voie 4 → DIN4"
-  },
-  "IF-PAD.10": {
-   "owner": "IF-PAD",
-   "pin": "10",
-   "cat": "comp",
-   "fn": "Sortie voie 5 → DIN5"
-  },
-  "IF-PAD.11": {
-   "owner": "IF-PAD",
-   "pin": "11",
-   "cat": "comp",
-   "fn": "Masse des résistances de rappel",
-   "cls": "GND_SENS"
-  },
-  "IF-PAD.12": {
-   "owner": "IF-PAD",
-   "pin": "12",
-   "cat": "comp",
-   "fn": "Réserve",
-   "nc": true
-  },
   "CANDEV.H": {
    "owner": "CANDEV",
    "pin": "H",
@@ -3993,20 +4065,6 @@
   },
   "F0.2": {
    "owner": "F0",
-   "pin": "2",
-   "cat": "fuse",
-   "fn": "Sortie",
-   "cls": "PWR12"
-  },
-  "F10.1": {
-   "owner": "F10",
-   "pin": "1",
-   "cat": "fuse",
-   "fn": "Entrée",
-   "cls": "PWR12"
-  },
-  "F10.2": {
-   "owner": "F10",
    "pin": "2",
    "cat": "fuse",
    "fn": "Sortie",
@@ -4082,6 +4140,20 @@
    "fn": "Sortie",
    "cls": "PWR12"
   },
+  "F6.1": {
+   "owner": "F6",
+   "pin": "1",
+   "cat": "fuse",
+   "fn": "Entrée",
+   "cls": "PWR12"
+  },
+  "F6.2": {
+   "owner": "F6",
+   "pin": "2",
+   "cat": "fuse",
+   "fn": "Sortie",
+   "cls": "PWR12"
+  },
   "F7.1": {
    "owner": "F7",
    "pin": "1",
@@ -4124,29 +4196,15 @@
    "fn": "Sortie",
    "cls": "PWR12"
   },
-  "F11.1": {
-   "owner": "F11",
+  "F10.1": {
+   "owner": "F10",
    "pin": "1",
    "cat": "fuse",
    "fn": "Entrée",
    "cls": "PWR12"
   },
-  "F11.2": {
-   "owner": "F11",
-   "pin": "2",
-   "cat": "fuse",
-   "fn": "Sortie",
-   "cls": "PWR12"
-  },
-  "F12.1": {
-   "owner": "F12",
-   "pin": "1",
-   "cat": "fuse",
-   "fn": "Entrée",
-   "cls": "PWR12"
-  },
-  "F12.2": {
-   "owner": "F12",
+  "F10.2": {
+   "owner": "F10",
    "pin": "2",
    "cat": "fuse",
    "fn": "Sortie",
@@ -4266,6 +4324,146 @@
    "fn": "Bobine −",
    "cls": "GND_PWR"
   },
+  "K5.86": {
+   "owner": "K5",
+   "pin": "86",
+   "cat": "relay",
+   "fn": "Bobine + (sortie bouton 4 du pad)",
+   "cls": "PWR12",
+   "supply": true
+  },
+  "K5.85": {
+   "owner": "K5",
+   "pin": "85",
+   "cat": "relay",
+   "fn": "Bobine − (masse caisse)",
+   "cls": "GND_PWR"
+  },
+  "K5.30": {
+   "owner": "K5",
+   "pin": "30",
+   "cat": "relay",
+   "fn": "Contact → entrée DIN3 (CMC1 C1)"
+  },
+  "K5.87": {
+   "owner": "K5",
+   "pin": "87",
+   "cat": "relay",
+   "fn": "Contact → Sensor GND",
+   "cls": "GND_SENS"
+  },
+  "K6.86": {
+   "owner": "K6",
+   "pin": "86",
+   "cat": "relay",
+   "fn": "Bobine + (sortie bouton 5 du pad)",
+   "cls": "PWR12",
+   "supply": true
+  },
+  "K6.85": {
+   "owner": "K6",
+   "pin": "85",
+   "cat": "relay",
+   "fn": "Bobine − (masse caisse)",
+   "cls": "GND_PWR"
+  },
+  "K6.30": {
+   "owner": "K6",
+   "pin": "30",
+   "cat": "relay",
+   "fn": "Contact → entrée DIN1 (CMC1 K3)"
+  },
+  "K6.87": {
+   "owner": "K6",
+   "pin": "87",
+   "cat": "relay",
+   "fn": "Contact → Sensor GND",
+   "cls": "GND_SENS"
+  },
+  "K7.86": {
+   "owner": "K7",
+   "pin": "86",
+   "cat": "relay",
+   "fn": "Bobine + (sortie bouton 6 du pad)",
+   "cls": "PWR12",
+   "supply": true
+  },
+  "K7.85": {
+   "owner": "K7",
+   "pin": "85",
+   "cat": "relay",
+   "fn": "Bobine − (masse caisse)",
+   "cls": "GND_PWR"
+  },
+  "K7.30": {
+   "owner": "K7",
+   "pin": "30",
+   "cat": "relay",
+   "fn": "Contact → entrée DIN2 (CMC1 K4)"
+  },
+  "K7.87": {
+   "owner": "K7",
+   "pin": "87",
+   "cat": "relay",
+   "fn": "Contact → Sensor GND",
+   "cls": "GND_SENS"
+  },
+  "K8.86": {
+   "owner": "K8",
+   "pin": "86",
+   "cat": "relay",
+   "fn": "Bobine + (sortie bouton 7 du pad)",
+   "cls": "PWR12",
+   "supply": true
+  },
+  "K8.85": {
+   "owner": "K8",
+   "pin": "85",
+   "cat": "relay",
+   "fn": "Bobine − (masse caisse)",
+   "cls": "GND_PWR"
+  },
+  "K8.30": {
+   "owner": "K8",
+   "pin": "30",
+   "cat": "relay",
+   "fn": "Contact → entrée DIN4 (CMC2 F3)"
+  },
+  "K8.87": {
+   "owner": "K8",
+   "pin": "87",
+   "cat": "relay",
+   "fn": "Contact → Sensor GND",
+   "cls": "GND_SENS"
+  },
+  "K9.86": {
+   "owner": "K9",
+   "pin": "86",
+   "cat": "relay",
+   "fn": "Bobine + (sortie bouton 8 du pad)",
+   "cls": "PWR12",
+   "supply": true
+  },
+  "K9.85": {
+   "owner": "K9",
+   "pin": "85",
+   "cat": "relay",
+   "fn": "Bobine − (masse caisse)",
+   "cls": "GND_PWR"
+  },
+  "K9.30": {
+   "owner": "K9",
+   "pin": "30",
+   "cat": "relay",
+   "fn": "Contact → entrée DIN5 (CMC2 F4)"
+  },
+  "K9.87": {
+   "owner": "K9",
+   "pin": "87",
+   "cat": "relay",
+   "fn": "Contact → Sensor GND",
+   "cls": "GND_SENS"
+  },
   "GP-HEAD": {
    "owner": "GP-HEAD",
    "cat": "ground",
@@ -4365,14 +4563,26 @@
   "SPL-ACT12": {
    "owner": "SPL-ACT12",
    "cat": "splice",
-   "fn": "+12 V actionneurs + capteur PMH",
+   "fn": "+12 V VANOS, MAC, capteur PMH et chauffage lambda",
    "cls": "PWR12"
   },
   "SPL-RLY": {
    "owner": "SPL-RLY",
    "cat": "splice",
-   "fn": "+12 V bobines relais",
+   "fn": "+12 V bobines K2 / K3 et voyant de charge",
    "cls": "PWR12"
+  },
+  "SPL-SG-PAD": {
+   "owner": "SPL-SG-PAD",
+   "cat": "splice",
+   "fn": "Sensor GND — contacts des relais du pad",
+   "cls": "GND_SENS"
+  },
+  "SPL-GND-PAD": {
+   "owner": "SPL-GND-PAD",
+   "cat": "splice",
+   "fn": "Masse des bobines des relais du pad",
+   "cls": "GND_PWR"
   },
   "BUS30": {
    "owner": "BUS30",
@@ -4430,7 +4640,7 @@
    "internal": false,
    "drain": false,
    "note": "Fusible au plus près de la batterie / borne B+",
-   "net": "N074",
+   "net": "N073",
    "route_m": 0.0,
    "length_m": 0.2,
    "path": []
@@ -4447,7 +4657,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N075",
+   "net": "N074",
    "fuse": "F0",
    "route_m": 1.35,
    "length_m": 1.55,
@@ -4461,22 +4671,6 @@
   {
    "id": "BUS-01",
    "from": "BUS30",
-   "to": "F10.1",
-   "sheet": "PWR",
-   "mm2": null,
-   "color": null,
-   "cable": null,
-   "harness": "ENG",
-   "internal": true,
-   "drain": false,
-   "note": "",
-   "net": "N075",
-   "length_m": 0,
-   "path": []
-  },
-  {
-   "id": "BUS-02",
-   "from": "BUS30",
    "to": "F8.1",
    "sheet": "PWR",
    "mm2": null,
@@ -4486,14 +4680,14 @@
    "internal": true,
    "drain": false,
    "note": "",
-   "net": "N075",
+   "net": "N074",
    "length_m": 0,
    "path": []
   },
   {
-   "id": "BUS-03",
+   "id": "BUS-02",
    "from": "BUS30",
-   "to": "F9.1",
+   "to": "F6.1",
    "sheet": "PWR",
    "mm2": null,
    "color": null,
@@ -4502,13 +4696,29 @@
    "internal": true,
    "drain": false,
    "note": "",
-   "net": "N075",
+   "net": "N074",
+   "length_m": 0,
+   "path": []
+  },
+  {
+   "id": "BUS-03",
+   "from": "BUS30",
+   "to": "F7.1",
+   "sheet": "PWR",
+   "mm2": null,
+   "color": null,
+   "cable": null,
+   "harness": "ENG",
+   "internal": true,
+   "drain": false,
+   "note": "",
+   "net": "N074",
    "length_m": 0,
    "path": []
   },
   {
    "id": "PWR-03",
-   "from": "F10.2",
+   "from": "F8.2",
    "to": "K1.30",
    "sheet": "PWR",
    "mm2": 2.5,
@@ -4518,8 +4728,8 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N076",
-   "fuse": "F10",
+   "net": "N078",
+   "fuse": "F8",
    "route_m": 0.0,
    "length_m": 0.2,
    "path": []
@@ -4536,8 +4746,8 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N077",
-   "fuse": "F10",
+   "net": "N075",
+   "fuse": "F8",
    "route_m": 0.0,
    "length_m": 0.2,
    "path": []
@@ -4554,7 +4764,7 @@
    "internal": true,
    "drain": false,
    "note": "",
-   "net": "N077",
+   "net": "N075",
    "length_m": 0,
    "path": []
   },
@@ -4570,7 +4780,7 @@
    "internal": true,
    "drain": false,
    "note": "",
-   "net": "N077",
+   "net": "N075",
    "length_m": 0,
    "path": []
   },
@@ -4586,7 +4796,7 @@
    "internal": true,
    "drain": false,
    "note": "",
-   "net": "N077",
+   "net": "N075",
    "length_m": 0,
    "path": []
   },
@@ -4602,7 +4812,7 @@
    "internal": true,
    "drain": false,
    "note": "",
-   "net": "N077",
+   "net": "N075",
    "length_m": 0,
    "path": []
   },
@@ -4618,23 +4828,7 @@
    "internal": true,
    "drain": false,
    "note": "",
-   "net": "N077",
-   "length_m": 0,
-   "path": []
-  },
-  {
-   "id": "BUS-09",
-   "from": "BUS87",
-   "to": "F7.1",
-   "sheet": "PWR",
-   "mm2": null,
-   "color": null,
-   "cable": null,
-   "harness": "ENG",
-   "internal": true,
-   "drain": false,
-   "note": "",
-   "net": "N077",
+   "net": "N075",
    "length_m": 0,
    "path": []
   },
@@ -4650,7 +4844,7 @@
    "internal": false,
    "drain": false,
    "note": "Alimentation ECU (15 A, préconisation MaxxECU)",
-   "net": "N040",
+   "net": "N041",
    "fuse": "F1",
    "route_m": 0.45,
    "length_m": 0.65,
@@ -4671,8 +4865,8 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N064",
-   "fuse": "F11",
+   "net": "N063",
+   "fuse": "F9",
    "route_m": 1.15,
    "length_m": 1.35,
    "path": [
@@ -4692,15 +4886,15 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N081",
+   "net": "N080",
    "route_m": 0.0,
    "length_m": 0.2,
    "path": []
   },
   {
-   "id": "BUS-10",
+   "id": "BUS-09",
    "from": "BUS30",
-   "to": "F11.1",
+   "to": "F9.1",
    "sheet": "DEM",
    "mm2": null,
    "color": null,
@@ -4709,14 +4903,14 @@
    "internal": true,
    "drain": false,
    "note": "",
-   "net": "N075",
+   "net": "N074",
    "length_m": 0,
    "path": []
   },
   {
-   "id": "BUS-11",
+   "id": "BUS-10",
    "from": "BUS30",
-   "to": "F12.1",
+   "to": "F10.1",
    "sheet": "DEM",
    "mm2": null,
    "color": null,
@@ -4725,13 +4919,13 @@
    "internal": true,
    "drain": false,
    "note": "",
-   "net": "N075",
+   "net": "N074",
    "length_m": 0,
    "path": []
   },
   {
    "id": "DEM-01",
-   "from": "F11.2",
+   "from": "F9.2",
    "to": "KEY.30",
    "sheet": "DEM",
    "mm2": 0.75,
@@ -4741,8 +4935,8 @@
    "internal": false,
    "drain": false,
    "note": "Alimentation de l'interrupteur de contact",
-   "net": "N063",
-   "fuse": "F11",
+   "net": "N062",
+   "fuse": "F9",
    "route_m": 1.15,
    "length_m": 1.35,
    "path": [
@@ -4762,8 +4956,8 @@
    "internal": false,
    "drain": false,
    "note": "Bouton alimenté par le +15 : inactif contact coupé. Cosse gigogne (piggy-back) sur la borne 15 : ce fil et celui de K1",
-   "net": "N064",
-   "fuse": "F11",
+   "net": "N063",
+   "fuse": "F9",
    "route_m": 0.0,
    "length_m": 0.2,
    "path": []
@@ -4780,8 +4974,8 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N065",
-   "fuse": "F11",
+   "net": "N064",
+   "fuse": "F9",
    "route_m": 1.15,
    "length_m": 1.35,
    "path": [
@@ -4801,14 +4995,14 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N081",
+   "net": "N080",
    "route_m": 0.0,
    "length_m": 0.2,
    "path": []
   },
   {
    "id": "DEM-05",
-   "from": "F12.2",
+   "from": "F10.2",
    "to": "K4.30",
    "sheet": "DEM",
    "mm2": 2.5,
@@ -4818,8 +5012,8 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N080",
-   "fuse": "F12",
+   "net": "N079",
+   "fuse": "F10",
    "route_m": 0.0,
    "length_m": 0.2,
    "path": []
@@ -4836,8 +5030,8 @@
    "internal": false,
    "drain": false,
    "note": "Commande solénoïde : 2,5 mm² pour le courant d'appel",
-   "net": "N071",
-   "fuse": "F12",
+   "net": "N070",
+   "fuse": "F10",
    "route_m": 2.3,
    "length_m": 2.5,
    "path": [
@@ -4860,8 +5054,8 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N073",
-   "fuse": "F7",
+   "net": "N072",
+   "fuse": "F5",
    "route_m": 1.35,
    "length_m": 1.55,
    "path": [
@@ -4881,7 +5075,7 @@
    "internal": false,
    "drain": false,
    "note": "Excitation alternateur, traverse le tablier",
-   "net": "N072",
+   "net": "N071",
    "route_m": 3.755,
    "length_m": 3.95,
    "path": [
@@ -4911,7 +5105,7 @@
    "internal": false,
    "drain": false,
    "note": "Même point que CMC2 G4",
-   "net": "N036",
+   "net": "N037",
    "route_m": 1.7,
    "length_m": 1.9,
    "path": [
@@ -4934,7 +5128,7 @@
    "internal": false,
    "drain": false,
    "note": "Obligatoire — même point que CMC1 L4",
-   "net": "N036",
+   "net": "N037",
    "route_m": 1.7,
    "length_m": 1.9,
    "path": [
@@ -5063,7 +5257,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N007",
+   "net": "N008",
    "route_m": 1.891,
    "length_m": 2.1,
    "path": [
@@ -5087,7 +5281,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N008",
+   "net": "N009",
    "route_m": 1.8,
    "length_m": 2.0,
    "path": [
@@ -5109,8 +5303,8 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
-   "net": "N057",
+   "note": "Un seul fil du fusible jusqu'au-dessus des bobines, puis 6 dérivations courtes de 1 mm² : jamais 6 fils dans la même sortie de fusible",
+   "net": "N056",
    "fuse": "F2",
    "route_m": 2.032,
    "length_m": 2.2,
@@ -5136,7 +5330,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N057",
+   "net": "N056",
    "fuse": "F2",
    "route_m": 0.273,
    "length_m": 0.45,
@@ -5158,7 +5352,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N057",
+   "net": "N056",
    "fuse": "F2",
    "route_m": 0.182,
    "length_m": 0.35,
@@ -5179,7 +5373,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N057",
+   "net": "N056",
    "fuse": "F2",
    "route_m": 0.091,
    "length_m": 0.3,
@@ -5199,7 +5393,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N057",
+   "net": "N056",
    "fuse": "F2",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -5217,7 +5411,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N057",
+   "net": "N056",
    "fuse": "F2",
    "route_m": 0.091,
    "length_m": 0.3,
@@ -5237,7 +5431,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N057",
+   "net": "N056",
    "fuse": "F2",
    "route_m": 0.182,
    "length_m": 0.35,
@@ -5258,7 +5452,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N058",
+   "net": "N057",
    "route_m": 0.273,
    "length_m": 0.45,
    "path": [
@@ -5279,7 +5473,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N058",
+   "net": "N057",
    "route_m": 0.182,
    "length_m": 0.35,
    "path": [
@@ -5299,7 +5493,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N058",
+   "net": "N057",
    "route_m": 0.091,
    "length_m": 0.3,
    "path": [
@@ -5318,7 +5512,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N058",
+   "net": "N057",
    "route_m": 0.0,
    "length_m": 0.2,
    "path": []
@@ -5335,7 +5529,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N058",
+   "net": "N057",
    "route_m": 0.091,
    "length_m": 0.3,
    "path": [
@@ -5354,7 +5548,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N058",
+   "net": "N057",
    "route_m": 0.182,
    "length_m": 0.35,
    "path": [
@@ -5374,7 +5568,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N058",
+   "net": "N057",
    "route_m": 0.382,
    "length_m": 0.55,
    "path": [
@@ -5396,7 +5590,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N058",
+   "net": "N057",
    "route_m": 0.273,
    "length_m": 0.45,
    "path": [
@@ -5417,7 +5611,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N058",
+   "net": "N057",
    "route_m": 0.182,
    "length_m": 0.35,
    "path": [
@@ -5437,7 +5631,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N058",
+   "net": "N057",
    "route_m": 0.091,
    "length_m": 0.3,
    "path": [
@@ -5456,7 +5650,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N058",
+   "net": "N057",
    "route_m": 0.0,
    "length_m": 0.2,
    "path": []
@@ -5473,7 +5667,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N058",
+   "net": "N057",
    "route_m": 0.091,
    "length_m": 0.3,
    "path": [
@@ -5492,7 +5686,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N058",
+   "net": "N057",
    "route_m": 0.182,
    "length_m": 0.35,
    "path": [
@@ -5512,7 +5706,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N058",
+   "net": "N057",
    "route_m": 0.382,
    "length_m": 0.55,
    "path": [
@@ -5534,7 +5728,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N031",
+   "net": "N032",
    "route_m": 2.355,
    "length_m": 2.55,
    "path": [
@@ -5562,7 +5756,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N032",
+   "net": "N033",
    "route_m": 2.264,
    "length_m": 2.45,
    "path": [
@@ -5589,7 +5783,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N037",
+   "net": "N038",
    "route_m": 2.173,
    "length_m": 2.35,
    "path": [
@@ -5615,7 +5809,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N038",
+   "net": "N039",
    "route_m": 2.082,
    "length_m": 2.25,
    "path": [
@@ -5640,7 +5834,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N039",
+   "net": "N040",
    "route_m": 1.991,
    "length_m": 2.2,
    "path": [
@@ -5664,7 +5858,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N035",
+   "net": "N036",
    "route_m": 1.9,
    "length_m": 2.1,
    "path": [
@@ -5686,8 +5880,8 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
-   "net": "N056",
+   "note": "Un seul fil du fusible jusqu'à la rampe, puis 6 dérivations de 0,75 mm² vers les injecteurs",
+   "net": "N055",
    "fuse": "F3",
    "route_m": 2.132,
    "length_m": 2.3,
@@ -5713,7 +5907,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N056",
+   "net": "N055",
    "fuse": "F3",
    "route_m": 0.273,
    "length_m": 0.45,
@@ -5735,7 +5929,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N056",
+   "net": "N055",
    "fuse": "F3",
    "route_m": 0.182,
    "length_m": 0.35,
@@ -5756,7 +5950,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N056",
+   "net": "N055",
    "fuse": "F3",
    "route_m": 0.091,
    "length_m": 0.3,
@@ -5776,7 +5970,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N056",
+   "net": "N055",
    "fuse": "F3",
    "route_m": 0.0,
    "length_m": 0.2,
@@ -5794,7 +5988,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N056",
+   "net": "N055",
    "fuse": "F3",
    "route_m": 0.091,
    "length_m": 0.3,
@@ -5814,7 +6008,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N056",
+   "net": "N055",
    "fuse": "F3",
    "route_m": 0.182,
    "length_m": 0.35,
@@ -5835,7 +6029,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N025",
+   "net": "N026",
    "route_m": 2.905,
    "length_m": 3.1,
    "path": [
@@ -5865,7 +6059,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N024",
+   "net": "N025",
    "route_m": 2.905,
    "length_m": 3.1,
    "path": [
@@ -5894,9 +6088,9 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "+12 V capteur PMH pris sur F5 (épissure actionneurs, arrière culasse) : fil séparé, hors câble blindé ; 0,75 mm² derrière un fusible de 10 A",
+   "note": "+12 V capteur PMH pris sur F4 (épissure actionneurs, arrière culasse) : fil séparé, hors câble blindé ; 0,75 mm² derrière un fusible de 10 A",
    "net": "N054",
-   "fuse": "F5",
+   "fuse": "F4",
    "route_m": 1.255,
    "length_m": 1.45,
    "path": [
@@ -5922,7 +6116,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N026",
+   "net": "N027",
    "route_m": 2.575,
    "length_m": 2.75,
    "path": [
@@ -5952,7 +6146,7 @@
    "internal": false,
    "drain": false,
    "note": "CORRIGÉ : retour AAC sur VR GND (H2), pas sur Sensor GND",
-   "net": "N024",
+   "net": "N025",
    "route_m": 2.575,
    "length_m": 2.75,
    "path": [
@@ -5982,7 +6176,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N024",
+   "net": "N025",
    "route_m": 0.0,
    "length_m": 0.2,
    "path": []
@@ -5999,7 +6193,7 @@
    "internal": false,
    "drain": true,
    "note": "",
-   "net": "N014",
+   "net": "N015",
    "length_m": 0,
    "path": []
   },
@@ -6015,7 +6209,7 @@
    "internal": false,
    "drain": true,
    "note": "",
-   "net": "N014",
+   "net": "N015",
    "length_m": 0,
    "path": []
   },
@@ -6031,7 +6225,7 @@
    "internal": false,
    "drain": true,
    "note": "Seulement si la broche 3 est isolée du corps du capteur",
-   "net": "N014",
+   "net": "N015",
    "length_m": 0,
    "path": []
   },
@@ -6047,7 +6241,7 @@
    "internal": false,
    "drain": false,
    "note": "Blindages reliés côté ECU uniquement",
-   "net": "N014",
+   "net": "N015",
    "route_m": 0.0,
    "length_m": 0.2,
    "path": []
@@ -6064,7 +6258,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N019",
+   "net": "N020",
    "route_m": 0.0,
    "length_m": 0.2,
    "path": []
@@ -6081,7 +6275,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N019",
+   "net": "N020",
    "route_m": 1.65,
    "length_m": 1.85,
    "path": [
@@ -6103,7 +6297,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N019",
+   "net": "N020",
    "route_m": 0.923,
    "length_m": 1.1,
    "path": [
@@ -6126,7 +6320,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N019",
+   "net": "N020",
    "route_m": 0.45,
    "length_m": 0.65,
    "path": [
@@ -6146,7 +6340,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N023",
+   "net": "N024",
    "route_m": 0.0,
    "length_m": 0.2,
    "path": []
@@ -6163,7 +6357,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N023",
+   "net": "N024",
    "route_m": 1.65,
    "length_m": 1.85,
    "path": [
@@ -6185,7 +6379,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N023",
+   "net": "N024",
    "route_m": 1.155,
    "length_m": 1.35,
    "path": [
@@ -6211,7 +6405,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N023",
+   "net": "N024",
    "route_m": 0.955,
    "length_m": 1.15,
    "path": [
@@ -6237,7 +6431,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N023",
+   "net": "N024",
    "route_m": 0.923,
    "length_m": 1.1,
    "path": [
@@ -6260,7 +6454,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N023",
+   "net": "N024",
    "route_m": 0.45,
    "length_m": 0.65,
    "path": [
@@ -6280,7 +6474,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N016",
+   "net": "N017",
    "route_m": 2.805,
    "length_m": 3.0,
    "path": [
@@ -6310,7 +6504,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N015",
+   "net": "N016",
    "route_m": 2.605,
    "length_m": 2.8,
    "path": [
@@ -6340,7 +6534,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N027",
+   "net": "N028",
    "route_m": 2.573,
    "length_m": 2.75,
    "path": [
@@ -6367,7 +6561,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N046",
+   "net": "N047",
    "route_m": 2.573,
    "length_m": 2.75,
    "path": [
@@ -6394,7 +6588,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N028",
+   "net": "N029",
    "route_m": 2.1,
    "length_m": 2.3,
    "path": [
@@ -6418,7 +6612,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N047",
+   "net": "N048",
    "route_m": 2.1,
    "length_m": 2.3,
    "path": [
@@ -6442,7 +6636,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N019",
+   "net": "N020",
    "route_m": 0.955,
    "length_m": 1.15,
    "path": [
@@ -6467,7 +6661,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N023",
+   "net": "N024",
    "route_m": 0.955,
    "length_m": 1.15,
    "path": [
@@ -6492,7 +6686,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N020",
+   "net": "N021",
    "route_m": 2.605,
    "length_m": 2.8,
    "path": [
@@ -6521,7 +6715,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N029",
+   "net": "N030",
    "route_m": 2.605,
    "length_m": 2.8,
    "path": [
@@ -6608,7 +6802,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N023",
+   "net": "N024",
    "route_m": 1.2,
    "length_m": 1.4,
    "path": [
@@ -6628,7 +6822,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N023",
+   "net": "N024",
    "route_m": 1.2,
    "length_m": 1.4,
    "path": [
@@ -6648,7 +6842,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N019",
+   "net": "N020",
    "route_m": 1.2,
    "length_m": 1.4,
    "path": [
@@ -6668,7 +6862,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N030",
+   "net": "N031",
    "route_m": 1.2,
    "length_m": 1.4,
    "path": [
@@ -6688,7 +6882,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N019",
+   "net": "N020",
    "route_m": 1.2,
    "length_m": 1.4,
    "path": [
@@ -6728,7 +6922,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N021",
+   "net": "N022",
    "route_m": 1.75,
    "length_m": 1.95,
    "path": [
@@ -6751,7 +6945,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N017",
+   "net": "N018",
    "route_m": 1.75,
    "length_m": 1.95,
    "path": [
@@ -6774,7 +6968,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N022",
+   "net": "N023",
    "route_m": 1.75,
    "length_m": 1.95,
    "path": [
@@ -6797,7 +6991,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N018",
+   "net": "N019",
    "route_m": 1.75,
    "length_m": 1.95,
    "path": [
@@ -6820,7 +7014,7 @@
    "internal": false,
    "drain": true,
    "note": "",
-   "net": "N014",
+   "net": "N015",
    "length_m": 0,
    "path": []
   },
@@ -6836,7 +7030,7 @@
    "internal": false,
    "drain": false,
    "note": "Chauffage − piloté par GPO9 (5 A). Alvéole CP 0.6 : 0,75 mm² maxi (contact Molex 64322-1029)",
-   "net": "N010",
+   "net": "N011",
    "route_m": 1.75,
    "length_m": 1.95,
    "path": [
@@ -6849,24 +7043,22 @@
   },
   {
    "id": "WBO-06",
-   "from": "F4.2",
+   "from": "SPL-ACT12",
    "to": "LSU.4",
    "sheet": "WBO",
-   "mm2": 1.0,
+   "mm2": 0.75,
    "color": "RD/WH",
    "cable": null,
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "",
-   "net": "N055",
+   "note": "+12 V chauffage lambda pris sur l'épissure actionneurs (même fusible que VANOS, MAC et PMH) ; 0,75 mm² derrière un fusible de 10 A",
+   "net": "N054",
    "fuse": "F4",
-   "route_m": 1.8,
-   "length_m": 2.0,
+   "route_m": 1.5,
+   "length_m": 1.7,
    "path": [
-    "PDM~HB",
-    "HB~FW",
-    "FW~T0",
+    "T0~T1",
     "T0~EXH",
     "EXH~N_LSU"
    ]
@@ -6883,7 +7075,7 @@
    "internal": false,
    "drain": false,
    "note": "Conducteur K+ (jaune en norme ANSI, vert en IEC)",
-   "net": "N041",
+   "net": "N042",
    "route_m": 2.0,
    "length_m": 2.2,
    "path": [
@@ -6907,7 +7099,7 @@
    "internal": false,
    "drain": false,
    "note": "Conducteur K− (rouge en norme ANSI, blanc en IEC)",
-   "net": "N042",
+   "net": "N043",
    "route_m": 2.0,
    "length_m": 2.2,
    "path": [
@@ -6931,7 +7123,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N044",
+   "net": "N045",
    "route_m": 2.514,
    "length_m": 2.7,
    "path": [
@@ -6959,7 +7151,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N043",
+   "net": "N044",
    "route_m": 2.514,
    "length_m": 2.7,
    "path": [
@@ -6987,7 +7179,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N045",
+   "net": "N046",
    "route_m": 2.241,
    "length_m": 2.45,
    "path": [
@@ -7012,7 +7204,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N043",
+   "net": "N044",
    "route_m": 2.241,
    "length_m": 2.45,
    "path": [
@@ -7037,7 +7229,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N043",
+   "net": "N044",
    "route_m": 0.0,
    "length_m": 0.2,
    "path": []
@@ -7054,7 +7246,7 @@
    "internal": false,
    "drain": true,
    "note": "",
-   "net": "N043",
+   "net": "N044",
    "length_m": 0,
    "path": []
   },
@@ -7070,7 +7262,7 @@
    "internal": false,
    "drain": true,
    "note": "",
-   "net": "N043",
+   "net": "N044",
    "length_m": 0,
    "path": []
   },
@@ -7116,7 +7308,7 @@
    "internal": false,
    "drain": false,
    "note": "GPO3 = VANOS en direct (préconisation MaxxECU M50)",
-   "net": "N011",
+   "net": "N012",
    "route_m": 2.555,
    "length_m": 2.75,
    "path": [
@@ -7136,7 +7328,7 @@
   },
   {
    "id": "ACT-03",
-   "from": "F5.2",
+   "from": "F4.2",
    "to": "SPL-ACT12",
    "sheet": "ACT",
    "mm2": 1.0,
@@ -7147,7 +7339,7 @@
    "drain": false,
    "note": "",
    "net": "N054",
-   "fuse": "F5",
+   "fuse": "F4",
    "route_m": 1.7,
    "length_m": 1.9,
    "path": [
@@ -7170,7 +7362,7 @@
    "drain": false,
    "note": "",
    "net": "N054",
-   "fuse": "F5",
+   "fuse": "F4",
    "route_m": 1.305,
    "length_m": 1.5,
    "path": [
@@ -7197,7 +7389,7 @@
    "drain": false,
    "note": "",
    "net": "N054",
-   "fuse": "F5",
+   "fuse": "F4",
    "route_m": 0.905,
    "length_m": 1.1,
    "path": [
@@ -7223,7 +7415,7 @@
    "internal": false,
    "drain": false,
    "note": "GPO2 = pompe",
-   "net": "N009",
+   "net": "N010",
    "route_m": 0.45,
    "length_m": 0.65,
    "path": [
@@ -7253,7 +7445,7 @@
   },
   {
    "id": "RLY-03",
-   "from": "F7.2",
+   "from": "F5.2",
    "to": "SPL-RLY",
    "sheet": "RLY",
    "mm2": 0.5,
@@ -7263,8 +7455,8 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N073",
-   "fuse": "F7",
+   "net": "N072",
+   "fuse": "F5",
    "route_m": 0.0,
    "length_m": 0.2,
    "path": []
@@ -7281,8 +7473,8 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N073",
-   "fuse": "F7",
+   "net": "N072",
+   "fuse": "F5",
    "route_m": 0.0,
    "length_m": 0.2,
    "path": []
@@ -7299,15 +7491,15 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N073",
-   "fuse": "F7",
+   "net": "N072",
+   "fuse": "F5",
    "route_m": 0.0,
    "length_m": 0.2,
    "path": []
   },
   {
    "id": "RLY-06",
-   "from": "F8.2",
+   "from": "F6.2",
    "to": "K2.30",
    "sheet": "RLY",
    "mm2": 2.5,
@@ -7317,15 +7509,15 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N078",
-   "fuse": "F8",
+   "net": "N076",
+   "fuse": "F6",
    "route_m": 0.0,
    "length_m": 0.2,
    "path": []
   },
   {
    "id": "RLY-07",
-   "from": "F9.2",
+   "from": "F7.2",
    "to": "K3.30",
    "sheet": "RLY",
    "mm2": 2.5,
@@ -7334,9 +7526,9 @@
    "harness": "PDM",
    "internal": false,
    "drain": false,
-   "note": "2,5 mm² : maximum accepté par les sorties Metri-Pack 280 de la boîte à fusibles (30 A → 2,5 mm² mini)",
-   "net": "N079",
-   "fuse": "F9",
+   "note": "2,5 mm² mini derrière un fusible de 30 A : vérifier que la sortie de ta boîte à fusibles accepte cette section",
+   "net": "N077",
+   "fuse": "F7",
    "route_m": 0.0,
    "length_m": 0.2,
    "path": []
@@ -7353,8 +7545,8 @@
    "internal": false,
    "drain": false,
    "note": "4 mm² pour limiter la chute de tension sur 3 m (débit pompe)",
-   "net": "N059",
-   "fuse": "F8",
+   "net": "N058",
+   "fuse": "F6",
    "route_m": 3.0,
    "length_m": 3.2,
    "path": [
@@ -7373,7 +7565,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N060",
+   "net": "N059",
    "route_m": 0.0,
    "length_m": 0.2,
    "path": []
@@ -7390,8 +7582,8 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N061",
-   "fuse": "F9",
+   "net": "N060",
+   "fuse": "F7",
    "route_m": 2.1,
    "length_m": 2.3,
    "path": [
@@ -7413,7 +7605,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N062",
+   "net": "N061",
    "route_m": 0.0,
    "length_m": 0.2,
    "path": []
@@ -7421,7 +7613,7 @@
   {
    "id": "COM-01",
    "from": "PAD.C4",
-   "to": "IF-PAD.1",
+   "to": "K5.86",
    "sheet": "COM",
    "mm2": 0.5,
    "color": "VT/RD",
@@ -7429,20 +7621,19 @@
    "harness": "CAB",
    "internal": false,
    "drain": false,
-   "note": "Bouton 4 : ventilation forcée (fusible du pad 5 A maxi)",
-   "net": "N066",
-   "route_m": 0.95,
-   "length_m": 1.15,
+   "note": "Bouton 4 : ventilation forcée → bobine de K5 (fusible du pad 5 A maxi)",
+   "net": "N065",
+   "route_m": 0.85,
+   "length_m": 1.05,
    "path": [
     "HB~CAB_PAD",
-    "ECU~HB",
-    "ECU~N_IFPAD"
+    "PDM~HB"
    ]
   },
   {
    "id": "COM-02",
    "from": "PAD.C5",
-   "to": "IF-PAD.2",
+   "to": "K6.86",
    "sheet": "COM",
    "mm2": 0.5,
    "color": "VT/OG",
@@ -7450,20 +7641,19 @@
    "harness": "CAB",
    "internal": false,
    "drain": false,
-   "note": "Bouton 5 : changement de carto (fusible du pad 5 A maxi)",
-   "net": "N067",
-   "route_m": 0.95,
-   "length_m": 1.15,
+   "note": "Bouton 5 : changement de carto → bobine de K6 (fusible du pad 5 A maxi)",
+   "net": "N066",
+   "route_m": 0.85,
+   "length_m": 1.05,
    "path": [
     "HB~CAB_PAD",
-    "ECU~HB",
-    "ECU~N_IFPAD"
+    "PDM~HB"
    ]
   },
   {
    "id": "COM-03",
    "from": "PAD.C6",
-   "to": "IF-PAD.3",
+   "to": "K7.86",
    "sheet": "COM",
    "mm2": 0.5,
    "color": "VT/GY",
@@ -7471,20 +7661,19 @@
    "harness": "CAB",
    "internal": false,
    "drain": false,
-   "note": "Bouton 6 : ALS off (fusible du pad 5 A maxi)",
-   "net": "N068",
-   "route_m": 0.95,
-   "length_m": 1.15,
+   "note": "Bouton 6 : ALS off → bobine de K7 (fusible du pad 5 A maxi)",
+   "net": "N067",
+   "route_m": 0.85,
+   "length_m": 1.05,
    "path": [
     "HB~CAB_PAD",
-    "ECU~HB",
-    "ECU~N_IFPAD"
+    "PDM~HB"
    ]
   },
   {
    "id": "COM-04",
    "from": "PAD.C7",
-   "to": "IF-PAD.4",
+   "to": "K8.86",
    "sheet": "COM",
    "mm2": 0.5,
    "color": "VT/PK",
@@ -7492,20 +7681,19 @@
    "harness": "CAB",
    "internal": false,
    "drain": false,
-   "note": "Bouton 7 : carto de chauffe (fusible du pad 5 A maxi)",
-   "net": "N069",
-   "route_m": 0.95,
-   "length_m": 1.15,
+   "note": "Bouton 7 : carto de chauffe → bobine de K8 (fusible du pad 5 A maxi)",
+   "net": "N068",
+   "route_m": 0.85,
+   "length_m": 1.05,
    "path": [
     "HB~CAB_PAD",
-    "ECU~HB",
-    "ECU~N_IFPAD"
+    "PDM~HB"
    ]
   },
   {
    "id": "COM-05",
    "from": "PAD.C8",
-   "to": "IF-PAD.5",
+   "to": "K9.86",
    "sheet": "COM",
    "mm2": 0.5,
    "color": "VT/WH",
@@ -7513,132 +7701,324 @@
    "harness": "CAB",
    "internal": false,
    "drain": false,
-   "note": "Bouton 8 : arrêt moteur (fusible du pad 5 A maxi)",
-   "net": "N070",
-   "route_m": 0.95,
-   "length_m": 1.15,
+   "note": "Bouton 8 : arrêt moteur → bobine de K9 (fusible du pad 5 A maxi)",
+   "net": "N069",
+   "route_m": 0.85,
+   "length_m": 1.05,
    "path": [
     "HB~CAB_PAD",
-    "ECU~HB",
-    "ECU~N_IFPAD"
+    "PDM~HB"
    ]
   },
   {
    "id": "COM-06",
-   "from": "IF-PAD.6",
-   "to": "CMC2.F2",
+   "from": "K5.30",
+   "to": "CMC1.C1",
    "sheet": "COM",
    "mm2": 0.5,
    "color": "WH/YE",
    "cable": null,
-   "harness": "CAB",
+   "harness": "PDM",
    "internal": false,
    "drain": false,
-   "note": "AIN8 en entrée digitale (seuil 3,0 V) = ventilation forcée (Fan override input)",
-   "net": "N048",
-   "route_m": 0.15,
-   "length_m": 0.35,
+   "note": "DIN3 = ventilation forcée (Fan override input) ; relais collé = entrée à la masse, pull-up activé",
+   "net": "N007",
+   "route_m": 0.45,
+   "length_m": 0.65,
    "path": [
-    "ECU~N_IFPAD"
+    "PDM~HB",
+    "ECU~HB"
    ]
   },
   {
    "id": "COM-07",
-   "from": "IF-PAD.7",
+   "from": "K6.30",
    "to": "CMC1.K3",
    "sheet": "COM",
    "mm2": 0.5,
    "color": "WH/RD",
    "cable": null,
-   "harness": "CAB",
+   "harness": "PDM",
    "internal": false,
    "drain": false,
-   "note": "DIN1 = changement de carto (Boost target switch (use table 2)), pull-up OFF",
-   "net": "N033",
-   "route_m": 0.15,
-   "length_m": 0.35,
+   "note": "DIN1 = changement de carto (Boost target switch (use table 2)) ; relais collé = entrée à la masse, pull-up activé",
+   "net": "N034",
+   "route_m": 0.45,
+   "length_m": 0.65,
    "path": [
-    "ECU~N_IFPAD"
+    "PDM~HB",
+    "ECU~HB"
    ]
   },
   {
    "id": "COM-08",
-   "from": "IF-PAD.8",
+   "from": "K7.30",
    "to": "CMC1.K4",
    "sheet": "COM",
    "mm2": 0.5,
    "color": "WH/OG",
    "cable": null,
-   "harness": "CAB",
+   "harness": "PDM",
    "internal": false,
    "drain": false,
-   "note": "DIN2 = ALS off (Anti-lag enable, actif bas), pull-up OFF",
-   "net": "N034",
-   "route_m": 0.15,
-   "length_m": 0.35,
+   "note": "DIN2 = ALS off (Anti-lag enable) ; relais collé = entrée à la masse, pull-up activé",
+   "net": "N035",
+   "route_m": 0.45,
+   "length_m": 0.65,
    "path": [
-    "ECU~N_IFPAD"
+    "PDM~HB",
+    "ECU~HB"
    ]
   },
   {
    "id": "COM-09",
-   "from": "IF-PAD.9",
+   "from": "K8.30",
    "to": "CMC2.F3",
    "sheet": "COM",
    "mm2": 0.5,
    "color": "WH/GY",
    "cable": null,
-   "harness": "CAB",
+   "harness": "PDM",
    "internal": false,
    "drain": false,
-   "note": "DIN4 = carto de chauffe (Internal output → limiteur secondaire), pull-up OFF",
+   "note": "DIN4 = carto de chauffe (Internal output → limiteur secondaire) ; relais collé = entrée à la masse, pull-up activé",
    "net": "N049",
-   "route_m": 0.15,
-   "length_m": 0.35,
+   "route_m": 0.45,
+   "length_m": 0.65,
    "path": [
-    "ECU~N_IFPAD"
+    "PDM~HB",
+    "ECU~HB"
    ]
   },
   {
    "id": "COM-10",
-   "from": "IF-PAD.10",
+   "from": "K9.30",
    "to": "CMC2.F4",
    "sheet": "COM",
    "mm2": 0.5,
    "color": "WH/PK",
    "cable": null,
-   "harness": "CAB",
+   "harness": "PDM",
    "internal": false,
    "drain": false,
-   "note": "DIN5 = arrêt moteur (Stop engine/prevent start), pull-up OFF",
+   "note": "DIN5 = arrêt moteur (Stop engine/prevent start) ; relais collé = entrée à la masse, pull-up activé",
    "net": "N050",
-   "route_m": 0.15,
-   "length_m": 0.35,
+   "route_m": 0.45,
+   "length_m": 0.65,
    "path": [
-    "ECU~N_IFPAD"
+    "PDM~HB",
+    "ECU~HB"
    ]
   },
   {
    "id": "COM-11",
-   "from": "SPL-SG-MAIN",
-   "to": "IF-PAD.11",
+   "from": "K5.87",
+   "to": "SPL-SG-PAD",
    "sheet": "COM",
    "mm2": 0.5,
    "color": "BN",
    "cable": null,
-   "harness": "CAB",
+   "harness": "PDM",
    "internal": false,
    "drain": false,
-   "note": "Rappels à la masse sur Sensor GND (référence de l'ECU), jamais à la caisse",
-   "net": "N023",
-   "route_m": 0.15,
-   "length_m": 0.35,
-   "path": [
-    "ECU~N_IFPAD"
-   ]
+   "note": "",
+   "net": "N024",
+   "route_m": 0.0,
+   "length_m": 0.2,
+   "path": []
   },
   {
    "id": "COM-12",
+   "from": "K6.87",
+   "to": "SPL-SG-PAD",
+   "sheet": "COM",
+   "mm2": 0.5,
+   "color": "BN",
+   "cable": null,
+   "harness": "PDM",
+   "internal": false,
+   "drain": false,
+   "note": "",
+   "net": "N024",
+   "route_m": 0.0,
+   "length_m": 0.2,
+   "path": []
+  },
+  {
+   "id": "COM-13",
+   "from": "K7.87",
+   "to": "SPL-SG-PAD",
+   "sheet": "COM",
+   "mm2": 0.5,
+   "color": "BN",
+   "cable": null,
+   "harness": "PDM",
+   "internal": false,
+   "drain": false,
+   "note": "",
+   "net": "N024",
+   "route_m": 0.0,
+   "length_m": 0.2,
+   "path": []
+  },
+  {
+   "id": "COM-14",
+   "from": "K8.87",
+   "to": "SPL-SG-PAD",
+   "sheet": "COM",
+   "mm2": 0.5,
+   "color": "BN",
+   "cable": null,
+   "harness": "PDM",
+   "internal": false,
+   "drain": false,
+   "note": "",
+   "net": "N024",
+   "route_m": 0.0,
+   "length_m": 0.2,
+   "path": []
+  },
+  {
+   "id": "COM-15",
+   "from": "K9.87",
+   "to": "SPL-SG-PAD",
+   "sheet": "COM",
+   "mm2": 0.5,
+   "color": "BN",
+   "cable": null,
+   "harness": "PDM",
+   "internal": false,
+   "drain": false,
+   "note": "",
+   "net": "N024",
+   "route_m": 0.0,
+   "length_m": 0.2,
+   "path": []
+  },
+  {
+   "id": "COM-16",
+   "from": "SPL-SG-PAD",
+   "to": "SPL-SG-MAIN",
+   "sheet": "COM",
+   "mm2": 0.5,
+   "color": "BN",
+   "cable": null,
+   "harness": "PDM",
+   "internal": false,
+   "drain": false,
+   "note": "Masse capteurs (fil marron du plan MaxxECU), jamais à la caisse",
+   "net": "N024",
+   "route_m": 0.45,
+   "length_m": 0.65,
+   "path": [
+    "PDM~HB",
+    "ECU~HB"
+   ]
+  },
+  {
+   "id": "COM-17",
+   "from": "K5.85",
+   "to": "SPL-GND-PAD",
+   "sheet": "COM",
+   "mm2": 0.5,
+   "color": "BK",
+   "cable": null,
+   "harness": "PDM",
+   "internal": false,
+   "drain": false,
+   "note": "",
+   "net": "N080",
+   "route_m": 0.0,
+   "length_m": 0.2,
+   "path": []
+  },
+  {
+   "id": "COM-18",
+   "from": "K6.85",
+   "to": "SPL-GND-PAD",
+   "sheet": "COM",
+   "mm2": 0.5,
+   "color": "BK",
+   "cable": null,
+   "harness": "PDM",
+   "internal": false,
+   "drain": false,
+   "note": "",
+   "net": "N080",
+   "route_m": 0.0,
+   "length_m": 0.2,
+   "path": []
+  },
+  {
+   "id": "COM-19",
+   "from": "K7.85",
+   "to": "SPL-GND-PAD",
+   "sheet": "COM",
+   "mm2": 0.5,
+   "color": "BK",
+   "cable": null,
+   "harness": "PDM",
+   "internal": false,
+   "drain": false,
+   "note": "",
+   "net": "N080",
+   "route_m": 0.0,
+   "length_m": 0.2,
+   "path": []
+  },
+  {
+   "id": "COM-20",
+   "from": "K8.85",
+   "to": "SPL-GND-PAD",
+   "sheet": "COM",
+   "mm2": 0.5,
+   "color": "BK",
+   "cable": null,
+   "harness": "PDM",
+   "internal": false,
+   "drain": false,
+   "note": "",
+   "net": "N080",
+   "route_m": 0.0,
+   "length_m": 0.2,
+   "path": []
+  },
+  {
+   "id": "COM-21",
+   "from": "K9.85",
+   "to": "SPL-GND-PAD",
+   "sheet": "COM",
+   "mm2": 0.5,
+   "color": "BK",
+   "cable": null,
+   "harness": "PDM",
+   "internal": false,
+   "drain": false,
+   "note": "",
+   "net": "N080",
+   "route_m": 0.0,
+   "length_m": 0.2,
+   "path": []
+  },
+  {
+   "id": "COM-22",
+   "from": "SPL-GND-PAD",
+   "to": "GP-CH",
+   "sheet": "COM",
+   "mm2": 0.75,
+   "color": "BK",
+   "cable": null,
+   "harness": "PDM",
+   "internal": false,
+   "drain": false,
+   "note": "",
+   "net": "N080",
+   "route_m": 0.0,
+   "length_m": 0.2,
+   "path": []
+  },
+  {
+   "id": "COM-23",
    "from": "CMC1.E1",
    "to": "CANDEV.H",
    "sheet": "COM",
@@ -7649,7 +8029,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N012",
+   "net": "N013",
    "route_m": 1.3,
    "length_m": 1.5,
    "path": [
@@ -7658,7 +8038,7 @@
    ]
   },
   {
-   "id": "COM-13",
+   "id": "COM-24",
    "from": "CMC1.E2",
    "to": "CANDEV.L",
    "sheet": "COM",
@@ -7669,7 +8049,7 @@
    "internal": false,
    "drain": false,
    "note": "",
-   "net": "N013",
+   "net": "N014",
    "route_m": 1.3,
    "length_m": 1.5,
    "path": [
@@ -7683,15 +8063,16 @@
    "id": "N054",
    "members": [
     "CRANK.1",
-    "F5.2",
+    "F4.2",
+    "LSU.4",
     "MAC.1",
     "SPL-ACT12",
     "VANOS.1"
    ],
-   "name": "+12 V actionneurs + capteur PMH"
+   "name": "+12 V VANOS, MAC, capteur PMH et chauffage lambda"
   },
   {
-   "id": "N057",
+   "id": "N056",
    "members": [
     "COIL1.1",
     "COIL2.1",
@@ -7705,18 +8086,18 @@
    "name": "+12 V bobines"
   },
   {
-   "id": "N073",
+   "id": "N072",
    "members": [
-    "F7.2",
+    "F5.2",
     "K2.86",
     "K3.86",
     "LAMP.1",
     "SPL-RLY"
    ],
-   "name": "+12 V bobines relais"
+   "name": "+12 V bobines K2 / K3 et voyant de charge"
   },
   {
-   "id": "N056",
+   "id": "N055",
    "members": [
     "F3.2",
     "INJ1.1",
@@ -7730,7 +8111,7 @@
    "name": "+12 V injecteurs"
   },
   {
-   "id": "N072",
+   "id": "N071",
    "members": [
     "ALT.D+",
     "LAMP.2"
@@ -7738,7 +8119,7 @@
    "name": "ALT.D+"
   },
   {
-   "id": "N074",
+   "id": "N073",
    "members": [
     "BATT.+",
     "F0.1"
@@ -7746,7 +8127,7 @@
    "name": "BATT.+"
   },
   {
-   "id": "N077",
+   "id": "N075",
    "members": [
     "BUS87",
     "F1.1",
@@ -7754,21 +8135,20 @@
     "F3.1",
     "F4.1",
     "F5.1",
-    "F7.1",
     "K1.87"
    ],
    "name": "Barrette +12 V commuté (relais principal)"
   },
   {
-   "id": "N075",
+   "id": "N074",
    "members": [
     "BUS30",
     "F0.2",
+    "F6.1",
+    "F7.1",
     "F8.1",
     "F9.1",
-    "F10.1",
-    "F11.1",
-    "F12.1"
+    "F10.1"
    ],
    "name": "Barrette +12 V permanent"
   },
@@ -7823,13 +8203,21 @@
   {
    "id": "N007",
    "members": [
+    "CMC1.C1",
+    "K5.30"
+   ],
+   "name": "CMC1.C1 DIGITAL IN 3 (GP OUT 7 déclaré en entrée)"
+  },
+  {
+   "id": "N008",
+   "members": [
     "CMC1.C2",
     "COIL5.3"
    ],
    "name": "CMC1.C2 IGNITION CYL 5"
   },
   {
-   "id": "N008",
+   "id": "N009",
    "members": [
     "CMC1.C3",
     "COIL6.3"
@@ -7837,7 +8225,7 @@
    "name": "CMC1.C3 IGNITION CYL 6"
   },
   {
-   "id": "N009",
+   "id": "N010",
    "members": [
     "CMC1.C4",
     "K2.85"
@@ -7845,7 +8233,7 @@
    "name": "CMC1.C4 GP OUT 2"
   },
   {
-   "id": "N010",
+   "id": "N011",
    "members": [
     "CMC1.D1",
     "LSU.3"
@@ -7853,7 +8241,7 @@
    "name": "CMC1.D1 WBO2 HTR (pin 3 LSU 4.9) / GP OUT 9"
   },
   {
-   "id": "N011",
+   "id": "N012",
    "members": [
     "CMC1.D4",
     "VANOS.2"
@@ -7861,7 +8249,7 @@
    "name": "CMC1.D4 GP OUT 3"
   },
   {
-   "id": "N012",
+   "id": "N013",
    "members": [
     "CANDEV.H",
     "CMC1.E1"
@@ -7869,7 +8257,7 @@
    "name": "CMC1.E1 CAN H (120 Ω intégrée)"
   },
   {
-   "id": "N013",
+   "id": "N014",
    "members": [
     "CANDEV.L",
     "CMC1.E2"
@@ -7877,7 +8265,7 @@
    "name": "CMC1.E2 CAN L"
   },
   {
-   "id": "N014",
+   "id": "N015",
    "members": [
     "C-CAM.SH",
     "C-CRANK.SH",
@@ -7889,7 +8277,7 @@
    "name": "CMC1.E3 SHIELD GND"
   },
   {
-   "id": "N015",
+   "id": "N016",
    "members": [
     "CLT.1",
     "CMC1.F1"
@@ -7897,7 +8285,7 @@
    "name": "CMC1.F1 COOLANT SENSOR (CLT)"
   },
   {
-   "id": "N016",
+   "id": "N017",
    "members": [
     "CMC1.F2",
     "IAT.1"
@@ -7905,7 +8293,7 @@
    "name": "CMC1.F2 AIR TEMP SENSOR (IAT)"
   },
   {
-   "id": "N017",
+   "id": "N018",
    "members": [
     "CMC1.F3",
     "LSU.2"
@@ -7913,7 +8301,7 @@
    "name": "CMC1.F3 WBO2 COM"
   },
   {
-   "id": "N018",
+   "id": "N019",
    "members": [
     "CMC1.F4",
     "LSU.6"
@@ -7921,7 +8309,7 @@
    "name": "CMC1.F4 WBO2 VS / O2 IN"
   },
   {
-   "id": "N019",
+   "id": "N020",
    "members": [
     "APP.3",
     "APP.5",
@@ -7935,7 +8323,7 @@
    "name": "CMC1.G1 +5 V SENSOR SUPPLY"
   },
   {
-   "id": "N020",
+   "id": "N021",
    "members": [
     "CMC1.G2",
     "ETB.1"
@@ -7943,7 +8331,7 @@
    "name": "CMC1.G2 THROTTLE SENSOR (TPS)"
   },
   {
-   "id": "N021",
+   "id": "N022",
    "members": [
     "CMC1.G3",
     "LSU.1"
@@ -7951,7 +8339,7 @@
    "name": "CMC1.G3 WBO2 IP"
   },
   {
-   "id": "N022",
+   "id": "N023",
    "members": [
     "CMC1.G4",
     "LSU.5"
@@ -7959,7 +8347,7 @@
    "name": "CMC1.G4 WBO2 RCAL"
   },
   {
-   "id": "N023",
+   "id": "N024",
    "members": [
     "APP.1",
     "APP.2",
@@ -7968,15 +8356,20 @@
     "ETB.6",
     "FUEL.4",
     "IAT.2",
-    "IF-PAD.11",
+    "K5.87",
+    "K6.87",
+    "K7.87",
+    "K8.87",
+    "K9.87",
     "OIL.4",
     "SPL-SG-ENG",
-    "SPL-SG-MAIN"
+    "SPL-SG-MAIN",
+    "SPL-SG-PAD"
    ],
    "name": "CMC1.H1 SENSOR GND"
   },
   {
-   "id": "N024",
+   "id": "N025",
    "members": [
     "CAM.2",
     "CMC1.H2",
@@ -7986,7 +8379,7 @@
    "name": "CMC1.H2 VR GND"
   },
   {
-   "id": "N025",
+   "id": "N026",
    "members": [
     "CMC1.H3",
     "CRANK.2"
@@ -7994,7 +8387,7 @@
    "name": "CMC1.H3 TRIGGER"
   },
   {
-   "id": "N026",
+   "id": "N027",
    "members": [
     "CAM.1",
     "CMC1.H4"
@@ -8002,7 +8395,7 @@
    "name": "CMC1.H4 HOME / CAM"
   },
   {
-   "id": "N027",
+   "id": "N028",
    "members": [
     "CMC1.J1",
     "OIL.5"
@@ -8010,7 +8403,7 @@
    "name": "CMC1.J1 ANALOG IN 1 (TEMP)"
   },
   {
-   "id": "N028",
+   "id": "N029",
    "members": [
     "CMC1.J2",
     "FUEL.5"
@@ -8018,7 +8411,7 @@
    "name": "CMC1.J2 ANALOG IN 2 (TEMP)"
   },
   {
-   "id": "N029",
+   "id": "N030",
    "members": [
     "CMC1.J3",
     "ETB.4"
@@ -8026,7 +8419,7 @@
    "name": "CMC1.J3 ANALOG IN 3 (0-5 V)"
   },
   {
-   "id": "N030",
+   "id": "N031",
    "members": [
     "APP.4",
     "CMC1.J4"
@@ -8034,7 +8427,7 @@
    "name": "CMC1.J4 ANALOG IN 4 (0-5 V)"
   },
   {
-   "id": "N031",
+   "id": "N032",
    "members": [
     "CMC1.K1",
     "INJ1.2"
@@ -8042,7 +8435,7 @@
    "name": "CMC1.K1 INJECTOR CYL 1"
   },
   {
-   "id": "N032",
+   "id": "N033",
    "members": [
     "CMC1.K2",
     "INJ2.2"
@@ -8050,23 +8443,23 @@
    "name": "CMC1.K2 INJECTOR CYL 2"
   },
   {
-   "id": "N033",
+   "id": "N034",
    "members": [
     "CMC1.K3",
-    "IF-PAD.7"
+    "K6.30"
    ],
    "name": "CMC1.K3 DIGITAL IN 1"
   },
   {
-   "id": "N034",
+   "id": "N035",
    "members": [
     "CMC1.K4",
-    "IF-PAD.8"
+    "K7.30"
    ],
    "name": "CMC1.K4 DIGITAL IN 2"
   },
   {
-   "id": "N035",
+   "id": "N036",
    "members": [
     "CMC1.L3",
     "INJ6.2"
@@ -8074,7 +8467,7 @@
    "name": "CMC1.L3 INJECTOR CYL 6"
   },
   {
-   "id": "N036",
+   "id": "N037",
    "members": [
     "CMC1.L4",
     "CMC2.G4",
@@ -8083,7 +8476,7 @@
    "name": "CMC1.L4 ENGINE GROUND"
   },
   {
-   "id": "N037",
+   "id": "N038",
    "members": [
     "CMC1.M1",
     "INJ3.2"
@@ -8091,7 +8484,7 @@
    "name": "CMC1.M1 INJECTOR CYL 3"
   },
   {
-   "id": "N038",
+   "id": "N039",
    "members": [
     "CMC1.M2",
     "INJ4.2"
@@ -8099,7 +8492,7 @@
    "name": "CMC1.M2 INJECTOR CYL 4"
   },
   {
-   "id": "N039",
+   "id": "N040",
    "members": [
     "CMC1.M3",
     "INJ5.2"
@@ -8107,7 +8500,7 @@
    "name": "CMC1.M3 INJECTOR CYL 5"
   },
   {
-   "id": "N040",
+   "id": "N041",
    "members": [
     "CMC1.M4",
     "F1.2"
@@ -8115,7 +8508,7 @@
    "name": "CMC1.M4 +12 V ECU"
   },
   {
-   "id": "N041",
+   "id": "N042",
    "members": [
     "CMC2.C1",
     "EGT1.+"
@@ -8123,7 +8516,7 @@
    "name": "CMC2.C1 EGT1+"
   },
   {
-   "id": "N042",
+   "id": "N043",
    "members": [
     "CMC2.D1",
     "EGT1.-"
@@ -8131,7 +8524,7 @@
    "name": "CMC2.D1 EGT1-"
   },
   {
-   "id": "N043",
+   "id": "N044",
    "members": [
     "C-KS1.SH",
     "C-KS2.SH",
@@ -8143,7 +8536,7 @@
    "name": "CMC2.E1 KNOCK GND"
   },
   {
-   "id": "N044",
+   "id": "N045",
    "members": [
     "CMC2.E2",
     "KS1.1"
@@ -8151,7 +8544,7 @@
    "name": "CMC2.E2 KNOCK 1"
   },
   {
-   "id": "N045",
+   "id": "N046",
    "members": [
     "CMC2.E3",
     "KS2.1"
@@ -8159,7 +8552,7 @@
    "name": "CMC2.E3 KNOCK 2"
   },
   {
-   "id": "N046",
+   "id": "N047",
    "members": [
     "CMC2.E4",
     "OIL.2"
@@ -8167,7 +8560,7 @@
    "name": "CMC2.E4 ANALOG IN 6 (0-5 V)"
   },
   {
-   "id": "N047",
+   "id": "N048",
    "members": [
     "CMC2.F1",
     "FUEL.2"
@@ -8175,18 +8568,10 @@
    "name": "CMC2.F1 ANALOG IN 7 (0-5 V)"
   },
   {
-   "id": "N048",
-   "members": [
-    "CMC2.F2",
-    "IF-PAD.6"
-   ],
-   "name": "CMC2.F2 ANALOG IN 8 (0-5 V)"
-  },
-  {
    "id": "N049",
    "members": [
     "CMC2.F3",
-    "IF-PAD.9"
+    "K8.30"
    ],
    "name": "CMC2.F3 DIGITAL / VR IN 4"
   },
@@ -8194,7 +8579,7 @@
    "id": "N050",
    "members": [
     "CMC2.F4",
-    "IF-PAD.10"
+    "K9.30"
    ],
    "name": "CMC2.F4 DIGITAL / VR IN 5"
   },
@@ -8223,47 +8608,7 @@
    "name": "CMC2.H4 MOTOR 1+ / GPO 12"
   },
   {
-   "id": "N066",
-   "members": [
-    "IF-PAD.1",
-    "PAD.C4"
-   ],
-   "name": "IF-PAD.1"
-  },
-  {
-   "id": "N067",
-   "members": [
-    "IF-PAD.2",
-    "PAD.C5"
-   ],
-   "name": "IF-PAD.2"
-  },
-  {
-   "id": "N068",
-   "members": [
-    "IF-PAD.3",
-    "PAD.C6"
-   ],
-   "name": "IF-PAD.3"
-  },
-  {
-   "id": "N069",
-   "members": [
-    "IF-PAD.4",
-    "PAD.C7"
-   ],
-   "name": "IF-PAD.4"
-  },
-  {
-   "id": "N070",
-   "members": [
-    "IF-PAD.5",
-    "PAD.C8"
-   ],
-   "name": "IF-PAD.5"
-  },
-  {
-   "id": "N064",
+   "id": "N063",
    "members": [
     "BTN-START.IN",
     "K1.86",
@@ -8272,7 +8617,7 @@
    "name": "K1.86 Bobine +"
   },
   {
-   "id": "N059",
+   "id": "N058",
    "members": [
     "K2.87",
     "PUMP.+"
@@ -8280,7 +8625,7 @@
    "name": "K2.87 Contact — sortie"
   },
   {
-   "id": "N061",
+   "id": "N060",
    "members": [
     "FAN.+",
     "K3.87"
@@ -8288,7 +8633,7 @@
    "name": "K3.87 Contact — sortie"
   },
   {
-   "id": "N065",
+   "id": "N064",
    "members": [
     "BTN-START.OUT",
     "K4.86"
@@ -8296,7 +8641,7 @@
    "name": "K4.86 Bobine + (bouton démarreur)"
   },
   {
-   "id": "N071",
+   "id": "N070",
    "members": [
     "K4.87",
     "STARTER.50"
@@ -8304,7 +8649,47 @@
    "name": "K4.87 Contact — sortie vers borne 50"
   },
   {
-   "id": "N060",
+   "id": "N065",
+   "members": [
+    "K5.86",
+    "PAD.C4"
+   ],
+   "name": "K5.86 Bobine + (sortie bouton 4 du pad)"
+  },
+  {
+   "id": "N066",
+   "members": [
+    "K6.86",
+    "PAD.C5"
+   ],
+   "name": "K6.86 Bobine + (sortie bouton 5 du pad)"
+  },
+  {
+   "id": "N067",
+   "members": [
+    "K7.86",
+    "PAD.C6"
+   ],
+   "name": "K7.86 Bobine + (sortie bouton 6 du pad)"
+  },
+  {
+   "id": "N068",
+   "members": [
+    "K8.86",
+    "PAD.C7"
+   ],
+   "name": "K8.86 Bobine + (sortie bouton 7 du pad)"
+  },
+  {
+   "id": "N069",
+   "members": [
+    "K9.86",
+    "PAD.C8"
+   ],
+   "name": "K9.86 Bobine + (sortie bouton 8 du pad)"
+  },
+  {
+   "id": "N059",
    "members": [
     "GP-CH-AR",
     "PUMP.-"
@@ -8312,7 +8697,7 @@
    "name": "Masse caisse arrière (pompe)"
   },
   {
-   "id": "N062",
+   "id": "N061",
    "members": [
     "FAN.-",
     "GP-CH-AV"
@@ -8320,16 +8705,22 @@
    "name": "Masse caisse avant (ventilateur)"
   },
   {
-   "id": "N081",
+   "id": "N080",
    "members": [
     "GP-CH",
     "K1.85",
-    "K4.85"
+    "K4.85",
+    "K5.85",
+    "K6.85",
+    "K7.85",
+    "K8.85",
+    "K9.85",
+    "SPL-GND-PAD"
    ],
-   "name": "Masse caisse habitacle (PDM)"
+   "name": "Masse des bobines des relais du pad"
   },
   {
-   "id": "N058",
+   "id": "N057",
    "members": [
     "COIL1.2",
     "COIL1.4",
@@ -8350,52 +8741,44 @@
    "name": "Masse puissance bobines (broches 4)"
   },
   {
-   "id": "N055",
+   "id": "N076",
    "members": [
-    "F4.2",
-    "LSU.4"
+    "F6.2",
+    "K2.30"
    ],
-   "name": "Sortie F4"
+   "name": "Sortie F6"
+  },
+  {
+   "id": "N077",
+   "members": [
+    "F7.2",
+    "K3.30"
+   ],
+   "name": "Sortie F7"
   },
   {
    "id": "N078",
    "members": [
     "F8.2",
-    "K2.30"
+    "K1.30"
    ],
    "name": "Sortie F8"
   },
   {
-   "id": "N079",
+   "id": "N062",
    "members": [
     "F9.2",
-    "K3.30"
+    "KEY.30"
    ],
    "name": "Sortie F9"
   },
   {
-   "id": "N076",
+   "id": "N079",
    "members": [
     "F10.2",
-    "K1.30"
-   ],
-   "name": "Sortie F10"
-  },
-  {
-   "id": "N063",
-   "members": [
-    "F11.2",
-    "KEY.30"
-   ],
-   "name": "Sortie F11"
-  },
-  {
-   "id": "N080",
-   "members": [
-    "F12.2",
     "K4.30"
    ],
-   "name": "Sortie F12"
+   "name": "Sortie F10"
   }
  ],
  "cables": [
@@ -8569,8 +8952,8 @@
    "od_mm": 3.4,
    "length_m": 1.5,
    "cores": [
-    "COM-12",
-    "COM-13"
+    "COM-23",
+    "COM-24"
    ],
    "path": [
     "ECU~HB",
@@ -8593,7 +8976,6 @@
    "CAB_DASH": "Planche de bord (voyant de charge, afficheur CAN)",
    "CAB_KEY": "Interrupteur de contact + bouton démarreur",
    "CAB_PAD": "Boîtier de commande du pad 8 boutons",
-   "N_IFPAD": "Platine d'interface pad (à côté de l'ECU)",
    "T1": "Arrière culasse (dérivation)",
    "GND_HEAD": "Goujons de masse culasse",
    "TOP6": "Bobine 6",
@@ -8635,8 +9017,8 @@
     "a": "ECU",
     "b": "HB",
     "length": 0.2,
-    "wires": 59,
-    "bundle_mm": 19.3,
+    "wires": 60,
+    "bundle_mm": 19.4,
     "sleeve": "DR-25 25.4/12.7 mm"
    },
    {
@@ -8644,8 +9026,8 @@
     "a": "PDM",
     "b": "HB",
     "length": 0.25,
-    "wires": 14,
-    "bundle_mm": 11.3,
+    "wires": 24,
+    "bundle_mm": 12.6,
     "sleeve": "DR-25 19.1/9.5 mm"
    },
    {
@@ -8653,8 +9035,8 @@
     "a": "HB",
     "b": "FW",
     "length": 0.45,
-    "wires": 51,
-    "bundle_mm": 20.3,
+    "wires": 50,
+    "bundle_mm": 20.2,
     "sleeve": "DR-25 25.4/12.7 mm"
    },
    {
@@ -8662,8 +9044,8 @@
     "a": "FW",
     "b": "T0",
     "length": 0.3,
-    "wires": 51,
-    "bundle_mm": 20.3,
+    "wires": 50,
+    "bundle_mm": 20.2,
     "sleeve": "DR-25 25.4/12.7 mm"
    },
    {
@@ -8712,21 +9094,12 @@
     "sleeve": "DR-25 6.4/3.2 mm"
    },
    {
-    "id": "ECU~N_IFPAD",
-    "a": "ECU",
-    "b": "N_IFPAD",
-    "length": 0.15,
-    "wires": 11,
-    "bundle_mm": 6.1,
-    "sleeve": "DR-25 9.5/4.8 mm"
-   },
-   {
     "id": "T0~T1",
     "a": "T0",
     "b": "T1",
     "length": 0.7,
-    "wires": 41,
-    "bundle_mm": 16.8,
+    "wires": 42,
+    "bundle_mm": 16.9,
     "sleeve": "DR-25 25.4/12.7 mm"
    },
    {
@@ -8969,7 +9342,7 @@
     "b": "EXH",
     "length": 0.4,
     "wires": 8,
-    "bundle_mm": 8.5,
+    "bundle_mm": 8.4,
     "sleeve": "DR-25 12.7/6.4 mm"
    },
    {
@@ -8996,7 +9369,7 @@
     "b": "N_LSU",
     "length": 0.4,
     "wires": 6,
-    "bundle_mm": 7.1,
+    "bundle_mm": 7.0,
     "sleeve": "DR-25 9.5/4.8 mm"
    },
    {
@@ -9039,23 +9412,23 @@
    "status": "ok",
    "loads": [
     {
-     "id": "F8",
+     "id": "F6",
      "a": 15.0
     },
     {
-     "id": "F9",
+     "id": "F7",
      "a": 19.5
     },
     {
-     "id": "F10",
+     "id": "F8",
      "a": 17.63
     },
     {
-     "id": "F11",
+     "id": "F9",
      "a": 0.3
     },
     {
-     "id": "F12",
+     "id": "F10",
      "a": 10.0
     }
    ]
@@ -9147,31 +9520,20 @@
   },
   {
    "id": "F4",
-   "label": "Fusible chauffage lambda",
+   "label": "Fusible actionneurs, capteur PMH et chauffage lambda",
    "rating": 10,
    "min_mm2": 0.75,
-   "load": 1.5,
-   "ratio": 0.15,
-   "status": "ok",
-   "loads": [
-    {
-     "id": "LSU",
-     "a": 1.5
-    }
-   ]
-  },
-  {
-   "id": "F5",
-   "label": "Fusible actionneurs + capteur PMH (VANOS, MAC, PMH)",
-   "rating": 10,
-   "min_mm2": 0.75,
-   "load": 2.16,
-   "ratio": 0.22,
+   "load": 3.66,
+   "ratio": 0.37,
    "status": "ok",
    "loads": [
     {
      "id": "CRANK",
      "a": 0.02
+    },
+    {
+     "id": "LSU",
+     "a": 1.5
     },
     {
      "id": "MAC",
@@ -9184,8 +9546,8 @@
    ]
   },
   {
-   "id": "F7",
-   "label": "Fusible commandes (bobines relais pompe / ventilo, voyant de charge)",
+   "id": "F5",
+   "label": "Fusible bobines des relais K2 (pompe) et K3 (ventilo) + voyant de charge",
    "rating": 5,
    "min_mm2": 0.35,
    "load": 0.47,
@@ -9207,7 +9569,7 @@
    ]
   },
   {
-   "id": "F8",
+   "id": "F6",
    "label": "Fusible pompe à essence",
    "rating": 20,
    "min_mm2": 1.5,
@@ -9222,7 +9584,7 @@
    ]
   },
   {
-   "id": "F9",
+   "id": "F7",
    "label": "Fusible ventilateur",
    "rating": 30,
    "min_mm2": 2.5,
@@ -9237,7 +9599,7 @@
    ]
   },
   {
-   "id": "F10",
+   "id": "F8",
    "label": "Fusible relais principal",
    "rating": 30,
    "min_mm2": 2.5,
@@ -9259,20 +9621,16 @@
     },
     {
      "id": "F4",
-     "a": 1.5
+     "a": 3.66
     },
     {
      "id": "F5",
-     "a": 2.16
-    },
-    {
-     "id": "F7",
      "a": 0.47
     }
    ]
   },
   {
-   "id": "F11",
+   "id": "F9",
    "label": "Fusible interrupteur de contact / bouton démarreur",
    "rating": 5,
    "min_mm2": 0.35,
@@ -9291,7 +9649,7 @@
    ]
   },
   {
-   "id": "F12",
+   "id": "F10",
    "label": "Fusible démarreur (borne 50)",
    "rating": 30,
    "min_mm2": 2.5,
@@ -9575,7 +9933,7 @@
   {
    "sev": "add",
    "title": "Boîte fusibles/relais complète (PDM)",
-   "detail": "Fusible général MAXI 80 A, 11 fusibles (F1 à F5, F7 à F12 ; F6 regroupé dans F5 en révision D) et 4 relais : chaque circuit a son fusible et chaque fil est protégé par un fusible adapté à sa section (contrôle automatique)."
+   "detail": "Fusible général MAXI 80 A, 10 fusibles numérotés F1 à F10 sans trou (ta boîte 10 voies) et 9 relais (K1 à K4 pour le moteur, K5 à K9 pour les boutons du pad) : chaque circuit a son fusible et chaque fil est protégé par un fusible adapté à sa section (contrôle automatique)."
   },
   {
    "sev": "fix",
@@ -9604,13 +9962,18 @@
   },
   {
    "sev": "add",
-   "title": "Révision D : contact sans clé, pad 8 boutons, F6 regroupé dans F5",
-   "detail": "Plus de clé : un interrupteur de contact alimenté par F11 donne le +15 (relais principal K1) et alimente le bouton démarreur mécanique, qui commande K4 ; le démarreur ne peut donc pas être lancé contact coupé. F11 reste nécessaire : c'est lui qui protège le fil qui va de la barrette +30 jusqu'à l'interrupteur. Le +12 V du capteur PMH est pris sur F5 avec la VANOS et la MAC (épissure à l'arrière de la culasse, 0,75 mm²). Plus de combiné : la sortie compte-tours (GPO8, CMC1 A4) est libre. Les boutons 4 à 8 du pad arrivent sur AIN8, DIN1, DIN2, DIN4 et DIN5 par une platine de 10 résistances (une en série, une de rappel vers Sensor GND par bouton), pull-up des entrées désactivé dans MTune. Le ventilateur, fonction directe, est sur AIN8 ; la carto et la chauffe, qui passent par l'Internal output system, sont sur des DIN, dont l'état « DIN x Active » est utilisable comme condition. Le bouton 8 arrête le moteur (Stop engine/prevent start) sans couper le contact : l'ECU reste alimentée et continue de piloter le ventilateur pour refroidir."
+   "title": "Révision D : contact sans clé, pad 8 boutons",
+   "detail": "Plus de clé : un interrupteur de contact alimenté par F9 donne le +15 (relais principal K1) et alimente le bouton démarreur mécanique, qui commande K4 ; le démarreur ne peut donc pas être lancé contact coupé. F9 reste nécessaire : c'est lui qui protège le fil qui va de la barrette +30 jusqu'à l'interrupteur. Plus de combiné : la sortie compte-tours (GPO8, CMC1 A4) est libre. Le bouton 8 arrête le moteur (Stop engine/prevent start) sans couper le contact : l'ECU reste alimentée et continue de piloter le ventilateur pour refroidir."
+  },
+  {
+   "sev": "add",
+   "title": "Révision E : fusibles F1 à F10, relais du pad",
+   "detail": "Les fusibles sont renumérotés F1 à F10 sans trou, pour ta boîte 10 voies. Anciens → nouveaux : F1, F2, F3 inchangés ; F4 (lambda), F5 (actionneurs) et F6 (PMH) regroupés en F4 ; F7 → F5 ; F8 → F6 ; F9 → F7 ; F10 → F8 ; F11 → F9 ; F12 → F10. Les boutons 4 à 8 du pad commandent 5 relais (K5 à K9) qui mettent les entrées DIN3, DIN1, DIN2, DIN4 et DIN5 à la masse capteurs : c'est le câblage « interrupteur → masse » du plan MaxxECU, pull-up des entrées activé, sans aucune résistance."
   },
   {
    "sev": "warn",
-   "title": "F5 commun : un court-circuit VANOS / MAC arrête le moteur",
-   "detail": "Avec le capteur PMH sur F5, un court-circuit sur l'électrovanne VANOS ou la MAC fait fondre F5 et coupe aussi le capteur PMH : le moteur cale, alors qu'avec un fusible séparé il continuait à tourner sans VANOS ni boost. C'est le prix d'un fusible en moins ; l'emplacement F6 reste libre si tu veux revenir en arrière."
+   "title": "F4 commun : un court-circuit VANOS, MAC ou chauffage lambda arrête le moteur",
+   "detail": "Le capteur PMH partage F4 avec la VANOS, la MAC et le chauffage de la sonde lambda. Un court-circuit sur l'un d'eux fait fondre F4 et coupe aussi le capteur PMH : le moteur cale, alors qu'avec des fusibles séparés il continuait à tourner. Le fil du chauffage lambda longe l'échappement : soigner sa protection thermique et sa fixation. C'est le prix de 2 fusibles en moins."
   },
   {
    "sev": "warn",
@@ -9619,13 +9982,13 @@
   },
   {
    "sev": "warn",
-   "title": "Entrées DIN / VR toutes occupées par le pad",
-   "detail": "DIN1, DIN2, DIN4 et DIN5 sont les seules entrées capables de lire un capteur de vitesse de roue ou de boîte (VR / Hall). Si tu en ajoutes un plus tard, le bouton le moins utile devra passer sur DIN3 (CMC1 C1), qui a un pull-up fixe et ne se commande qu'à la masse : il faudra alors un relais ou un transistor inverseur à la place des résistances pour ce bouton. Pas de maintien d'alimentation (power hold) : il demanderait une entrée « Ignition key » qui n'est plus libre. Pour refroidir moteur arrêté, on utilise le bouton 8 (arrêt moteur, contact laissé mis)."
+   "title": "Entrées digitales toutes occupées par le pad",
+   "detail": "Les 5 entrées digitales (DIN1 à DIN5) sont prises par les boutons. DIN1, DIN2, DIN4 et DIN5 sont aussi les seules capables de lire un capteur de vitesse de roue ou de boîte (VR / Hall) : si tu en ajoutes un plus tard, le bouton le moins utile devra passer sur AIN8 (CMC2 F2), avec une résistance de rappel vers +5 V puisque cette entrée n'a pas de pull-up. Pas de maintien d'alimentation (power hold) non plus : il demanderait une entrée « Ignition key ». Pour refroidir moteur arrêté, on utilise le bouton 8 (arrêt moteur, contact laissé mis)."
   },
   {
    "sev": "add",
    "title": "Contact, démarreur et alternateur ajoutés (oubli de la révision B)",
-   "detail": "Caisse vide : rien n'alimentait le contacteur, le démarreur ni l'excitation de l'alternateur. Ajouts : F11 5 A alimente la borne 30 du contacteur ; la borne 50 commande un relais de démarreur K4 (fusible F12 30 A, 2,5 mm² jusqu'au solénoïde) ; l'alternateur est excité comme d'origine, par un voyant de charge 2 W entre le +12 V commuté et D+. Les gros câbles (batterie → démarreur, B+ alternateur → démarreur, tresses de masse) sont listés dans la nomenclature, hors faisceau."
+   "detail": "Caisse vide : rien n'alimentait le contacteur, le démarreur ni l'excitation de l'alternateur. Ajouts : F9 5 A alimente la borne 30 du contacteur ; la borne 50 commande un relais de démarreur K4 (fusible F10 30 A, 2,5 mm² jusqu'au solénoïde) ; l'alternateur est excité comme d'origine, par un voyant de charge 2 W entre le +12 V commuté et D+. Les gros câbles (batterie → démarreur, B+ alternateur → démarreur, tresses de masse) sont listés dans la nomenclature, hors faisceau."
   },
   {
    "sev": "add",
@@ -9635,7 +9998,7 @@
   {
    "sev": "ok",
    "title": "Brochage ECU conforme au schéma officiel RACE REV9+",
-   "detail": "IGN1→6 (A2, A3, B2, B3, C2, C3), INJ1→6 (K1, K2, M1, M2, M3, L3), GPO1/2/3/6 (B4, C4, D4, B1), entrées DIN1/2/4/5 et AIN8 du pad (K3, K4, CMC2 F3/F4/F2), lambda (G3, F3, D1, G4, F4), cliquetis (CMC2 E1/E2/E3, blindages sur KNOCK GND E1), EGT1 (CMC2 C1/D1), AIN5-7 (CMC2 G3, E4, F1), moteur papillon (CMC2 H4 + / H2 −) : tout est conforme."
+   "detail": "IGN1→6 (A2, A3, B2, B3, C2, C3), INJ1→6 (K1, K2, M1, M2, M3, L3), GPO1/2/3/6 (B4, C4, D4, B1), entrées DIN1 à DIN5 du pad (K3, K4, C1, CMC2 F3/F4), lambda (G3, F3, D1, G4, F4), cliquetis (CMC2 E1/E2/E3, blindages sur KNOCK GND E1), EGT1 (CMC2 C1/D1), AIN5-7 (CMC2 G3, E4, F1), moteur papillon (CMC2 H4 + / H2 −) : tout est conforme."
   },
   {
    "sev": "ok",
@@ -9746,10 +10109,10 @@
   },
   {
    "item": "Pad : réglages communs",
-   "value": "DIN1, DIN2, DIN4, DIN5 (Inputs → Digital inputs) : Input type = Digital input (jamais VR), Pullup = OFF (obligatoire avec la platine IF-PAD), Latch = None (le bouton du pad en mode Toggle tient l'état), Active level = rising sauf ALS off. AIN8 : Use as = Digital input, Pullup resistor = aucun si l'option apparaît, actif haut. Vérifier qu'il reste au moins 2 Internal outputs libres"
+   "value": "Inputs → Digital inputs, DIN1, DIN2, DIN4, DIN5 : Input type = Digital input (jamais VR), Pullup = ON (1 kΩ vers +5 V), Latch = None, Active level = falling (actif quand le relais met l'entrée à la masse) sauf ALS off. DIN3 : Outputs → Output config, GPO7 = Digital input 3 (pull-up +5 V fixe), puis Active level = falling. Vérifier qu'il reste au moins 2 Internal outputs libres"
   },
   {
-   "item": "AIN8 (CMC2 F2) — bouton 4",
+   "item": "DIN3 (CMC1 C1) — bouton 4",
    "value": "Ventilation forcée : Function = Fan override input. GPO6 reste en Radiator FAN 1 ; l'override passe outre la température et « disable fan when engine off », mais seulement ECU alimentée"
   },
   {
@@ -9758,7 +10121,7 @@
   },
   {
    "item": "DIN2 (CMC1 K4) — bouton 6",
-   "value": "ALS off : Motorsport → Anti-lag, Enable method = Switch input ; DIN2 Function = Anti-lag enable, Active level = falling : ALS autorisé bouton éteint, coupé bouton allumé. Attention : pad éteint, pad redémarré éteint, fusible du pad grillé ou fil coupé = ALS autorisé. Plus sûr : Active level = rising et le bouton devient « ALS ON » (aucun recâblage). Garder Min CLT, Max EGT et le timeout"
+   "value": "ALS off : Motorsport → Anti-lag, Enable method = Switch input ; DIN2 Function = Anti-lag enable, Active level = rising : ALS autorisé bouton éteint (relais ouvert, entrée à 5 V), coupé bouton allumé. Attention : pad éteint, pad redémarré éteint, fusible du pad grillé ou fil coupé = ALS autorisé. Plus sûr : Active level = falling et le bouton devient « ALS ON » (aucun recâblage). Garder Min CLT, Max EGT et le timeout"
   },
   {
    "item": "DIN4 (CMC2 F3) — bouton 7",
@@ -9766,7 +10129,7 @@
   },
   {
    "item": "DIN5 (CMC2 F4) — bouton 8",
-   "value": "Arrêt moteur : Function = Stop engine/prevent start, Active level = rising, Latch = None. Doc MaxxECU : « engine will not start or will be stopped if running ». L'ECU reste alimentée ; la pompe s'arrête seule (sortie coupée dès la perte du signal PMH)"
+   "value": "Arrêt moteur : Function = Stop engine/prevent start, Active level = falling, Latch = None. Doc MaxxECU : « engine will not start or will be stopped if running ». L'ECU reste alimentée ; la pompe s'arrête seule (sortie coupée dès la perte du signal PMH)"
   },
   {
    "item": "Ventilateur moteur arrêté",
@@ -9788,7 +10151,7 @@
     "Bobines : confirmer le repérage 1-2-3-4 moulé sur le connecteur.",
     "Vérifier l'étiquette de la RACE : REV9 ou plus (LSU 4.9).",
     "Pad : boutons 4 à 7 en mode Toggle (LED rouge), bouton 8 en mode Momentary (LED bleue), fusibles de ces 5 circuits remplacés par du 5 A ; bouton allumé = +12 V sur la sortie, éteint = 0 V ou circuit ouvert.",
-    "Platine IF-PAD : 10 kΩ ± 1 % entre chaque entrée (1 à 5) et sa sortie (6 à 10) ; 4,7 kΩ entre la broche 6 et la broche 11, 10 kΩ entre chacune des broches 7 à 10 et la broche 11."
+    "Relais K5 à K9 : bobine 86–85 ≈ 70–90 Ω ; contact 30–87 ouvert au repos, fermé bobine sous 12 V."
    ]
   },
   {
@@ -9803,7 +10166,7 @@
     "Batterie − ↔ caisse (coffre) ET tresse moteur ↔ caisse présentes et serrées (≥ 25 mm²) : sur E36 la batterie est au coffre, tout le retour passe par la caisse (exigence MaxxECU).",
     "Passe-fil du tablier étanche, faisceau maintenu sans frottement sur la tôle.",
     "Blindages : reliés uniquement côté ECU (aucune continuité vers le moteur).",
-    "Pad allumé, boutons 4 à 8 un par un, mesuré côté faisceau par rapport à H1 : ≈ 4 V sur CMC2 F2, ≈ 6 V sur CMC1 K3, K4 et CMC2 F3, F4 ; 0 V bouton éteint."
+    "Pad allumé, boutons 4 à 8 un par un : continuité entre CMC1 H1 (masse capteurs) et, dans l'ordre, CMC1 C1, K3, K4, CMC2 F3, F4 ; circuit ouvert bouton éteint."
    ]
   },
   {
@@ -9811,9 +10174,9 @@
    "items": [
     "Interrupteur de contact sur ON : relais principal colle, +12 V sur CMC1 M4, voyant de charge allumé.",
     "Bouton démarreur appuyé, contact mis : K4 colle et la borne 50 du démarreur reçoit le +12 V (injecteurs débranchés). Contact coupé : le bouton ne fait rien.",
-    "MTune, pad : chaque bouton 4 à 8 fait passer son entrée (AIN8, DIN1, DIN2, DIN4, DIN5) de 0 à 1 ; pad éteint, toutes à 0 V et à 0 (≈ 4,5 V pad éteint = pull-up resté activé ; si l'option n'existe pas, cette entrée doit être commutée à la masse par relais).",
+    "MTune, pad : chaque bouton 4 à 8 fait changer d'état son entrée (DIN3, DIN1, DIN2, DIN4, DIN5) ; pad éteint, ≈ 5 V sur chaque broche (pull-up activé) et toutes les fonctions inactives, ALS mis à part (autorisé bouton éteint).",
     "Bouton 8 moteur tournant : le moteur s'arrête, l'ECU reste allumée et le ventilateur continue selon la température (ou forcé par le bouton 4) ; bouton relâché, le démarreur relance le moteur.",
-    "Moteur tournant, bouton allumé : au moins 5 V sur chaque DIN, ECU branchée (sinon passer la résistance série de cette voie à 4,7 kΩ) ; ventilateur, ALS, table de boost et tables extra suivent chaque bouton dans RealTime Data.",
+    "Moteur tournant : ventilateur, ALS, table de boost et tables extra suivent chaque bouton dans RealTime Data.",
     "Moteur tournant : voyant de charge éteint, 13,8–14,4 V aux bornes de la batterie.",
     "En lançant le démarreur : moins de 0,2 V entre la borne − de la batterie et le goujon GP-HEAD (sinon tresse moteur ↔ caisse à reprendre).",
     "5,0 V mesurés au connecteur papillon et aux capteurs de pression.",
@@ -9831,7 +10194,7 @@
    "cat": "Connecteurs",
    "item": "Connecteur 1 — Molex CMC 48 voies",
    "qty": 1,
-   "detail": "40 contacts utilisés / 48",
+   "detail": "41 contacts utilisés / 48",
    "unit": "pc"
   },
   {
@@ -9844,8 +10207,8 @@
   {
    "cat": "Contacts",
    "item": "Contact Molex CMC 643221039 (petit, 0,5 mm²) — CMC1",
-   "qty": 29,
-   "detail": "A2 A3 B1 B2 B3 C2 C3 C4 E1 E2 E3 F1 F2 F3 F4 G1 G2 G3 G4 H1 H2 H3 H4 J1 J2 J3 J4 K3 K4",
+   "qty": 30,
+   "detail": "A2 A3 B1 B2 B3 C1 C2 C3 C4 E1 E2 E3 F1 F2 F3 F4 G1 G2 G3 G4 H1 H2 H3 H4 J1 J2 J3 J4 K3 K4",
    "unit": "pc"
   },
   {
@@ -9865,8 +10228,8 @@
   {
    "cat": "Contacts",
    "item": "Bouchon d'alvéole CMC 643251010 (petit) — CMC1",
-   "qty": 6,
-   "detail": "A1 A4 C1 D2 D3 E4",
+   "qty": 5,
+   "detail": "A1 A4 D2 D3 E4",
    "unit": "pc"
   },
   {
@@ -9880,14 +10243,14 @@
    "cat": "Connecteurs",
    "item": "Connecteur 2 — Molex CMC 32 voies",
    "qty": 1,
-   "detail": "14 contacts utilisés / 32",
+   "detail": "13 contacts utilisés / 32",
    "unit": "pc"
   },
   {
    "cat": "Contacts",
    "item": "Contact Molex CMC 643221039 (petit, 0,5 mm²) — CMC2",
-   "qty": 10,
-   "detail": "C1 D1 E1 E2 E3 E4 F1 F2 F3 F4",
+   "qty": 9,
+   "detail": "C1 D1 E1 E2 E3 E4 F1 F3 F4",
    "unit": "pc"
   },
   {
@@ -9907,8 +10270,8 @@
   {
    "cat": "Contacts",
    "item": "Bouchon d'alvéole CMC 643251010 (petit) — CMC2",
-   "qty": 14,
-   "detail": "A1 A2 A3 A4 B1 B2 B3 B4 C2 C3 C4 D2 D3 D4",
+   "qty": 15,
+   "detail": "A1 A2 A3 A4 B1 B2 B3 B4 C2 C3 C4 D2 D3 D4 F2",
    "unit": "pc"
   },
   {
@@ -9997,13 +10360,6 @@
   },
   {
    "cat": "Connecteurs",
-   "item": "Deutsch DTM 12 voies (DTM04-12PA côté platine / DTM06-12SA côté faisceau)",
-   "qty": 1,
-   "detail": "IF-PAD — 11 contacts",
-   "unit": "pc"
-  },
-  {
-   "cat": "Connecteurs",
    "item": "Mini-K (thermocouple)",
    "qty": 1,
    "detail": "EGT1 — 2 contacts",
@@ -10054,7 +10410,7 @@
   {
    "cat": "Protection",
    "item": "Fusible 10 A",
-   "qty": 3,
+   "qty": 2,
    "detail": "",
    "unit": "pc"
   },
@@ -10101,6 +10457,13 @@
    "unit": "pc"
   },
   {
+   "cat": "Protection",
+   "item": "Relais ISO mini 4 broches (contact travail)",
+   "qty": 5,
+   "detail": "",
+   "unit": "pc"
+  },
+  {
    "cat": "Épissures",
    "item": "Manchon non isolé 6–10 mm² (ou soudure ultrasons) + thermo à colle 3:1",
    "qty": 4,
@@ -10124,8 +10487,8 @@
   {
    "cat": "Épissures",
    "item": "Épissure D-436-38 (≤ 3,3 mm² par côté) + thermo à colle",
-   "qty": 6,
-   "detail": "SPL-5V-MAIN (1,5 mm²), SPL-5V-ENG (1,5 mm²), SPL-SG-MAIN (2 mm²), SPL-SG-ENG (2,5 mm²), SPL-ACT12 (2,25 mm²), SPL-RLY (1,5 mm²)",
+   "qty": 8,
+   "detail": "SPL-5V-MAIN (1,5 mm²), SPL-5V-ENG (1,5 mm²), SPL-SG-MAIN (2 mm²), SPL-SG-ENG (2,5 mm²), SPL-ACT12 (3 mm²), SPL-RLY (1,5 mm²), SPL-SG-PAD (2,5 mm²), SPL-GND-PAD (2,5 mm²)",
    "unit": "pc"
   },
   {
@@ -10145,7 +10508,7 @@
   {
    "cat": "Masses",
    "item": "Cosse œillet M8 étamée — GP-CH",
-   "qty": 2,
+   "qty": 3,
    "detail": "Masse caisse habitacle (PDM)",
    "unit": "pc"
   },
@@ -10166,9 +10529,9 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² BK",
-   "qty": 0.4,
+   "qty": 1.5,
    "unit": "m",
-   "detail": "coupe 0,40 m + 10 %"
+   "detail": "coupe 1,40 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -10180,9 +10543,9 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² BN",
-   "qty": 12.1,
+   "qty": 13.5,
    "unit": "m",
-   "detail": "coupe 11,00 m + 10 %"
+   "detail": "coupe 12,30 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -10222,37 +10585,37 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² VT/GY",
-   "qty": 1.3,
+   "qty": 1.2,
    "unit": "m",
-   "detail": "coupe 1,15 m + 10 %"
+   "detail": "coupe 1,05 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² VT/OG",
-   "qty": 1.3,
+   "qty": 1.2,
    "unit": "m",
-   "detail": "coupe 1,15 m + 10 %"
+   "detail": "coupe 1,05 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² VT/PK",
-   "qty": 1.3,
+   "qty": 1.2,
    "unit": "m",
-   "detail": "coupe 1,15 m + 10 %"
+   "detail": "coupe 1,05 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² VT/RD",
-   "qty": 1.3,
+   "qty": 1.2,
    "unit": "m",
-   "detail": "coupe 1,15 m + 10 %"
+   "detail": "coupe 1,05 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² VT/WH",
-   "qty": 1.3,
+   "qty": 1.2,
    "unit": "m",
-   "detail": "coupe 1,15 m + 10 %"
+   "detail": "coupe 1,05 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -10299,30 +10662,30 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² WH/GY",
-   "qty": 0.4,
+   "qty": 0.7,
    "unit": "m",
-   "detail": "coupe 0,35 m + 10 %"
+   "detail": "coupe 0,65 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² WH/OG",
-   "qty": 0.4,
+   "qty": 0.7,
    "unit": "m",
-   "detail": "coupe 0,35 m + 10 %"
+   "detail": "coupe 0,65 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² WH/PK",
-   "qty": 0.4,
+   "qty": 0.7,
    "unit": "m",
-   "detail": "coupe 0,35 m + 10 %"
+   "detail": "coupe 0,65 m + 10 %"
   },
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² WH/RD",
-   "qty": 0.4,
+   "qty": 0.7,
    "unit": "m",
-   "detail": "coupe 0,35 m + 10 %"
+   "detail": "coupe 0,65 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -10334,9 +10697,9 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² WH/YE",
-   "qty": 0.4,
+   "qty": 0.7,
    "unit": "m",
-   "detail": "coupe 0,35 m + 10 %"
+   "detail": "coupe 0,65 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -10369,9 +10732,9 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 0,75 mm² BK",
-   "qty": 2.1,
+   "qty": 2.4,
    "unit": "m",
-   "detail": "coupe 1,95 m + 10 %"
+   "detail": "coupe 2,15 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -10404,9 +10767,9 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 0,75 mm² RD/WH",
-   "qty": 6.6,
+   "qty": 8.5,
    "unit": "m",
-   "detail": "coupe 6,00 m + 10 %"
+   "detail": "coupe 7,70 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -10418,9 +10781,9 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 1 mm² RD/WH",
-   "qty": 9.7,
+   "qty": 7.5,
    "unit": "m",
-   "detail": "coupe 8,80 m + 10 %"
+   "detail": "coupe 6,80 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -10586,30 +10949,30 @@
   {
    "cat": "Gaine",
    "item": "DR-25 9.5/4.8 mm",
-   "qty": 1.8,
+   "qty": 1.7,
    "unit": "m",
    "detail": "selon tronçons du formboard"
   },
   {
    "cat": "Repérage",
    "item": "Étiquettes thermo imprimables (repère de fil)",
-   "qty": 268,
+   "qty": 290,
    "detail": "une à chaque extrémité",
    "unit": "pc"
   },
   {
    "cat": "Protection",
-   "item": "Boîte à fusibles étanche Bussmann 15305-1 (20 fusibles ATM, 2 barrettes indépendantes à goujon M6)",
+   "item": "Boîte à fusibles 10 voies (la tienne)",
    "qty": 1,
    "unit": "pc",
-   "detail": "barrette 1 = +30 permanent BUS30 (F8, F9, F10, F11, F12), alimentée par PWR-02 ; barrette 2 = +87 commuté BUS87 (F1 à F5 et F7 ; emplacement F6 libre en réserve), alimentée par PWR-04 ; sorties Metri-Pack 280 : 3 mm² maxi, contacts, joints et bouchons à commander à part"
+   "detail": "2 groupes d'alimentation : F1 à F5 sur le +12 V commuté (BUS87, sortie du relais principal K1, fil PWR-04) ; F6 à F10 sur le +12 V permanent (BUS30, après F0, fil PWR-02). Si ta boîte n'a qu'une seule arrivée commune pour ses 10 fusibles : elle reçoit F1 à F5 (arrivée = PWR-04), et F6 à F10 passent dans tes porte-fusibles supplémentaires, alimentés par PWR-02"
   },
   {
    "cat": "Protection",
    "item": "Support de relais ISO mini étanche (lames 6,3 mm)",
-   "qty": 4,
+   "qty": 9,
    "unit": "pc",
-   "detail": "K1 à K4, fixés à côté de la boîte à fusibles ; leurs cosses acceptent le 4 mm² de la pompe et du ventilateur"
+   "detail": "K1 à K4 (moteur) et K5 à K9 (boutons du pad), fixés à côté de la boîte à fusibles ; les cosses de K2 et K3 acceptent le 4 mm² de la pompe et du ventilateur"
   },
   {
    "cat": "Montage",
@@ -10630,7 +10993,7 @@
    "item": "Cosse œillet tubulaire étamée 10 mm²",
    "qty": 4,
    "unit": "pc",
-   "detail": "PWR-01 (B+ M8 et F0), PWR-02 (F0 et goujon M6 de la barrette BUS30) : diamètres selon porte-fusible"
+   "detail": "PWR-01 (B+ M8 et F0), PWR-02 (F0 et arrivée +30 permanent BUS30) : diamètres selon porte-fusible"
   },
   {
    "cat": "Contacts",
@@ -10704,31 +11067,10 @@
   },
   {
    "cat": "Habitacle",
-   "item": "Résistance 10 kΩ ¼ W 1 % (couche métal)",
-   "qty": 9,
-   "unit": "pc",
-   "detail": "platine d'interface IF-PAD : 5 en série + 4 de rappel vers Sensor GND (voies DIN)"
-  },
-  {
-   "cat": "Habitacle",
-   "item": "Résistance 4,7 kΩ ¼ W 1 % (couche métal)",
-   "qty": 1,
-   "unit": "pc",
-   "detail": "platine d'interface IF-PAD : rappel de la voie AIN8 (garde l'entrée sous 5 V)"
-  },
-  {
-   "cat": "Habitacle",
-   "item": "Plaque pastillée + petit boîtier étanche pour la platine IF-PAD",
-   "qty": 1,
-   "unit": "pc",
-   "detail": "ou résistances en ligne sous gaine thermo à colle, au ras de l'ECU"
-  },
-  {
-   "cat": "Habitacle",
    "item": "Fusibles 5 A (au format du boîtier du pad)",
    "qty": 5,
    "unit": "pc",
-   "detail": "circuits 4 à 8 du pad : remplacent les 30/20/15/10 A d'origine, les entrées ECU ne consomment que 0,7 mA"
+   "detail": "circuits 4 à 8 du pad : remplacent les 30/20/15/10 A d'origine, chacun ne commande qu'une bobine de relais (0,15 A)"
   },
   {
    "cat": "Habitacle",
