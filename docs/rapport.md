@@ -4,7 +4,7 @@
 
 > Généré par `tools/build_harness.py` depuis `harness/m50b25_vanos_turbo.yaml`. Ne pas éditer à la main.
 
-**152 fils** · **182.2 m de fil coupé** · 17 épissures/barrettes · 11 fusibles · 9 relais
+**152 fils** · **70.7 m de fil neuf** + 111.6 m de fils MaxxECU recoupés · 17 épissures/barrettes · 11 fusibles · 9 relais
 
 ## Contrôle des règles électriques : 0 erreur(s), 3 alerte(s)
 
@@ -17,7 +17,7 @@
 
 ### 🛠 Corrigé — Retour du capteur AAC sur VR GND (CMC1 H2), pas sur Sensor GND (H1)
 
-Sur le schéma officiel RACE REV9+, le capteur PMH et le capteur AAC (VR ou Hall) ont leur retour sur VR GND (H2) ; les blindages PMH, AAC et lambda vont sur SHIELD GND (E3), ceux des capteurs de cliquetis sur KNOCK GND (CMC2 E1, page 2 du schéma). Ton plan mettait la broche 2 de l'AAC sur H1. Les deux retours (PMH broche 3 + AAC broche 2) se rejoignent par l'épissure SPL-VRG au ras du connecteur.
+Sur le schéma officiel RACE REV9+, le capteur PMH et le capteur AAC (VR ou Hall) ont leur retour sur VR GND (H2) ; les blindages PMH, AAC et lambda vont sur SHIELD GND (E3), ceux des capteurs de cliquetis sur KNOCK GND (CMC2 E1, page 2 du schéma). Ton plan mettait la broche 2 de l'AAC sur H1. Les deux retours (PMH broche 3 + AAC broche 2) se rejoignent sur VR GND (H2) par l'épissure SPL-VRG, déjà faite par MaxxECU dans les câbles TRIGGER et HOME/CAM.
 
 ### ➕ Ajouté — Alimentation et masses de l'ECU (absentes du plan)
 
@@ -55,13 +55,17 @@ Plus de clé : un interrupteur de contact alimenté par F9 donne le +15 (relais 
 
 Le kit RACE Premium fournit les deux faisceaux MaxxECU REV2 : tous les fils sortent déjà sertis des connecteurs de l'ECU, avec une étiquette imprimée, et font 3 m. Plus rien à sertir côté ECU, ni pince ni contact Molex. Pour chaque fil qui part de l'ECU, la liste de coupe donne la longueur à garder ou la rallonge à faire, et sa couleur est celle du fil MaxxECU. Les câbles blindés TRIGGER (PMH), HOME/CAM (AAC), WBO2 1 (lambda), KNOCK 1 et 2 sont fournis avec leurs masses (VR GND, KNOCK GND) et leurs blindages déjà reliés côté ECU : ces liaisons sont marquées « fait par MaxxECU ». Il reste à faire les épissures +5 V et Sensor GND, toutes les alimentations, les masses, les relais et le pad.
 
+### ⚠️ À vérifier — Fils rouges MaxxECU sans broche : à repérer et isoler
+
+Sur le plan MaxxECU, le faisceau 1 porte des fils prévus pour l'ancien connecteur d'alimentation 12 voies, absent sur ta version REV2 : « 12V ECU, (C) », « 12V LAMBDA (PIN 3) », « 12V INJECTORS » et « 12V GP OUT » sont reliés à M4, donc sous tension dès que F1 alimente l'ECU ; « 12V IGNITION, (D) » est relié au « +12v power supply for ignition coils » ; un fil noir double L4. À réception, ECU débranchée, repérer chacun à l'ohmmètre. F1 va sur « 12V ECU, (C) » s'il existe, sinon sur « 12V ECU, (M4) ». Tous les autres fils rouges sont isolés un par un (gaine thermo) et ne sont jamais reliés à F2, F3 ou F4 : sinon deux fusibles se retrouvent en parallèle. Le fil noir de L4 va au goujon GP-HEAD avec le marron, ou il est isolé. Le détail est dans la nomenclature.
+
 ### ⚠️ À vérifier — Fils MaxxECU de 3 m : mesurer avant de couper
 
 Les longueurs du dossier sont estimées. Trois fils dépassent 3 m : GPO1 vers la MAC (≈ 3,15 m) et le câble TRIGGER vers le capteur PMH (≈ 3,10 m, signal et masse). Poser tout le faisceau, mesurer, puis couper : jamais l'inverse. Si un fil est trop court, le rallonger avec un manchon à souder ; pour le câble blindé TRIGGER, rallonger avec du câble 2 × 0,5 mm² blindé et reprendre le blindage, ou rapprocher le passage du tablier. Les fils non utilisés restent à longueur, isolés au bout et repliés dans le faisceau.
 
 ### ⚠️ À vérifier — LSU 4.2 ou 4.9 ?
 
-Le kit Premium est livré avec une sonde LSU 4.2 et son connecteur, alors que le dossier est câblé pour une LSU 4.9 (brochage différent, voir le plan MaxxECU). À confirmer avant de câbler la sonde : si tu montes la 4.2 fournie, le brochage du connecteur et le réglage MTune changent.
+Le kit Premium est livré avec une sonde LSU 4.2 (Bosch 0 258 007 057) et son connecteur, alors que la liste de coupe suit la LSU 4.9 (LSU.1 à LSU.6 : 1 IP, 2 COM, 3 chauffage −, 4 +12 V, 5 RCAL, 6 VS). Aucune broche n'est commune entre les deux. Brochage LSU 4.2 (vue côté câble, plan MaxxECU) : 1 = VS (fil marron WBO2 VS, F4) ; 2 = RCAL (vert WBO2 RCAL, G4) ; 3 = +12 V chauffage (fil RD/WH du dossier, ou fil MaxxECU « 12V LAMBDA (PIN 3) ») ; 4 = chauffage − (vert « WBO2 HTR PIN 4 », D1) ; 5 = COM (jaune, F3) ; 6 = IP (blanc, G3). Avec la 4.2 du kit : sertir son connecteur d'après ce tableau, pas d'après la liste de coupe, et choisir « Bosch LSU 4.2 » dans MTune. Avec une 4.9 : acheter la sonde 0 258 017 025 et son contre-connecteur, la 4.2 du kit reste dans la boîte.
 
 ### ➕ Ajouté — Révision E : fusibles F1 à F10, relais du pad
 
@@ -89,7 +93,7 @@ Caisse vide : rien n'alimentait le contacteur, le démarreur ni l'excitation de 
 
 ### ➕ Ajouté — Épissures obligatoires
 
-Une alvéole CMC ne reçoit qu'un fil. +5 V, Sensor GND, VR GND, Knock GND et Shield GND passent par des épissures dédiées, placées au ras de l'ECU pour les références et sur la branche moteur pour les distributions.
+Une alvéole CMC ne reçoit qu'un fil. À faire : les épissures +5 V et Sensor GND, au ras de l'ECU pour les références et sur la branche moteur pour les distributions. VR GND, Knock GND et les blindages (Shield GND) sont déjà répartis par MaxxECU dans les câbles TRIGGER, HOME/CAM, WBO2 1 et KNOCK 1 / 2 : ne pas les ouvrir.
 
 ### ✅ Validé — Brochage ECU conforme au schéma officiel RACE REV9+
 
@@ -107,9 +111,9 @@ MaxxECU câble le M54 avec le papillon sur GPO11/12 (= Motor 1 −/+) et les pis
 
 Brochage confirmé : 1 non assignée, 2 pression (0,5–4,5 V = 0–10 bar), 3 +5 V, 4 masse, 5 NTC.
 
-### ✅ Validé — Lambda LSU 4.9 sur contrôleur interne
+### ✅ Validé — Lambda LSU 4.9 sur contrôleur interne (si tu montes une 4.9)
 
-Brochage conforme au schéma MaxxECU (vue côté câble) : 1 IP → G3, 2 COM → F3, 3 chauffage − → D1, 4 +12 V, 5 RCAL → G4, 6 VS → F4. Vérifie que ton boîtier est bien REV9 ou plus (étiquette).
+Brochage LSU 4.9 conforme au schéma MaxxECU (vue côté câble) ; pour la LSU 4.2 du kit, voir l'avertissement « LSU 4.2 ou 4.9 ? » : 1 IP → G3, 2 COM → F3, 3 chauffage − → D1, 4 +12 V, 5 RCAL → G4, 6 VS → F4. Vérifie que ton boîtier est bien REV9 ou plus (étiquette).
 
 ### ⚠️ À vérifier — Capteur PMH Hall M52 sur cible 60-2 du M50
 
@@ -121,7 +125,7 @@ La RACE Gen1 n'a qu'un +5 V (G1) et qu'une Sensor GND (H1) : pédale et papillon
 
 ### ✅ Validé — Alvéoles CMC : sans objet avec les faisceaux MaxxECU (déjà sertis)
 
-CMC1 (Molex 64320) : rangées A à K = petites alvéoles CP 0.6 (0,75 mm² maxi), rangées L et M = grandes alvéoles CP 1.5. CMC2 (Molex 64319) : rangées A à F = CP 0.6, G et H = CP 1.5. Le fil de chauffage lambda en D1 était en 1,0 mm² : impossible à sertir et à étancher, il passe en 0,75 mm². Contacts : 64322-1039 pour 0,5 mm² et 64322-1029 pour 0,75 mm² en petite alvéole (K1, K2, B4, D4, D1) ; 64323-1029 pour 0,5–1 mm² et 64323-1039 pour 1–2 mm² en grande alvéole (L4, CMC2 G4). Bouchons 64325-1010 / 64325-1023 sur les alvéoles vides.
+Faisceaux MaxxECU REV2 : tous les fils sont sertis dans les connecteurs de l'ECU, aucun contact, bouchon ni outil Molex à prévoir.
 
 ### ✅ Validé — Injecteurs 870 cc
 

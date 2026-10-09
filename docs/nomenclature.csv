@@ -1,6 +1,6 @@
 Catégorie;Article;Quantité;Unité;Détail
-Faisceau MaxxECU (fourni);Connecteur 1 — Molex CMC 48 voies — fils MaxxECU de 3 m déjà sertis et repérés;1;pc;"39 fils utilisés sur 48 ; les autres : laisser à longueur, isoler chaque bout (gaine thermo) et les replier dans le faisceau"
-Faisceau MaxxECU (fourni);Connecteur 2 — Molex CMC 32 voies — fils MaxxECU de 3 m déjà sertis et repérés;1;pc;"12 fils utilisés sur 32 ; les autres : laisser à longueur, isoler chaque bout (gaine thermo) et les replier dans le faisceau"
+Faisceau MaxxECU (fourni);Connecteur 1 — Molex CMC 48 voies — fils MaxxECU de 3 m déjà sertis et repérés;1;pc;41 fils utilisés sur 48. Fils libres, à laisser à longueur, bout isolé sous gaine thermo et replié dans le faisceau : A1 GP OUT 5, (A1), A4 TACH/GP OUT 8, (A4), D2 IGNITION CYL 7, (D2), D3 IGNITION CYL 8, (D3), E4 GP OUT 4, (E4), L1 INJECTOR CYL 8, (L1), L2 INJECTOR CYL 7, (L2)
+Faisceau MaxxECU (fourni);Connecteur 2 — Molex CMC 32 voies — fils MaxxECU de 3 m déjà sertis et repérés;1;pc;13 fils utilisés sur 32. Fils libres, à laisser à longueur, bout isolé sous gaine thermo et replié dans le faisceau : A1 EGT5+, A2 EGT6+, A3 EGT7+, A4 EGT8+, B1 EGT5-, B2 EGT6-, B3 EGT7-, B4 EGT8-, C2 EGT2+, C3 EGT3+, C4 EGT4+, D2 EGT2-, D3 EGT3-, D4 EGT4-, F2 ANALOG IN 8 (0-5V), G1 GP OUT 15 (12V), G2 GP OUT 16 (12V), H1 MOTOR 2+, H3 MOTOR 2-
 Connecteurs;BMW 3 voies (capteur M52);1;pc;CRANK — 3 contacts
 Connecteurs;BMW 6 voies (papillon M54);1;pc;ETB — 6 contacts
 Connecteurs;Bosch 2 voies;2;pc;KS1, KS2 — 4 contacts
@@ -9,10 +9,9 @@ Connecteurs;Bosch JPT 2 voies;3;pc;IAT, CLT, VANOS — 6 contacts
 Connecteurs;Bosch JPT 3 voies;1;pc;CAM — 3 contacts
 Connecteurs;Connecteur 2 voies du ventilateur;1;pc;FAN — 2 contacts
 Connecteurs;Connecteur Bosch du capteur (broche 1 non câblée);2;pc;OIL, FUEL — 8 contacts
-Connecteurs;Contre-connecteur LSU 4.9 6 voies côté faisceau (Bosch D 261 205 356-01 ou kit Bosch Motorsport 1 987 280 016);1;pc;LSU — 6 contacts
+Connecteurs;Contre-connecteur LSU 4.9 6 voies côté faisceau (Bosch D 261 205 356-01 ou kit Bosch Motorsport 1 987 280 016) — seulement si tu montes une LSU 4.9 achetée à part;1;pc;LSU — 6 contacts
 Connecteurs;Cosse / fiche D+ de l'alternateur;1;pc;ALT — 1 contacts
 Connecteurs;Cosse de la borne 50 (selon démarreur);1;pc;STARTER — 1 contacts
-Connecteurs;Mini-K (thermocouple);1;pc;EGT1 — 2 contacts
 Connecteurs;Selon pompe;1;pc;PUMP — 2 contacts
 Connecteurs;Selon voyant;1;pc;LAMP — 2 contacts
 Connecteurs;Superseal 1.5 2 voies (conseillé);1;pc;MAC — 2 contacts
@@ -62,7 +61,6 @@ Fil;FLRY-B 4 mm² RD/BU;2,5;m;coupe 2,30 m + 10 %
 Fil;FLRY-B 4 mm² RD/YE;3,5;m;coupe 3,20 m + 10 %
 Fil;FLRY-B 10 mm² RD;1,9;m;coupe 1,75 m + 10 %
 Câble;Rallonge C-CRANK : câble 2 × 0,5 mm² torsadé blindé;0,4;m;seulement si le câble MaxxECU est trop court une fois posé
-Câble;2 fils rouges MaxxECU MOTOR 1+ / MOTOR 1- à torsader ensemble;3,1;m;C-ETBM — Moteur papillon
 Gaine;DR-25 12.7/6.4 mm;1,0;m;selon tronçons du formboard
 Gaine;DR-25 19.1/9.5 mm;1,4;m;selon tronçons du formboard
 Gaine;DR-25 25.4/12.7 mm;1,8;m;selon tronçons du formboard
@@ -70,7 +68,13 @@ Gaine;DR-25 3.2/1.6 mm;0,8;m;selon tronçons du formboard
 Gaine;DR-25 4.8/2.4 mm;8,0;m;selon tronçons du formboard
 Gaine;DR-25 6.4/3.2 mm;3,7;m;selon tronçons du formboard
 Gaine;DR-25 9.5/4.8 mm;1,7;m;selon tronçons du formboard
-Repérage;Étiquettes thermo imprimables (repère de fil);304;pc;une à chaque extrémité
+Repérage;Étiquettes thermo imprimables (repère de fil);249;pc;une à chaque extrémité des fils neufs, une côté composant pour les fils MaxxECU
+Faisceau MaxxECU (fourni);Fil sans broche « 12V ECU, (C) » (RD);1;pc;"relié à M4 (+12 V ECU) — s'il existe, c'est lui qui va à F1 (fil PWR-13) ; sinon F1 va au fil « 12V ECU, (M4) »"
+Faisceau MaxxECU (fourni);Fil sans broche « 12V LAMBDA (PIN 3) » (RD);1;pc;"relié à M4 : sous tension dès que F1 l'est — isoler le bout sous gaine thermo (le chauffage de la sonde est alimenté par F4) ; ne jamais le relier à F4"
+Faisceau MaxxECU (fourni);Fil sans broche « 12V INJECTORS » (RD);1;pc;"relié à M4 : sous tension dès que F1 l'est — isoler le bout ; ne jamais le relier à l'épissure +12 V injecteurs (F3)"
+Faisceau MaxxECU (fourni);Fil sans broche « 12V GP OUT » (RD);1;pc;"relié à M4 : sous tension dès que F1 l'est — isoler le bout ; ne jamais le relier aux +12 V des actionneurs (F4) ni des relais (F5)"
+Faisceau MaxxECU (fourni);Fil sans broche « 12V IGNITION, (D) » (RD);1;pc;relié au fil « +12v power supply for ignition coils », non alimenté — isoler les deux bouts : les bobines sont alimentées par F2
+Faisceau MaxxECU (fourni);Fil sans broche « noir sur ENGINE GROUND (L4) » (BK);1;pc;relié à L4 — le serrer au goujon GP-HEAD avec le fil marron L4, ou l'isoler
 Protection;Boîte à fusibles 10 voies (la tienne), une entrée par fusible;1;pc;F1 à F5 alimentés par 5 ponts de 2,5 mm² depuis le répartiteur +87 (BUS87), F6 à F10 par 5 ponts de 2,5 mm² depuis le répartiteur +30 (BUS30) : voir la planche Alimentation
 Protection;Répartiteur d'alimentation à goujon M6 isolé, avec capot, 60 A mini;1;pc;BUS30 (+12 V permanent) : reçoit PWR-02 (10 mm², depuis F0) et les 5 ponts vers F6 à F10
 Protection;Répartiteur d'alimentation à goujon M6 isolé, avec capot, 30 A mini;1;pc;BUS87 (+12 V commuté) : reçoit PWR-07 (2,5 mm², depuis K1.87) et les 5 ponts vers F1 à F5
@@ -79,7 +83,7 @@ Protection;Support de relais ISO mini étanche (lames 6,3 mm);9;pc;"K1 à K4 (mo
 Montage;Passe-fil caoutchouc étanche pour la traversée du tablier;1;pc;"à l'emplacement de la boîte électronique d'origine ; Ø intérieur ≥ 25 mm (toron d'environ 20 mm + gaine)"
 Protection;Porte-fusible MAXI étanche, entrée / sortie 10 mm²;1;pc;F0 — borne B+ baie moteur
 Cosses;Cosse œillet tubulaire étamée 10 mm²;4;pc;PWR-01 (B+ M8 et F0), PWR-02 (F0 et répartiteur +30 BUS30) : diamètres selon porte-fusible
-Contacts;Contacts, joints de fil et bouchons pour chaque connecteur capteur / actionneur;1;lot;JPT / EV1, VAG 1J0 973 724, BMW, MQS, Superseal, contre-connecteur LSU : référence de contact selon la section de chaque fil (liste de coupe)
+Contacts;Contacts, joints de fil et bouchons pour chaque connecteur capteur / actionneur;1;lot;"JPT / EV1, VAG 1J0 973 724, BMW, MQS, Superseal, contre-connecteur LSU : référence de contact selon la section de chaque fil (liste de coupe) ; pour les fils MaxxECU, section non publiée (« ≈ » dans la liste) : choisir contact et joint d'après la section et l'isolant mesurés sur le fil reçu"
 Faisceau MaxxECU (fourni);Connecteurs EGT mini-K (type K);8;pc;"fournis avec le faisceau 2 ; un seul utilisé (EGT1)"
 Faisceau MaxxECU (fourni);Sonde lambda Bosch LSU 4.2 et son connecteur 6 voies;1;pc;"fournis dans le kit Premium ; le dossier est câblé pour une LSU 4.9 : voir l'avertissement « LSU 4.2 ou 4.9 »"
 Faisceau MaxxECU (fourni);Câble d'installation MaxxECU (bobines de couleur);1;lot;fourni dans le kit : utilisable pour les fils qui ne partent pas de l'ECU (alimentations, relais, pad, rallonges), section à vérifier sur chaque bobine

@@ -1320,6 +1320,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "CLT": {
@@ -1341,6 +1342,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "OIL": {
@@ -1362,6 +1364,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "FUEL": {
@@ -1383,6 +1386,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "CRANK": {
@@ -1404,6 +1408,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "CAM": {
@@ -1425,6 +1430,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "KS1": {
@@ -1446,6 +1452,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "KS2": {
@@ -1467,6 +1474,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "LSU": {
@@ -1474,11 +1482,11 @@
    "label": "Sonde lambda large bande",
    "ref": "Bosch LSU 4.9 — 0 258 017 025",
    "type": "WBO2 6 fils (contrôleur interne RACE REV9+)",
-   "connector": "Contre-connecteur LSU 4.9 6 voies côté faisceau (Bosch D 261 205 356-01 ou kit Bosch Motorsport 1 987 280 016)",
+   "connector": "Contre-connecteur LSU 4.9 6 voies côté faisceau (Bosch D 261 205 356-01 ou kit Bosch Motorsport 1 987 280 016) — seulement si tu montes une LSU 4.9 achetée à part",
    "node": "N_LSU",
    "system": "WBO",
    "harness": null,
-   "notes": "Brochage identique au schéma MaxxECU (LSU 4.9 vue côté câble). Capteur à sélectionner dans MTune avant usage. Connecteur fixé côté froid (< 140 °C, fiche Bosch) : seule la queue d'origine de la sonde longe la descente, le faisceau ne va pas jusqu'au turbo.",
+   "notes": "Numéros de broche de la LSU 4.9 (vue côté câble, schéma MaxxECU). Le kit fournit une LSU 4.2 : brochage complètement différent. Brochage LSU 4.2 (vue côté câble, plan MaxxECU) : 1 = VS (fil marron WBO2 VS, F4) ; 2 = RCAL (vert WBO2 RCAL, G4) ; 3 = +12 V chauffage (fil RD/WH du dossier, ou fil MaxxECU « 12V LAMBDA (PIN 3) ») ; 4 = chauffage − (vert « WBO2 HTR PIN 4 », D1) ; 5 = COM (jaune, F3) ; 6 = IP (blanc, G3). Capteur à sélectionner dans MTune avant usage. Connecteur fixé côté froid (< 140 °C, fiche Bosch) : seule la queue d'origine de la sonde longe la descente, le faisceau ne va pas jusqu'au turbo.",
    "verify": "",
    "rating_a": null,
    "load_a": 1.5,
@@ -1488,6 +1496,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "EGT1": {
@@ -1495,11 +1504,11 @@
    "label": "Sonde EGT",
    "ref": "Thermocouple type K",
    "type": "Thermocouple K, pointe isolée",
-   "connector": "Mini-K (thermocouple)",
+   "connector": "Mini-K (thermocouple), fourni avec le faisceau MaxxECU 2",
    "node": "N_EGT",
    "system": "WBO",
    "harness": null,
-   "notes": "Rallonge en câble thermocouple type K jusqu'au CMC2, aucun fil cuivre.",
+   "notes": "Fils EGT1+ (jaune) / EGT1− (rouge) du faisceau MaxxECU 2, déjà en type K et longs de 3 m : couper à longueur et monter le mini-K fourni. Ne jamais rallonger en fil cuivre.",
    "verify": "",
    "rating_a": null,
    "load_a": null,
@@ -1509,6 +1518,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": true,
    "switch": {}
   },
   "ETB": {
@@ -1530,6 +1540,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "APP": {
@@ -1551,6 +1562,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "INJ1": {
@@ -1572,6 +1584,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "INJ2": {
@@ -1593,6 +1606,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "INJ3": {
@@ -1614,6 +1628,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "INJ4": {
@@ -1635,6 +1650,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "INJ5": {
@@ -1656,6 +1672,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "INJ6": {
@@ -1677,6 +1694,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "COIL1": {
@@ -1698,6 +1716,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "COIL2": {
@@ -1719,6 +1738,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "COIL3": {
@@ -1740,6 +1760,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "COIL4": {
@@ -1761,6 +1782,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "COIL5": {
@@ -1782,6 +1804,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "COIL6": {
@@ -1803,6 +1826,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "MAC": {
@@ -1824,6 +1848,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "VANOS": {
@@ -1848,6 +1873,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "PUMP": {
@@ -1869,6 +1895,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "FAN": {
@@ -1890,6 +1917,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "KEY": {
@@ -1911,6 +1939,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {
     "30": [
      "15"
@@ -1936,6 +1965,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {
     "IN": [
      "OUT"
@@ -1961,6 +1991,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "CANDEV": {
@@ -1982,6 +2013,7 @@
    "optional": true,
    "rank": 100,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "STARTER": {
@@ -2003,6 +2035,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "ALT": {
@@ -2024,6 +2057,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "LAMP": {
@@ -2045,6 +2079,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "BATT": {
@@ -2066,6 +2101,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "F0": {
@@ -2087,6 +2123,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "F1": {
@@ -2108,6 +2145,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "F2": {
@@ -2129,6 +2167,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "F3": {
@@ -2150,6 +2189,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "F4": {
@@ -2171,6 +2211,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "F5": {
@@ -2192,6 +2233,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "F6": {
@@ -2213,6 +2255,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "F7": {
@@ -2234,6 +2277,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "F8": {
@@ -2255,6 +2299,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "F9": {
@@ -2276,6 +2321,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "F10": {
@@ -2297,6 +2343,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "K1": {
@@ -2318,6 +2365,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "K2": {
@@ -2339,6 +2387,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "K3": {
@@ -2360,6 +2409,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "K4": {
@@ -2381,6 +2431,7 @@
    "optional": false,
    "rank": null,
    "signal": false,
+   "kit": false,
    "switch": {}
   },
   "K5": {
@@ -2402,6 +2453,7 @@
    "optional": false,
    "rank": 100,
    "signal": true,
+   "kit": false,
    "switch": {}
   },
   "K6": {
@@ -2423,6 +2475,7 @@
    "optional": false,
    "rank": 100,
    "signal": true,
+   "kit": false,
    "switch": {}
   },
   "K7": {
@@ -2444,6 +2497,7 @@
    "optional": false,
    "rank": 100,
    "signal": true,
+   "kit": false,
    "switch": {}
   },
   "K8": {
@@ -2465,6 +2519,7 @@
    "optional": false,
    "rank": 100,
    "signal": true,
+   "kit": false,
    "switch": {}
   },
   "K9": {
@@ -2486,6 +2541,7 @@
    "optional": false,
    "rank": 100,
    "signal": true,
+   "kit": false,
    "switch": {}
   },
   "GP-HEAD": {
@@ -5080,7 +5136,7 @@
    "harness": "PDM",
    "internal": false,
    "drain": false,
-   "note": "Fil MaxxECU « 12V ECU, (M4) » : couper à 0,65 m. Alimentation ECU (15 A, préconisation MaxxECU)",
+   "note": "Fil MaxxECU « 12V ECU, (M4) » : couper à 0,65 m. Alimentation ECU (15 A, préconisation MaxxECU). Si ton faisceau a un fil rouge « 12V ECU, (C) » relié à M4, c'est lui qui va à F1",
    "jumper": false,
    "premade": false,
    "lead": {
@@ -7670,7 +7726,7 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "Fil MaxxECU « WBO2 IP — câble WBO2 1 » : couper à 1,95 m.",
+   "note": "Fil MaxxECU « WBO2 IP — câble WBO2 1 » : couper à 1,95 m. Numéro de broche LSU 4.9 ; pour la LSU 4.2 du kit, voir la fiche LSU",
    "jumper": false,
    "premade": false,
    "lead": {
@@ -7703,7 +7759,7 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "Fil MaxxECU « WBO2 COM — câble WBO2 1 » : couper à 1,95 m.",
+   "note": "Fil MaxxECU « WBO2 COM — câble WBO2 1 » : couper à 1,95 m. Numéro de broche LSU 4.9 ; pour la LSU 4.2 du kit, voir la fiche LSU",
    "jumper": false,
    "premade": false,
    "lead": {
@@ -7736,7 +7792,7 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "Fil MaxxECU « WBO2 RCAL — câble WBO2 1 » : couper à 1,95 m.",
+   "note": "Fil MaxxECU « WBO2 RCAL — câble WBO2 1 » : couper à 1,95 m. Numéro de broche LSU 4.9 ; pour la LSU 4.2 du kit, voir la fiche LSU",
    "jumper": false,
    "premade": false,
    "lead": {
@@ -7769,7 +7825,7 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "Fil MaxxECU « WBO2 VS/O2 IN — câble WBO2 1 » : couper à 1,95 m.",
+   "note": "Fil MaxxECU « WBO2 VS/O2 IN — câble WBO2 1 » : couper à 1,95 m. Numéro de broche LSU 4.9 ; pour la LSU 4.2 du kit, voir la fiche LSU",
    "jumper": false,
    "premade": false,
    "lead": {
@@ -7821,7 +7877,7 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "Fil MaxxECU « WBO2 HTR PIN 4 / GP OUT 9, (D1) » : couper à 1,95 m. Chauffage − piloté par GPO9 (5 A)",
+   "note": "Fil MaxxECU « WBO2 HTR PIN 4 / GP OUT 9, (D1) » : couper à 1,95 m. Chauffage − piloté par GPO9 (5 A). Broche 3 sur la LSU 4.9 ; l'étiquette MaxxECU « PIN 4 » suit la numérotation de la LSU 4.2",
    "jumper": false,
    "premade": false,
    "lead": {
@@ -7854,7 +7910,7 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "+12 V chauffage lambda pris sur l'épissure actionneurs (même fusible que VANOS, MAC et PMH) ; 0,75 mm² derrière un fusible de 10 A",
+   "note": "+12 V chauffage lambda pris sur l'épissure actionneurs (même fusible que VANOS, MAC et PMH) ; 0,75 mm² derrière un fusible de 10 A. Broche 4 sur la LSU 4.9, broche 3 sur la LSU 4.2",
    "jumper": false,
    "premade": false,
    "lead": null,
@@ -10993,7 +11049,7 @@
   {
    "sev": "fix",
    "title": "Retour du capteur AAC sur VR GND (CMC1 H2), pas sur Sensor GND (H1)",
-   "detail": "Sur le schéma officiel RACE REV9+, le capteur PMH et le capteur AAC (VR ou Hall) ont leur retour sur VR GND (H2) ; les blindages PMH, AAC et lambda vont sur SHIELD GND (E3), ceux des capteurs de cliquetis sur KNOCK GND (CMC2 E1, page 2 du schéma). Ton plan mettait la broche 2 de l'AAC sur H1. Les deux retours (PMH broche 3 + AAC broche 2) se rejoignent par l'épissure SPL-VRG au ras du connecteur."
+   "detail": "Sur le schéma officiel RACE REV9+, le capteur PMH et le capteur AAC (VR ou Hall) ont leur retour sur VR GND (H2) ; les blindages PMH, AAC et lambda vont sur SHIELD GND (E3), ceux des capteurs de cliquetis sur KNOCK GND (CMC2 E1, page 2 du schéma). Ton plan mettait la broche 2 de l'AAC sur H1. Les deux retours (PMH broche 3 + AAC broche 2) se rejoignent sur VR GND (H2) par l'épissure SPL-VRG, déjà faite par MaxxECU dans les câbles TRIGGER et HOME/CAM."
   },
   {
    "sev": "add",
@@ -11042,13 +11098,18 @@
   },
   {
    "sev": "warn",
+   "title": "Fils rouges MaxxECU sans broche : à repérer et isoler",
+   "detail": "Sur le plan MaxxECU, le faisceau 1 porte des fils prévus pour l'ancien connecteur d'alimentation 12 voies, absent sur ta version REV2 : « 12V ECU, (C) », « 12V LAMBDA (PIN 3) », « 12V INJECTORS » et « 12V GP OUT » sont reliés à M4, donc sous tension dès que F1 alimente l'ECU ; « 12V IGNITION, (D) » est relié au « +12v power supply for ignition coils » ; un fil noir double L4. À réception, ECU débranchée, repérer chacun à l'ohmmètre. F1 va sur « 12V ECU, (C) » s'il existe, sinon sur « 12V ECU, (M4) ». Tous les autres fils rouges sont isolés un par un (gaine thermo) et ne sont jamais reliés à F2, F3 ou F4 : sinon deux fusibles se retrouvent en parallèle. Le fil noir de L4 va au goujon GP-HEAD avec le marron, ou il est isolé. Le détail est dans la nomenclature."
+  },
+  {
+   "sev": "warn",
    "title": "Fils MaxxECU de 3 m : mesurer avant de couper",
    "detail": "Les longueurs du dossier sont estimées. Trois fils dépassent 3 m : GPO1 vers la MAC (≈ 3,15 m) et le câble TRIGGER vers le capteur PMH (≈ 3,10 m, signal et masse). Poser tout le faisceau, mesurer, puis couper : jamais l'inverse. Si un fil est trop court, le rallonger avec un manchon à souder ; pour le câble blindé TRIGGER, rallonger avec du câble 2 × 0,5 mm² blindé et reprendre le blindage, ou rapprocher le passage du tablier. Les fils non utilisés restent à longueur, isolés au bout et repliés dans le faisceau."
   },
   {
    "sev": "warn",
    "title": "LSU 4.2 ou 4.9 ?",
-   "detail": "Le kit Premium est livré avec une sonde LSU 4.2 et son connecteur, alors que le dossier est câblé pour une LSU 4.9 (brochage différent, voir le plan MaxxECU). À confirmer avant de câbler la sonde : si tu montes la 4.2 fournie, le brochage du connecteur et le réglage MTune changent."
+   "detail": "Le kit Premium est livré avec une sonde LSU 4.2 (Bosch 0 258 007 057) et son connecteur, alors que la liste de coupe suit la LSU 4.9 (LSU.1 à LSU.6 : 1 IP, 2 COM, 3 chauffage −, 4 +12 V, 5 RCAL, 6 VS). Aucune broche n'est commune entre les deux. Brochage LSU 4.2 (vue côté câble, plan MaxxECU) : 1 = VS (fil marron WBO2 VS, F4) ; 2 = RCAL (vert WBO2 RCAL, G4) ; 3 = +12 V chauffage (fil RD/WH du dossier, ou fil MaxxECU « 12V LAMBDA (PIN 3) ») ; 4 = chauffage − (vert « WBO2 HTR PIN 4 », D1) ; 5 = COM (jaune, F3) ; 6 = IP (blanc, G3). Avec la 4.2 du kit : sertir son connecteur d'après ce tableau, pas d'après la liste de coupe, et choisir « Bosch LSU 4.2 » dans MTune. Avec une 4.9 : acheter la sonde 0 258 017 025 et son contre-connecteur, la 4.2 du kit reste dans la boîte."
   },
   {
    "sev": "add",
@@ -11083,7 +11144,7 @@
   {
    "sev": "add",
    "title": "Épissures obligatoires",
-   "detail": "Une alvéole CMC ne reçoit qu'un fil. +5 V, Sensor GND, VR GND, Knock GND et Shield GND passent par des épissures dédiées, placées au ras de l'ECU pour les références et sur la branche moteur pour les distributions."
+   "detail": "Une alvéole CMC ne reçoit qu'un fil. À faire : les épissures +5 V et Sensor GND, au ras de l'ECU pour les références et sur la branche moteur pour les distributions. VR GND, Knock GND et les blindages (Shield GND) sont déjà répartis par MaxxECU dans les câbles TRIGGER, HOME/CAM, WBO2 1 et KNOCK 1 / 2 : ne pas les ouvrir."
   },
   {
    "sev": "ok",
@@ -11107,8 +11168,8 @@
   },
   {
    "sev": "ok",
-   "title": "Lambda LSU 4.9 sur contrôleur interne",
-   "detail": "Brochage conforme au schéma MaxxECU (vue côté câble) : 1 IP → G3, 2 COM → F3, 3 chauffage − → D1, 4 +12 V, 5 RCAL → G4, 6 VS → F4. Vérifie que ton boîtier est bien REV9 ou plus (étiquette)."
+   "title": "Lambda LSU 4.9 sur contrôleur interne (si tu montes une 4.9)",
+   "detail": "Brochage LSU 4.9 conforme au schéma MaxxECU (vue côté câble) ; pour la LSU 4.2 du kit, voir l'avertissement « LSU 4.2 ou 4.9 ? » : 1 IP → G3, 2 COM → F3, 3 chauffage − → D1, 4 +12 V, 5 RCAL → G4, 6 VS → F4. Vérifie que ton boîtier est bien REV9 ou plus (étiquette)."
   },
   {
    "sev": "warn",
@@ -11123,7 +11184,7 @@
   {
    "sev": "ok",
    "title": "Alvéoles CMC : sans objet avec les faisceaux MaxxECU (déjà sertis)",
-   "detail": "CMC1 (Molex 64320) : rangées A à K = petites alvéoles CP 0.6 (0,75 mm² maxi), rangées L et M = grandes alvéoles CP 1.5. CMC2 (Molex 64319) : rangées A à F = CP 0.6, G et H = CP 1.5. Le fil de chauffage lambda en D1 était en 1,0 mm² : impossible à sertir et à étancher, il passe en 0,75 mm². Contacts : 64322-1039 pour 0,5 mm² et 64322-1029 pour 0,75 mm² en petite alvéole (K1, K2, B4, D4, D1) ; 64323-1029 pour 0,5–1 mm² et 64323-1039 pour 1–2 mm² en grande alvéole (L4, CMC2 G4). Bouchons 64325-1010 / 64325-1023 sur les alvéoles vides."
+   "detail": "Faisceaux MaxxECU REV2 : tous les fils sont sertis dans les connecteurs de l'ECU, aucun contact, bouchon ni outil Molex à prévoir."
   },
   {
    "sev": "ok",
@@ -11241,6 +11302,7 @@
     "Bobines : confirmer le repérage 1-2-3-4 moulé sur le connecteur.",
     "Vérifier l'étiquette de la RACE : REV9 ou plus (LSU 4.9).",
     "Faisceaux MaxxECU : repérer chaque fil utilisé par son étiquette ; poser le faisceau et mesurer avant de couper (fils de 3 m, MAC et TRIGGER au plus juste).",
+    "Faisceau MaxxECU 1, ECU débranchée : repérer à l'ohmmètre les fils sans broche (12V ECU (C), 12V LAMBDA, 12V INJECTORS, 12V GP OUT reliés à M4 ; 12V IGNITION (D) ; fil noir sur L4) ; isoler chaque fil inutilisé sous gaine thermo.",
     "Pad : boutons 4 à 7 en mode Toggle (LED rouge), bouton 8 en mode Momentary (LED bleue), fusibles de ces 5 circuits remplacés par du 5 A ; bouton allumé = +12 V sur la sortie, éteint = 0 V ou circuit ouvert.",
     "Relais K5 à K9 : bobine 86–85 ≈ 70–90 Ω ; contact 30–87 ouvert au repos, fermé bobine sous 12 V."
    ]
@@ -11264,6 +11326,7 @@
   {
    "phase": "Première mise sous tension (pompe et injecteurs débranchés)",
    "items": [
+    "Avant le premier contact : aucun bout de fil MaxxECU dénudé ; chaque fil rouge inutilisé isolé (pas de continuité vers la masse).",
     "Interrupteur de contact sur ON : relais principal colle, +12 V sur CMC1 M4, voyant de charge allumé.",
     "Contact coupé : K1 décollé, 0 V en sortie de F1 à F5 et sur CMC1 M4 ; +12 V en sortie de F6 à F10.",
     "Bouton démarreur appuyé, contact mis : K4 colle et la borne 50 du démarreur reçoit le +12 V (injecteurs débranchés). Contact coupé : le bouton ne fait rien.",
@@ -11287,14 +11350,14 @@
    "cat": "Faisceau MaxxECU (fourni)",
    "item": "Connecteur 1 — Molex CMC 48 voies — fils MaxxECU de 3 m déjà sertis et repérés",
    "qty": 1,
-   "detail": "39 fils utilisés sur 48 ; les autres : laisser à longueur, isoler chaque bout (gaine thermo) et les replier dans le faisceau",
+   "detail": "41 fils utilisés sur 48. Fils libres, à laisser à longueur, bout isolé sous gaine thermo et replié dans le faisceau : A1 GP OUT 5, (A1), A4 TACH/GP OUT 8, (A4), D2 IGNITION CYL 7, (D2), D3 IGNITION CYL 8, (D3), E4 GP OUT 4, (E4), L1 INJECTOR CYL 8, (L1), L2 INJECTOR CYL 7, (L2)",
    "unit": "pc"
   },
   {
    "cat": "Faisceau MaxxECU (fourni)",
    "item": "Connecteur 2 — Molex CMC 32 voies — fils MaxxECU de 3 m déjà sertis et repérés",
    "qty": 1,
-   "detail": "12 fils utilisés sur 32 ; les autres : laisser à longueur, isoler chaque bout (gaine thermo) et les replier dans le faisceau",
+   "detail": "13 fils utilisés sur 32. Fils libres, à laisser à longueur, bout isolé sous gaine thermo et replié dans le faisceau : A1 EGT5+, A2 EGT6+, A3 EGT7+, A4 EGT8+, B1 EGT5-, B2 EGT6-, B3 EGT7-, B4 EGT8-, C2 EGT2+, C3 EGT3+, C4 EGT4+, D2 EGT2-, D3 EGT3-, D4 EGT4-, F2 ANALOG IN 8 (0-5V), G1 GP OUT 15 (12V), G2 GP OUT 16 (12V), H1 MOTOR 2+, H3 MOTOR 2-",
    "unit": "pc"
   },
   {
@@ -11355,7 +11418,7 @@
   },
   {
    "cat": "Connecteurs",
-   "item": "Contre-connecteur LSU 4.9 6 voies côté faisceau (Bosch D 261 205 356-01 ou kit Bosch Motorsport 1 987 280 016)",
+   "item": "Contre-connecteur LSU 4.9 6 voies côté faisceau (Bosch D 261 205 356-01 ou kit Bosch Motorsport 1 987 280 016) — seulement si tu montes une LSU 4.9 achetée à part",
    "qty": 1,
    "detail": "LSU — 6 contacts",
    "unit": "pc"
@@ -11372,13 +11435,6 @@
    "item": "Cosse de la borne 50 (selon démarreur)",
    "qty": 1,
    "detail": "STARTER — 1 contacts",
-   "unit": "pc"
-  },
-  {
-   "cat": "Connecteurs",
-   "item": "Mini-K (thermocouple)",
-   "qty": 1,
-   "detail": "EGT1 — 2 contacts",
    "unit": "pc"
   },
   {
@@ -11725,13 +11781,6 @@
    "detail": "seulement si le câble MaxxECU est trop court une fois posé"
   },
   {
-   "cat": "Câble",
-   "item": "2 fils rouges MaxxECU MOTOR 1+ / MOTOR 1- à torsader ensemble",
-   "qty": 3.1,
-   "unit": "m",
-   "detail": "C-ETBM — Moteur papillon"
-  },
-  {
    "cat": "Gaine",
    "item": "DR-25 12.7/6.4 mm",
    "qty": 1.0,
@@ -11783,8 +11832,50 @@
   {
    "cat": "Repérage",
    "item": "Étiquettes thermo imprimables (repère de fil)",
-   "qty": 304,
-   "detail": "une à chaque extrémité",
+   "qty": 249,
+   "detail": "une à chaque extrémité des fils neufs, une côté composant pour les fils MaxxECU",
+   "unit": "pc"
+  },
+  {
+   "cat": "Faisceau MaxxECU (fourni)",
+   "item": "Fil sans broche « 12V ECU, (C) » (RD)",
+   "qty": 1,
+   "detail": "relié à M4 (+12 V ECU) — s'il existe, c'est lui qui va à F1 (fil PWR-13) ; sinon F1 va au fil « 12V ECU, (M4) »",
+   "unit": "pc"
+  },
+  {
+   "cat": "Faisceau MaxxECU (fourni)",
+   "item": "Fil sans broche « 12V LAMBDA (PIN 3) » (RD)",
+   "qty": 1,
+   "detail": "relié à M4 : sous tension dès que F1 l'est — isoler le bout sous gaine thermo (le chauffage de la sonde est alimenté par F4) ; ne jamais le relier à F4",
+   "unit": "pc"
+  },
+  {
+   "cat": "Faisceau MaxxECU (fourni)",
+   "item": "Fil sans broche « 12V INJECTORS » (RD)",
+   "qty": 1,
+   "detail": "relié à M4 : sous tension dès que F1 l'est — isoler le bout ; ne jamais le relier à l'épissure +12 V injecteurs (F3)",
+   "unit": "pc"
+  },
+  {
+   "cat": "Faisceau MaxxECU (fourni)",
+   "item": "Fil sans broche « 12V GP OUT » (RD)",
+   "qty": 1,
+   "detail": "relié à M4 : sous tension dès que F1 l'est — isoler le bout ; ne jamais le relier aux +12 V des actionneurs (F4) ni des relais (F5)",
+   "unit": "pc"
+  },
+  {
+   "cat": "Faisceau MaxxECU (fourni)",
+   "item": "Fil sans broche « 12V IGNITION, (D) » (RD)",
+   "qty": 1,
+   "detail": "relié au fil « +12v power supply for ignition coils », non alimenté — isoler les deux bouts : les bobines sont alimentées par F2",
+   "unit": "pc"
+  },
+  {
+   "cat": "Faisceau MaxxECU (fourni)",
+   "item": "Fil sans broche « noir sur ENGINE GROUND (L4) » (BK)",
+   "qty": 1,
+   "detail": "relié à L4 — le serrer au goujon GP-HEAD avec le fil marron L4, ou l'isoler",
    "unit": "pc"
   },
   {
@@ -11848,7 +11939,7 @@
    "item": "Contacts, joints de fil et bouchons pour chaque connecteur capteur / actionneur",
    "qty": 1,
    "unit": "lot",
-   "detail": "JPT / EV1, VAG 1J0 973 724, BMW, MQS, Superseal, contre-connecteur LSU : référence de contact selon la section de chaque fil (liste de coupe)"
+   "detail": "JPT / EV1, VAG 1J0 973 724, BMW, MQS, Superseal, contre-connecteur LSU : référence de contact selon la section de chaque fil (liste de coupe) ; pour les fils MaxxECU, section non publiée (« ≈ » dans la liste) : choisir contact et joint d'après la section et l'isolant mesurés sur le fil reçu"
   },
   {
    "cat": "Faisceau MaxxECU (fourni)",

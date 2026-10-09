@@ -112,7 +112,7 @@ class Harness:
                             supply5_ma=c.get("supply5_ma"),
                             external=bool(c.get("external")),
                             optional=bool(c.get("optional")), rank=c.get("rank"),
-                            signal=bool(c.get("signal")),
+                            signal=bool(c.get("signal")), kit=bool(c.get("kit")),
                             switch={str(k): [str(x) for x in v] for k, v in (c.get("switch") or {}).items()})
             for pin, p in c["pins"].items():
                 cls = p.get("cls")
@@ -720,7 +720,7 @@ class Harness:
         rows = []
         used = defaultdict(set)
         for w in self.wires:
-            if w["internal"]:
+            if w["internal"] and not w.get("premade"):
                 continue
             for end in ("from", "to"):
                 e = self.endpoints[w[end]]
@@ -730,10 +730,12 @@ class Harness:
         for cid, conn in self.d["ecu"]["connectors"].items():
             if self.supplied:
                 n = len(used[cid])
+                free = [f"{pin} {pp.get('mark') or pp['fn']}" for pin, pp in sorted(conn["pins"].items(), key=lambda kv: natural_key(kv[0]))
+                        if pin not in used[cid]]
                 rows.append({"cat": "Faisceau MaxxECU (fourni)", "item": f"{conn['title']} — fils MaxxECU de "
                              f"{(self.d['ecu'].get('harness') or {}).get('lead_m', 3.0):g} m déjà sertis et repérés",
-                             "qty": 1, "detail": f"{n} fils utilisés sur {len(conn['pins'])} ; les autres : laisser à "
-                             "longueur, isoler chaque bout (gaine thermo) et les replier dans le faisceau"})
+                             "qty": 1, "detail": f"{n} fils utilisés sur {len(conn['pins'])}. Fils libres, à laisser à "
+                             f"longueur, bout isolé sous gaine thermo et replié dans le faisceau : {', '.join(free)}"})
                 continue
             rows.append({"cat": "Connecteurs", "item": conn["title"], "qty": 1,
                          "detail": f"{len(used[cid])} contacts utilisés / {len(conn['pins'])}"})
@@ -770,7 +772,7 @@ class Harness:
                              "qty": len(free_big), "detail": " ".join(sorted(free_big, key=natural_key))})
         by_conn = defaultdict(list)
         for oid, o in self.owners.items():
-            if o["cat"] in ("comp", "inline") and not o.get("external"):
+            if o["cat"] in ("comp", "inline") and not o.get("external") and not (self.supplied and o.get("kit")):
                 by_conn[o["connector"]].append(oid)
         for conn, ids in sorted(by_conn.items()):
             contacts = sum(len(used[i]) for i in ids)
@@ -829,18 +831,26 @@ class Harness:
             if w["cable"]:
                 continue
             meters[(w["mm2"], w["color"])] += w["length_m"]
-        for (mm2, color), m in sorted(meters.items(), key=lambda kv: (kv[0][0], kv[0][1])):
-            rows.append({"cat": "Fil", "item": f"FLRY-B {fmt_mm2(mm2)} mm² {color}",
-                         "qty": round(m * 1.1, 1), "unit": "m", "detail": f"coupe {m:.2f} m + 10 %".replace(".", ",")})
+        wire_rows_at = len(rows)
         for c in self.cable_table:
-            if self.supplied and self.d["cables"][c["id"]].get("maxxecu"):
+            cores = [w for w in self.wires if w["cable"] == c["id"] and not w["drain"]]
+            if self.supplied and cores and all(w.get("lead") for w in cores):
                 if ext_cable.get(c["id"]):
-                    rows.append({"cat": "Câble", "item": f"Rallonge {c['id']} : câble 2 × 0,5 mm² torsadé blindé",
-                                 "qty": round(ext_cable[c["id"]] + 0.2, 1), "unit": "m",
-                                 "detail": "seulement si le câble MaxxECU est trop court une fois posé"})
+                    if c["shield"]:
+                        rows.append({"cat": "Câble", "item": f"Rallonge {c['id']} : câble {len(cores)} × "
+                                     f"{fmt_mm2(max(w['mm2'] for w in cores))} mm² torsadé blindé",
+                                     "qty": round(ext_cable[c["id"]] + 0.2, 1), "unit": "m",
+                                     "detail": "seulement si le câble MaxxECU est trop court une fois posé"})
+                    else:
+                        for w in cores:
+                            meters[(w["mm2"], w["color"])] += ext_cable[c["id"]]
                 continue
             rows.append({"cat": "Câble", "item": c["type"], "qty": round(c["length_m"] * 1.1, 1),
                          "unit": "m", "detail": f"{c['id']} — {c['label']}"})
+        wire_rows = [{"cat": "Fil", "item": f"FLRY-B {fmt_mm2(mm2)} mm² {color}", "qty": round(m * 1.1, 1), "unit": "m",
+                      "detail": f"coupe {m:.2f} m + 10 %".replace(".", ",")}
+                     for (mm2, color), m in sorted(meters.items(), key=lambda kv: (kv[0][0], kv[0][1]))]
+        rows[wire_rows_at:wire_rows_at] = wire_rows
         sleeves = defaultdict(float)
         for s in self.segments:
             if s.get("sleeve"):
@@ -848,9 +858,13 @@ class Harness:
         for sl, m in sorted(sleeves.items()):
             rows.append({"cat": "Gaine", "item": sl, "qty": round(m * 1.1, 1), "unit": "m",
                          "detail": "selon tronçons du formboard"})
-        labels = sum(2 for w in self.wires if not w["internal"] and not w["drain"])
+        labels = sum(1 if w.get("lead") else 2 for w in self.wires if not w["internal"] and not w["drain"])
         rows.append({"cat": "Repérage", "item": "Étiquettes thermo imprimables (repère de fil)",
-                     "qty": labels, "detail": "une à chaque extrémité"})
+                     "qty": labels, "detail": "une à chaque extrémité des fils neufs, une côté composant pour les fils MaxxECU"})
+        # Fils MaxxECU sans broche ECU (alimentations prévues pour l'ancien connecteur 12 voies)
+        for x in (self.d["ecu"].get("harness") or {}).get("extra_leads", []):
+            rows.append({"cat": "Faisceau MaxxECU (fourni)", "item": f"Fil sans broche « {x['mark']} » ({x['color']})",
+                         "qty": 1, "detail": f"{x['net']} — {x['action']}"})
         for extra in self.d.get("bom_extra", []):
             rows.append(dict(extra))
         for r in rows:
@@ -906,7 +920,7 @@ def write_outputs(h, data, out):
                      "De", "Fonction (de)", "Vers", "Fonction (vers)", "Planche", "Fusible amont",
                      "Fil MaxxECU", "Note"])
         for w in order:
-            wr.writerow([w["id"], fmt_mm2(w["mm2"]), w["color"], f"{w['length_m']:.2f}".replace(".", ","),
+            wr.writerow([w["id"], ("≈" if w.get("lead") else "") + fmt_mm2(w["mm2"]), w["color"], f"{w['length_m']:.2f}".replace(".", ","),
                          w["cable"] or "", w["harness"], w["from"], h.endpoints[w["from"]]["fn"],
                          w["to"], h.endpoints[w["to"]]["fn"], h.d["sheets"][w["sheet"]]["title"],
                          w.get("fuse", ""),
@@ -942,7 +956,8 @@ def report_md(h, data):
     lines = [f"# {m['project']} — rapport de vérification", "",
              f"*{m['ecu']} · révision {m['revision']} · {m['date']} · {m['status']}*", "",
              "> Généré par `tools/build_harness.py` depuis `harness/m50b25_vanos_turbo.yaml`. Ne pas éditer à la main.", "",
-             f"**{len(real)} fils** · **{total_m(real):.1f} m de fil coupé** · "
+             f"**{len(real)} fils** · **{total_m([w for w in real if not w.get('lead')]):.1f} m de fil neuf** + "
+             f"{total_m([w for w in real if w.get('lead')]):.1f} m de fils MaxxECU recoupés · "
              f"{len(h.d['splices'])} épissures/barrettes · {len(data['fuses'])} fusibles · "
              f"{sum(1 for o in h.owners.values() if o['cat'] == 'relay')} relais", "",
              f"## Contrôle des règles électriques : {len(v['errors'])} erreur(s), {len(v['warnings'])} alerte(s)", ""]

@@ -196,6 +196,7 @@ ul.plain { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
 .tbl th { font: 600 10.5px/1.2 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 9px 10px; border-bottom: 1.5px solid var(--ink); white-space: nowrap; background: var(--sheet); }
 .tbl td { padding: 7px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
 .tbl tr:last-child td { border-bottom: 0; }
+.tbl tr.group .cc { white-space: normal; flex-wrap: wrap; }
 .tbl tr.group td { background: var(--sheet-2); font: 600 12px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); }
 .tbl .fn { color: var(--ink-2); font-size: 12.5px; }
 .tbl tbody tr.clickable { cursor: pointer; }
@@ -1161,13 +1162,14 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
         h("dt", null, "Usage"), h("dd", null, p.wires.length ? sheetTitle(p.sheet) : "Libre — disponible pour une évolution")),
       p.wires.map(wid => {
         const w = WB[wid]; const o = epLabel(otherEnd(w, p.id));
+        const inner = w.internal || w.drain;
         return h("div", { class: "wire-line" },
-          h("div", { class: "cc", style: "flex-wrap:wrap" }, wireTag(w), colorChip(w.color), h("span", { class: "mono" }, mm2(w.mm2) + " mm² · " + dec(w.length_m) + " m"), w.cable ? h("span", { class: "muted mono" }, w.cable) : null),
+          h("div", { class: "cc", style: "flex-wrap:wrap" }, wireTag(w), inner ? h("span", { class: "muted" }, w.premade ? "fait par MaxxECU — rien à couper" : w.drain ? "blindage" : "barrette") : [colorChip(w.color), h("span", { class: "mono" }, mm2(w.mm2) + " mm² · " + dec(w.length_m) + " m")], w.cable ? h("span", { class: "muted mono" }, w.cable) : null),
           h("div", null, "→ ", h("span", { class: "mono" }, o.id), " ", h("span", { class: "muted" }, o.fn + " · " + o.owner)),
           w.note ? h("div", { class: "muted", style: "font-size:13px" }, w.note) : null,
           h("div", { style: "display:flex;flex-wrap:wrap;gap:8px" },
             h("button", { class: "btn primary", onclick: () => { closeSheet(); goSheet(w.sheet, { wire: w.id }, "ecu", p.id); } }, icon("planches"), "Planche " + w.sheet),
-            h("button", { class: "btn", onclick: () => { closeSheet(); openCut(w.id, "ecu", p.id); } }, icon("coupe"), "Coupe")));
+            inner ? null : h("button", { class: "btn", onclick: () => { closeSheet(); openCut(w.id, "ecu", p.id); } }, icon("coupe"), "Coupe")));
       })];
   }
   let pinImpl = null;
@@ -2088,7 +2090,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       if (currentTab === "planches") setHash("planche-" + id);
       vw.announce("Planche " + id + ", " + sheetTitle(id) + ", " + ws.length + " fils");
       if (!hasFocus) return;
-      if (focus.wire && WB[focus.wire]) { const w = WB[focus.wire]; select({ nets: new Set([w.net]), wire: w.id }, true); }
+      if (focus.wire && WB[focus.wire]) { const w = WB[focus.wire]; select({ nets: new Set([w.net]), wire: !w.internal && !w.drain ? w.id : null }, true); }
       else if (focus.ep) { const w = (wiresAt[focus.ep] || []).find(x => x.sheet === id) || (wiresAt[focus.ep] || [])[0]; if (w) select({ nets: new Set([w.net]), ep: focus.ep }, true); }
       else if (focus.owner) {
         const b = current.layout.boxes.get(focus.owner);
@@ -2306,7 +2308,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     const tr = h("tr", { class: "clickable" + (isCut(w.id) ? " done" : ""), dataset: { w: w.id } },
       h("td", { class: "c-chk cut-cell" }, h("label", { title: "Marquer comme coupé" }, chk)),
       h("td", { class: "c-id" }, idBtn),
-      h("td", { class: "c-mm2 num" }, mm2(w.mm2)),
+      h("td", { class: "c-mm2 num", title: w.lead ? "Section supposée : à vérifier sur le fil MaxxECU reçu" : null }, (w.lead ? "≈" : "") + mm2(w.mm2)),
       h("td", { class: "c-color" }, colorChip(w.color), h("span", { class: "mono m-only", style: "margin-left:6px" }, mm2(w.mm2) + " mm²")),
       h("td", { class: "c-len num" }, dec(w.length_m)),
       h("td", { class: "c-from" }, h("span", { class: "mono" }, w.from), h("div", { class: "fn" }, EP[w.from].fn)),
@@ -2374,7 +2376,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     }
     let grpInfo = [];
     const grpText = (w, grp) => { const done = grp.filter(x => isCut(x.id)).length;
-      if (w.lead) return "Fils MaxxECU déjà sertis côté ECU, à recouper — " + grp.length + " fil" + (grp.length > 1 ? "s" : "") + (done ? " · " + done + " fait" + (done > 1 ? "s" : "") : "");
+      if (w.lead) return "Fils MaxxECU à recouper — " + grp.length + " fil" + (grp.length > 1 ? "s" : "") + (done ? " · " + done + " fait" + (done > 1 ? "s" : "") : "");
       return mm2(w.mm2) + " mm² · " + w.color + " — " + grp.length + " fil" + (grp.length > 1 ? "s" : "") + " · " + dec(sumCm(grp) / 100, 2) + " m" + (done ? " · " + done + " coupé" + (done > 1 ? "s" : "") : ""); };
     let tempFilter = false, userF = null;
     function fillRows(noStore) {
@@ -2429,8 +2431,8 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       }
       window.scrollTo(0, y);
     });
-    SNAP.coupe = { get: () => ({ q: q.value, h: harn.value, s: sh.value, o: sort.value, d: state.value, temp: tempFilter, user: userF }),
-      set: f => { q.value = f.q; harn.value = f.h; sh.value = f.s; sort.value = f.o; state.value = f.d; fillRows(!!f.temp); tempFilter = !!f.temp; userF = f.temp ? f.user : null; } };
+    SNAP.coupe = { get: () => ({ q: q.value, m: orig.value, h: harn.value, s: sh.value, o: sort.value, d: state.value, temp: tempFilter, user: userF }),
+      set: f => { q.value = f.q; orig.value = f.m || ""; harn.value = f.h; sh.value = f.s; sort.value = f.o; state.value = f.d; fillRows(!!f.temp); tempFilter = !!f.temp; userF = f.temp ? f.user : null; } };
     // Revenir sur la Coupe par la navigation efface le filtre temporaire posé par un lien croisé
     ENTER.coupe = () => { if (tempFilter && userF) SNAP.coupe.set(userF); };
     [q, orig, harn, sh, sort, state].forEach(el => el.addEventListener("input", fillRows));
@@ -2439,7 +2441,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
       navigate("coupe", { noScroll: true }); pushBack(from, row);
       if (!tbody.querySelector('tr[data-w="' + wid + '"]')) {
         if (!tempFilter) userF = SNAP.coupe.get();
-        q.value = wid; harn.value = ""; sh.value = ""; state.value = ""; fillRows(true); tempFilter = true;
+        q.value = wid; orig.value = ""; harn.value = ""; sh.value = ""; state.value = ""; fillRows(true); tempFilter = true;
       }
       const tr = tbody.querySelector('tr[data-w="' + wid + '"]');
       if (tr) { if (cardMode(tr)) tr._setOpen(true); scrollToEl(tr, 90); flashEl(tr); focusIfLost(tr.querySelector(".wid")); }
