@@ -190,6 +190,25 @@ ul.plain { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
 .quick button strong { font: 600 16px/1.2 var(--font-display); letter-spacing: .04em; text-transform: uppercase; }
 .quick button small { color: var(--muted); font-size: 12.5px; }
 
+/* ---------- Modifications ---------- */
+.rev-pick { display: grid; gap: 8px; max-width: 760px; }
+.rev-pick select { font: 500 15px var(--font-body); padding: 10px 12px; min-height: 46px; border: 1px solid var(--rule-strong); border-radius: 6px; background: var(--sheet); color: var(--ink); width: 100%; }
+.rev-clue { color: var(--ink-2); font-size: 13.5px; }
+.rev-sum { font-size: 16px; font-weight: 600; margin: 0; }
+.rev-sum.ok { color: var(--good-ink); }
+.chg-group > h3 { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 0 0 4px; }
+.chg-group > p { color: var(--ink-2); margin: 0 0 10px; max-width: 82ch; }
+.chg { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.chg li { display: grid; gap: 4px; padding: 9px 12px; background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; min-width: 0; }
+.chg .ids { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+.chg .ends { color: var(--ink-2); font-size: 13px; overflow-wrap: anywhere; }
+.chg .ends b { color: var(--ink); }
+.chg .warn-l { color: var(--warn-ink); font-size: 13px; }
+.wid.old { background: var(--rule); color: var(--ink-2); text-decoration: line-through; }
+.rev-tbl tbody tr { cursor: pointer; }
+.rev-tbl tbody tr:hover td { background: var(--sheet-2); }
+.rev-tbl tr.sel td { background: color-mix(in srgb, var(--accent) 12%, var(--sheet)); }
+
 /* ---------- Tableaux ---------- */
 .tbl-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 6px; background: var(--sheet); }
 .tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; }
@@ -696,6 +715,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     fiche: "M6 3h9l4 4v14H6z M14 3v5h5 M9 12h7 M9 16h7",
     tag: "M3 12V4h8l10 10-8 8z M7.5 8.5h.01",
     filter: "M4 5h16 M7 12h10 M10 19h4",
+    modifs: "M4 12a8 8 0 1 0 2.3-5.6 M4 4.5v4h4 M12 8v4.5l3 2",
   };
   function icon(name, cls) {
     const s = sv("svg", { class: "ic" + (cls ? " " + cls : ""), viewBox: "0 0 24 24", "aria-hidden": "true", focusable: "false" });
@@ -929,6 +949,7 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
   // ------------------------------------------------------------------ tabs
   const TABS = [
     { id: "synthese", label: "Synthèse", short: "Synthèse", icon: "synthese", hint: "Contrôle, audit, hypothèses" },
+    { id: "modifs", label: "Modifications", short: "Modifs", icon: "modifs", hint: "Fils à reprendre depuis ta version" },
     { id: "ecu", label: "Brochage ECU", short: "ECU", icon: "ecu", hint: "80 broches CMC1 / CMC2" },
     { id: "planches", label: "Planches", short: "Planches", icon: "planches", hint: "12 schémas zoomables" },
     { id: "coupe", label: "Liste de coupe", short: "Coupe", icon: "coupe", hint: "Fils à couper, longueurs" },
@@ -1122,8 +1143,14 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
     const art = a => h("article", null, h("div", null, h("span", { class: "chip " + SEV[a.sev][0] }, SEV[a.sev][1])),
       h("div", null, h("h3", null, a.title), h("p", null, a.detail)));
     const oks = H.audit.filter(a => a.sev === "ok");
+    const HIST = H.history || [];
+    const lastRev = HIST.length ? HIST[HIST.length - 1] : null;
     sec.append(h("div", { class: "stack" },
       quick,
+      lastRev ? h("div", { class: "panel" },
+        h("h3", null, "Repères figés"),
+        h("p", { style: "margin:0 0 10px;max-width:82ch" }, "Un repère publié ne change plus jamais de fil. Si tu as commencé à repérer ou câbler avec une version précédente du dossier, l'onglet Modifications te donne, fil par fil, ce qu'il faut reprendre (souvent rien)."),
+        h("button", { class: "btn primary", style: "white-space:normal;text-align:left", onclick: () => navigate("modifs", { user: true, top: true }) }, icon("modifs"), "Voir ce qui a changé depuis ma version")) : null,
       h("div", { class: "panel" },
         h("h2", null, "Contrôle automatique du faisceau"),
         h("p", { class: "lede" }, "Chaque génération vérifie les règles électriques : une broche ECU = un fil, aucune masse de référence reliée à la caisse, aucun mélange +5 V / +12 V / masses, chaque fil protégé par un fusible adapté à sa section, courant de chaque sortie ECU sous sa limite. " +
@@ -2746,6 +2773,113 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
   };
 
   // ------------------------------------------------------------- nomenclature
+  // ---------------------------------------------------------- modifications
+  function revDate(iso) {
+    try { return new Date(iso).toLocaleString("fr-FR", { timeZone: "Europe/Paris", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }).replace(",", "").replace(":", " h "); }
+    catch (e) { return String(iso).slice(0, 16).replace("T", " "); }
+  }
+  const revWhen = r => revDate(r.from) + (r.until && r.until !== r.from ? " → " + revDate(r.until) : "");
+  const revName = r => "Rév. " + r.rev + (r.key !== r.rev ? " (" + r.key + ")" : "");
+  // Fil actuel au format des instantanés de révision
+  function curRef(id) {
+    const w = WB[id]; if (!w) return { id: id, a: "?", b: "?", af: "", bf: "" };
+    const lbl = e => { const x = EP[e] || {}; const o = OW[x.owner] || {}; return (o.label || x.owner || e) + (x.fn && x.cat !== "splice" && x.cat !== "ground" ? " — " + x.fn : ""); };
+    return { id: id, a: w.from, b: w.to, af: lbl(w.from), bf: lbl(w.to), mm2: w.mm2, color: w.color };
+  }
+  RENDER.modifs = function (sec) {
+    const HIST = (H.history || []).slice().reverse();
+    HIST.forEach(r => {
+      const d = r.diff;
+      ["moved", "relabel", "premade", "attr"].forEach(k => d[k].forEach(x => { x.new = curRef(x.new.id); }));
+      d.added = d.added.map(x => Object.assign(curRef(x.id), x));
+      d.removed.forEach(x => { if (x.now) x.now = curRef(x.now.id); });
+    });
+    sec.append(h("h2", null, "Modifications"),
+      h("p", { class: "lede" }, "Tu as commencé à repérer ou à câbler avec une version précédente du dossier ? Choisis-la : la liste dit, fil par fil, quoi reprendre. Les fils qui n'y figurent pas sont identiques (même repère, mêmes extrémités, même section) : rien à refaire."));
+    if (!HIST.length) { sec.append(h("p", null, "Aucune version précédente enregistrée.")); return; }
+    const saved = store("modrev");
+    let curKey = HIST.some(r => r.key === saved) ? saved : HIST[0].key;
+    const sel = h("select", { id: "rev-sel", "aria-label": "Version du dossier sur laquelle tu as travaillé" },
+      HIST.map(r => h("option", { value: r.key }, revName(r) + " · " + revDate(r.from) + " · " + (r.todo ? r.todo + " à reprendre" : "rien à reprendre"))));
+    const clue = h("div", { class: "rev-clue" });
+    const out = h("div", { class: "stack" });
+    const rows = {};
+    const tbl = h("div", { class: "tbl-wrap cards-m" }, h("table", { class: "tbl rev-tbl" },
+      h("thead", null, h("tr", null, ["Version", "Publiée", "Comment la reconnaître", "À reprendre"].map(t => h("th", null, t)))),
+      h("tbody", null, HIST.map(r => (rows[r.key] = h("tr", { onclick: () => pick(r.key, true) },
+        h("td", null, h("strong", null, revName(r)), h("div", { class: "fn" }, r.title || "")),
+        h("td", { class: "fn" }, revWhen(r)),
+        h("td", { class: "fn" }, r.clue || "—"),
+        h("td", { class: "num" }, r.todo ? String(r.todo) : "0")))))));
+    sec.append(h("div", { class: "stack" },
+      h("div", { class: "panel rev-pick" },
+        h("label", { for: "rev-sel", style: "font-weight:600" }, "J'ai travaillé sur la version :"), sel, clue,
+        h("details", null, h("summary", { style: "cursor:pointer;color:var(--accent);font-weight:600" }, "Je ne sais pas laquelle : comparer les versions"),
+          h("p", { class: "fn", style: "margin:8px 0" }, "La lettre de révision est en haut de ton dossier (« Rév. F »). Si plusieurs versions portent la même lettre, compare un repère de ton dossier avec l'indice ci-dessous. Touche une ligne pour la choisir."),
+          h("div", { class: "cq" }, tbl))),
+      out));
+    sel.addEventListener("change", () => pick(sel.value, true));
+    const tagNow = r => { const w = WB[r.id]; return w && !w.internal && !w.drain ? wireTag(w, () => openCut(w.id, "modifs", w.id)) : h("span", { class: "wid" }, r.id); };
+    const tagOld = id => h("span", { class: "wid old", title: "ancien repère" }, id);
+    const ends = (r, other, label) => {
+      const side = (e, f, bold) => [bold ? h("b", { class: "mono" }, e) : h("span", { class: "mono" }, e), f ? " (" + f + ")" : ""];
+      const keep = other ? [other.a, other.b] : [];
+      return h("div", { class: "ends" }, label ? h("span", { class: "muted" }, label) : null,
+        side(r.a, r.af, other && !keep.includes(r.a)), " → ", side(r.b, r.bf, other && !keep.includes(r.b)));
+    };
+    const spec = r => [colorChip(r.color), h("span", { class: "mono" }, mm2(r.mm2) + " mm²")];
+    const secChg = x => x.changes && x.changes.some(c => c[0] === "mm2") ? h("div", { class: "warn-l" }, "Section changée : " + mm2(x.old.mm2) + " → " + mm2(x.new.mm2) + " mm², refais ce fil dans la nouvelle section.") : null;
+    function group(chip, title, text, items, render, open) {
+      if (!items.length) return null;
+      const body = [h("p", null, text), h("ul", { class: "chg" }, items.map(x => render(x)))];
+      if (open === false) return h("details", { class: "panel chg-group" }, h("summary", { style: "cursor:pointer" }, h("strong", null, title + " (" + items.length + ")")), body);
+      return h("div", { class: "panel chg-group" }, h("h3", null, h("span", { class: "chip " + chip }, String(items.length)), title), body);
+    }
+    function pick(key, user) {
+      const r = HIST.find(x => x.key === key) || HIST[0];
+      curKey = r.key; sel.value = r.key; if (user) store("modrev", r.key);
+      Object.keys(rows).forEach(k => rows[k].classList.toggle("sel", k === r.key));
+      fill(clue, r.title ? h("strong", null, r.title + ". ") : null, r.clue ? "Repère témoin : " + r.clue : "");
+      const d = r.diff;
+      const mm = d.attr.filter(x => x.changes.some(c => c[0] === "mm2"));
+      const col = d.attr.filter(x => !x.changes.some(c => c[0] === "mm2"));
+      const good = d.same + col.length;
+      const sum = r.todo
+        ? h("p", { class: "rev-sum" }, good + " fils sur " + r.n + " restent bons : n'y touche pas. " + r.todo + " fil" + (r.todo > 1 ? "s" : "") + " à reprendre ci-dessous.")
+        : h("p", { class: "rev-sum ok" }, "Rien à reprendre : les " + good + " fils de cette version ont toujours le même repère, les mêmes extrémités et la même section.");
+      // Broches ECU dont le fil a changé (calculé, pas écrit à la main)
+      const isPin = e => /^CMC[12]\./.test(e);
+      const pins = new Set();
+      d.moved.forEach(x => [x.old.a, x.old.b, x.new.a, x.new.b].forEach(e => { if (isPin(e) && !([x.old.a, x.old.b].includes(e) && [x.new.a, x.new.b].includes(e))) pins.add(e); }));
+      d.removed.concat(d.added).forEach(x => [x.a, x.b].forEach(e => { if (isPin(e)) pins.add(e); }));
+      const pinList = [...pins].sort();
+      fill(out,
+        h("div", { class: "panel" }, sum,
+          r.todo ? h("p", { class: "fn", style: "margin:6px 0 0" }, pinList.length
+            ? "Broches ECU concernées : " + pinList.join(", ") + ". Toutes les autres broches ECU gardent le même fil."
+            : "Aucune broche ECU n'a changé de fil : les fils qui partent de l'ECU restent bons.") : null),
+        group("bad", "Fils modifiés : une extrémité a changé", "Même fil, mais un bout va ailleurs (en gras). Débranche ce bout et rebranche-le à la nouvelle place ; si le repère a changé, refais l'étiquette.", d.moved, x => h("li", { "data-w": x.new.id },
+          h("div", { class: "ids" }, x.old.id !== x.new.id ? [tagOld(x.old.id), "→"] : null, tagNow(x.new), spec(x.new)),
+          ends(x.old, x.new, "Avant : "), ends(x.new, x.old, "Maintenant : "), secChg(x))),
+        group("warn", "Même fil, nouveau repère : changer l'étiquette", "Le fil ne bouge pas : mêmes extrémités. Remplace seulement l'étiquette.", d.relabel, x => h("li", { "data-w": x.new.id },
+          h("div", { class: "ids" }, tagOld(x.old.id), "→", tagNow(x.new), spec(x.new)), ends(x.new), secChg(x))),
+        group("bad", "Fils supprimés", "Ces fils n'existent plus : ne les fais pas (ou retire-les).", d.removed, x => h("li", null,
+          h("div", { class: "ids" }, tagOld(x.id), spec(x)), ends(x),
+          x.now ? h("div", { class: "warn-l" }, "Le repère " + x.id + " désigne maintenant un autre fil (" + x.now.a + " → " + x.now.b + ").") : null)),
+        group("warn", "Nouveaux fils à faire", "Ces fils n'existaient pas dans ta version.", d.added, x => h("li", { "data-w": x.id },
+          h("div", { class: "ids" }, tagNow(x), spec(x)), ends(x),
+          x.was ? h("div", { class: "warn-l" }, "Attention : dans ta version, le repère " + x.id + " désignait un autre fil (" + x.was.a + " → " + x.was.b + "). Si tu as déjà posé cette étiquette, elle n'est plus bonne.") : null,
+          x.was_premade ? h("div", { class: "warn-l" }, "Ce fil n'est plus fourni par MaxxECU : il est à faire.") : null)),
+        group("info", "Désormais faits par MaxxECU", "Ces liaisons sont déjà faites dans le faisceau MaxxECU du kit : rien à couper ni à sertir. Si tu les as faites, elles sont en trop.", d.premade, x => h("li", { "data-w": x.new.id },
+          h("div", { class: "ids" }, tagOld(x.old.id), "→", h("span", { class: "wid" }, x.new.id), h("span", { class: "chip mx" }, "MaxxECU")), ends(x.new))),
+        group("warn", "Section changée", "Refais ces fils dans la nouvelle section.", mm, x => h("li", { "data-w": x.new.id },
+          h("div", { class: "ids" }, tagNow(x.new), h("span", { class: "mono" }, mm2(x.old.mm2) + " → " + mm2(x.new.mm2) + " mm²")), ends(x.new))),
+        group("info", "Couleur conseillée changée : rien à refaire", "Le dossier indique une autre couleur (souvent la vraie couleur du fil MaxxECU). Ton fil reste bon : c'est le repère qui compte.", col, x => h("li", null,
+          h("div", { class: "ids" }, tagNow(x.new), colorChip(x.old.color), "→", colorChip(x.new.color)), ends(x.new)), false));
+    }
+    pick(curKey, false);
+  };
+
   RENDER.nomenclature = function (sec) {
     const cats = [...new Set(H.bom.map(r => r.cat))];
     sec.append(h("h2", null, "Nomenclature"),

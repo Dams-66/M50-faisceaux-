@@ -7,9 +7,15 @@ produit la page interactive, la liste de coupe, le brochage ECU, la
 nomenclature et le rapport de vérification.
 
 Usage : python3 tools/build_harness.py [harness.yaml] [--out docs]
+        python3 tools/build_harness.py --freeze "ce qui a changé dans cette révision"
+
+Les repères de fil sont figés dans le YAML (champ id). Chaque révision publiée
+est enregistrée dans harness/revisions.json : le dossier liste, pour chaque
+ancienne version, les fils à reprendre sur un faisceau déjà repéré.
 """
 import argparse
 import csv
+import datetime
 import heapq
 import json
 import math
@@ -22,6 +28,7 @@ import yaml
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_SRC = ROOT / "harness" / "m50b25_vanos_turbo.yaml"
 TEMPLATE = Path(__file__).resolve().parent / "template.html"
+HISTORY = ROOT / "harness" / "revisions.json"
 
 # Classe électrique des broches ECU selon leur type
 ECU_KIND_CLASS = {
@@ -60,13 +67,109 @@ def natural_key(text):
     return [int(t) if t.isdigit() else t for t in re.split(r"(\d+)", str(text))]
 
 
+def wire_diff(old, new):
+    """Compare deux instantanés de fils : ce qu'il faut reprendre sur un faisceau repéré avec « old »."""
+    pair = lambda w: tuple(sorted((w["a"], w["b"])))
+    O = [w for w in old if w["kind"] in ("wire", "premade")]
+    N = [w for w in new if w["kind"] in ("wire", "premade")]
+    n_by_id = {w["id"]: w for w in N}
+    used_o, used_n = set(), set()
+    out = {"same": 0, "moved": [], "added": [], "removed": [], "relabel": [], "premade": [], "attr": []}
+
+    def ref(w):
+        return {k: w.get(k) for k in ("id", "a", "b", "af", "bf", "mm2", "color")}
+
+    def take(o, n, kind):
+        used_o.add(id(o))
+        used_n.add(n["id"])
+        if o["kind"] == n["kind"] == "premade":
+            return
+        if n["kind"] == "premade" and o["kind"] != "premade":
+            out["premade"].append({"old": ref(o), "new": ref(n)})
+            return
+        if o["kind"] == "premade" and n["kind"] != "premade":
+            out["added"].append(dict(ref(n), was_premade=True))
+            return
+        ch = [[f, o.get(f), n.get(f)] for f in ("mm2", "color") if o.get(f) != n.get(f)]
+        if kind == "same":
+            if ch:
+                out["attr"].append({"old": ref(o), "new": ref(n), "changes": ch})
+            else:
+                out["same"] += 1
+        else:
+            out[kind].append({"old": ref(o), "new": ref(n), "changes": ch})
+
+    # 1. même repère, mêmes extrémités
+    for o in O:
+        n = n_by_id.get(o["id"])
+        if n and pair(n) == pair(o):
+            take(o, n, "same")
+    # 2. mêmes extrémités, autre repère
+    by_pair = defaultdict(list)
+    for n in N:
+        if n["id"] not in used_n:
+            by_pair[pair(n)].append(n)
+    for o in O:
+        if id(o) not in used_o:
+            cand = [n for n in by_pair[pair(o)] if n["id"] not in used_n]
+            if cand:
+                take(o, cand[0], "relabel")
+    # 3. même repère, une extrémité conservée
+    for o in O:
+        n = n_by_id.get(o["id"])
+        if id(o) not in used_o and n and n["id"] not in used_n and set(pair(n)) & set(pair(o)):
+            take(o, n, "moved")
+    # 4. une broche de composant commune, seule candidate des deux côtés (repère et autre bout changés)
+    rest_o = [o for o in O if id(o) not in used_o]
+    rest_n = [n for n in N if n["id"] not in used_n]
+    for o in rest_o:
+        for e in (o["a"], o["b"]):
+            if "." not in e or id(o) in used_o:
+                continue
+            co = [x for x in rest_o if id(x) not in used_o and e in (x["a"], x["b"])]
+            cn = [x for x in rest_n if x["id"] not in used_n and e in (x["a"], x["b"])]
+            if co == [o] and len(cn) == 1:
+                take(o, cn[0], "moved")
+    old_ids = {o["id"]: o for o in O}
+    for o in O:
+        if id(o) not in used_o:
+            r = ref(o)
+            if o["id"] in n_by_id:
+                r["now"] = ref(n_by_id[o["id"]])
+            out["removed"].append(r)
+    for n in N:
+        if n["id"] not in used_n:
+            r = ref(n)
+            if n["id"] in old_ids:
+                r["was"] = ref(old_ids[n["id"]])
+            out["added"].append(r)
+    return out
+
+
+def diff_todo(d):
+    """Nombre de fils à reprendre (une couleur conseillée qui change ne compte pas)."""
+    return (len(d["moved"]) + len(d["added"]) + len(d["removed"]) + len(d["relabel"]) + len(d["premade"])
+            + sum(1 for x in d["attr"] if any(c[0] == "mm2" for c in x["changes"])))
+
+
+def dump_history(hist):
+    """revisions.json lisible dans un diff git : un fil par ligne."""
+    parts = []
+    for snap in hist:
+        head = {k: v for k, v in snap.items() if k != "wires"}
+        body = ",\n".join("   " + json.dumps(w, ensure_ascii=False) for w in snap["wires"])
+        parts.append(" " + json.dumps(head, ensure_ascii=False)[:-1] + ', "wires": [\n' + body + "\n ]}")
+    return "[\n" + ",\n".join(parts) + "\n]\n"
+
+
 def fmt_mm2(value):
     return f"{value:g}".replace(".", ",")
 
 
 class Harness:
-    def __init__(self, data):
+    def __init__(self, data, history=None):
         self.d = data
+        self.history = history or []
         self.rules = data["wire_rules"]
         self.errors = []
         self.warnings = []
@@ -148,7 +251,10 @@ class Harness:
 
     def _load_wires(self):
         self.wires = []
-        counters = defaultdict(int)
+        # Repères figés : jamais renumérotés, jamais réattribués à un autre fil
+        taken = {w["id"] for w in self.d["wires"] if w.get("id")} | \
+            {x["id"] for snap in self.history for x in snap["wires"]}
+        seen = set()
         harness = self.d["ecu"].get("harness") or {}
         self.supplied = bool(harness.get("supplied"))
         mx_spl = {sid for sid, sp in self.d["splices"].items() if sp.get("maxxecu")}
@@ -178,18 +284,22 @@ class Harness:
             if self.supplied and not premade and not drain:
                 lead_src = next((e for e in ends if cat_of(e) == "ecu"), None) or \
                     next((self.mx_source.get(e) for e in ends if e in mx_spl), None)
-            if premade and not drain:
-                counters["MX"] += 1
-                wid = f"MX-{counters['MX']:02d}"
-            elif internal:
-                counters["BUS"] += 1
-                wid = f"BUS-{counters['BUS']:02d}"
-            elif drain:
-                counters["SH"] += 1
-                wid = f"SH-{counters['SH']:02d}"
+            wid = w.get("id")
+            if wid:
+                if not re.fullmatch(r"[A-Z]+-\d{2,}", str(wid)):
+                    self.errors.append(f"Fil n°{idx + 1} : repère « {wid} » mal formé (attendu PLANCHE-NN)")
             else:
-                counters[sheet] += 1
-                wid = f"{sheet}-{counters[sheet]:02d}"
+                prefix = "MX" if premade and not drain else "BUS" if internal else "SH" if drain else sheet
+                n = 1
+                while f"{prefix}-{n:02d}" in taken:
+                    n += 1
+                wid = f"{prefix}-{n:02d}"
+                taken.add(wid)
+                self.warnings.append(f"{wid} : repère attribué automatiquement ({w['from']} → {w['to']}) — "
+                                     f"l'écrire dans le YAML (id: {wid}) pour le figer")
+            if wid in seen:
+                self.errors.append(f"Repère en double : {wid}")
+            seen.add(wid)
             cable = w.get("cable")
             if cable and cable not in self.d["cables"]:
                 self.errors.append(f"{wid} : câble inconnu « {cable} »")
@@ -871,6 +981,62 @@ class Harness:
             r.setdefault("unit", "pc")
         return rows
 
+    # ------------------------------------------------------------ historique
+    def snapshot(self):
+        def lbl(e):
+            x = self.endpoints[e]
+            o = self.owners.get(x["owner"], {})
+            return (o.get("label") or x["owner"]) + (
+                f" — {x['fn']}" if x.get("fn") and x["cat"] not in ("splice", "ground") else "")
+        return [{"id": w["id"], "a": w["from"], "b": w["to"], "af": lbl(w["from"]), "bf": lbl(w["to"]),
+                 "mm2": w["mm2"], "color": w["color"],
+                 "kind": "drain" if w["drain"] else "premade" if w["premade"] else "internal" if w["internal"] else "wire",
+                 "sheet": w["sheet"]} for w in self.wires]
+
+    def history_checks(self):
+        """Chaque câblage publié porte sa propre lettre de révision."""
+        self.history_view = []
+        if not self.history:
+            return
+        cur = self.snapshot()
+        for snap in self.history:
+            d = wire_diff(snap["wires"], cur)
+            todo = diff_todo(d)
+            # Côté actuel : le repère suffit, la page retrouve le fil (allège le dossier)
+            for k in ("moved", "relabel", "premade", "attr"):
+                for x in d[k]:
+                    x["new"] = {"id": x["new"]["id"]}
+            d["added"] = [{k: v for k, v in x.items() if k in ("id", "was", "was_premade")} for x in d["added"]]
+            for x in d["removed"]:
+                if "now" in x:
+                    x["now"] = {"id": x["now"]["id"]}
+            self.history_view.append({k: snap.get(k) for k in ("key", "rev", "title", "clue", "from", "until")} | {
+                "n": sum(1 for w in snap["wires"] if w["kind"] == "wire"),
+                "todo": todo, "diff": d})
+        last = self.history_view[-1]
+        changed = last["todo"] + len(last["diff"]["attr"])
+        if changed and self.d["meta"]["revision"] == last["rev"]:
+            self.warnings.append(
+                f"Câblage modifié depuis la révision {last['key']} publiée ({changed} fil(s)) sans changer de lettre : "
+                f"passer meta.revision à la lettre suivante puis figer avec --freeze")
+
+    def freeze(self, title):
+        """Enregistre le câblage courant comme révision publiée."""
+        cur = self.snapshot()
+        rev = self.d["meta"]["revision"]
+        now = datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat()
+        if self.history:
+            last = self.history[-1]
+            d = wire_diff(last["wires"], cur)
+            if not (diff_todo(d) or d["attr"]):
+                last["until"] = now
+                return f"câblage identique à la révision {last['key']} : date de fin mise à jour"
+            if any(x["key"] == rev for x in self.history):
+                raise SystemExit(f"La révision {rev} est déjà figée avec un autre câblage : changer meta.revision")
+        self.history.append({"key": rev, "rev": rev, "title": title, "clue": "", "from": now, "until": now,
+                             "commits": [], "wires": cur})
+        return f"révision {rev} figée ({len(cur)} fils)"
+
     # ------------------------------------------------------------- export
     def export(self):
         ecu_pins = []
@@ -901,6 +1067,7 @@ class Harness:
             "drops": self.drop_table,
             "audit": self.d["audit"], "mtune": self.d["mtune"], "checks": self.d["checks"],
             "bom": self.bom(),
+            "history": getattr(self, "history_view", []),
             "validation": {"errors": self.errors, "warnings": self.warnings, "infos": self.infos},
         }
 
@@ -969,6 +1136,18 @@ def report_md(h, data):
         lines.append(f"- ℹ️ {i}")
     if not (v["errors"] or v["warnings"] or v["infos"]):
         lines.append("- Aucun point.")
+    if data.get("history"):
+        lines += ["", "## Repères figés et versions précédentes", "",
+                  "Un repère publié ne change plus de fil. Pour un faisceau déjà repéré avec une ancienne version, "
+                  "l'onglet Modifications du dossier liste fil par fil ce qu'il faut reprendre.", "",
+                  "| Version | Publiée | Indice | Inchangés | Extrémité changée | Nouveau repère | Supprimés | Nouveaux | Faits par MaxxECU | Section | Couleur seule |",
+                  "|---|---|---|---|---|---|---|---|---|---|---|"]
+        for r in reversed(data["history"]):
+            d = r["diff"]
+            mm = sum(1 for x in d["attr"] if any(c[0] == "mm2" for c in x["changes"]))
+            lines.append(f"| {r['key']} | {r['from'][:16].replace('T', ' ')} UTC | {r.get('clue') or r.get('title') or ''} | "
+                         f"{d['same']} / {r['n']} | {len(d['moved'])} | {len(d['relabel'])} | {len(d['removed'])} | "
+                         f"{len(d['added'])} | {len(d['premade'])} | {mm} | {len(d['attr']) - mm} |")
     lines += ["", "## Audit du plan d'origine", ""]
     for a in data["audit"]:
         lines += [f"### {sev[a['sev']]} — {a['title']}", "", a["detail"], ""]
@@ -1008,10 +1187,19 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("source", nargs="?", default=str(DEFAULT_SRC))
     ap.add_argument("--out", default=str(ROOT / "docs"))
+    ap.add_argument("--history", default=str(HISTORY))
+    ap.add_argument("--freeze", metavar="TITRE",
+                    help="enregistre le câblage courant comme révision publiée (TITRE : ce qui a changé)")
     args = ap.parse_args()
     data = yaml.safe_load(Path(args.source).read_text(encoding="utf-8"))
-    h = Harness(data)
+    hist_path = Path(args.history)
+    history = json.loads(hist_path.read_text(encoding="utf-8")) if hist_path.exists() else []
+    h = Harness(data, history)
+    if args.freeze:
+        print(h.freeze(args.freeze))
+        hist_path.write_text(dump_history(h.history), encoding="utf-8")
     h.erc()
+    h.history_checks()
     h.compute_lengths()
     export = h.export()
     write_outputs(h, export, Path(args.out))

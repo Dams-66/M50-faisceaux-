@@ -19,7 +19,8 @@ suivent. Aucun schéma n'est dessiné à la main, donc rien ne peut diverger.
 | Fichier | Contenu |
 |---|---|
 | [`harness/m50b25_vanos_turbo.yaml`](harness/m50b25_vanos_turbo.yaml) | **Source de vérité** : brochage ECU officiel, composants, fils, épissures, fusibles/relais, topologie, audit, contrôles |
-| [`docs/faisceau.html`](docs/faisceau.html) | Dossier interactif : brochage ECU cliquable, 13 planches, liste de coupe filtrable, fiches connecteurs, bilan énergie, formboard à l'échelle, check-lists |
+| [`harness/revisions.json`](harness/revisions.json) | Câblage de chaque révision publiée (A à F), pour comparer un faisceau déjà repéré avec la version actuelle |
+| [`docs/faisceau.html`](docs/faisceau.html) | Dossier interactif : brochage ECU cliquable, 13 planches, liste de coupe filtrable, fiches connecteurs, bilan énergie, formboard à l'échelle, check-lists, modifications depuis ta version |
 | [`docs/rapport.md`](docs/rapport.md) | Rapport de vérification lisible sur GitHub (audit, ERC, fusibles, brochage) |
 | [`docs/liste_de_coupe.csv`](docs/liste_de_coupe.csv) | Liste de coupe triée par section puis couleur (ouvrable dans Excel / LibreOffice, séparateur `;`) |
 | [`docs/brochage_ecu.csv`](docs/brochage_ecu.csv) | Les 80 broches CMC1/CMC2 avec fil, section, couleur, destination |
@@ -61,7 +62,25 @@ Ouvre ensuite `docs/faisceau.html` dans un navigateur.
 - fils qui partent de l'ECU : couleur du fil MaxxECU réellement fourni, et alerte si les 3 m ne suffisent pas ;
 - section de chaque fil compatible avec son alvéole Molex CMC (0,75 mm² maxi en petite alvéole) ;
 - chute de tension aller + retour des charges fortes (pompe, ventilateur), alerte au-delà de 3 % ;
-- broches de composants non raccordées, épissures trop chargées.
+- broches de composants non raccordées, épissures trop chargées ;
+- repères : chaque fil a un repère figé (champ `id`), jamais en double ; un câblage modifié sans changer de lettre de révision est signalé.
+
+### Repères figés et versions précédentes
+
+Chaque fil porte dans le YAML son repère définitif (`id: IGN-03`). Ajouter, retirer ou
+déplacer un fil ne renumérote plus jamais les autres. Un nouveau fil sans `id` reçoit
+le premier numéro jamais utilisé (le générateur le signale pour qu'on l'écrive dans le YAML).
+
+L'onglet **Modifications** du dossier compare la version actuelle à chaque révision
+publiée (`harness/revisions.json`) : fils dont un bout a changé, même fil avec un nouveau
+repère, fils supprimés, nouveaux fils, fils désormais faits par MaxxECU, sections changées.
+Si tu as repéré ou câblé avec une ancienne version, choisis-la : seuls les fils listés sont à reprendre.
+
+Après une modification du câblage : passer `meta.revision` à la lettre suivante, puis
+
+```bash
+python3 tools/build_harness.py --freeze "ce qui a changé"
+```
 
 ### Modifier le faisceau
 
@@ -70,6 +89,7 @@ Ouvre ensuite `docs/faisceau.html` dans un navigateur.
   valeur, régénère : toutes les longueurs de coupe et la gaine suivent.
 - **Couleurs** : section `colors` / champ `color` de chaque fil.
 - **Déplacer un fil** (ex. VANOS sur INJ7) : change `from: CMC1.D4` en `from: CMC1.L2`, régénère.
+  Le repère du fil ne change pas ; l'onglet Modifications signale le bout déplacé.
 
 ## Corrections apportées au plan d'origine
 

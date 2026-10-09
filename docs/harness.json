@@ -12061,6 +12061,8156 @@
    "detail": "câble d'origine ou 35 mm², contact sur tôle mise à nu"
   }
  ],
+ "history": [
+  {
+   "key": "A",
+   "rev": "A",
+   "title": "Première version",
+   "clue": "COM-01 va au connecteur de cloison XINT (XINT.8).",
+   "from": "2026-10-07T11:55:46+00:00",
+   "until": "2026-10-07T11:55:46+00:00",
+   "n": 126,
+   "todo": 76,
+   "diff": {
+    "same": 77,
+    "moved": [
+     {
+      "old": {
+       "id": "SYNC-03",
+       "a": "F6.2",
+       "b": "CRANK.1",
+       "af": "Fusible capteur PMH — Sortie",
+       "bf": "Capteur PMH (vilebrequin) — +12 V",
+       "mm2": 0.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "SYNC-03"
+      },
+      "changes": [
+       [
+        "mm2",
+        0.5,
+        0.75
+       ],
+       [
+        "color",
+        "RD",
+        "RD/WH"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-07",
+       "a": "SPL-SG-MAIN",
+       "b": "XINT.2",
+       "af": "Sensor GND — départ ECU",
+       "bf": "Connecteur de cloison habitacle — Pédale masse 1",
+       "mm2": 0.5,
+       "color": "BN"
+      },
+      "new": {
+       "id": "DBW-07"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DBW-08",
+       "a": "SPL-SG-MAIN",
+       "b": "XINT.3",
+       "af": "Sensor GND — départ ECU",
+       "bf": "Connecteur de cloison habitacle — Pédale masse 2",
+       "mm2": 0.5,
+       "color": "BN"
+      },
+      "new": {
+       "id": "DBW-08"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DBW-09",
+       "a": "SPL-5V-MAIN",
+       "b": "XINT.4",
+       "af": "+5 V — départ ECU",
+       "bf": "Connecteur de cloison habitacle — Pédale +5 V (2)",
+       "mm2": 0.5,
+       "color": "OG"
+      },
+      "new": {
+       "id": "DBW-09"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DBW-10",
+       "a": "CMC1.J4",
+       "b": "XINT.5",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 4 (0-5 V)",
+       "bf": "Connecteur de cloison habitacle — Pédale signal 1",
+       "mm2": 0.5,
+       "color": "WH/BU"
+      },
+      "new": {
+       "id": "DBW-10"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BU",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-11",
+       "a": "SPL-5V-MAIN",
+       "b": "XINT.6",
+       "af": "+5 V — départ ECU",
+       "bf": "Connecteur de cloison habitacle — Pédale +5 V (1)",
+       "mm2": 0.5,
+       "color": "OG"
+      },
+      "new": {
+       "id": "DBW-11"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DBW-12",
+       "a": "CMC2.G3",
+       "b": "XINT.7",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 5 (0-5 V)",
+       "bf": "Connecteur de cloison habitacle — Pédale signal 2",
+       "mm2": 0.5,
+       "color": "WH/GN"
+      },
+      "new": {
+       "id": "DBW-12"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/GN",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "WBO-06",
+       "a": "F4.2",
+       "b": "LSU.4",
+       "af": "Fusible chauffage lambda — Sortie",
+       "bf": "Sonde lambda large bande — Chauffage +12 V",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "WBO-06"
+      },
+      "changes": [
+       [
+        "mm2",
+        1.0,
+        0.75
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "ACT-03",
+       "a": "F5.2",
+       "b": "SPL-ACT12",
+       "af": "Fusible actionneurs (VANOS, MAC) — Sortie",
+       "bf": "+12 V actionneurs",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "ACT-03"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "RLY-03",
+       "a": "F7.2",
+       "b": "SPL-RLY",
+       "af": "Fusible bobines de relais — Sortie",
+       "bf": "+12 V bobines relais",
+       "mm2": 0.5,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "RLY-03"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "RLY-06",
+       "a": "F8.2",
+       "b": "K2.30",
+       "af": "Fusible pompe à essence — Sortie",
+       "bf": "Relais pompe à essence — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "RLY-06"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "RLY-07",
+       "a": "F9.2",
+       "b": "K3.30",
+       "af": "Fusible ventilateur — Sortie",
+       "bf": "Relais ventilateur — Contact — entrée",
+       "mm2": 4.0,
+       "color": "RD"
+      },
+      "new": {
+       "id": "RLY-07"
+      },
+      "changes": [
+       [
+        "mm2",
+        4.0,
+        2.5
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "PWR-03",
+       "a": "F10.2",
+       "b": "K1.30",
+       "af": "Fusible relais principal — Sortie",
+       "bf": "Relais principal — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "DEM-07"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "PWR-07",
+       "a": "XINT.1",
+       "b": "K1.86",
+       "af": "Connecteur de cloison habitacle — +15 contact",
+       "bf": "Relais principal — Bobine +",
+       "mm2": 0.5,
+       "color": "VT"
+      },
+      "new": {
+       "id": "PWR-14"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "COM-03",
+       "a": "CMC1.E1",
+       "b": "XINT.9",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN H (120 Ω intégrée)",
+       "bf": "Connecteur de cloison habitacle — CAN H",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      },
+      "new": {
+       "id": "COM-23"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BK",
+        "GY"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-04",
+       "a": "CMC1.E2",
+       "b": "XINT.10",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN L",
+       "bf": "Connecteur de cloison habitacle — CAN L",
+       "mm2": 0.5,
+       "color": "GN/BK"
+      },
+      "new": {
+       "id": "COM-24"
+      },
+      "changes": [
+       [
+        "color",
+        "GN/BK",
+        "PK"
+       ]
+      ]
+     }
+    ],
+    "added": [
+     {
+      "id": "PWR-03",
+      "was": {
+       "id": "PWR-03",
+       "a": "F10.2",
+       "b": "K1.30",
+       "af": "Fusible relais principal — Sortie",
+       "bf": "Relais principal — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      }
+     },
+     {
+      "id": "PWR-04",
+      "was": {
+       "id": "PWR-04",
+       "a": "K1.87",
+       "b": "BUS87",
+       "af": "Relais principal — Contact — sortie",
+       "bf": "Barrette +12 V commuté (relais principal)",
+       "mm2": 2.5,
+       "color": "RD/WH"
+      }
+     },
+     {
+      "id": "PWR-05",
+      "was": {
+       "id": "PWR-05",
+       "a": "F1.2",
+       "b": "CMC1.M4",
+       "af": "Fusible ECU — Sortie",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — +12 V ECU",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      }
+     },
+     {
+      "id": "PWR-06",
+      "was": {
+       "id": "PWR-06",
+       "a": "KEY.15",
+       "b": "XINT.1",
+       "af": "Contact clé (+15) — +15 contact",
+       "bf": "Connecteur de cloison habitacle — +15 contact",
+       "mm2": 0.5,
+       "color": "VT"
+      }
+     },
+     {
+      "id": "PWR-08",
+      "was": {
+       "id": "PWR-08",
+       "a": "K1.85",
+       "b": "GP-CH",
+       "af": "Relais principal — Bobine −",
+       "bf": "Masse caisse E-box",
+       "mm2": 0.5,
+       "color": "BK"
+      }
+     },
+     {
+      "id": "PWR-09"
+     },
+     {
+      "id": "PWR-10"
+     },
+     {
+      "id": "PWR-11"
+     },
+     {
+      "id": "PWR-12"
+     },
+     {
+      "id": "DEM-01"
+     },
+     {
+      "id": "DEM-02"
+     },
+     {
+      "id": "DEM-03"
+     },
+     {
+      "id": "DEM-04"
+     },
+     {
+      "id": "DEM-05"
+     },
+     {
+      "id": "DEM-06"
+     },
+     {
+      "id": "DEM-08"
+     },
+     {
+      "id": "DEM-09"
+     },
+     {
+      "id": "DEM-10"
+     },
+     {
+      "id": "COM-01",
+      "was": {
+       "id": "COM-01",
+       "a": "CMC1.A4",
+       "b": "XINT.8",
+       "af": "MaxxECU RACE Gen1 — CMC1 — TACH / GP OUT 8",
+       "bf": "Connecteur de cloison habitacle — Compte-tours",
+       "mm2": 0.5,
+       "color": "GN/WH"
+      }
+     },
+     {
+      "id": "COM-02",
+      "was": {
+       "id": "COM-02",
+       "a": "XINT.8",
+       "b": "CLUSTER.TD",
+       "af": "Connecteur de cloison habitacle — Compte-tours",
+       "bf": "Combiné (compte-tours) — Entrée régime",
+       "mm2": 0.5,
+       "color": "GN/WH"
+      }
+     },
+     {
+      "id": "COM-03",
+      "was": {
+       "id": "COM-03",
+       "a": "CMC1.E1",
+       "b": "XINT.9",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN H (120 Ω intégrée)",
+       "bf": "Connecteur de cloison habitacle — CAN H",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      }
+     },
+     {
+      "id": "COM-04",
+      "was": {
+       "id": "COM-04",
+       "a": "CMC1.E2",
+       "b": "XINT.10",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN L",
+       "bf": "Connecteur de cloison habitacle — CAN L",
+       "mm2": 0.5,
+       "color": "GN/BK"
+      }
+     },
+     {
+      "id": "COM-05",
+      "was": {
+       "id": "COM-05",
+       "a": "XINT.9",
+       "b": "CANDEV.H",
+       "af": "Connecteur de cloison habitacle — CAN H",
+       "bf": "Afficheur / logger CAN (option) — CAN H",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      }
+     },
+     {
+      "id": "COM-06",
+      "was": {
+       "id": "COM-06",
+       "a": "XINT.10",
+       "b": "CANDEV.L",
+       "af": "Connecteur de cloison habitacle — CAN L",
+       "bf": "Afficheur / logger CAN (option) — CAN L",
+       "mm2": 0.5,
+       "color": "GN/BK"
+      }
+     },
+     {
+      "id": "COM-07"
+     },
+     {
+      "id": "COM-08"
+     },
+     {
+      "id": "COM-09"
+     },
+     {
+      "id": "COM-10"
+     },
+     {
+      "id": "COM-11"
+     },
+     {
+      "id": "COM-12"
+     },
+     {
+      "id": "COM-13"
+     },
+     {
+      "id": "COM-14"
+     },
+     {
+      "id": "COM-15"
+     },
+     {
+      "id": "COM-16"
+     },
+     {
+      "id": "COM-17"
+     },
+     {
+      "id": "COM-18"
+     },
+     {
+      "id": "COM-19"
+     },
+     {
+      "id": "COM-20"
+     },
+     {
+      "id": "COM-21"
+     },
+     {
+      "id": "COM-22"
+     }
+    ],
+    "removed": [
+     {
+      "id": "PWR-06",
+      "a": "KEY.15",
+      "b": "XINT.1",
+      "af": "Contact clé (+15) — +15 contact",
+      "bf": "Connecteur de cloison habitacle — +15 contact",
+      "mm2": 0.5,
+      "color": "VT",
+      "now": {
+       "id": "PWR-06"
+      }
+     },
+     {
+      "id": "DBW-13",
+      "a": "XINT.2",
+      "b": "APP.1",
+      "af": "Connecteur de cloison habitacle — Pédale masse 1",
+      "bf": "Pédale d'accélérateur — Masse piste 1",
+      "mm2": 0.5,
+      "color": "BN"
+     },
+     {
+      "id": "DBW-14",
+      "a": "XINT.3",
+      "b": "APP.2",
+      "af": "Connecteur de cloison habitacle — Pédale masse 2",
+      "bf": "Pédale d'accélérateur — Masse piste 2",
+      "mm2": 0.5,
+      "color": "BN"
+     },
+     {
+      "id": "DBW-15",
+      "a": "XINT.4",
+      "b": "APP.3",
+      "af": "Connecteur de cloison habitacle — Pédale +5 V (2)",
+      "bf": "Pédale d'accélérateur — +5 V piste 2",
+      "mm2": 0.5,
+      "color": "OG"
+     },
+     {
+      "id": "DBW-16",
+      "a": "XINT.5",
+      "b": "APP.4",
+      "af": "Connecteur de cloison habitacle — Pédale signal 1",
+      "bf": "Pédale d'accélérateur — Signal piste 1",
+      "mm2": 0.5,
+      "color": "WH/BU"
+     },
+     {
+      "id": "DBW-17",
+      "a": "XINT.6",
+      "b": "APP.5",
+      "af": "Connecteur de cloison habitacle — Pédale +5 V (1)",
+      "bf": "Pédale d'accélérateur — +5 V piste 1",
+      "mm2": 0.5,
+      "color": "OG"
+     },
+     {
+      "id": "DBW-18",
+      "a": "XINT.7",
+      "b": "APP.6",
+      "af": "Connecteur de cloison habitacle — Pédale signal 2",
+      "bf": "Pédale d'accélérateur — Signal piste 2",
+      "mm2": 0.5,
+      "color": "WH/GN"
+     },
+     {
+      "id": "COM-01",
+      "a": "CMC1.A4",
+      "b": "XINT.8",
+      "af": "MaxxECU RACE Gen1 — CMC1 — TACH / GP OUT 8",
+      "bf": "Connecteur de cloison habitacle — Compte-tours",
+      "mm2": 0.5,
+      "color": "GN/WH",
+      "now": {
+       "id": "COM-01"
+      }
+     },
+     {
+      "id": "COM-02",
+      "a": "XINT.8",
+      "b": "CLUSTER.TD",
+      "af": "Connecteur de cloison habitacle — Compte-tours",
+      "bf": "Combiné (compte-tours) — Entrée régime",
+      "mm2": 0.5,
+      "color": "GN/WH",
+      "now": {
+       "id": "COM-02"
+      }
+     },
+     {
+      "id": "COM-05",
+      "a": "XINT.9",
+      "b": "CANDEV.H",
+      "af": "Connecteur de cloison habitacle — CAN H",
+      "bf": "Afficheur / logger CAN (option) — CAN H",
+      "mm2": 0.5,
+      "color": "YE/BK",
+      "now": {
+       "id": "COM-05"
+      }
+     },
+     {
+      "id": "COM-06",
+      "a": "XINT.10",
+      "b": "CANDEV.L",
+      "af": "Connecteur de cloison habitacle — CAN L",
+      "bf": "Afficheur / logger CAN (option) — CAN L",
+      "mm2": 0.5,
+      "color": "GN/BK",
+      "now": {
+       "id": "COM-06"
+      }
+     }
+    ],
+    "relabel": [
+     {
+      "old": {
+       "id": "PWR-04",
+       "a": "K1.87",
+       "b": "BUS87",
+       "af": "Relais principal — Contact — sortie",
+       "bf": "Barrette +12 V commuté (relais principal)",
+       "mm2": 2.5,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "PWR-07"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "PWR-05",
+       "a": "F1.2",
+       "b": "CMC1.M4",
+       "af": "Fusible ECU — Sortie",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — +12 V ECU",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "PWR-13"
+      },
+      "changes": [
+       [
+        "color",
+        "RD/WH",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "PWR-08",
+       "a": "K1.85",
+       "b": "GP-CH",
+       "af": "Relais principal — Bobine −",
+       "bf": "Masse caisse E-box",
+       "mm2": 0.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "PWR-15"
+      },
+      "changes": []
+     }
+    ],
+    "premade": [
+     {
+      "old": {
+       "id": "SYNC-06",
+       "a": "CMC1.H2",
+       "b": "SPL-VRG",
+       "af": "MaxxECU RACE Gen1 — CMC1 — VR GND",
+       "bf": "VR GND (PMH + AAC)",
+       "mm2": 0.5,
+       "color": "BN"
+      },
+      "new": {
+       "id": "MX-01"
+      }
+     },
+     {
+      "old": {
+       "id": "SYNC-07",
+       "a": "SPL-SHLD",
+       "b": "CMC1.E3",
+       "af": "Blindages → Shield GND",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — SHIELD GND",
+       "mm2": 0.5,
+       "color": "BK/WH"
+      },
+      "new": {
+       "id": "MX-02"
+      }
+     },
+     {
+      "old": {
+       "id": "KNK-05",
+       "a": "CMC2.E1",
+       "b": "SPL-KGND",
+       "af": "MaxxECU RACE Gen1 — CMC2 — KNOCK GND",
+       "bf": "Knock GND (2 capteurs)",
+       "mm2": 0.5,
+       "color": "BN"
+      },
+      "new": {
+       "id": "MX-03"
+      }
+     }
+    ],
+    "attr": [
+     {
+      "old": {
+       "id": "GND-01",
+       "a": "CMC1.L4",
+       "b": "GP-HEAD",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ENGINE GROUND",
+       "bf": "Masse moteur ECU (goujon arrière culasse)",
+       "mm2": 1.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "GND-01"
+      },
+      "changes": [
+       [
+        "color",
+        "BK",
+        "BN"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "GND-02",
+       "a": "CMC2.G4",
+       "b": "GP-HEAD",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ENGINE GROUND 2",
+       "bf": "Masse moteur ECU (goujon arrière culasse)",
+       "mm2": 1.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "GND-02"
+      },
+      "changes": [
+       [
+        "color",
+        "BK",
+        "BN"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-01",
+       "a": "CMC1.G1",
+       "b": "SPL-5V-MAIN",
+       "af": "MaxxECU RACE Gen1 — CMC1 — +5 V SENSOR SUPPLY",
+       "bf": "+5 V — départ ECU",
+       "mm2": 0.5,
+       "color": "OG"
+      },
+      "new": {
+       "id": "SNS-01"
+      },
+      "changes": [
+       [
+        "color",
+        "OG",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-11",
+       "a": "CMC1.F2",
+       "b": "IAT.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — AIR TEMP SENSOR (IAT)",
+       "bf": "Température air admission — Signal NTC",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      },
+      "new": {
+       "id": "SNS-11"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BK",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-12",
+       "a": "CMC1.F1",
+       "b": "CLT.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — COOLANT SENSOR (CLT)",
+       "bf": "Température eau — Signal NTC",
+       "mm2": 0.5,
+       "color": "YE"
+      },
+      "new": {
+       "id": "SNS-12"
+      },
+      "changes": [
+       [
+        "color",
+        "YE",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-13",
+       "a": "CMC1.J1",
+       "b": "OIL.5",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 1 (TEMP)",
+       "bf": "Pression + température huile — Température NTC",
+       "mm2": 0.5,
+       "color": "YE/BN"
+      },
+      "new": {
+       "id": "SNS-13"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BN",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-14",
+       "a": "CMC2.E4",
+       "b": "OIL.2",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 6 (0-5 V)",
+       "bf": "Pression + température huile — Pression 0,5–4,5 V",
+       "mm2": 0.5,
+       "color": "WH/BN"
+      },
+      "new": {
+       "id": "SNS-14"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BN",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-15",
+       "a": "CMC1.J2",
+       "b": "FUEL.5",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 2 (TEMP)",
+       "bf": "Pression + température essence — Température NTC",
+       "mm2": 0.5,
+       "color": "YE/VT"
+      },
+      "new": {
+       "id": "SNS-15"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/VT",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-16",
+       "a": "CMC2.F1",
+       "b": "FUEL.2",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 7 (0-5 V)",
+       "bf": "Pression + température essence — Pression 0,5–4,5 V",
+       "mm2": 0.5,
+       "color": "WH/VT"
+      },
+      "new": {
+       "id": "SNS-16"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/VT",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-03",
+       "a": "CMC1.G2",
+       "b": "ETB.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — THROTTLE SENSOR (TPS)",
+       "bf": "Papillon motorisé — TPS 1",
+       "mm2": 0.5,
+       "color": "WH"
+      },
+      "new": {
+       "id": "DBW-03"
+      },
+      "changes": [
+       [
+        "color",
+        "WH",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-04",
+       "a": "CMC1.J3",
+       "b": "ETB.4",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 3 (0-5 V)",
+       "bf": "Papillon motorisé — TPS 2",
+       "mm2": 0.5,
+       "color": "WH/BK"
+      },
+      "new": {
+       "id": "DBW-04"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BK",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-05",
+       "a": "CMC2.H4",
+       "b": "ETB.3",
+       "af": "MaxxECU RACE Gen1 — CMC2 — MOTOR 1+ / GPO 12",
+       "bf": "Papillon motorisé — Moteur +",
+       "mm2": 1.0,
+       "color": "PK"
+      },
+      "new": {
+       "id": "DBW-05"
+      },
+      "changes": [
+       [
+        "color",
+        "PK",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-06",
+       "a": "CMC2.H2",
+       "b": "ETB.5",
+       "af": "MaxxECU RACE Gen1 — CMC2 — MOTOR 1- / GPO 11",
+       "bf": "Papillon motorisé — Moteur −",
+       "mm2": 1.0,
+       "color": "PK/BK"
+      },
+      "new": {
+       "id": "DBW-06"
+      },
+      "changes": [
+       [
+        "color",
+        "PK/BK",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "WBO-05",
+       "a": "CMC1.D1",
+       "b": "LSU.3",
+       "af": "MaxxECU RACE Gen1 — CMC1 — WBO2 HTR (pin 3 LSU 4.9) / GP OUT 9",
+       "bf": "Sonde lambda large bande — Chauffage −",
+       "mm2": 1.0,
+       "color": "GN"
+      },
+      "new": {
+       "id": "WBO-05"
+      },
+      "changes": [
+       [
+        "mm2",
+        1.0,
+        0.75
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "RLY-08",
+       "a": "K2.87",
+       "b": "PUMP.+",
+       "af": "Relais pompe à essence — Contact — sortie",
+       "bf": "Pompe à essence — +12 V",
+       "mm2": 2.5,
+       "color": "RD/YE"
+      },
+      "new": {
+       "id": "RLY-08"
+      },
+      "changes": [
+       [
+        "mm2",
+        2.5,
+        4.0
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "RLY-09",
+       "a": "PUMP.-",
+       "b": "GP-CH-AR",
+       "af": "Pompe à essence — Masse",
+       "bf": "Masse caisse arrière (pompe)",
+       "mm2": 2.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "RLY-09"
+      },
+      "changes": [
+       [
+        "mm2",
+        2.5,
+        4.0
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "key": "B1",
+   "rev": "B",
+   "title": "E36 caisse vide, ECU en habitacle",
+   "clue": "Plus de connecteur XINT ; COM-01 = compte-tours ; pas encore de planche « Démarrage & charge ».",
+   "from": "2026-10-07T12:15:43+00:00",
+   "until": "2026-10-07T12:15:43+00:00",
+   "n": 116,
+   "todo": 58,
+   "diff": {
+    "same": 83,
+    "moved": [
+     {
+      "old": {
+       "id": "SYNC-03",
+       "a": "F6.2",
+       "b": "CRANK.1",
+       "af": "Fusible capteur PMH — Sortie",
+       "bf": "Capteur PMH (vilebrequin) — +12 V",
+       "mm2": 0.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "SYNC-03"
+      },
+      "changes": [
+       [
+        "mm2",
+        0.5,
+        0.75
+       ],
+       [
+        "color",
+        "RD",
+        "RD/WH"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "WBO-06",
+       "a": "F4.2",
+       "b": "LSU.4",
+       "af": "Fusible chauffage lambda — Sortie",
+       "bf": "Sonde lambda large bande — Chauffage +12 V",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "WBO-06"
+      },
+      "changes": [
+       [
+        "mm2",
+        1.0,
+        0.75
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "ACT-03",
+       "a": "F5.2",
+       "b": "SPL-ACT12",
+       "af": "Fusible actionneurs (VANOS, MAC) — Sortie",
+       "bf": "+12 V actionneurs",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "ACT-03"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "RLY-03",
+       "a": "F7.2",
+       "b": "SPL-RLY",
+       "af": "Fusible bobines de relais — Sortie",
+       "bf": "+12 V bobines relais",
+       "mm2": 0.5,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "RLY-03"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "RLY-06",
+       "a": "F8.2",
+       "b": "K2.30",
+       "af": "Fusible pompe à essence — Sortie",
+       "bf": "Relais pompe à essence — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "RLY-06"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "RLY-07",
+       "a": "F9.2",
+       "b": "K3.30",
+       "af": "Fusible ventilateur — Sortie",
+       "bf": "Relais ventilateur — Contact — entrée",
+       "mm2": 4.0,
+       "color": "RD"
+      },
+      "new": {
+       "id": "RLY-07"
+      },
+      "changes": [
+       [
+        "mm2",
+        4.0,
+        2.5
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "PWR-03",
+       "a": "F10.2",
+       "b": "K1.30",
+       "af": "Fusible relais principal — Sortie",
+       "bf": "Relais principal — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "DEM-07"
+      },
+      "changes": []
+     }
+    ],
+    "added": [
+     {
+      "id": "PWR-03",
+      "was": {
+       "id": "PWR-03",
+       "a": "F10.2",
+       "b": "K1.30",
+       "af": "Fusible relais principal — Sortie",
+       "bf": "Relais principal — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      }
+     },
+     {
+      "id": "PWR-04",
+      "was": {
+       "id": "PWR-04",
+       "a": "K1.87",
+       "b": "BUS87",
+       "af": "Relais principal — Contact — sortie",
+       "bf": "Barrette +12 V commuté (relais principal)",
+       "mm2": 2.5,
+       "color": "RD/WH"
+      }
+     },
+     {
+      "id": "PWR-05",
+      "was": {
+       "id": "PWR-05",
+       "a": "F1.2",
+       "b": "CMC1.M4",
+       "af": "Fusible ECU — Sortie",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — +12 V ECU",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      }
+     },
+     {
+      "id": "PWR-06",
+      "was": {
+       "id": "PWR-06",
+       "a": "KEY.15",
+       "b": "K1.86",
+       "af": "Contact (+15) — +15 contact",
+       "bf": "Relais principal — Bobine +",
+       "mm2": 0.5,
+       "color": "VT"
+      }
+     },
+     {
+      "id": "PWR-08"
+     },
+     {
+      "id": "PWR-09"
+     },
+     {
+      "id": "PWR-10"
+     },
+     {
+      "id": "PWR-11"
+     },
+     {
+      "id": "PWR-12"
+     },
+     {
+      "id": "DEM-01"
+     },
+     {
+      "id": "DEM-02"
+     },
+     {
+      "id": "DEM-03"
+     },
+     {
+      "id": "DEM-04"
+     },
+     {
+      "id": "DEM-05"
+     },
+     {
+      "id": "DEM-06"
+     },
+     {
+      "id": "DEM-08"
+     },
+     {
+      "id": "DEM-09"
+     },
+     {
+      "id": "DEM-10"
+     },
+     {
+      "id": "COM-01",
+      "was": {
+       "id": "COM-01",
+       "a": "CMC1.A4",
+       "b": "CLUSTER.TD",
+       "af": "MaxxECU RACE Gen1 — CMC1 — TACH / GP OUT 8",
+       "bf": "Combiné (compte-tours) — Entrée régime",
+       "mm2": 0.5,
+       "color": "GN/WH"
+      }
+     },
+     {
+      "id": "COM-02",
+      "was": {
+       "id": "COM-02",
+       "a": "CMC1.E1",
+       "b": "CANDEV.H",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN H (120 Ω intégrée)",
+       "bf": "Afficheur / logger CAN (option) — CAN H",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      }
+     },
+     {
+      "id": "COM-03",
+      "was": {
+       "id": "COM-03",
+       "a": "CMC1.E2",
+       "b": "CANDEV.L",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN L",
+       "bf": "Afficheur / logger CAN (option) — CAN L",
+       "mm2": 0.5,
+       "color": "GN/BK"
+      }
+     },
+     {
+      "id": "COM-04"
+     },
+     {
+      "id": "COM-05"
+     },
+     {
+      "id": "COM-06"
+     },
+     {
+      "id": "COM-07"
+     },
+     {
+      "id": "COM-08"
+     },
+     {
+      "id": "COM-09"
+     },
+     {
+      "id": "COM-10"
+     },
+     {
+      "id": "COM-11"
+     },
+     {
+      "id": "COM-12"
+     },
+     {
+      "id": "COM-13"
+     },
+     {
+      "id": "COM-14"
+     },
+     {
+      "id": "COM-15"
+     },
+     {
+      "id": "COM-16"
+     },
+     {
+      "id": "COM-17"
+     },
+     {
+      "id": "COM-18"
+     },
+     {
+      "id": "COM-19"
+     },
+     {
+      "id": "COM-20"
+     },
+     {
+      "id": "COM-21"
+     },
+     {
+      "id": "COM-22"
+     }
+    ],
+    "removed": [
+     {
+      "id": "COM-01",
+      "a": "CMC1.A4",
+      "b": "CLUSTER.TD",
+      "af": "MaxxECU RACE Gen1 — CMC1 — TACH / GP OUT 8",
+      "bf": "Combiné (compte-tours) — Entrée régime",
+      "mm2": 0.5,
+      "color": "GN/WH",
+      "now": {
+       "id": "COM-01"
+      }
+     }
+    ],
+    "relabel": [
+     {
+      "old": {
+       "id": "PWR-04",
+       "a": "K1.87",
+       "b": "BUS87",
+       "af": "Relais principal — Contact — sortie",
+       "bf": "Barrette +12 V commuté (relais principal)",
+       "mm2": 2.5,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "PWR-07"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "PWR-05",
+       "a": "F1.2",
+       "b": "CMC1.M4",
+       "af": "Fusible ECU — Sortie",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — +12 V ECU",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "PWR-13"
+      },
+      "changes": [
+       [
+        "color",
+        "RD/WH",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "PWR-06",
+       "a": "KEY.15",
+       "b": "K1.86",
+       "af": "Contact (+15) — +15 contact",
+       "bf": "Relais principal — Bobine +",
+       "mm2": 0.5,
+       "color": "VT"
+      },
+      "new": {
+       "id": "PWR-14"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "PWR-07",
+       "a": "K1.85",
+       "b": "GP-CH",
+       "af": "Relais principal — Bobine −",
+       "bf": "Masse caisse habitacle (PDM)",
+       "mm2": 0.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "PWR-15"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "COM-02",
+       "a": "CMC1.E1",
+       "b": "CANDEV.H",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN H (120 Ω intégrée)",
+       "bf": "Afficheur / logger CAN (option) — CAN H",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      },
+      "new": {
+       "id": "COM-23"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BK",
+        "GY"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-03",
+       "a": "CMC1.E2",
+       "b": "CANDEV.L",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN L",
+       "bf": "Afficheur / logger CAN (option) — CAN L",
+       "mm2": 0.5,
+       "color": "GN/BK"
+      },
+      "new": {
+       "id": "COM-24"
+      },
+      "changes": [
+       [
+        "color",
+        "GN/BK",
+        "PK"
+       ]
+      ]
+     }
+    ],
+    "premade": [
+     {
+      "old": {
+       "id": "SYNC-06",
+       "a": "CMC1.H2",
+       "b": "SPL-VRG",
+       "af": "MaxxECU RACE Gen1 — CMC1 — VR GND",
+       "bf": "VR GND (PMH + AAC)",
+       "mm2": 0.5,
+       "color": "BN"
+      },
+      "new": {
+       "id": "MX-01"
+      }
+     },
+     {
+      "old": {
+       "id": "SYNC-07",
+       "a": "SPL-SHLD",
+       "b": "CMC1.E3",
+       "af": "Blindages → Shield GND",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — SHIELD GND",
+       "mm2": 0.5,
+       "color": "BK/WH"
+      },
+      "new": {
+       "id": "MX-02"
+      }
+     },
+     {
+      "old": {
+       "id": "KNK-05",
+       "a": "CMC2.E1",
+       "b": "SPL-KGND",
+       "af": "MaxxECU RACE Gen1 — CMC2 — KNOCK GND",
+       "bf": "Knock GND (2 capteurs)",
+       "mm2": 0.5,
+       "color": "BN"
+      },
+      "new": {
+       "id": "MX-03"
+      }
+     }
+    ],
+    "attr": [
+     {
+      "old": {
+       "id": "GND-01",
+       "a": "CMC1.L4",
+       "b": "GP-HEAD",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ENGINE GROUND",
+       "bf": "Masse moteur ECU (goujon arrière culasse)",
+       "mm2": 1.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "GND-01"
+      },
+      "changes": [
+       [
+        "color",
+        "BK",
+        "BN"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "GND-02",
+       "a": "CMC2.G4",
+       "b": "GP-HEAD",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ENGINE GROUND 2",
+       "bf": "Masse moteur ECU (goujon arrière culasse)",
+       "mm2": 1.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "GND-02"
+      },
+      "changes": [
+       [
+        "color",
+        "BK",
+        "BN"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-01",
+       "a": "CMC1.G1",
+       "b": "SPL-5V-MAIN",
+       "af": "MaxxECU RACE Gen1 — CMC1 — +5 V SENSOR SUPPLY",
+       "bf": "+5 V — départ ECU",
+       "mm2": 0.5,
+       "color": "OG"
+      },
+      "new": {
+       "id": "SNS-01"
+      },
+      "changes": [
+       [
+        "color",
+        "OG",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-11",
+       "a": "CMC1.F2",
+       "b": "IAT.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — AIR TEMP SENSOR (IAT)",
+       "bf": "Température air admission — Signal NTC",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      },
+      "new": {
+       "id": "SNS-11"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BK",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-12",
+       "a": "CMC1.F1",
+       "b": "CLT.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — COOLANT SENSOR (CLT)",
+       "bf": "Température eau — Signal NTC",
+       "mm2": 0.5,
+       "color": "YE"
+      },
+      "new": {
+       "id": "SNS-12"
+      },
+      "changes": [
+       [
+        "color",
+        "YE",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-13",
+       "a": "CMC1.J1",
+       "b": "OIL.5",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 1 (TEMP)",
+       "bf": "Pression + température huile — Température NTC",
+       "mm2": 0.5,
+       "color": "YE/BN"
+      },
+      "new": {
+       "id": "SNS-13"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BN",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-14",
+       "a": "CMC2.E4",
+       "b": "OIL.2",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 6 (0-5 V)",
+       "bf": "Pression + température huile — Pression 0,5–4,5 V",
+       "mm2": 0.5,
+       "color": "WH/BN"
+      },
+      "new": {
+       "id": "SNS-14"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BN",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-15",
+       "a": "CMC1.J2",
+       "b": "FUEL.5",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 2 (TEMP)",
+       "bf": "Pression + température essence — Température NTC",
+       "mm2": 0.5,
+       "color": "YE/VT"
+      },
+      "new": {
+       "id": "SNS-15"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/VT",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-16",
+       "a": "CMC2.F1",
+       "b": "FUEL.2",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 7 (0-5 V)",
+       "bf": "Pression + température essence — Pression 0,5–4,5 V",
+       "mm2": 0.5,
+       "color": "WH/VT"
+      },
+      "new": {
+       "id": "SNS-16"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/VT",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-03",
+       "a": "CMC1.G2",
+       "b": "ETB.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — THROTTLE SENSOR (TPS)",
+       "bf": "Papillon motorisé — TPS 1",
+       "mm2": 0.5,
+       "color": "WH"
+      },
+      "new": {
+       "id": "DBW-03"
+      },
+      "changes": [
+       [
+        "color",
+        "WH",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-04",
+       "a": "CMC1.J3",
+       "b": "ETB.4",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 3 (0-5 V)",
+       "bf": "Papillon motorisé — TPS 2",
+       "mm2": 0.5,
+       "color": "WH/BK"
+      },
+      "new": {
+       "id": "DBW-04"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BK",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-05",
+       "a": "CMC2.H4",
+       "b": "ETB.3",
+       "af": "MaxxECU RACE Gen1 — CMC2 — MOTOR 1+ / GPO 12",
+       "bf": "Papillon motorisé — Moteur +",
+       "mm2": 1.0,
+       "color": "PK"
+      },
+      "new": {
+       "id": "DBW-05"
+      },
+      "changes": [
+       [
+        "color",
+        "PK",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-06",
+       "a": "CMC2.H2",
+       "b": "ETB.5",
+       "af": "MaxxECU RACE Gen1 — CMC2 — MOTOR 1- / GPO 11",
+       "bf": "Papillon motorisé — Moteur −",
+       "mm2": 1.0,
+       "color": "PK/BK"
+      },
+      "new": {
+       "id": "DBW-06"
+      },
+      "changes": [
+       [
+        "color",
+        "PK/BK",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-10",
+       "a": "CMC1.J4",
+       "b": "APP.4",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 4 (0-5 V)",
+       "bf": "Pédale d'accélérateur — Signal piste 1",
+       "mm2": 0.5,
+       "color": "WH/BU"
+      },
+      "new": {
+       "id": "DBW-10"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BU",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-12",
+       "a": "CMC2.G3",
+       "b": "APP.6",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 5 (0-5 V)",
+       "bf": "Pédale d'accélérateur — Signal piste 2",
+       "mm2": 0.5,
+       "color": "WH/GN"
+      },
+      "new": {
+       "id": "DBW-12"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/GN",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "WBO-05",
+       "a": "CMC1.D1",
+       "b": "LSU.3",
+       "af": "MaxxECU RACE Gen1 — CMC1 — WBO2 HTR (pin 3 LSU 4.9) / GP OUT 9",
+       "bf": "Sonde lambda large bande — Chauffage −",
+       "mm2": 1.0,
+       "color": "GN"
+      },
+      "new": {
+       "id": "WBO-05"
+      },
+      "changes": [
+       [
+        "mm2",
+        1.0,
+        0.75
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "key": "B2",
+   "rev": "B",
+   "title": "Contacteur, relais de démarreur, excitation alternateur",
+   "clue": "Planche « Démarrage & charge » présente ; WBO-05 (chauffe lambda) en 1 mm².",
+   "from": "2026-10-08T07:58:59+00:00",
+   "until": "2026-10-08T07:58:59+00:00",
+   "n": 123,
+   "todo": 59,
+   "diff": {
+    "same": 83,
+    "moved": [
+     {
+      "old": {
+       "id": "SYNC-03",
+       "a": "F6.2",
+       "b": "CRANK.1",
+       "af": "Fusible capteur PMH — Sortie",
+       "bf": "Capteur PMH (vilebrequin) — +12 V",
+       "mm2": 0.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "SYNC-03"
+      },
+      "changes": [
+       [
+        "mm2",
+        0.5,
+        0.75
+       ],
+       [
+        "color",
+        "RD",
+        "RD/WH"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "WBO-06",
+       "a": "F4.2",
+       "b": "LSU.4",
+       "af": "Fusible chauffage lambda — Sortie",
+       "bf": "Sonde lambda large bande — Chauffage +12 V",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "WBO-06"
+      },
+      "changes": [
+       [
+        "mm2",
+        1.0,
+        0.75
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "ACT-03",
+       "a": "F5.2",
+       "b": "SPL-ACT12",
+       "af": "Fusible actionneurs (VANOS, MAC) — Sortie",
+       "bf": "+12 V actionneurs",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "ACT-03"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "RLY-03",
+       "a": "F7.2",
+       "b": "SPL-RLY",
+       "af": "Fusible commandes (bobines relais pompe / ventilo, voyant de charge) — Sortie",
+       "bf": "+12 V bobines relais",
+       "mm2": 0.5,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "RLY-03"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "RLY-06",
+       "a": "F8.2",
+       "b": "K2.30",
+       "af": "Fusible pompe à essence — Sortie",
+       "bf": "Relais pompe à essence — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "RLY-06"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "RLY-07",
+       "a": "F9.2",
+       "b": "K3.30",
+       "af": "Fusible ventilateur — Sortie",
+       "bf": "Relais ventilateur — Contact — entrée",
+       "mm2": 4.0,
+       "color": "RD"
+      },
+      "new": {
+       "id": "RLY-07"
+      },
+      "changes": [
+       [
+        "mm2",
+        4.0,
+        2.5
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "PWR-03",
+       "a": "F10.2",
+       "b": "K1.30",
+       "af": "Fusible relais principal — Sortie",
+       "bf": "Relais principal — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "DEM-07"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-01",
+       "a": "F11.2",
+       "b": "KEY.30",
+       "af": "Fusible contacteur (+30 clé) — Sortie",
+       "bf": "Contacteur (30 / 15 / 50) — +30 entrée (permanent, fusible F11)",
+       "mm2": 0.75,
+       "color": "RD"
+      },
+      "new": {
+       "id": "DEM-03"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-02",
+       "a": "KEY.50",
+       "b": "K4.86",
+       "af": "Contacteur (30 / 15 / 50) — +50 démarrage (position démarreur)",
+       "bf": "Relais démarreur — Bobine + (50 clé)",
+       "mm2": 0.5,
+       "color": "VT/YE"
+      },
+      "new": {
+       "id": "DEM-05"
+      },
+      "changes": []
+     }
+    ],
+    "added": [
+     {
+      "id": "PWR-03",
+      "was": {
+       "id": "PWR-03",
+       "a": "F10.2",
+       "b": "K1.30",
+       "af": "Fusible relais principal — Sortie",
+       "bf": "Relais principal — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      }
+     },
+     {
+      "id": "PWR-04",
+      "was": {
+       "id": "PWR-04",
+       "a": "K1.87",
+       "b": "BUS87",
+       "af": "Relais principal — Contact — sortie",
+       "bf": "Barrette +12 V commuté (relais principal)",
+       "mm2": 2.5,
+       "color": "RD/WH"
+      }
+     },
+     {
+      "id": "PWR-05",
+      "was": {
+       "id": "PWR-05",
+       "a": "F1.2",
+       "b": "CMC1.M4",
+       "af": "Fusible ECU — Sortie",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — +12 V ECU",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      }
+     },
+     {
+      "id": "PWR-06",
+      "was": {
+       "id": "PWR-06",
+       "a": "KEY.15",
+       "b": "K1.86",
+       "af": "Contacteur (30 / 15 / 50) — +15 contact mis (reste alimenté en position démarrage)",
+       "bf": "Relais principal — Bobine +",
+       "mm2": 0.5,
+       "color": "VT"
+      }
+     },
+     {
+      "id": "PWR-08"
+     },
+     {
+      "id": "PWR-09"
+     },
+     {
+      "id": "PWR-10"
+     },
+     {
+      "id": "PWR-11"
+     },
+     {
+      "id": "PWR-12"
+     },
+     {
+      "id": "DEM-01",
+      "was": {
+       "id": "DEM-01",
+       "a": "F11.2",
+       "b": "KEY.30",
+       "af": "Fusible contacteur (+30 clé) — Sortie",
+       "bf": "Contacteur (30 / 15 / 50) — +30 entrée (permanent, fusible F11)",
+       "mm2": 0.75,
+       "color": "RD"
+      }
+     },
+     {
+      "id": "DEM-02",
+      "was": {
+       "id": "DEM-02",
+       "a": "KEY.50",
+       "b": "K4.86",
+       "af": "Contacteur (30 / 15 / 50) — +50 démarrage (position démarreur)",
+       "bf": "Relais démarreur — Bobine + (50 clé)",
+       "mm2": 0.5,
+       "color": "VT/YE"
+      }
+     },
+     {
+      "id": "DEM-04",
+      "was": {
+       "id": "DEM-04",
+       "a": "F12.2",
+       "b": "K4.30",
+       "af": "Fusible démarreur (borne 50) — Sortie",
+       "bf": "Relais démarreur — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      }
+     },
+     {
+      "id": "COM-01",
+      "was": {
+       "id": "COM-01",
+       "a": "CMC1.A4",
+       "b": "CLUSTER.TD",
+       "af": "MaxxECU RACE Gen1 — CMC1 — TACH / GP OUT 8",
+       "bf": "Combiné (compte-tours) — Entrée régime",
+       "mm2": 0.5,
+       "color": "GN/WH"
+      }
+     },
+     {
+      "id": "COM-02",
+      "was": {
+       "id": "COM-02",
+       "a": "CMC1.E1",
+       "b": "CANDEV.H",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN H (120 Ω intégrée)",
+       "bf": "Afficheur / logger CAN (option) — CAN H",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      }
+     },
+     {
+      "id": "COM-03",
+      "was": {
+       "id": "COM-03",
+       "a": "CMC1.E2",
+       "b": "CANDEV.L",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN L",
+       "bf": "Afficheur / logger CAN (option) — CAN L",
+       "mm2": 0.5,
+       "color": "GN/BK"
+      }
+     },
+     {
+      "id": "COM-04"
+     },
+     {
+      "id": "COM-05"
+     },
+     {
+      "id": "COM-06"
+     },
+     {
+      "id": "COM-07"
+     },
+     {
+      "id": "COM-08"
+     },
+     {
+      "id": "COM-09"
+     },
+     {
+      "id": "COM-10"
+     },
+     {
+      "id": "COM-11"
+     },
+     {
+      "id": "COM-12"
+     },
+     {
+      "id": "COM-13"
+     },
+     {
+      "id": "COM-14"
+     },
+     {
+      "id": "COM-15"
+     },
+     {
+      "id": "COM-16"
+     },
+     {
+      "id": "COM-17"
+     },
+     {
+      "id": "COM-18"
+     },
+     {
+      "id": "COM-19"
+     },
+     {
+      "id": "COM-20"
+     },
+     {
+      "id": "COM-21"
+     },
+     {
+      "id": "COM-22"
+     }
+    ],
+    "removed": [
+     {
+      "id": "DEM-04",
+      "a": "F12.2",
+      "b": "K4.30",
+      "af": "Fusible démarreur (borne 50) — Sortie",
+      "bf": "Relais démarreur — Contact — entrée",
+      "mm2": 2.5,
+      "color": "RD",
+      "now": {
+       "id": "DEM-04"
+      }
+     },
+     {
+      "id": "COM-01",
+      "a": "CMC1.A4",
+      "b": "CLUSTER.TD",
+      "af": "MaxxECU RACE Gen1 — CMC1 — TACH / GP OUT 8",
+      "bf": "Combiné (compte-tours) — Entrée régime",
+      "mm2": 0.5,
+      "color": "GN/WH",
+      "now": {
+       "id": "COM-01"
+      }
+     }
+    ],
+    "relabel": [
+     {
+      "old": {
+       "id": "PWR-04",
+       "a": "K1.87",
+       "b": "BUS87",
+       "af": "Relais principal — Contact — sortie",
+       "bf": "Barrette +12 V commuté (relais principal)",
+       "mm2": 2.5,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "PWR-07"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "PWR-05",
+       "a": "F1.2",
+       "b": "CMC1.M4",
+       "af": "Fusible ECU — Sortie",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — +12 V ECU",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "PWR-13"
+      },
+      "changes": [
+       [
+        "color",
+        "RD/WH",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "PWR-06",
+       "a": "KEY.15",
+       "b": "K1.86",
+       "af": "Contacteur (30 / 15 / 50) — +15 contact mis (reste alimenté en position démarrage)",
+       "bf": "Relais principal — Bobine +",
+       "mm2": 0.5,
+       "color": "VT"
+      },
+      "new": {
+       "id": "PWR-14"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "PWR-07",
+       "a": "K1.85",
+       "b": "GP-CH",
+       "af": "Relais principal — Bobine −",
+       "bf": "Masse caisse habitacle (PDM)",
+       "mm2": 0.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "PWR-15"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-03",
+       "a": "K4.85",
+       "b": "GP-CH",
+       "af": "Relais démarreur — Bobine −",
+       "bf": "Masse caisse habitacle (PDM)",
+       "mm2": 0.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "DEM-06"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-05",
+       "a": "K4.87",
+       "b": "STARTER.50",
+       "af": "Relais démarreur — Contact — sortie vers borne 50",
+       "bf": "Démarreur — Commande solénoïde (50)",
+       "mm2": 2.5,
+       "color": "VT/YE"
+      },
+      "new": {
+       "id": "DEM-08"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-06",
+       "a": "SPL-RLY",
+       "b": "LAMP.1",
+       "af": "+12 V bobines relais",
+       "bf": "Voyant de charge — +12 V commuté",
+       "mm2": 0.5,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "DEM-09"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-07",
+       "a": "LAMP.2",
+       "b": "ALT.D+",
+       "af": "Voyant de charge — Sortie vers D+",
+       "bf": "Alternateur — D+ excitation (61)",
+       "mm2": 0.75,
+       "color": "BU/RD"
+      },
+      "new": {
+       "id": "DEM-10"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "COM-02",
+       "a": "CMC1.E1",
+       "b": "CANDEV.H",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN H (120 Ω intégrée)",
+       "bf": "Afficheur / logger CAN (option) — CAN H",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      },
+      "new": {
+       "id": "COM-23"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BK",
+        "GY"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-03",
+       "a": "CMC1.E2",
+       "b": "CANDEV.L",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN L",
+       "bf": "Afficheur / logger CAN (option) — CAN L",
+       "mm2": 0.5,
+       "color": "GN/BK"
+      },
+      "new": {
+       "id": "COM-24"
+      },
+      "changes": [
+       [
+        "color",
+        "GN/BK",
+        "PK"
+       ]
+      ]
+     }
+    ],
+    "premade": [
+     {
+      "old": {
+       "id": "SYNC-06",
+       "a": "CMC1.H2",
+       "b": "SPL-VRG",
+       "af": "MaxxECU RACE Gen1 — CMC1 — VR GND",
+       "bf": "VR GND (PMH + AAC)",
+       "mm2": 0.5,
+       "color": "BN"
+      },
+      "new": {
+       "id": "MX-01"
+      }
+     },
+     {
+      "old": {
+       "id": "SYNC-07",
+       "a": "SPL-SHLD",
+       "b": "CMC1.E3",
+       "af": "Blindages → Shield GND",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — SHIELD GND",
+       "mm2": 0.5,
+       "color": "BK/WH"
+      },
+      "new": {
+       "id": "MX-02"
+      }
+     },
+     {
+      "old": {
+       "id": "KNK-05",
+       "a": "CMC2.E1",
+       "b": "SPL-KGND",
+       "af": "MaxxECU RACE Gen1 — CMC2 — KNOCK GND",
+       "bf": "Knock GND (2 capteurs)",
+       "mm2": 0.5,
+       "color": "BN"
+      },
+      "new": {
+       "id": "MX-03"
+      }
+     }
+    ],
+    "attr": [
+     {
+      "old": {
+       "id": "GND-01",
+       "a": "CMC1.L4",
+       "b": "GP-HEAD",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ENGINE GROUND",
+       "bf": "Masse moteur ECU (goujon arrière culasse)",
+       "mm2": 1.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "GND-01"
+      },
+      "changes": [
+       [
+        "color",
+        "BK",
+        "BN"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "GND-02",
+       "a": "CMC2.G4",
+       "b": "GP-HEAD",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ENGINE GROUND 2",
+       "bf": "Masse moteur ECU (goujon arrière culasse)",
+       "mm2": 1.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "GND-02"
+      },
+      "changes": [
+       [
+        "color",
+        "BK",
+        "BN"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-01",
+       "a": "CMC1.G1",
+       "b": "SPL-5V-MAIN",
+       "af": "MaxxECU RACE Gen1 — CMC1 — +5 V SENSOR SUPPLY",
+       "bf": "+5 V — départ ECU",
+       "mm2": 0.5,
+       "color": "OG"
+      },
+      "new": {
+       "id": "SNS-01"
+      },
+      "changes": [
+       [
+        "color",
+        "OG",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-11",
+       "a": "CMC1.F2",
+       "b": "IAT.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — AIR TEMP SENSOR (IAT)",
+       "bf": "Température air admission — Signal NTC",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      },
+      "new": {
+       "id": "SNS-11"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BK",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-12",
+       "a": "CMC1.F1",
+       "b": "CLT.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — COOLANT SENSOR (CLT)",
+       "bf": "Température eau — Signal NTC",
+       "mm2": 0.5,
+       "color": "YE"
+      },
+      "new": {
+       "id": "SNS-12"
+      },
+      "changes": [
+       [
+        "color",
+        "YE",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-13",
+       "a": "CMC1.J1",
+       "b": "OIL.5",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 1 (TEMP)",
+       "bf": "Pression + température huile — Température NTC",
+       "mm2": 0.5,
+       "color": "YE/BN"
+      },
+      "new": {
+       "id": "SNS-13"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BN",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-14",
+       "a": "CMC2.E4",
+       "b": "OIL.2",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 6 (0-5 V)",
+       "bf": "Pression + température huile — Pression 0,5–4,5 V",
+       "mm2": 0.5,
+       "color": "WH/BN"
+      },
+      "new": {
+       "id": "SNS-14"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BN",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-15",
+       "a": "CMC1.J2",
+       "b": "FUEL.5",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 2 (TEMP)",
+       "bf": "Pression + température essence — Température NTC",
+       "mm2": 0.5,
+       "color": "YE/VT"
+      },
+      "new": {
+       "id": "SNS-15"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/VT",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-16",
+       "a": "CMC2.F1",
+       "b": "FUEL.2",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 7 (0-5 V)",
+       "bf": "Pression + température essence — Pression 0,5–4,5 V",
+       "mm2": 0.5,
+       "color": "WH/VT"
+      },
+      "new": {
+       "id": "SNS-16"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/VT",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-03",
+       "a": "CMC1.G2",
+       "b": "ETB.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — THROTTLE SENSOR (TPS)",
+       "bf": "Papillon motorisé — TPS 1",
+       "mm2": 0.5,
+       "color": "WH"
+      },
+      "new": {
+       "id": "DBW-03"
+      },
+      "changes": [
+       [
+        "color",
+        "WH",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-04",
+       "a": "CMC1.J3",
+       "b": "ETB.4",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 3 (0-5 V)",
+       "bf": "Papillon motorisé — TPS 2",
+       "mm2": 0.5,
+       "color": "WH/BK"
+      },
+      "new": {
+       "id": "DBW-04"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BK",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-05",
+       "a": "CMC2.H4",
+       "b": "ETB.3",
+       "af": "MaxxECU RACE Gen1 — CMC2 — MOTOR 1+ / GPO 12",
+       "bf": "Papillon motorisé — Moteur +",
+       "mm2": 1.0,
+       "color": "PK"
+      },
+      "new": {
+       "id": "DBW-05"
+      },
+      "changes": [
+       [
+        "color",
+        "PK",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-06",
+       "a": "CMC2.H2",
+       "b": "ETB.5",
+       "af": "MaxxECU RACE Gen1 — CMC2 — MOTOR 1- / GPO 11",
+       "bf": "Papillon motorisé — Moteur −",
+       "mm2": 1.0,
+       "color": "PK/BK"
+      },
+      "new": {
+       "id": "DBW-06"
+      },
+      "changes": [
+       [
+        "color",
+        "PK/BK",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-10",
+       "a": "CMC1.J4",
+       "b": "APP.4",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 4 (0-5 V)",
+       "bf": "Pédale d'accélérateur — Signal piste 1",
+       "mm2": 0.5,
+       "color": "WH/BU"
+      },
+      "new": {
+       "id": "DBW-10"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BU",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-12",
+       "a": "CMC2.G3",
+       "b": "APP.6",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 5 (0-5 V)",
+       "bf": "Pédale d'accélérateur — Signal piste 2",
+       "mm2": 0.5,
+       "color": "WH/GN"
+      },
+      "new": {
+       "id": "DBW-12"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/GN",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "WBO-05",
+       "a": "CMC1.D1",
+       "b": "LSU.3",
+       "af": "MaxxECU RACE Gen1 — CMC1 — WBO2 HTR (pin 3 LSU 4.9) / GP OUT 9",
+       "bf": "Sonde lambda large bande — Chauffage −",
+       "mm2": 1.0,
+       "color": "GN"
+      },
+      "new": {
+       "id": "WBO-05"
+      },
+      "changes": [
+       [
+        "mm2",
+        1.0,
+        0.75
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "key": "B3",
+   "rev": "B",
+   "title": "Corrections de l'audit électrique",
+   "clue": "WBO-05 en 0,75 mm² ; SYNC-03 (+12 V capteur PMH) en rouge (RD), venant de F6.",
+   "from": "2026-10-08T12:58:06+00:00",
+   "until": "2026-10-08T12:58:06+00:00",
+   "n": 123,
+   "todo": 58,
+   "diff": {
+    "same": 84,
+    "moved": [
+     {
+      "old": {
+       "id": "SYNC-03",
+       "a": "F6.2",
+       "b": "CRANK.1",
+       "af": "Fusible capteur PMH — Sortie",
+       "bf": "Capteur PMH (vilebrequin) — +12 V",
+       "mm2": 0.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "SYNC-03"
+      },
+      "changes": [
+       [
+        "mm2",
+        0.5,
+        0.75
+       ],
+       [
+        "color",
+        "RD",
+        "RD/WH"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "WBO-06",
+       "a": "F4.2",
+       "b": "LSU.4",
+       "af": "Fusible chauffage lambda — Sortie",
+       "bf": "Sonde lambda large bande — Chauffage +12 V",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "WBO-06"
+      },
+      "changes": [
+       [
+        "mm2",
+        1.0,
+        0.75
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "ACT-03",
+       "a": "F5.2",
+       "b": "SPL-ACT12",
+       "af": "Fusible actionneurs (VANOS, MAC) — Sortie",
+       "bf": "+12 V actionneurs",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "ACT-03"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "RLY-03",
+       "a": "F7.2",
+       "b": "SPL-RLY",
+       "af": "Fusible commandes (bobines relais pompe / ventilo, voyant de charge) — Sortie",
+       "bf": "+12 V bobines relais",
+       "mm2": 0.5,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "RLY-03"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "RLY-06",
+       "a": "F8.2",
+       "b": "K2.30",
+       "af": "Fusible pompe à essence — Sortie",
+       "bf": "Relais pompe à essence — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "RLY-06"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "RLY-07",
+       "a": "F9.2",
+       "b": "K3.30",
+       "af": "Fusible ventilateur — Sortie",
+       "bf": "Relais ventilateur — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "RLY-07"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "PWR-03",
+       "a": "F10.2",
+       "b": "K1.30",
+       "af": "Fusible relais principal — Sortie",
+       "bf": "Relais principal — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "DEM-07"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-01",
+       "a": "F11.2",
+       "b": "KEY.30",
+       "af": "Fusible contacteur (+30 clé) — Sortie",
+       "bf": "Contacteur (30 / 15 / 50) — +30 entrée (permanent, fusible F11)",
+       "mm2": 0.75,
+       "color": "RD"
+      },
+      "new": {
+       "id": "DEM-03"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-02",
+       "a": "KEY.50",
+       "b": "K4.86",
+       "af": "Contacteur (30 / 15 / 50) — +50 démarrage (position démarreur)",
+       "bf": "Relais démarreur — Bobine + (50 clé)",
+       "mm2": 0.5,
+       "color": "VT/YE"
+      },
+      "new": {
+       "id": "DEM-05"
+      },
+      "changes": []
+     }
+    ],
+    "added": [
+     {
+      "id": "PWR-03",
+      "was": {
+       "id": "PWR-03",
+       "a": "F10.2",
+       "b": "K1.30",
+       "af": "Fusible relais principal — Sortie",
+       "bf": "Relais principal — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      }
+     },
+     {
+      "id": "PWR-04",
+      "was": {
+       "id": "PWR-04",
+       "a": "K1.87",
+       "b": "BUS87",
+       "af": "Relais principal — Contact — sortie",
+       "bf": "Barrette +12 V commuté (relais principal)",
+       "mm2": 2.5,
+       "color": "RD/WH"
+      }
+     },
+     {
+      "id": "PWR-05",
+      "was": {
+       "id": "PWR-05",
+       "a": "F1.2",
+       "b": "CMC1.M4",
+       "af": "Fusible ECU — Sortie",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — +12 V ECU",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      }
+     },
+     {
+      "id": "PWR-06",
+      "was": {
+       "id": "PWR-06",
+       "a": "KEY.15",
+       "b": "K1.86",
+       "af": "Contacteur (30 / 15 / 50) — +15 contact mis (reste alimenté en position démarrage)",
+       "bf": "Relais principal — Bobine +",
+       "mm2": 0.5,
+       "color": "VT"
+      }
+     },
+     {
+      "id": "PWR-08"
+     },
+     {
+      "id": "PWR-09"
+     },
+     {
+      "id": "PWR-10"
+     },
+     {
+      "id": "PWR-11"
+     },
+     {
+      "id": "PWR-12"
+     },
+     {
+      "id": "DEM-01",
+      "was": {
+       "id": "DEM-01",
+       "a": "F11.2",
+       "b": "KEY.30",
+       "af": "Fusible contacteur (+30 clé) — Sortie",
+       "bf": "Contacteur (30 / 15 / 50) — +30 entrée (permanent, fusible F11)",
+       "mm2": 0.75,
+       "color": "RD"
+      }
+     },
+     {
+      "id": "DEM-02",
+      "was": {
+       "id": "DEM-02",
+       "a": "KEY.50",
+       "b": "K4.86",
+       "af": "Contacteur (30 / 15 / 50) — +50 démarrage (position démarreur)",
+       "bf": "Relais démarreur — Bobine + (50 clé)",
+       "mm2": 0.5,
+       "color": "VT/YE"
+      }
+     },
+     {
+      "id": "DEM-04",
+      "was": {
+       "id": "DEM-04",
+       "a": "F12.2",
+       "b": "K4.30",
+       "af": "Fusible démarreur (borne 50) — Sortie",
+       "bf": "Relais démarreur — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      }
+     },
+     {
+      "id": "COM-01",
+      "was": {
+       "id": "COM-01",
+       "a": "CMC1.A4",
+       "b": "CLUSTER.TD",
+       "af": "MaxxECU RACE Gen1 — CMC1 — TACH / GP OUT 8",
+       "bf": "Combiné (compte-tours) — Entrée régime",
+       "mm2": 0.5,
+       "color": "GN/WH"
+      }
+     },
+     {
+      "id": "COM-02",
+      "was": {
+       "id": "COM-02",
+       "a": "CMC1.E1",
+       "b": "CANDEV.H",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN H (120 Ω intégrée)",
+       "bf": "Afficheur / logger CAN (option) — CAN H",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      }
+     },
+     {
+      "id": "COM-03",
+      "was": {
+       "id": "COM-03",
+       "a": "CMC1.E2",
+       "b": "CANDEV.L",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN L",
+       "bf": "Afficheur / logger CAN (option) — CAN L",
+       "mm2": 0.5,
+       "color": "GN/BK"
+      }
+     },
+     {
+      "id": "COM-04"
+     },
+     {
+      "id": "COM-05"
+     },
+     {
+      "id": "COM-06"
+     },
+     {
+      "id": "COM-07"
+     },
+     {
+      "id": "COM-08"
+     },
+     {
+      "id": "COM-09"
+     },
+     {
+      "id": "COM-10"
+     },
+     {
+      "id": "COM-11"
+     },
+     {
+      "id": "COM-12"
+     },
+     {
+      "id": "COM-13"
+     },
+     {
+      "id": "COM-14"
+     },
+     {
+      "id": "COM-15"
+     },
+     {
+      "id": "COM-16"
+     },
+     {
+      "id": "COM-17"
+     },
+     {
+      "id": "COM-18"
+     },
+     {
+      "id": "COM-19"
+     },
+     {
+      "id": "COM-20"
+     },
+     {
+      "id": "COM-21"
+     },
+     {
+      "id": "COM-22"
+     }
+    ],
+    "removed": [
+     {
+      "id": "DEM-04",
+      "a": "F12.2",
+      "b": "K4.30",
+      "af": "Fusible démarreur (borne 50) — Sortie",
+      "bf": "Relais démarreur — Contact — entrée",
+      "mm2": 2.5,
+      "color": "RD",
+      "now": {
+       "id": "DEM-04"
+      }
+     },
+     {
+      "id": "COM-01",
+      "a": "CMC1.A4",
+      "b": "CLUSTER.TD",
+      "af": "MaxxECU RACE Gen1 — CMC1 — TACH / GP OUT 8",
+      "bf": "Combiné (compte-tours) — Entrée régime",
+      "mm2": 0.5,
+      "color": "GN/WH",
+      "now": {
+       "id": "COM-01"
+      }
+     }
+    ],
+    "relabel": [
+     {
+      "old": {
+       "id": "PWR-04",
+       "a": "K1.87",
+       "b": "BUS87",
+       "af": "Relais principal — Contact — sortie",
+       "bf": "Barrette +12 V commuté (relais principal)",
+       "mm2": 2.5,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "PWR-07"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "PWR-05",
+       "a": "F1.2",
+       "b": "CMC1.M4",
+       "af": "Fusible ECU — Sortie",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — +12 V ECU",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "PWR-13"
+      },
+      "changes": [
+       [
+        "color",
+        "RD/WH",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "PWR-06",
+       "a": "KEY.15",
+       "b": "K1.86",
+       "af": "Contacteur (30 / 15 / 50) — +15 contact mis (reste alimenté en position démarrage)",
+       "bf": "Relais principal — Bobine +",
+       "mm2": 0.5,
+       "color": "VT"
+      },
+      "new": {
+       "id": "PWR-14"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "PWR-07",
+       "a": "K1.85",
+       "b": "GP-CH",
+       "af": "Relais principal — Bobine −",
+       "bf": "Masse caisse habitacle (PDM)",
+       "mm2": 0.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "PWR-15"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-03",
+       "a": "K4.85",
+       "b": "GP-CH",
+       "af": "Relais démarreur — Bobine −",
+       "bf": "Masse caisse habitacle (PDM)",
+       "mm2": 0.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "DEM-06"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-05",
+       "a": "K4.87",
+       "b": "STARTER.50",
+       "af": "Relais démarreur — Contact — sortie vers borne 50",
+       "bf": "Démarreur — Commande solénoïde (50)",
+       "mm2": 2.5,
+       "color": "VT/YE"
+      },
+      "new": {
+       "id": "DEM-08"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-06",
+       "a": "SPL-RLY",
+       "b": "LAMP.1",
+       "af": "+12 V bobines relais",
+       "bf": "Voyant de charge — +12 V commuté",
+       "mm2": 0.5,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "DEM-09"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-07",
+       "a": "LAMP.2",
+       "b": "ALT.D+",
+       "af": "Voyant de charge — Sortie vers D+",
+       "bf": "Alternateur — D+ excitation (61)",
+       "mm2": 0.75,
+       "color": "BU/RD"
+      },
+      "new": {
+       "id": "DEM-10"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "COM-02",
+       "a": "CMC1.E1",
+       "b": "CANDEV.H",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN H (120 Ω intégrée)",
+       "bf": "Afficheur / logger CAN (option) — CAN H",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      },
+      "new": {
+       "id": "COM-23"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BK",
+        "GY"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-03",
+       "a": "CMC1.E2",
+       "b": "CANDEV.L",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN L",
+       "bf": "Afficheur / logger CAN (option) — CAN L",
+       "mm2": 0.5,
+       "color": "GN/BK"
+      },
+      "new": {
+       "id": "COM-24"
+      },
+      "changes": [
+       [
+        "color",
+        "GN/BK",
+        "PK"
+       ]
+      ]
+     }
+    ],
+    "premade": [
+     {
+      "old": {
+       "id": "SYNC-06",
+       "a": "CMC1.H2",
+       "b": "SPL-VRG",
+       "af": "MaxxECU RACE Gen1 — CMC1 — VR GND",
+       "bf": "VR GND (PMH + AAC)",
+       "mm2": 0.5,
+       "color": "BN"
+      },
+      "new": {
+       "id": "MX-01"
+      }
+     },
+     {
+      "old": {
+       "id": "SYNC-07",
+       "a": "SPL-SHLD",
+       "b": "CMC1.E3",
+       "af": "Blindages → Shield GND",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — SHIELD GND",
+       "mm2": 0.5,
+       "color": "BK/WH"
+      },
+      "new": {
+       "id": "MX-02"
+      }
+     },
+     {
+      "old": {
+       "id": "KNK-05",
+       "a": "CMC2.E1",
+       "b": "SPL-KGND",
+       "af": "MaxxECU RACE Gen1 — CMC2 — KNOCK GND",
+       "bf": "Knock GND (2 capteurs)",
+       "mm2": 0.5,
+       "color": "BN"
+      },
+      "new": {
+       "id": "MX-03"
+      }
+     }
+    ],
+    "attr": [
+     {
+      "old": {
+       "id": "GND-01",
+       "a": "CMC1.L4",
+       "b": "GP-HEAD",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ENGINE GROUND",
+       "bf": "Masse moteur ECU (goujon arrière culasse)",
+       "mm2": 1.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "GND-01"
+      },
+      "changes": [
+       [
+        "color",
+        "BK",
+        "BN"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "GND-02",
+       "a": "CMC2.G4",
+       "b": "GP-HEAD",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ENGINE GROUND 2",
+       "bf": "Masse moteur ECU (goujon arrière culasse)",
+       "mm2": 1.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "GND-02"
+      },
+      "changes": [
+       [
+        "color",
+        "BK",
+        "BN"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-01",
+       "a": "CMC1.G1",
+       "b": "SPL-5V-MAIN",
+       "af": "MaxxECU RACE Gen1 — CMC1 — +5 V SENSOR SUPPLY",
+       "bf": "+5 V — départ ECU",
+       "mm2": 0.5,
+       "color": "OG"
+      },
+      "new": {
+       "id": "SNS-01"
+      },
+      "changes": [
+       [
+        "color",
+        "OG",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-11",
+       "a": "CMC1.F2",
+       "b": "IAT.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — AIR TEMP SENSOR (IAT)",
+       "bf": "Température air admission — Signal NTC",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      },
+      "new": {
+       "id": "SNS-11"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BK",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-12",
+       "a": "CMC1.F1",
+       "b": "CLT.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — COOLANT SENSOR (CLT)",
+       "bf": "Température eau — Signal NTC",
+       "mm2": 0.5,
+       "color": "YE"
+      },
+      "new": {
+       "id": "SNS-12"
+      },
+      "changes": [
+       [
+        "color",
+        "YE",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-13",
+       "a": "CMC1.J1",
+       "b": "OIL.5",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 1 (TEMP)",
+       "bf": "Pression + température huile — Température NTC",
+       "mm2": 0.5,
+       "color": "YE/BN"
+      },
+      "new": {
+       "id": "SNS-13"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BN",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-14",
+       "a": "CMC2.E4",
+       "b": "OIL.2",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 6 (0-5 V)",
+       "bf": "Pression + température huile — Pression 0,5–4,5 V",
+       "mm2": 0.5,
+       "color": "WH/BN"
+      },
+      "new": {
+       "id": "SNS-14"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BN",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-15",
+       "a": "CMC1.J2",
+       "b": "FUEL.5",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 2 (TEMP)",
+       "bf": "Pression + température essence — Température NTC",
+       "mm2": 0.5,
+       "color": "YE/VT"
+      },
+      "new": {
+       "id": "SNS-15"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/VT",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-16",
+       "a": "CMC2.F1",
+       "b": "FUEL.2",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 7 (0-5 V)",
+       "bf": "Pression + température essence — Pression 0,5–4,5 V",
+       "mm2": 0.5,
+       "color": "WH/VT"
+      },
+      "new": {
+       "id": "SNS-16"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/VT",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-03",
+       "a": "CMC1.G2",
+       "b": "ETB.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — THROTTLE SENSOR (TPS)",
+       "bf": "Papillon motorisé — TPS 1",
+       "mm2": 0.5,
+       "color": "WH"
+      },
+      "new": {
+       "id": "DBW-03"
+      },
+      "changes": [
+       [
+        "color",
+        "WH",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-04",
+       "a": "CMC1.J3",
+       "b": "ETB.4",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 3 (0-5 V)",
+       "bf": "Papillon motorisé — TPS 2",
+       "mm2": 0.5,
+       "color": "WH/BK"
+      },
+      "new": {
+       "id": "DBW-04"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BK",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-05",
+       "a": "CMC2.H4",
+       "b": "ETB.3",
+       "af": "MaxxECU RACE Gen1 — CMC2 — MOTOR 1+ / GPO 12",
+       "bf": "Papillon motorisé — Moteur +",
+       "mm2": 1.0,
+       "color": "PK"
+      },
+      "new": {
+       "id": "DBW-05"
+      },
+      "changes": [
+       [
+        "color",
+        "PK",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-06",
+       "a": "CMC2.H2",
+       "b": "ETB.5",
+       "af": "MaxxECU RACE Gen1 — CMC2 — MOTOR 1- / GPO 11",
+       "bf": "Papillon motorisé — Moteur −",
+       "mm2": 1.0,
+       "color": "PK/BK"
+      },
+      "new": {
+       "id": "DBW-06"
+      },
+      "changes": [
+       [
+        "color",
+        "PK/BK",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-10",
+       "a": "CMC1.J4",
+       "b": "APP.4",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 4 (0-5 V)",
+       "bf": "Pédale d'accélérateur — Signal piste 1",
+       "mm2": 0.5,
+       "color": "WH/BU"
+      },
+      "new": {
+       "id": "DBW-10"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BU",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-12",
+       "a": "CMC2.G3",
+       "b": "APP.6",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 5 (0-5 V)",
+       "bf": "Pédale d'accélérateur — Signal piste 2",
+       "mm2": 0.5,
+       "color": "WH/GN"
+      },
+      "new": {
+       "id": "DBW-12"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/GN",
+        "BK"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "key": "C",
+   "rev": "C",
+   "title": "Fabrication : contacts CMC, épissures, lambda, PMH",
+   "clue": "SYNC-03 en rouge/blanc (RD/WH), venant de F6 ; COM-01 = compte-tours.",
+   "from": "2026-10-08T13:09:06+00:00",
+   "until": "2026-10-08T13:09:06+00:00",
+   "n": 123,
+   "todo": 58,
+   "diff": {
+    "same": 84,
+    "moved": [
+     {
+      "old": {
+       "id": "SYNC-03",
+       "a": "F6.2",
+       "b": "CRANK.1",
+       "af": "Fusible capteur PMH — Sortie",
+       "bf": "Capteur PMH (vilebrequin) — +12 V",
+       "mm2": 0.5,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "SYNC-03"
+      },
+      "changes": [
+       [
+        "mm2",
+        0.5,
+        0.75
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "WBO-06",
+       "a": "F4.2",
+       "b": "LSU.4",
+       "af": "Fusible chauffage lambda — Sortie",
+       "bf": "Sonde lambda large bande — Chauffage +12 V",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "WBO-06"
+      },
+      "changes": [
+       [
+        "mm2",
+        1.0,
+        0.75
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "ACT-03",
+       "a": "F5.2",
+       "b": "SPL-ACT12",
+       "af": "Fusible actionneurs (VANOS, MAC) — Sortie",
+       "bf": "+12 V actionneurs",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "ACT-03"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "RLY-03",
+       "a": "F7.2",
+       "b": "SPL-RLY",
+       "af": "Fusible commandes (bobines relais pompe / ventilo, voyant de charge) — Sortie",
+       "bf": "+12 V bobines relais",
+       "mm2": 0.5,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "RLY-03"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "RLY-06",
+       "a": "F8.2",
+       "b": "K2.30",
+       "af": "Fusible pompe à essence — Sortie",
+       "bf": "Relais pompe à essence — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "RLY-06"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "RLY-07",
+       "a": "F9.2",
+       "b": "K3.30",
+       "af": "Fusible ventilateur — Sortie",
+       "bf": "Relais ventilateur — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "RLY-07"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "PWR-03",
+       "a": "F10.2",
+       "b": "K1.30",
+       "af": "Fusible relais principal — Sortie",
+       "bf": "Relais principal — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "DEM-07"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-01",
+       "a": "F11.2",
+       "b": "KEY.30",
+       "af": "Fusible contacteur (+30 clé) — Sortie",
+       "bf": "Contacteur (30 / 15 / 50) — +30 entrée (permanent, fusible F11)",
+       "mm2": 0.75,
+       "color": "RD"
+      },
+      "new": {
+       "id": "DEM-03"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-02",
+       "a": "KEY.50",
+       "b": "K4.86",
+       "af": "Contacteur (30 / 15 / 50) — +50 démarrage (position démarreur)",
+       "bf": "Relais démarreur — Bobine + (50 clé)",
+       "mm2": 0.5,
+       "color": "VT/YE"
+      },
+      "new": {
+       "id": "DEM-05"
+      },
+      "changes": []
+     }
+    ],
+    "added": [
+     {
+      "id": "PWR-03",
+      "was": {
+       "id": "PWR-03",
+       "a": "F10.2",
+       "b": "K1.30",
+       "af": "Fusible relais principal — Sortie",
+       "bf": "Relais principal — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      }
+     },
+     {
+      "id": "PWR-04",
+      "was": {
+       "id": "PWR-04",
+       "a": "K1.87",
+       "b": "BUS87",
+       "af": "Relais principal — Contact — sortie",
+       "bf": "Barrette +12 V commuté (relais principal)",
+       "mm2": 2.5,
+       "color": "RD/WH"
+      }
+     },
+     {
+      "id": "PWR-05",
+      "was": {
+       "id": "PWR-05",
+       "a": "F1.2",
+       "b": "CMC1.M4",
+       "af": "Fusible ECU — Sortie",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — +12 V ECU",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      }
+     },
+     {
+      "id": "PWR-06",
+      "was": {
+       "id": "PWR-06",
+       "a": "KEY.15",
+       "b": "K1.86",
+       "af": "Contacteur (30 / 15 / 50) — +15 contact mis (reste alimenté en position démarrage)",
+       "bf": "Relais principal — Bobine +",
+       "mm2": 0.5,
+       "color": "VT"
+      }
+     },
+     {
+      "id": "PWR-08"
+     },
+     {
+      "id": "PWR-09"
+     },
+     {
+      "id": "PWR-10"
+     },
+     {
+      "id": "PWR-11"
+     },
+     {
+      "id": "PWR-12"
+     },
+     {
+      "id": "DEM-01",
+      "was": {
+       "id": "DEM-01",
+       "a": "F11.2",
+       "b": "KEY.30",
+       "af": "Fusible contacteur (+30 clé) — Sortie",
+       "bf": "Contacteur (30 / 15 / 50) — +30 entrée (permanent, fusible F11)",
+       "mm2": 0.75,
+       "color": "RD"
+      }
+     },
+     {
+      "id": "DEM-02",
+      "was": {
+       "id": "DEM-02",
+       "a": "KEY.50",
+       "b": "K4.86",
+       "af": "Contacteur (30 / 15 / 50) — +50 démarrage (position démarreur)",
+       "bf": "Relais démarreur — Bobine + (50 clé)",
+       "mm2": 0.5,
+       "color": "VT/YE"
+      }
+     },
+     {
+      "id": "DEM-04",
+      "was": {
+       "id": "DEM-04",
+       "a": "F12.2",
+       "b": "K4.30",
+       "af": "Fusible démarreur (borne 50) — Sortie",
+       "bf": "Relais démarreur — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      }
+     },
+     {
+      "id": "COM-01",
+      "was": {
+       "id": "COM-01",
+       "a": "CMC1.A4",
+       "b": "CLUSTER.TD",
+       "af": "MaxxECU RACE Gen1 — CMC1 — TACH / GP OUT 8",
+       "bf": "Combiné (compte-tours) — Entrée régime",
+       "mm2": 0.5,
+       "color": "GN/WH"
+      }
+     },
+     {
+      "id": "COM-02",
+      "was": {
+       "id": "COM-02",
+       "a": "CMC1.E1",
+       "b": "CANDEV.H",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN H (120 Ω intégrée)",
+       "bf": "Afficheur / logger CAN (option) — CAN H",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      }
+     },
+     {
+      "id": "COM-03",
+      "was": {
+       "id": "COM-03",
+       "a": "CMC1.E2",
+       "b": "CANDEV.L",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN L",
+       "bf": "Afficheur / logger CAN (option) — CAN L",
+       "mm2": 0.5,
+       "color": "GN/BK"
+      }
+     },
+     {
+      "id": "COM-04"
+     },
+     {
+      "id": "COM-05"
+     },
+     {
+      "id": "COM-06"
+     },
+     {
+      "id": "COM-07"
+     },
+     {
+      "id": "COM-08"
+     },
+     {
+      "id": "COM-09"
+     },
+     {
+      "id": "COM-10"
+     },
+     {
+      "id": "COM-11"
+     },
+     {
+      "id": "COM-12"
+     },
+     {
+      "id": "COM-13"
+     },
+     {
+      "id": "COM-14"
+     },
+     {
+      "id": "COM-15"
+     },
+     {
+      "id": "COM-16"
+     },
+     {
+      "id": "COM-17"
+     },
+     {
+      "id": "COM-18"
+     },
+     {
+      "id": "COM-19"
+     },
+     {
+      "id": "COM-20"
+     },
+     {
+      "id": "COM-21"
+     },
+     {
+      "id": "COM-22"
+     }
+    ],
+    "removed": [
+     {
+      "id": "DEM-04",
+      "a": "F12.2",
+      "b": "K4.30",
+      "af": "Fusible démarreur (borne 50) — Sortie",
+      "bf": "Relais démarreur — Contact — entrée",
+      "mm2": 2.5,
+      "color": "RD",
+      "now": {
+       "id": "DEM-04"
+      }
+     },
+     {
+      "id": "COM-01",
+      "a": "CMC1.A4",
+      "b": "CLUSTER.TD",
+      "af": "MaxxECU RACE Gen1 — CMC1 — TACH / GP OUT 8",
+      "bf": "Combiné (compte-tours) — Entrée régime",
+      "mm2": 0.5,
+      "color": "GN/WH",
+      "now": {
+       "id": "COM-01"
+      }
+     }
+    ],
+    "relabel": [
+     {
+      "old": {
+       "id": "PWR-04",
+       "a": "K1.87",
+       "b": "BUS87",
+       "af": "Relais principal — Contact — sortie",
+       "bf": "Barrette +12 V commuté (relais principal)",
+       "mm2": 2.5,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "PWR-07"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "PWR-05",
+       "a": "F1.2",
+       "b": "CMC1.M4",
+       "af": "Fusible ECU — Sortie",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — +12 V ECU",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "PWR-13"
+      },
+      "changes": [
+       [
+        "color",
+        "RD/WH",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "PWR-06",
+       "a": "KEY.15",
+       "b": "K1.86",
+       "af": "Contacteur (30 / 15 / 50) — +15 contact mis (reste alimenté en position démarrage)",
+       "bf": "Relais principal — Bobine +",
+       "mm2": 0.5,
+       "color": "VT"
+      },
+      "new": {
+       "id": "PWR-14"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "PWR-07",
+       "a": "K1.85",
+       "b": "GP-CH",
+       "af": "Relais principal — Bobine −",
+       "bf": "Masse caisse habitacle (PDM)",
+       "mm2": 0.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "PWR-15"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-03",
+       "a": "K4.85",
+       "b": "GP-CH",
+       "af": "Relais démarreur — Bobine −",
+       "bf": "Masse caisse habitacle (PDM)",
+       "mm2": 0.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "DEM-06"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-05",
+       "a": "K4.87",
+       "b": "STARTER.50",
+       "af": "Relais démarreur — Contact — sortie vers borne 50",
+       "bf": "Démarreur — Commande solénoïde (50)",
+       "mm2": 2.5,
+       "color": "VT/YE"
+      },
+      "new": {
+       "id": "DEM-08"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-06",
+       "a": "SPL-RLY",
+       "b": "LAMP.1",
+       "af": "+12 V bobines relais",
+       "bf": "Voyant de charge — +12 V commuté",
+       "mm2": 0.5,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "DEM-09"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-07",
+       "a": "LAMP.2",
+       "b": "ALT.D+",
+       "af": "Voyant de charge — Sortie vers D+",
+       "bf": "Alternateur — D+ excitation (61)",
+       "mm2": 0.75,
+       "color": "BU/RD"
+      },
+      "new": {
+       "id": "DEM-10"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "COM-02",
+       "a": "CMC1.E1",
+       "b": "CANDEV.H",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN H (120 Ω intégrée)",
+       "bf": "Afficheur / logger CAN (option) — CAN H",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      },
+      "new": {
+       "id": "COM-23"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BK",
+        "GY"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-03",
+       "a": "CMC1.E2",
+       "b": "CANDEV.L",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN L",
+       "bf": "Afficheur / logger CAN (option) — CAN L",
+       "mm2": 0.5,
+       "color": "GN/BK"
+      },
+      "new": {
+       "id": "COM-24"
+      },
+      "changes": [
+       [
+        "color",
+        "GN/BK",
+        "PK"
+       ]
+      ]
+     }
+    ],
+    "premade": [
+     {
+      "old": {
+       "id": "SYNC-06",
+       "a": "CMC1.H2",
+       "b": "SPL-VRG",
+       "af": "MaxxECU RACE Gen1 — CMC1 — VR GND",
+       "bf": "VR GND (PMH + AAC)",
+       "mm2": 0.5,
+       "color": "BN"
+      },
+      "new": {
+       "id": "MX-01"
+      }
+     },
+     {
+      "old": {
+       "id": "SYNC-07",
+       "a": "SPL-SHLD",
+       "b": "CMC1.E3",
+       "af": "Blindages → Shield GND",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — SHIELD GND",
+       "mm2": 0.5,
+       "color": "BK/WH"
+      },
+      "new": {
+       "id": "MX-02"
+      }
+     },
+     {
+      "old": {
+       "id": "KNK-05",
+       "a": "CMC2.E1",
+       "b": "SPL-KGND",
+       "af": "MaxxECU RACE Gen1 — CMC2 — KNOCK GND",
+       "bf": "Knock GND (2 capteurs)",
+       "mm2": 0.5,
+       "color": "BN"
+      },
+      "new": {
+       "id": "MX-03"
+      }
+     }
+    ],
+    "attr": [
+     {
+      "old": {
+       "id": "GND-01",
+       "a": "CMC1.L4",
+       "b": "GP-HEAD",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ENGINE GROUND",
+       "bf": "Masse moteur ECU (goujon arrière culasse)",
+       "mm2": 1.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "GND-01"
+      },
+      "changes": [
+       [
+        "color",
+        "BK",
+        "BN"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "GND-02",
+       "a": "CMC2.G4",
+       "b": "GP-HEAD",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ENGINE GROUND 2",
+       "bf": "Masse moteur ECU (goujon arrière culasse)",
+       "mm2": 1.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "GND-02"
+      },
+      "changes": [
+       [
+        "color",
+        "BK",
+        "BN"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-01",
+       "a": "CMC1.G1",
+       "b": "SPL-5V-MAIN",
+       "af": "MaxxECU RACE Gen1 — CMC1 — +5 V SENSOR SUPPLY",
+       "bf": "+5 V — départ ECU",
+       "mm2": 0.5,
+       "color": "OG"
+      },
+      "new": {
+       "id": "SNS-01"
+      },
+      "changes": [
+       [
+        "color",
+        "OG",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-11",
+       "a": "CMC1.F2",
+       "b": "IAT.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — AIR TEMP SENSOR (IAT)",
+       "bf": "Température air admission — Signal NTC",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      },
+      "new": {
+       "id": "SNS-11"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BK",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-12",
+       "a": "CMC1.F1",
+       "b": "CLT.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — COOLANT SENSOR (CLT)",
+       "bf": "Température eau — Signal NTC",
+       "mm2": 0.5,
+       "color": "YE"
+      },
+      "new": {
+       "id": "SNS-12"
+      },
+      "changes": [
+       [
+        "color",
+        "YE",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-13",
+       "a": "CMC1.J1",
+       "b": "OIL.5",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 1 (TEMP)",
+       "bf": "Pression + température huile — Température NTC",
+       "mm2": 0.5,
+       "color": "YE/BN"
+      },
+      "new": {
+       "id": "SNS-13"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BN",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-14",
+       "a": "CMC2.E4",
+       "b": "OIL.2",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 6 (0-5 V)",
+       "bf": "Pression + température huile — Pression 0,5–4,5 V",
+       "mm2": 0.5,
+       "color": "WH/BN"
+      },
+      "new": {
+       "id": "SNS-14"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BN",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-15",
+       "a": "CMC1.J2",
+       "b": "FUEL.5",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 2 (TEMP)",
+       "bf": "Pression + température essence — Température NTC",
+       "mm2": 0.5,
+       "color": "YE/VT"
+      },
+      "new": {
+       "id": "SNS-15"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/VT",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-16",
+       "a": "CMC2.F1",
+       "b": "FUEL.2",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 7 (0-5 V)",
+       "bf": "Pression + température essence — Pression 0,5–4,5 V",
+       "mm2": 0.5,
+       "color": "WH/VT"
+      },
+      "new": {
+       "id": "SNS-16"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/VT",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-03",
+       "a": "CMC1.G2",
+       "b": "ETB.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — THROTTLE SENSOR (TPS)",
+       "bf": "Papillon motorisé — TPS 1",
+       "mm2": 0.5,
+       "color": "WH"
+      },
+      "new": {
+       "id": "DBW-03"
+      },
+      "changes": [
+       [
+        "color",
+        "WH",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-04",
+       "a": "CMC1.J3",
+       "b": "ETB.4",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 3 (0-5 V)",
+       "bf": "Papillon motorisé — TPS 2",
+       "mm2": 0.5,
+       "color": "WH/BK"
+      },
+      "new": {
+       "id": "DBW-04"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BK",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-05",
+       "a": "CMC2.H4",
+       "b": "ETB.3",
+       "af": "MaxxECU RACE Gen1 — CMC2 — MOTOR 1+ / GPO 12",
+       "bf": "Papillon motorisé — Moteur +",
+       "mm2": 1.0,
+       "color": "PK"
+      },
+      "new": {
+       "id": "DBW-05"
+      },
+      "changes": [
+       [
+        "color",
+        "PK",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-06",
+       "a": "CMC2.H2",
+       "b": "ETB.5",
+       "af": "MaxxECU RACE Gen1 — CMC2 — MOTOR 1- / GPO 11",
+       "bf": "Papillon motorisé — Moteur −",
+       "mm2": 1.0,
+       "color": "PK/BK"
+      },
+      "new": {
+       "id": "DBW-06"
+      },
+      "changes": [
+       [
+        "color",
+        "PK/BK",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-10",
+       "a": "CMC1.J4",
+       "b": "APP.4",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 4 (0-5 V)",
+       "bf": "Pédale d'accélérateur — Signal piste 1",
+       "mm2": 0.5,
+       "color": "WH/BU"
+      },
+      "new": {
+       "id": "DBW-10"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BU",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-12",
+       "a": "CMC2.G3",
+       "b": "APP.6",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 5 (0-5 V)",
+       "bf": "Pédale d'accélérateur — Signal piste 2",
+       "mm2": 0.5,
+       "color": "WH/GN"
+      },
+      "new": {
+       "id": "DBW-12"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/GN",
+        "BK"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "key": "D1",
+   "rev": "D",
+   "title": "Contact sans clé, pad 8 boutons",
+   "clue": "COM-01 = pad → platine IF-PAD ; COM-06 va à CMC1.K3.",
+   "from": "2026-10-08T16:24:41+00:00",
+   "until": "2026-10-08T16:24:41+00:00",
+   "n": 134,
+   "todo": 58,
+   "diff": {
+    "same": 85,
+    "moved": [
+     {
+      "old": {
+       "id": "WBO-06",
+       "a": "F4.2",
+       "b": "LSU.4",
+       "af": "Fusible chauffage lambda — Sortie",
+       "bf": "Sonde lambda large bande — Chauffage +12 V",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "WBO-06"
+      },
+      "changes": [
+       [
+        "mm2",
+        1.0,
+        0.75
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "ACT-03",
+       "a": "F5.2",
+       "b": "SPL-ACT12",
+       "af": "Fusible actionneurs + capteur PMH (VANOS, MAC, PMH) — Sortie",
+       "bf": "+12 V actionneurs + capteur PMH",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "ACT-03"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "RLY-03",
+       "a": "F7.2",
+       "b": "SPL-RLY",
+       "af": "Fusible commandes (bobines relais pompe / ventilo, voyant de charge) — Sortie",
+       "bf": "+12 V bobines relais",
+       "mm2": 0.5,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "RLY-03"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "RLY-06",
+       "a": "F8.2",
+       "b": "K2.30",
+       "af": "Fusible pompe à essence — Sortie",
+       "bf": "Relais pompe à essence — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "RLY-06"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "RLY-07",
+       "a": "F9.2",
+       "b": "K3.30",
+       "af": "Fusible ventilateur — Sortie",
+       "bf": "Relais ventilateur — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "RLY-07"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "COM-01",
+       "a": "PAD.C4",
+       "b": "IF-PAD.1",
+       "af": "Pad 8 boutons (boîtier relais / fusibles) — Bouton 4 : ventilation forcée",
+       "bf": "Platine d'interface pad → ECU — Entrée bouton 4 (+12 V pad)",
+       "mm2": 0.5,
+       "color": "VT/RD"
+      },
+      "new": {
+       "id": "COM-01"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "COM-02",
+       "a": "PAD.C5",
+       "b": "IF-PAD.2",
+       "af": "Pad 8 boutons (boîtier relais / fusibles) — Bouton 5 : changement de carto",
+       "bf": "Platine d'interface pad → ECU — Entrée bouton 5 (+12 V pad)",
+       "mm2": 0.5,
+       "color": "VT/OG"
+      },
+      "new": {
+       "id": "COM-02"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "COM-03",
+       "a": "PAD.C6",
+       "b": "IF-PAD.3",
+       "af": "Pad 8 boutons (boîtier relais / fusibles) — Bouton 6 : ALS off",
+       "bf": "Platine d'interface pad → ECU — Entrée bouton 6 (+12 V pad)",
+       "mm2": 0.5,
+       "color": "VT/GY"
+      },
+      "new": {
+       "id": "COM-03"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "COM-04",
+       "a": "PAD.C7",
+       "b": "IF-PAD.4",
+       "af": "Pad 8 boutons (boîtier relais / fusibles) — Bouton 7 : carto de chauffe (warm-up)",
+       "bf": "Platine d'interface pad → ECU — Entrée bouton 7 (+12 V pad)",
+       "mm2": 0.5,
+       "color": "VT/PK"
+      },
+      "new": {
+       "id": "COM-04"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "COM-05",
+       "a": "PAD.C8",
+       "b": "IF-PAD.5",
+       "af": "Pad 8 boutons (boîtier relais / fusibles) — Bouton 8 : refroidissement (cool-down)",
+       "bf": "Platine d'interface pad → ECU — Entrée bouton 8 (+12 V pad)",
+       "mm2": 0.5,
+       "color": "VT/WH"
+      },
+      "new": {
+       "id": "COM-05"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "PWR-03",
+       "a": "F10.2",
+       "b": "K1.30",
+       "af": "Fusible relais principal — Sortie",
+       "bf": "Relais principal — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "DEM-07"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-01",
+       "a": "F11.2",
+       "b": "KEY.30",
+       "af": "Fusible interrupteur de contact / bouton démarreur — Sortie",
+       "bf": "Interrupteur de contact — +30 entrée (permanent, fusible F11)",
+       "mm2": 0.75,
+       "color": "RD"
+      },
+      "new": {
+       "id": "DEM-03"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "COM-06",
+       "a": "IF-PAD.6",
+       "b": "CMC1.K3",
+       "af": "Platine d'interface pad → ECU — Sortie voie 1 → DIN1",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — DIGITAL IN 1",
+       "mm2": 0.5,
+       "color": "WH/RD"
+      },
+      "new": {
+       "id": "COM-07"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/RD",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-07",
+       "a": "IF-PAD.7",
+       "b": "CMC1.K4",
+       "af": "Platine d'interface pad → ECU — Sortie voie 2 → DIN2",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — DIGITAL IN 2",
+       "mm2": 0.5,
+       "color": "WH/OG"
+      },
+      "new": {
+       "id": "COM-08"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/OG",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-08",
+       "a": "IF-PAD.8",
+       "b": "CMC2.F3",
+       "af": "Platine d'interface pad → ECU — Sortie voie 3 → DIN4",
+       "bf": "MaxxECU RACE Gen1 — CMC2 — DIGITAL / VR IN 4",
+       "mm2": 0.5,
+       "color": "WH/GY"
+      },
+      "new": {
+       "id": "COM-09"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/GY",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-09",
+       "a": "IF-PAD.9",
+       "b": "CMC2.F4",
+       "af": "Platine d'interface pad → ECU — Sortie voie 4 → DIN5",
+       "bf": "MaxxECU RACE Gen1 — CMC2 — DIGITAL / VR IN 5",
+       "mm2": 0.5,
+       "color": "WH/PK"
+      },
+      "new": {
+       "id": "COM-10"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/PK",
+        "BK"
+       ]
+      ]
+     }
+    ],
+    "added": [
+     {
+      "id": "PWR-03",
+      "was": {
+       "id": "PWR-03",
+       "a": "F10.2",
+       "b": "K1.30",
+       "af": "Fusible relais principal — Sortie",
+       "bf": "Relais principal — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      }
+     },
+     {
+      "id": "PWR-04",
+      "was": {
+       "id": "PWR-04",
+       "a": "K1.87",
+       "b": "BUS87",
+       "af": "Relais principal — Contact — sortie",
+       "bf": "Barrette +12 V commuté (relais principal)",
+       "mm2": 2.5,
+       "color": "RD/WH"
+      }
+     },
+     {
+      "id": "PWR-05",
+      "was": {
+       "id": "PWR-05",
+       "a": "F1.2",
+       "b": "CMC1.M4",
+       "af": "Fusible ECU — Sortie",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — +12 V ECU",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      }
+     },
+     {
+      "id": "PWR-06",
+      "was": {
+       "id": "PWR-06",
+       "a": "KEY.15",
+       "b": "K1.86",
+       "af": "Interrupteur de contact — +15 contact mis",
+       "bf": "Relais principal — Bobine +",
+       "mm2": 0.5,
+       "color": "VT"
+      }
+     },
+     {
+      "id": "PWR-08"
+     },
+     {
+      "id": "PWR-09"
+     },
+     {
+      "id": "PWR-10"
+     },
+     {
+      "id": "PWR-11"
+     },
+     {
+      "id": "PWR-12"
+     },
+     {
+      "id": "DEM-01",
+      "was": {
+       "id": "DEM-01",
+       "a": "F11.2",
+       "b": "KEY.30",
+       "af": "Fusible interrupteur de contact / bouton démarreur — Sortie",
+       "bf": "Interrupteur de contact — +30 entrée (permanent, fusible F11)",
+       "mm2": 0.75,
+       "color": "RD"
+      }
+     },
+     {
+      "id": "DEM-02",
+      "was": {
+       "id": "DEM-02",
+       "a": "KEY.15",
+       "b": "BTN-START.IN",
+       "af": "Interrupteur de contact — +15 contact mis",
+       "bf": "Bouton démarreur — Entrée +15 (après l'interrupteur de contact)",
+       "mm2": 0.5,
+       "color": "VT"
+      }
+     },
+     {
+      "id": "COM-06",
+      "was": {
+       "id": "COM-06",
+       "a": "IF-PAD.6",
+       "b": "CMC1.K3",
+       "af": "Platine d'interface pad → ECU — Sortie voie 1 → DIN1",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — DIGITAL IN 1",
+       "mm2": 0.5,
+       "color": "WH/RD"
+      }
+     },
+     {
+      "id": "COM-11",
+      "was": {
+       "id": "COM-11",
+       "a": "SPL-SG-MAIN",
+       "b": "IF-PAD.11",
+       "af": "Sensor GND — départ ECU",
+       "bf": "Platine d'interface pad → ECU — Masse des résistances de rappel",
+       "mm2": 0.5,
+       "color": "BN"
+      }
+     },
+     {
+      "id": "COM-12",
+      "was": {
+       "id": "COM-12",
+       "a": "CMC1.E1",
+       "b": "CANDEV.H",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN H (120 Ω intégrée)",
+       "bf": "Afficheur / logger CAN (option) — CAN H",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      }
+     },
+     {
+      "id": "COM-13",
+      "was": {
+       "id": "COM-13",
+       "a": "CMC1.E2",
+       "b": "CANDEV.L",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN L",
+       "bf": "Afficheur / logger CAN (option) — CAN L",
+       "mm2": 0.5,
+       "color": "GN/BK"
+      }
+     },
+     {
+      "id": "COM-14"
+     },
+     {
+      "id": "COM-15"
+     },
+     {
+      "id": "COM-16"
+     },
+     {
+      "id": "COM-17"
+     },
+     {
+      "id": "COM-18"
+     },
+     {
+      "id": "COM-19"
+     },
+     {
+      "id": "COM-20"
+     },
+     {
+      "id": "COM-21"
+     },
+     {
+      "id": "COM-22"
+     }
+    ],
+    "removed": [
+     {
+      "id": "DEM-05",
+      "a": "F12.2",
+      "b": "K4.30",
+      "af": "Fusible démarreur (borne 50) — Sortie",
+      "bf": "Relais démarreur — Contact — entrée",
+      "mm2": 2.5,
+      "color": "RD",
+      "now": {
+       "id": "DEM-05"
+      }
+     },
+     {
+      "id": "COM-10",
+      "a": "IF-PAD.10",
+      "b": "CMC2.F2",
+      "af": "Platine d'interface pad → ECU — Sortie voie 5 → AIN8",
+      "bf": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 8 (0-5 V)",
+      "mm2": 0.5,
+      "color": "WH/YE",
+      "now": {
+       "id": "COM-10"
+      }
+     },
+     {
+      "id": "COM-11",
+      "a": "SPL-SG-MAIN",
+      "b": "IF-PAD.11",
+      "af": "Sensor GND — départ ECU",
+      "bf": "Platine d'interface pad → ECU — Masse des résistances de rappel",
+      "mm2": 0.5,
+      "color": "BN",
+      "now": {
+       "id": "COM-11"
+      }
+     }
+    ],
+    "relabel": [
+     {
+      "old": {
+       "id": "PWR-04",
+       "a": "K1.87",
+       "b": "BUS87",
+       "af": "Relais principal — Contact — sortie",
+       "bf": "Barrette +12 V commuté (relais principal)",
+       "mm2": 2.5,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "PWR-07"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "PWR-05",
+       "a": "F1.2",
+       "b": "CMC1.M4",
+       "af": "Fusible ECU — Sortie",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — +12 V ECU",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "PWR-13"
+      },
+      "changes": [
+       [
+        "color",
+        "RD/WH",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "PWR-06",
+       "a": "KEY.15",
+       "b": "K1.86",
+       "af": "Interrupteur de contact — +15 contact mis",
+       "bf": "Relais principal — Bobine +",
+       "mm2": 0.5,
+       "color": "VT"
+      },
+      "new": {
+       "id": "PWR-14"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "PWR-07",
+       "a": "K1.85",
+       "b": "GP-CH",
+       "af": "Relais principal — Bobine −",
+       "bf": "Masse caisse habitacle (PDM)",
+       "mm2": 0.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "PWR-15"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-02",
+       "a": "KEY.15",
+       "b": "BTN-START.IN",
+       "af": "Interrupteur de contact — +15 contact mis",
+       "bf": "Bouton démarreur — Entrée +15 (après l'interrupteur de contact)",
+       "mm2": 0.5,
+       "color": "VT"
+      },
+      "new": {
+       "id": "DEM-04"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-03",
+       "a": "BTN-START.OUT",
+       "b": "K4.86",
+       "af": "Bouton démarreur — Sortie démarrage → bobine K4",
+       "bf": "Relais démarreur — Bobine + (bouton démarreur)",
+       "mm2": 0.5,
+       "color": "VT/YE"
+      },
+      "new": {
+       "id": "DEM-05"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-04",
+       "a": "K4.85",
+       "b": "GP-CH",
+       "af": "Relais démarreur — Bobine −",
+       "bf": "Masse caisse habitacle (PDM)",
+       "mm2": 0.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "DEM-06"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-06",
+       "a": "K4.87",
+       "b": "STARTER.50",
+       "af": "Relais démarreur — Contact — sortie vers borne 50",
+       "bf": "Démarreur — Commande solénoïde (50)",
+       "mm2": 2.5,
+       "color": "VT/YE"
+      },
+      "new": {
+       "id": "DEM-08"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-07",
+       "a": "SPL-RLY",
+       "b": "LAMP.1",
+       "af": "+12 V bobines relais",
+       "bf": "Voyant de charge — +12 V commuté",
+       "mm2": 0.5,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "DEM-09"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-08",
+       "a": "LAMP.2",
+       "b": "ALT.D+",
+       "af": "Voyant de charge — Sortie vers D+",
+       "bf": "Alternateur — D+ excitation (61)",
+       "mm2": 0.75,
+       "color": "BU/RD"
+      },
+      "new": {
+       "id": "DEM-10"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "COM-12",
+       "a": "CMC1.E1",
+       "b": "CANDEV.H",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN H (120 Ω intégrée)",
+       "bf": "Afficheur / logger CAN (option) — CAN H",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      },
+      "new": {
+       "id": "COM-23"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BK",
+        "GY"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-13",
+       "a": "CMC1.E2",
+       "b": "CANDEV.L",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN L",
+       "bf": "Afficheur / logger CAN (option) — CAN L",
+       "mm2": 0.5,
+       "color": "GN/BK"
+      },
+      "new": {
+       "id": "COM-24"
+      },
+      "changes": [
+       [
+        "color",
+        "GN/BK",
+        "PK"
+       ]
+      ]
+     }
+    ],
+    "premade": [
+     {
+      "old": {
+       "id": "SYNC-06",
+       "a": "CMC1.H2",
+       "b": "SPL-VRG",
+       "af": "MaxxECU RACE Gen1 — CMC1 — VR GND",
+       "bf": "VR GND (PMH + AAC)",
+       "mm2": 0.5,
+       "color": "BN"
+      },
+      "new": {
+       "id": "MX-01"
+      }
+     },
+     {
+      "old": {
+       "id": "SYNC-07",
+       "a": "SPL-SHLD",
+       "b": "CMC1.E3",
+       "af": "Blindages → Shield GND",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — SHIELD GND",
+       "mm2": 0.5,
+       "color": "BK/WH"
+      },
+      "new": {
+       "id": "MX-02"
+      }
+     },
+     {
+      "old": {
+       "id": "KNK-05",
+       "a": "CMC2.E1",
+       "b": "SPL-KGND",
+       "af": "MaxxECU RACE Gen1 — CMC2 — KNOCK GND",
+       "bf": "Knock GND (2 capteurs)",
+       "mm2": 0.5,
+       "color": "BN"
+      },
+      "new": {
+       "id": "MX-03"
+      }
+     }
+    ],
+    "attr": [
+     {
+      "old": {
+       "id": "GND-01",
+       "a": "CMC1.L4",
+       "b": "GP-HEAD",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ENGINE GROUND",
+       "bf": "Masse moteur ECU (goujon arrière culasse)",
+       "mm2": 1.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "GND-01"
+      },
+      "changes": [
+       [
+        "color",
+        "BK",
+        "BN"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "GND-02",
+       "a": "CMC2.G4",
+       "b": "GP-HEAD",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ENGINE GROUND 2",
+       "bf": "Masse moteur ECU (goujon arrière culasse)",
+       "mm2": 1.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "GND-02"
+      },
+      "changes": [
+       [
+        "color",
+        "BK",
+        "BN"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-01",
+       "a": "CMC1.G1",
+       "b": "SPL-5V-MAIN",
+       "af": "MaxxECU RACE Gen1 — CMC1 — +5 V SENSOR SUPPLY",
+       "bf": "+5 V — départ ECU",
+       "mm2": 0.5,
+       "color": "OG"
+      },
+      "new": {
+       "id": "SNS-01"
+      },
+      "changes": [
+       [
+        "color",
+        "OG",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-11",
+       "a": "CMC1.F2",
+       "b": "IAT.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — AIR TEMP SENSOR (IAT)",
+       "bf": "Température air admission — Signal NTC",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      },
+      "new": {
+       "id": "SNS-11"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BK",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-12",
+       "a": "CMC1.F1",
+       "b": "CLT.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — COOLANT SENSOR (CLT)",
+       "bf": "Température eau — Signal NTC",
+       "mm2": 0.5,
+       "color": "YE"
+      },
+      "new": {
+       "id": "SNS-12"
+      },
+      "changes": [
+       [
+        "color",
+        "YE",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-13",
+       "a": "CMC1.J1",
+       "b": "OIL.5",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 1 (TEMP)",
+       "bf": "Pression + température huile — Température NTC",
+       "mm2": 0.5,
+       "color": "YE/BN"
+      },
+      "new": {
+       "id": "SNS-13"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BN",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-14",
+       "a": "CMC2.E4",
+       "b": "OIL.2",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 6 (0-5 V)",
+       "bf": "Pression + température huile — Pression 0,5–4,5 V",
+       "mm2": 0.5,
+       "color": "WH/BN"
+      },
+      "new": {
+       "id": "SNS-14"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BN",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-15",
+       "a": "CMC1.J2",
+       "b": "FUEL.5",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 2 (TEMP)",
+       "bf": "Pression + température essence — Température NTC",
+       "mm2": 0.5,
+       "color": "YE/VT"
+      },
+      "new": {
+       "id": "SNS-15"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/VT",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-16",
+       "a": "CMC2.F1",
+       "b": "FUEL.2",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 7 (0-5 V)",
+       "bf": "Pression + température essence — Pression 0,5–4,5 V",
+       "mm2": 0.5,
+       "color": "WH/VT"
+      },
+      "new": {
+       "id": "SNS-16"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/VT",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-03",
+       "a": "CMC1.G2",
+       "b": "ETB.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — THROTTLE SENSOR (TPS)",
+       "bf": "Papillon motorisé — TPS 1",
+       "mm2": 0.5,
+       "color": "WH"
+      },
+      "new": {
+       "id": "DBW-03"
+      },
+      "changes": [
+       [
+        "color",
+        "WH",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-04",
+       "a": "CMC1.J3",
+       "b": "ETB.4",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 3 (0-5 V)",
+       "bf": "Papillon motorisé — TPS 2",
+       "mm2": 0.5,
+       "color": "WH/BK"
+      },
+      "new": {
+       "id": "DBW-04"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BK",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-05",
+       "a": "CMC2.H4",
+       "b": "ETB.3",
+       "af": "MaxxECU RACE Gen1 — CMC2 — MOTOR 1+ / GPO 12",
+       "bf": "Papillon motorisé — Moteur +",
+       "mm2": 1.0,
+       "color": "PK"
+      },
+      "new": {
+       "id": "DBW-05"
+      },
+      "changes": [
+       [
+        "color",
+        "PK",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-06",
+       "a": "CMC2.H2",
+       "b": "ETB.5",
+       "af": "MaxxECU RACE Gen1 — CMC2 — MOTOR 1- / GPO 11",
+       "bf": "Papillon motorisé — Moteur −",
+       "mm2": 1.0,
+       "color": "PK/BK"
+      },
+      "new": {
+       "id": "DBW-06"
+      },
+      "changes": [
+       [
+        "color",
+        "PK/BK",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-10",
+       "a": "CMC1.J4",
+       "b": "APP.4",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 4 (0-5 V)",
+       "bf": "Pédale d'accélérateur — Signal piste 1",
+       "mm2": 0.5,
+       "color": "WH/BU"
+      },
+      "new": {
+       "id": "DBW-10"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BU",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-12",
+       "a": "CMC2.G3",
+       "b": "APP.6",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 5 (0-5 V)",
+       "bf": "Pédale d'accélérateur — Signal piste 2",
+       "mm2": 0.5,
+       "color": "WH/GN"
+      },
+      "new": {
+       "id": "DBW-12"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/GN",
+        "BK"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "key": "D2",
+   "rev": "D",
+   "title": "Pad : ventilateur sur AIN8, bouton 8 arrêt moteur",
+   "clue": "COM-01 = pad → platine IF-PAD ; COM-06 va à CMC2.F2 (AIN8).",
+   "from": "2026-10-08T16:29:27+00:00",
+   "until": "2026-10-08T17:53:51+00:00",
+   "n": 134,
+   "todo": 58,
+   "diff": {
+    "same": 85,
+    "moved": [
+     {
+      "old": {
+       "id": "WBO-06",
+       "a": "F4.2",
+       "b": "LSU.4",
+       "af": "Fusible chauffage lambda — Sortie",
+       "bf": "Sonde lambda large bande — Chauffage +12 V",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "WBO-06"
+      },
+      "changes": [
+       [
+        "mm2",
+        1.0,
+        0.75
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "ACT-03",
+       "a": "F5.2",
+       "b": "SPL-ACT12",
+       "af": "Fusible actionneurs + capteur PMH (VANOS, MAC, PMH) — Sortie",
+       "bf": "+12 V actionneurs + capteur PMH",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "ACT-03"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "RLY-03",
+       "a": "F7.2",
+       "b": "SPL-RLY",
+       "af": "Fusible commandes (bobines relais pompe / ventilo, voyant de charge) — Sortie",
+       "bf": "+12 V bobines relais",
+       "mm2": 0.5,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "RLY-03"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "RLY-06",
+       "a": "F8.2",
+       "b": "K2.30",
+       "af": "Fusible pompe à essence — Sortie",
+       "bf": "Relais pompe à essence — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "RLY-06"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "RLY-07",
+       "a": "F9.2",
+       "b": "K3.30",
+       "af": "Fusible ventilateur — Sortie",
+       "bf": "Relais ventilateur — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "RLY-07"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "COM-01",
+       "a": "PAD.C4",
+       "b": "IF-PAD.1",
+       "af": "Pad 8 boutons (boîtier relais / fusibles) — Bouton 4 : ventilation forcée",
+       "bf": "Platine d'interface pad → ECU — Entrée bouton 4 (+12 V pad)",
+       "mm2": 0.5,
+       "color": "VT/RD"
+      },
+      "new": {
+       "id": "COM-01"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "COM-02",
+       "a": "PAD.C5",
+       "b": "IF-PAD.2",
+       "af": "Pad 8 boutons (boîtier relais / fusibles) — Bouton 5 : changement de carto",
+       "bf": "Platine d'interface pad → ECU — Entrée bouton 5 (+12 V pad)",
+       "mm2": 0.5,
+       "color": "VT/OG"
+      },
+      "new": {
+       "id": "COM-02"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "COM-03",
+       "a": "PAD.C6",
+       "b": "IF-PAD.3",
+       "af": "Pad 8 boutons (boîtier relais / fusibles) — Bouton 6 : ALS off",
+       "bf": "Platine d'interface pad → ECU — Entrée bouton 6 (+12 V pad)",
+       "mm2": 0.5,
+       "color": "VT/GY"
+      },
+      "new": {
+       "id": "COM-03"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "COM-04",
+       "a": "PAD.C7",
+       "b": "IF-PAD.4",
+       "af": "Pad 8 boutons (boîtier relais / fusibles) — Bouton 7 : carto de chauffe (warm-up)",
+       "bf": "Platine d'interface pad → ECU — Entrée bouton 7 (+12 V pad)",
+       "mm2": 0.5,
+       "color": "VT/PK"
+      },
+      "new": {
+       "id": "COM-04"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "COM-05",
+       "a": "PAD.C8",
+       "b": "IF-PAD.5",
+       "af": "Pad 8 boutons (boîtier relais / fusibles) — Bouton 8 : refroidissement (cool-down)",
+       "bf": "Platine d'interface pad → ECU — Entrée bouton 8 (+12 V pad)",
+       "mm2": 0.5,
+       "color": "VT/WH"
+      },
+      "new": {
+       "id": "COM-05"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "COM-07",
+       "a": "IF-PAD.7",
+       "b": "CMC1.K3",
+       "af": "Platine d'interface pad → ECU — Sortie voie 2 → DIN1",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — DIGITAL IN 1",
+       "mm2": 0.5,
+       "color": "WH/RD"
+      },
+      "new": {
+       "id": "COM-07"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/RD",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-08",
+       "a": "IF-PAD.8",
+       "b": "CMC1.K4",
+       "af": "Platine d'interface pad → ECU — Sortie voie 3 → DIN2",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — DIGITAL IN 2",
+       "mm2": 0.5,
+       "color": "WH/OG"
+      },
+      "new": {
+       "id": "COM-08"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/OG",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-09",
+       "a": "IF-PAD.9",
+       "b": "CMC2.F3",
+       "af": "Platine d'interface pad → ECU — Sortie voie 4 → DIN4",
+       "bf": "MaxxECU RACE Gen1 — CMC2 — DIGITAL / VR IN 4",
+       "mm2": 0.5,
+       "color": "WH/GY"
+      },
+      "new": {
+       "id": "COM-09"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/GY",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-10",
+       "a": "IF-PAD.10",
+       "b": "CMC2.F4",
+       "af": "Platine d'interface pad → ECU — Sortie voie 5 → DIN5",
+       "bf": "MaxxECU RACE Gen1 — CMC2 — DIGITAL / VR IN 5",
+       "mm2": 0.5,
+       "color": "WH/PK"
+      },
+      "new": {
+       "id": "COM-10"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/PK",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "PWR-03",
+       "a": "F10.2",
+       "b": "K1.30",
+       "af": "Fusible relais principal — Sortie",
+       "bf": "Relais principal — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "DEM-07"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-01",
+       "a": "F11.2",
+       "b": "KEY.30",
+       "af": "Fusible interrupteur de contact / bouton démarreur — Sortie",
+       "bf": "Interrupteur de contact — +30 entrée (permanent, fusible F11)",
+       "mm2": 0.75,
+       "color": "RD"
+      },
+      "new": {
+       "id": "DEM-03"
+      },
+      "changes": []
+     }
+    ],
+    "added": [
+     {
+      "id": "PWR-03",
+      "was": {
+       "id": "PWR-03",
+       "a": "F10.2",
+       "b": "K1.30",
+       "af": "Fusible relais principal — Sortie",
+       "bf": "Relais principal — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      }
+     },
+     {
+      "id": "PWR-04",
+      "was": {
+       "id": "PWR-04",
+       "a": "K1.87",
+       "b": "BUS87",
+       "af": "Relais principal — Contact — sortie",
+       "bf": "Barrette +12 V commuté (relais principal)",
+       "mm2": 2.5,
+       "color": "RD/WH"
+      }
+     },
+     {
+      "id": "PWR-05",
+      "was": {
+       "id": "PWR-05",
+       "a": "F1.2",
+       "b": "CMC1.M4",
+       "af": "Fusible ECU — Sortie",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — +12 V ECU",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      }
+     },
+     {
+      "id": "PWR-06",
+      "was": {
+       "id": "PWR-06",
+       "a": "KEY.15",
+       "b": "K1.86",
+       "af": "Interrupteur de contact — +15 contact mis",
+       "bf": "Relais principal — Bobine +",
+       "mm2": 0.5,
+       "color": "VT"
+      }
+     },
+     {
+      "id": "PWR-08"
+     },
+     {
+      "id": "PWR-09"
+     },
+     {
+      "id": "PWR-10"
+     },
+     {
+      "id": "PWR-11"
+     },
+     {
+      "id": "PWR-12"
+     },
+     {
+      "id": "DEM-01",
+      "was": {
+       "id": "DEM-01",
+       "a": "F11.2",
+       "b": "KEY.30",
+       "af": "Fusible interrupteur de contact / bouton démarreur — Sortie",
+       "bf": "Interrupteur de contact — +30 entrée (permanent, fusible F11)",
+       "mm2": 0.75,
+       "color": "RD"
+      }
+     },
+     {
+      "id": "DEM-02",
+      "was": {
+       "id": "DEM-02",
+       "a": "KEY.15",
+       "b": "BTN-START.IN",
+       "af": "Interrupteur de contact — +15 contact mis",
+       "bf": "Bouton démarreur — Entrée +15 (après l'interrupteur de contact)",
+       "mm2": 0.5,
+       "color": "VT"
+      }
+     },
+     {
+      "id": "COM-06",
+      "was": {
+       "id": "COM-06",
+       "a": "IF-PAD.6",
+       "b": "CMC2.F2",
+       "af": "Platine d'interface pad → ECU — Sortie voie 1 → AIN8 (rappel 4,7 kΩ)",
+       "bf": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 8 (0-5 V)",
+       "mm2": 0.5,
+       "color": "WH/YE"
+      }
+     },
+     {
+      "id": "COM-11",
+      "was": {
+       "id": "COM-11",
+       "a": "SPL-SG-MAIN",
+       "b": "IF-PAD.11",
+       "af": "Sensor GND — départ ECU",
+       "bf": "Platine d'interface pad → ECU — Masse des résistances de rappel",
+       "mm2": 0.5,
+       "color": "BN"
+      }
+     },
+     {
+      "id": "COM-12",
+      "was": {
+       "id": "COM-12",
+       "a": "CMC1.E1",
+       "b": "CANDEV.H",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN H (120 Ω intégrée)",
+       "bf": "Afficheur / logger CAN (option) — CAN H",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      }
+     },
+     {
+      "id": "COM-13",
+      "was": {
+       "id": "COM-13",
+       "a": "CMC1.E2",
+       "b": "CANDEV.L",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN L",
+       "bf": "Afficheur / logger CAN (option) — CAN L",
+       "mm2": 0.5,
+       "color": "GN/BK"
+      }
+     },
+     {
+      "id": "COM-14"
+     },
+     {
+      "id": "COM-15"
+     },
+     {
+      "id": "COM-16"
+     },
+     {
+      "id": "COM-17"
+     },
+     {
+      "id": "COM-18"
+     },
+     {
+      "id": "COM-19"
+     },
+     {
+      "id": "COM-20"
+     },
+     {
+      "id": "COM-21"
+     },
+     {
+      "id": "COM-22"
+     }
+    ],
+    "removed": [
+     {
+      "id": "DEM-05",
+      "a": "F12.2",
+      "b": "K4.30",
+      "af": "Fusible démarreur (borne 50) — Sortie",
+      "bf": "Relais démarreur — Contact — entrée",
+      "mm2": 2.5,
+      "color": "RD",
+      "now": {
+       "id": "DEM-05"
+      }
+     },
+     {
+      "id": "COM-06",
+      "a": "IF-PAD.6",
+      "b": "CMC2.F2",
+      "af": "Platine d'interface pad → ECU — Sortie voie 1 → AIN8 (rappel 4,7 kΩ)",
+      "bf": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 8 (0-5 V)",
+      "mm2": 0.5,
+      "color": "WH/YE",
+      "now": {
+       "id": "COM-06"
+      }
+     },
+     {
+      "id": "COM-11",
+      "a": "SPL-SG-MAIN",
+      "b": "IF-PAD.11",
+      "af": "Sensor GND — départ ECU",
+      "bf": "Platine d'interface pad → ECU — Masse des résistances de rappel",
+      "mm2": 0.5,
+      "color": "BN",
+      "now": {
+       "id": "COM-11"
+      }
+     }
+    ],
+    "relabel": [
+     {
+      "old": {
+       "id": "PWR-04",
+       "a": "K1.87",
+       "b": "BUS87",
+       "af": "Relais principal — Contact — sortie",
+       "bf": "Barrette +12 V commuté (relais principal)",
+       "mm2": 2.5,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "PWR-07"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "PWR-05",
+       "a": "F1.2",
+       "b": "CMC1.M4",
+       "af": "Fusible ECU — Sortie",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — +12 V ECU",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "PWR-13"
+      },
+      "changes": [
+       [
+        "color",
+        "RD/WH",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "PWR-06",
+       "a": "KEY.15",
+       "b": "K1.86",
+       "af": "Interrupteur de contact — +15 contact mis",
+       "bf": "Relais principal — Bobine +",
+       "mm2": 0.5,
+       "color": "VT"
+      },
+      "new": {
+       "id": "PWR-14"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "PWR-07",
+       "a": "K1.85",
+       "b": "GP-CH",
+       "af": "Relais principal — Bobine −",
+       "bf": "Masse caisse habitacle (PDM)",
+       "mm2": 0.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "PWR-15"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-02",
+       "a": "KEY.15",
+       "b": "BTN-START.IN",
+       "af": "Interrupteur de contact — +15 contact mis",
+       "bf": "Bouton démarreur — Entrée +15 (après l'interrupteur de contact)",
+       "mm2": 0.5,
+       "color": "VT"
+      },
+      "new": {
+       "id": "DEM-04"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-03",
+       "a": "BTN-START.OUT",
+       "b": "K4.86",
+       "af": "Bouton démarreur — Sortie démarrage → bobine K4",
+       "bf": "Relais démarreur — Bobine + (bouton démarreur)",
+       "mm2": 0.5,
+       "color": "VT/YE"
+      },
+      "new": {
+       "id": "DEM-05"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-04",
+       "a": "K4.85",
+       "b": "GP-CH",
+       "af": "Relais démarreur — Bobine −",
+       "bf": "Masse caisse habitacle (PDM)",
+       "mm2": 0.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "DEM-06"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-06",
+       "a": "K4.87",
+       "b": "STARTER.50",
+       "af": "Relais démarreur — Contact — sortie vers borne 50",
+       "bf": "Démarreur — Commande solénoïde (50)",
+       "mm2": 2.5,
+       "color": "VT/YE"
+      },
+      "new": {
+       "id": "DEM-08"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-07",
+       "a": "SPL-RLY",
+       "b": "LAMP.1",
+       "af": "+12 V bobines relais",
+       "bf": "Voyant de charge — +12 V commuté",
+       "mm2": 0.5,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "DEM-09"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-08",
+       "a": "LAMP.2",
+       "b": "ALT.D+",
+       "af": "Voyant de charge — Sortie vers D+",
+       "bf": "Alternateur — D+ excitation (61)",
+       "mm2": 0.75,
+       "color": "BU/RD"
+      },
+      "new": {
+       "id": "DEM-10"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "COM-12",
+       "a": "CMC1.E1",
+       "b": "CANDEV.H",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN H (120 Ω intégrée)",
+       "bf": "Afficheur / logger CAN (option) — CAN H",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      },
+      "new": {
+       "id": "COM-23"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BK",
+        "GY"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-13",
+       "a": "CMC1.E2",
+       "b": "CANDEV.L",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN L",
+       "bf": "Afficheur / logger CAN (option) — CAN L",
+       "mm2": 0.5,
+       "color": "GN/BK"
+      },
+      "new": {
+       "id": "COM-24"
+      },
+      "changes": [
+       [
+        "color",
+        "GN/BK",
+        "PK"
+       ]
+      ]
+     }
+    ],
+    "premade": [
+     {
+      "old": {
+       "id": "SYNC-06",
+       "a": "CMC1.H2",
+       "b": "SPL-VRG",
+       "af": "MaxxECU RACE Gen1 — CMC1 — VR GND",
+       "bf": "VR GND (PMH + AAC)",
+       "mm2": 0.5,
+       "color": "BN"
+      },
+      "new": {
+       "id": "MX-01"
+      }
+     },
+     {
+      "old": {
+       "id": "SYNC-07",
+       "a": "SPL-SHLD",
+       "b": "CMC1.E3",
+       "af": "Blindages → Shield GND",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — SHIELD GND",
+       "mm2": 0.5,
+       "color": "BK/WH"
+      },
+      "new": {
+       "id": "MX-02"
+      }
+     },
+     {
+      "old": {
+       "id": "KNK-05",
+       "a": "CMC2.E1",
+       "b": "SPL-KGND",
+       "af": "MaxxECU RACE Gen1 — CMC2 — KNOCK GND",
+       "bf": "Knock GND (2 capteurs)",
+       "mm2": 0.5,
+       "color": "BN"
+      },
+      "new": {
+       "id": "MX-03"
+      }
+     }
+    ],
+    "attr": [
+     {
+      "old": {
+       "id": "GND-01",
+       "a": "CMC1.L4",
+       "b": "GP-HEAD",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ENGINE GROUND",
+       "bf": "Masse moteur ECU (goujon arrière culasse)",
+       "mm2": 1.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "GND-01"
+      },
+      "changes": [
+       [
+        "color",
+        "BK",
+        "BN"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "GND-02",
+       "a": "CMC2.G4",
+       "b": "GP-HEAD",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ENGINE GROUND 2",
+       "bf": "Masse moteur ECU (goujon arrière culasse)",
+       "mm2": 1.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "GND-02"
+      },
+      "changes": [
+       [
+        "color",
+        "BK",
+        "BN"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-01",
+       "a": "CMC1.G1",
+       "b": "SPL-5V-MAIN",
+       "af": "MaxxECU RACE Gen1 — CMC1 — +5 V SENSOR SUPPLY",
+       "bf": "+5 V — départ ECU",
+       "mm2": 0.5,
+       "color": "OG"
+      },
+      "new": {
+       "id": "SNS-01"
+      },
+      "changes": [
+       [
+        "color",
+        "OG",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-11",
+       "a": "CMC1.F2",
+       "b": "IAT.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — AIR TEMP SENSOR (IAT)",
+       "bf": "Température air admission — Signal NTC",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      },
+      "new": {
+       "id": "SNS-11"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BK",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-12",
+       "a": "CMC1.F1",
+       "b": "CLT.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — COOLANT SENSOR (CLT)",
+       "bf": "Température eau — Signal NTC",
+       "mm2": 0.5,
+       "color": "YE"
+      },
+      "new": {
+       "id": "SNS-12"
+      },
+      "changes": [
+       [
+        "color",
+        "YE",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-13",
+       "a": "CMC1.J1",
+       "b": "OIL.5",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 1 (TEMP)",
+       "bf": "Pression + température huile — Température NTC",
+       "mm2": 0.5,
+       "color": "YE/BN"
+      },
+      "new": {
+       "id": "SNS-13"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BN",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-14",
+       "a": "CMC2.E4",
+       "b": "OIL.2",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 6 (0-5 V)",
+       "bf": "Pression + température huile — Pression 0,5–4,5 V",
+       "mm2": 0.5,
+       "color": "WH/BN"
+      },
+      "new": {
+       "id": "SNS-14"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BN",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-15",
+       "a": "CMC1.J2",
+       "b": "FUEL.5",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 2 (TEMP)",
+       "bf": "Pression + température essence — Température NTC",
+       "mm2": 0.5,
+       "color": "YE/VT"
+      },
+      "new": {
+       "id": "SNS-15"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/VT",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-16",
+       "a": "CMC2.F1",
+       "b": "FUEL.2",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 7 (0-5 V)",
+       "bf": "Pression + température essence — Pression 0,5–4,5 V",
+       "mm2": 0.5,
+       "color": "WH/VT"
+      },
+      "new": {
+       "id": "SNS-16"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/VT",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-03",
+       "a": "CMC1.G2",
+       "b": "ETB.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — THROTTLE SENSOR (TPS)",
+       "bf": "Papillon motorisé — TPS 1",
+       "mm2": 0.5,
+       "color": "WH"
+      },
+      "new": {
+       "id": "DBW-03"
+      },
+      "changes": [
+       [
+        "color",
+        "WH",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-04",
+       "a": "CMC1.J3",
+       "b": "ETB.4",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 3 (0-5 V)",
+       "bf": "Papillon motorisé — TPS 2",
+       "mm2": 0.5,
+       "color": "WH/BK"
+      },
+      "new": {
+       "id": "DBW-04"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BK",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-05",
+       "a": "CMC2.H4",
+       "b": "ETB.3",
+       "af": "MaxxECU RACE Gen1 — CMC2 — MOTOR 1+ / GPO 12",
+       "bf": "Papillon motorisé — Moteur +",
+       "mm2": 1.0,
+       "color": "PK"
+      },
+      "new": {
+       "id": "DBW-05"
+      },
+      "changes": [
+       [
+        "color",
+        "PK",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-06",
+       "a": "CMC2.H2",
+       "b": "ETB.5",
+       "af": "MaxxECU RACE Gen1 — CMC2 — MOTOR 1- / GPO 11",
+       "bf": "Papillon motorisé — Moteur −",
+       "mm2": 1.0,
+       "color": "PK/BK"
+      },
+      "new": {
+       "id": "DBW-06"
+      },
+      "changes": [
+       [
+        "color",
+        "PK/BK",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-10",
+       "a": "CMC1.J4",
+       "b": "APP.4",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 4 (0-5 V)",
+       "bf": "Pédale d'accélérateur — Signal piste 1",
+       "mm2": 0.5,
+       "color": "WH/BU"
+      },
+      "new": {
+       "id": "DBW-10"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BU",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-12",
+       "a": "CMC2.G3",
+       "b": "APP.6",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 5 (0-5 V)",
+       "bf": "Pédale d'accélérateur — Signal piste 2",
+       "mm2": 0.5,
+       "color": "WH/GN"
+      },
+      "new": {
+       "id": "DBW-12"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/GN",
+        "BK"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "key": "E1",
+   "rev": "E",
+   "title": "Fusibles F1 à F10, relais K5 à K9 pour le pad",
+   "clue": "PWR-03 = F8 → relais principal K1 (pas encore de répartiteurs BUS30 / BUS87).",
+   "from": "2026-10-08T18:21:06+00:00",
+   "until": "2026-10-08T18:42:30+00:00",
+   "n": 145,
+   "todo": 26,
+   "diff": {
+    "same": 107,
+    "moved": [],
+    "added": [
+     {
+      "id": "PWR-03",
+      "was": {
+       "id": "PWR-03",
+       "a": "F8.2",
+       "b": "K1.30",
+       "af": "Fusible relais principal — Sortie",
+       "bf": "Relais principal — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      }
+     },
+     {
+      "id": "PWR-04",
+      "was": {
+       "id": "PWR-04",
+       "a": "K1.87",
+       "b": "BUS87",
+       "af": "Relais principal — Contact — sortie",
+       "bf": "Barrette +12 V commuté (relais principal)",
+       "mm2": 2.5,
+       "color": "RD/WH"
+      }
+     },
+     {
+      "id": "PWR-05",
+      "was": {
+       "id": "PWR-05",
+       "a": "F1.2",
+       "b": "CMC1.M4",
+       "af": "Fusible ECU — Sortie",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — +12 V ECU",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      }
+     },
+     {
+      "id": "PWR-08"
+     },
+     {
+      "id": "PWR-09"
+     },
+     {
+      "id": "PWR-10"
+     },
+     {
+      "id": "PWR-11"
+     },
+     {
+      "id": "PWR-12"
+     },
+     {
+      "id": "DEM-01",
+      "was": {
+       "id": "DEM-01",
+       "a": "F9.2",
+       "b": "KEY.30",
+       "af": "Fusible interrupteur de contact / bouton démarreur — Sortie",
+       "bf": "Interrupteur de contact — +30 entrée (permanent, fusible F9)",
+       "mm2": 0.75,
+       "color": "RD"
+      }
+     },
+     {
+      "id": "DEM-02",
+      "was": {
+       "id": "DEM-02",
+       "a": "KEY.15",
+       "b": "BTN-START.IN",
+       "af": "Interrupteur de contact — +15 contact mis",
+       "bf": "Bouton démarreur — Entrée +15 (après l'interrupteur de contact)",
+       "mm2": 0.5,
+       "color": "VT"
+      }
+     }
+    ],
+    "removed": [],
+    "relabel": [
+     {
+      "old": {
+       "id": "PWR-03",
+       "a": "F8.2",
+       "b": "K1.30",
+       "af": "Fusible relais principal — Sortie",
+       "bf": "Relais principal — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "PWR-06"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "PWR-04",
+       "a": "K1.87",
+       "b": "BUS87",
+       "af": "Relais principal — Contact — sortie",
+       "bf": "Barrette +12 V commuté (relais principal)",
+       "mm2": 2.5,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "PWR-07"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "PWR-05",
+       "a": "F1.2",
+       "b": "CMC1.M4",
+       "af": "Fusible ECU — Sortie",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — +12 V ECU",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "PWR-13"
+      },
+      "changes": [
+       [
+        "color",
+        "RD/WH",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "PWR-06",
+       "a": "KEY.15",
+       "b": "K1.86",
+       "af": "Interrupteur de contact — +15 contact mis",
+       "bf": "Relais principal — Bobine +",
+       "mm2": 0.5,
+       "color": "VT"
+      },
+      "new": {
+       "id": "PWR-14"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "PWR-07",
+       "a": "K1.85",
+       "b": "GP-CH",
+       "af": "Relais principal — Bobine −",
+       "bf": "Masse caisse habitacle (PDM)",
+       "mm2": 0.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "PWR-15"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-01",
+       "a": "F9.2",
+       "b": "KEY.30",
+       "af": "Fusible interrupteur de contact / bouton démarreur — Sortie",
+       "bf": "Interrupteur de contact — +30 entrée (permanent, fusible F9)",
+       "mm2": 0.75,
+       "color": "RD"
+      },
+      "new": {
+       "id": "DEM-03"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-02",
+       "a": "KEY.15",
+       "b": "BTN-START.IN",
+       "af": "Interrupteur de contact — +15 contact mis",
+       "bf": "Bouton démarreur — Entrée +15 (après l'interrupteur de contact)",
+       "mm2": 0.5,
+       "color": "VT"
+      },
+      "new": {
+       "id": "DEM-04"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-03",
+       "a": "BTN-START.OUT",
+       "b": "K4.86",
+       "af": "Bouton démarreur — Sortie démarrage → bobine K4",
+       "bf": "Relais démarreur — Bobine + (bouton démarreur)",
+       "mm2": 0.5,
+       "color": "VT/YE"
+      },
+      "new": {
+       "id": "DEM-05"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-04",
+       "a": "K4.85",
+       "b": "GP-CH",
+       "af": "Relais démarreur — Bobine −",
+       "bf": "Masse caisse habitacle (PDM)",
+       "mm2": 0.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "DEM-06"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-05",
+       "a": "F10.2",
+       "b": "K4.30",
+       "af": "Fusible démarreur (borne 50) — Sortie",
+       "bf": "Relais démarreur — Contact — entrée",
+       "mm2": 2.5,
+       "color": "RD"
+      },
+      "new": {
+       "id": "DEM-07"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-06",
+       "a": "K4.87",
+       "b": "STARTER.50",
+       "af": "Relais démarreur — Contact — sortie vers borne 50",
+       "bf": "Démarreur — Commande solénoïde (50)",
+       "mm2": 2.5,
+       "color": "VT/YE"
+      },
+      "new": {
+       "id": "DEM-08"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-07",
+       "a": "SPL-RLY",
+       "b": "LAMP.1",
+       "af": "+12 V bobines K2 / K3 et voyant de charge",
+       "bf": "Voyant de charge — +12 V commuté",
+       "mm2": 0.5,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "DEM-09"
+      },
+      "changes": []
+     },
+     {
+      "old": {
+       "id": "DEM-08",
+       "a": "LAMP.2",
+       "b": "ALT.D+",
+       "af": "Voyant de charge — Sortie vers D+",
+       "bf": "Alternateur — D+ excitation (61)",
+       "mm2": 0.75,
+       "color": "BU/RD"
+      },
+      "new": {
+       "id": "DEM-10"
+      },
+      "changes": []
+     }
+    ],
+    "premade": [
+     {
+      "old": {
+       "id": "SYNC-06",
+       "a": "CMC1.H2",
+       "b": "SPL-VRG",
+       "af": "MaxxECU RACE Gen1 — CMC1 — VR GND",
+       "bf": "VR GND (PMH + AAC)",
+       "mm2": 0.5,
+       "color": "BN"
+      },
+      "new": {
+       "id": "MX-01"
+      }
+     },
+     {
+      "old": {
+       "id": "SYNC-07",
+       "a": "SPL-SHLD",
+       "b": "CMC1.E3",
+       "af": "Blindages → Shield GND",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — SHIELD GND",
+       "mm2": 0.5,
+       "color": "BK/WH"
+      },
+      "new": {
+       "id": "MX-02"
+      }
+     },
+     {
+      "old": {
+       "id": "KNK-05",
+       "a": "CMC2.E1",
+       "b": "SPL-KGND",
+       "af": "MaxxECU RACE Gen1 — CMC2 — KNOCK GND",
+       "bf": "Knock GND (2 capteurs)",
+       "mm2": 0.5,
+       "color": "BN"
+      },
+      "new": {
+       "id": "MX-03"
+      }
+     }
+    ],
+    "attr": [
+     {
+      "old": {
+       "id": "GND-01",
+       "a": "CMC1.L4",
+       "b": "GP-HEAD",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ENGINE GROUND",
+       "bf": "Masse moteur ECU (goujon arrière culasse)",
+       "mm2": 1.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "GND-01"
+      },
+      "changes": [
+       [
+        "color",
+        "BK",
+        "BN"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "GND-02",
+       "a": "CMC2.G4",
+       "b": "GP-HEAD",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ENGINE GROUND 2",
+       "bf": "Masse moteur ECU (goujon arrière culasse)",
+       "mm2": 1.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "GND-02"
+      },
+      "changes": [
+       [
+        "color",
+        "BK",
+        "BN"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-01",
+       "a": "CMC1.G1",
+       "b": "SPL-5V-MAIN",
+       "af": "MaxxECU RACE Gen1 — CMC1 — +5 V SENSOR SUPPLY",
+       "bf": "+5 V — départ ECU",
+       "mm2": 0.5,
+       "color": "OG"
+      },
+      "new": {
+       "id": "SNS-01"
+      },
+      "changes": [
+       [
+        "color",
+        "OG",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-11",
+       "a": "CMC1.F2",
+       "b": "IAT.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — AIR TEMP SENSOR (IAT)",
+       "bf": "Température air admission — Signal NTC",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      },
+      "new": {
+       "id": "SNS-11"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BK",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-12",
+       "a": "CMC1.F1",
+       "b": "CLT.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — COOLANT SENSOR (CLT)",
+       "bf": "Température eau — Signal NTC",
+       "mm2": 0.5,
+       "color": "YE"
+      },
+      "new": {
+       "id": "SNS-12"
+      },
+      "changes": [
+       [
+        "color",
+        "YE",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-13",
+       "a": "CMC1.J1",
+       "b": "OIL.5",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 1 (TEMP)",
+       "bf": "Pression + température huile — Température NTC",
+       "mm2": 0.5,
+       "color": "YE/BN"
+      },
+      "new": {
+       "id": "SNS-13"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BN",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-14",
+       "a": "CMC2.E4",
+       "b": "OIL.2",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 6 (0-5 V)",
+       "bf": "Pression + température huile — Pression 0,5–4,5 V",
+       "mm2": 0.5,
+       "color": "WH/BN"
+      },
+      "new": {
+       "id": "SNS-14"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BN",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-15",
+       "a": "CMC1.J2",
+       "b": "FUEL.5",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 2 (TEMP)",
+       "bf": "Pression + température essence — Température NTC",
+       "mm2": 0.5,
+       "color": "YE/VT"
+      },
+      "new": {
+       "id": "SNS-15"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/VT",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-16",
+       "a": "CMC2.F1",
+       "b": "FUEL.2",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 7 (0-5 V)",
+       "bf": "Pression + température essence — Pression 0,5–4,5 V",
+       "mm2": 0.5,
+       "color": "WH/VT"
+      },
+      "new": {
+       "id": "SNS-16"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/VT",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-03",
+       "a": "CMC1.G2",
+       "b": "ETB.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — THROTTLE SENSOR (TPS)",
+       "bf": "Papillon motorisé — TPS 1",
+       "mm2": 0.5,
+       "color": "WH"
+      },
+      "new": {
+       "id": "DBW-03"
+      },
+      "changes": [
+       [
+        "color",
+        "WH",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-04",
+       "a": "CMC1.J3",
+       "b": "ETB.4",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 3 (0-5 V)",
+       "bf": "Papillon motorisé — TPS 2",
+       "mm2": 0.5,
+       "color": "WH/BK"
+      },
+      "new": {
+       "id": "DBW-04"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BK",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-05",
+       "a": "CMC2.H4",
+       "b": "ETB.3",
+       "af": "MaxxECU RACE Gen1 — CMC2 — MOTOR 1+ / GPO 12",
+       "bf": "Papillon motorisé — Moteur +",
+       "mm2": 1.0,
+       "color": "PK"
+      },
+      "new": {
+       "id": "DBW-05"
+      },
+      "changes": [
+       [
+        "color",
+        "PK",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-06",
+       "a": "CMC2.H2",
+       "b": "ETB.5",
+       "af": "MaxxECU RACE Gen1 — CMC2 — MOTOR 1- / GPO 11",
+       "bf": "Papillon motorisé — Moteur −",
+       "mm2": 1.0,
+       "color": "PK/BK"
+      },
+      "new": {
+       "id": "DBW-06"
+      },
+      "changes": [
+       [
+        "color",
+        "PK/BK",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-10",
+       "a": "CMC1.J4",
+       "b": "APP.4",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 4 (0-5 V)",
+       "bf": "Pédale d'accélérateur — Signal piste 1",
+       "mm2": 0.5,
+       "color": "WH/BU"
+      },
+      "new": {
+       "id": "DBW-10"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BU",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-12",
+       "a": "CMC2.G3",
+       "b": "APP.6",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 5 (0-5 V)",
+       "bf": "Pédale d'accélérateur — Signal piste 2",
+       "mm2": 0.5,
+       "color": "WH/GN"
+      },
+      "new": {
+       "id": "DBW-12"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/GN",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-06",
+       "a": "K5.30",
+       "b": "CMC1.C1",
+       "af": "Relais bouton 4 (ventilation forcée) — Contact → entrée DIN3 (CMC1 C1)",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — DIGITAL IN 3 (GP OUT 7 déclaré en entrée)",
+       "mm2": 0.5,
+       "color": "WH/YE"
+      },
+      "new": {
+       "id": "COM-06"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/YE",
+        "GN"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-07",
+       "a": "K6.30",
+       "b": "CMC1.K3",
+       "af": "Relais bouton 5 (changement de carto) — Contact → entrée DIN1 (CMC1 K3)",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — DIGITAL IN 1",
+       "mm2": 0.5,
+       "color": "WH/RD"
+      },
+      "new": {
+       "id": "COM-07"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/RD",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-08",
+       "a": "K7.30",
+       "b": "CMC1.K4",
+       "af": "Relais bouton 6 (ALS off) — Contact → entrée DIN2 (CMC1 K4)",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — DIGITAL IN 2",
+       "mm2": 0.5,
+       "color": "WH/OG"
+      },
+      "new": {
+       "id": "COM-08"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/OG",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-09",
+       "a": "K8.30",
+       "b": "CMC2.F3",
+       "af": "Relais bouton 7 (carto de chauffe) — Contact → entrée DIN4 (CMC2 F3)",
+       "bf": "MaxxECU RACE Gen1 — CMC2 — DIGITAL / VR IN 4",
+       "mm2": 0.5,
+       "color": "WH/GY"
+      },
+      "new": {
+       "id": "COM-09"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/GY",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-10",
+       "a": "K9.30",
+       "b": "CMC2.F4",
+       "af": "Relais bouton 8 (arrêt moteur) — Contact → entrée DIN5 (CMC2 F4)",
+       "bf": "MaxxECU RACE Gen1 — CMC2 — DIGITAL / VR IN 5",
+       "mm2": 0.5,
+       "color": "WH/PK"
+      },
+      "new": {
+       "id": "COM-10"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/PK",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-23",
+       "a": "CMC1.E1",
+       "b": "CANDEV.H",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN H (120 Ω intégrée)",
+       "bf": "Afficheur / logger CAN (option) — CAN H",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      },
+      "new": {
+       "id": "COM-23"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BK",
+        "GY"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-24",
+       "a": "CMC1.E2",
+       "b": "CANDEV.L",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN L",
+       "bf": "Afficheur / logger CAN (option) — CAN L",
+       "mm2": 0.5,
+       "color": "GN/BK"
+      },
+      "new": {
+       "id": "COM-24"
+      },
+      "changes": [
+       [
+        "color",
+        "GN/BK",
+        "PK"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "key": "E2",
+   "rev": "E",
+   "title": "Boîte à entrées séparées : répartiteurs et ponts",
+   "clue": "PWR-03 = pont BUS30 → F8 ; SYNC-06 (VR GND, H2) encore à faire toi-même.",
+   "from": "2026-10-08T18:51:57+00:00",
+   "until": "2026-10-08T18:51:57+00:00",
+   "n": 155,
+   "todo": 3,
+   "diff": {
+    "same": 129,
+    "moved": [],
+    "added": [],
+    "removed": [],
+    "relabel": [],
+    "premade": [
+     {
+      "old": {
+       "id": "SYNC-06",
+       "a": "CMC1.H2",
+       "b": "SPL-VRG",
+       "af": "MaxxECU RACE Gen1 — CMC1 — VR GND",
+       "bf": "VR GND (PMH + AAC) — déjà fait dans le faisceau MaxxECU pré-câblé",
+       "mm2": 0.5,
+       "color": "BN"
+      },
+      "new": {
+       "id": "MX-01"
+      }
+     },
+     {
+      "old": {
+       "id": "SYNC-07",
+       "a": "SPL-SHLD",
+       "b": "CMC1.E3",
+       "af": "Blindages → Shield GND — déjà fait dans le faisceau MaxxECU pré-câblé",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — SHIELD GND",
+       "mm2": 0.5,
+       "color": "BK/WH"
+      },
+      "new": {
+       "id": "MX-02"
+      }
+     },
+     {
+      "old": {
+       "id": "KNK-05",
+       "a": "CMC2.E1",
+       "b": "SPL-KGND",
+       "af": "MaxxECU RACE Gen1 — CMC2 — KNOCK GND",
+       "bf": "Knock GND (2 capteurs)",
+       "mm2": 0.5,
+       "color": "BN"
+      },
+      "new": {
+       "id": "MX-03"
+      }
+     }
+    ],
+    "attr": [
+     {
+      "old": {
+       "id": "PWR-13",
+       "a": "F1.2",
+       "b": "CMC1.M4",
+       "af": "Fusible ECU — Sortie",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — +12 V ECU",
+       "mm2": 1.0,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "PWR-13"
+      },
+      "changes": [
+       [
+        "color",
+        "RD/WH",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "GND-01",
+       "a": "CMC1.L4",
+       "b": "GP-HEAD",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ENGINE GROUND",
+       "bf": "Masse moteur ECU (goujon arrière culasse)",
+       "mm2": 1.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "GND-01"
+      },
+      "changes": [
+       [
+        "color",
+        "BK",
+        "BN"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "GND-02",
+       "a": "CMC2.G4",
+       "b": "GP-HEAD",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ENGINE GROUND 2",
+       "bf": "Masse moteur ECU (goujon arrière culasse)",
+       "mm2": 1.5,
+       "color": "BK"
+      },
+      "new": {
+       "id": "GND-02"
+      },
+      "changes": [
+       [
+        "color",
+        "BK",
+        "BN"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-01",
+       "a": "CMC1.G1",
+       "b": "SPL-5V-MAIN",
+       "af": "MaxxECU RACE Gen1 — CMC1 — +5 V SENSOR SUPPLY",
+       "bf": "+5 V — départ ECU",
+       "mm2": 0.5,
+       "color": "OG"
+      },
+      "new": {
+       "id": "SNS-01"
+      },
+      "changes": [
+       [
+        "color",
+        "OG",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-11",
+       "a": "CMC1.F2",
+       "b": "IAT.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — AIR TEMP SENSOR (IAT)",
+       "bf": "Température air admission — Signal NTC",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      },
+      "new": {
+       "id": "SNS-11"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BK",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-12",
+       "a": "CMC1.F1",
+       "b": "CLT.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — COOLANT SENSOR (CLT)",
+       "bf": "Température eau — Signal NTC",
+       "mm2": 0.5,
+       "color": "YE"
+      },
+      "new": {
+       "id": "SNS-12"
+      },
+      "changes": [
+       [
+        "color",
+        "YE",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-13",
+       "a": "CMC1.J1",
+       "b": "OIL.5",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 1 (TEMP)",
+       "bf": "Pression + température huile — Température NTC",
+       "mm2": 0.5,
+       "color": "YE/BN"
+      },
+      "new": {
+       "id": "SNS-13"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BN",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-14",
+       "a": "CMC2.E4",
+       "b": "OIL.2",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 6 (0-5 V)",
+       "bf": "Pression + température huile — Pression 0,5–4,5 V",
+       "mm2": 0.5,
+       "color": "WH/BN"
+      },
+      "new": {
+       "id": "SNS-14"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BN",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-15",
+       "a": "CMC1.J2",
+       "b": "FUEL.5",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 2 (TEMP)",
+       "bf": "Pression + température essence — Température NTC",
+       "mm2": 0.5,
+       "color": "YE/VT"
+      },
+      "new": {
+       "id": "SNS-15"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/VT",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "SNS-16",
+       "a": "CMC2.F1",
+       "b": "FUEL.2",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 7 (0-5 V)",
+       "bf": "Pression + température essence — Pression 0,5–4,5 V",
+       "mm2": 0.5,
+       "color": "WH/VT"
+      },
+      "new": {
+       "id": "SNS-16"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/VT",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-03",
+       "a": "CMC1.G2",
+       "b": "ETB.1",
+       "af": "MaxxECU RACE Gen1 — CMC1 — THROTTLE SENSOR (TPS)",
+       "bf": "Papillon motorisé — TPS 1",
+       "mm2": 0.5,
+       "color": "WH"
+      },
+      "new": {
+       "id": "DBW-03"
+      },
+      "changes": [
+       [
+        "color",
+        "WH",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-04",
+       "a": "CMC1.J3",
+       "b": "ETB.4",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 3 (0-5 V)",
+       "bf": "Papillon motorisé — TPS 2",
+       "mm2": 0.5,
+       "color": "WH/BK"
+      },
+      "new": {
+       "id": "DBW-04"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BK",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-05",
+       "a": "CMC2.H4",
+       "b": "ETB.3",
+       "af": "MaxxECU RACE Gen1 — CMC2 — MOTOR 1+ / GPO 12",
+       "bf": "Papillon motorisé — Moteur +",
+       "mm2": 1.0,
+       "color": "PK"
+      },
+      "new": {
+       "id": "DBW-05"
+      },
+      "changes": [
+       [
+        "color",
+        "PK",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-06",
+       "a": "CMC2.H2",
+       "b": "ETB.5",
+       "af": "MaxxECU RACE Gen1 — CMC2 — MOTOR 1- / GPO 11",
+       "bf": "Papillon motorisé — Moteur −",
+       "mm2": 1.0,
+       "color": "PK/BK"
+      },
+      "new": {
+       "id": "DBW-06"
+      },
+      "changes": [
+       [
+        "color",
+        "PK/BK",
+        "RD"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-10",
+       "a": "CMC1.J4",
+       "b": "APP.4",
+       "af": "MaxxECU RACE Gen1 — CMC1 — ANALOG IN 4 (0-5 V)",
+       "bf": "Pédale d'accélérateur — Signal piste 1",
+       "mm2": 0.5,
+       "color": "WH/BU"
+      },
+      "new": {
+       "id": "DBW-10"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/BU",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "DBW-12",
+       "a": "CMC2.G3",
+       "b": "APP.6",
+       "af": "MaxxECU RACE Gen1 — CMC2 — ANALOG IN 5 (0-5 V)",
+       "bf": "Pédale d'accélérateur — Signal piste 2",
+       "mm2": 0.5,
+       "color": "WH/GN"
+      },
+      "new": {
+       "id": "DBW-12"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/GN",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-06",
+       "a": "K5.30",
+       "b": "CMC1.C1",
+       "af": "Relais bouton 4 (ventilation forcée) — Contact → entrée DIN3 (CMC1 C1)",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — DIGITAL IN 3 (GP OUT 7 déclaré en entrée)",
+       "mm2": 0.5,
+       "color": "WH/YE"
+      },
+      "new": {
+       "id": "COM-06"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/YE",
+        "GN"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-07",
+       "a": "K6.30",
+       "b": "CMC1.K3",
+       "af": "Relais bouton 5 (changement de carto) — Contact → entrée DIN1 (CMC1 K3)",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — DIGITAL IN 1",
+       "mm2": 0.5,
+       "color": "WH/RD"
+      },
+      "new": {
+       "id": "COM-07"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/RD",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-08",
+       "a": "K7.30",
+       "b": "CMC1.K4",
+       "af": "Relais bouton 6 (ALS off) — Contact → entrée DIN2 (CMC1 K4)",
+       "bf": "MaxxECU RACE Gen1 — CMC1 — DIGITAL IN 2",
+       "mm2": 0.5,
+       "color": "WH/OG"
+      },
+      "new": {
+       "id": "COM-08"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/OG",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-09",
+       "a": "K8.30",
+       "b": "CMC2.F3",
+       "af": "Relais bouton 7 (carto de chauffe) — Contact → entrée DIN4 (CMC2 F3)",
+       "bf": "MaxxECU RACE Gen1 — CMC2 — DIGITAL / VR IN 4",
+       "mm2": 0.5,
+       "color": "WH/GY"
+      },
+      "new": {
+       "id": "COM-09"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/GY",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-10",
+       "a": "K9.30",
+       "b": "CMC2.F4",
+       "af": "Relais bouton 8 (arrêt moteur) — Contact → entrée DIN5 (CMC2 F4)",
+       "bf": "MaxxECU RACE Gen1 — CMC2 — DIGITAL / VR IN 5",
+       "mm2": 0.5,
+       "color": "WH/PK"
+      },
+      "new": {
+       "id": "COM-10"
+      },
+      "changes": [
+       [
+        "color",
+        "WH/PK",
+        "BK"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-23",
+       "a": "CMC1.E1",
+       "b": "CANDEV.H",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN H (120 Ω intégrée)",
+       "bf": "Afficheur / logger CAN (option) — CAN H",
+       "mm2": 0.5,
+       "color": "YE/BK"
+      },
+      "new": {
+       "id": "COM-23"
+      },
+      "changes": [
+       [
+        "color",
+        "YE/BK",
+        "GY"
+       ]
+      ]
+     },
+     {
+      "old": {
+       "id": "COM-24",
+       "a": "CMC1.E2",
+       "b": "CANDEV.L",
+       "af": "MaxxECU RACE Gen1 — CMC1 — CAN L",
+       "bf": "Afficheur / logger CAN (option) — CAN L",
+       "mm2": 0.5,
+       "color": "GN/BK"
+      },
+      "new": {
+       "id": "COM-24"
+      },
+      "changes": [
+       [
+        "color",
+        "GN/BK",
+        "PK"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "key": "F",
+   "rev": "F",
+   "title": "Faisceaux MaxxECU du kit Premium",
+   "clue": "Fils MX-01 à MX-03 « faits par MaxxECU » ; COM-06 en vert (GN).",
+   "from": "2026-10-08T19:08:47+00:00",
+   "until": "2026-10-09T16:45:12+00:00",
+   "n": 152,
+   "todo": 0,
+   "diff": {
+    "same": 152,
+    "moved": [],
+    "added": [],
+    "removed": [],
+    "relabel": [],
+    "premade": [],
+    "attr": []
+   }
+  }
+ ],
  "validation": {
   "errors": [],
   "warnings": [

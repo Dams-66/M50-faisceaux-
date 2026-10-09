@@ -13,6 +13,23 @@
 - ⚠️ ACT-01 : fil MaxxECU « GP OUT 1, (B4) » (3 m) trop court pour 3,15 m estimés — mesurer sur la voiture, rallonge de 0,25 m probable
 - ℹ️ PWR-01 : liaison batterie → fusible général, garder la plus courte possible
 
+## Repères figés et versions précédentes
+
+Un repère publié ne change plus de fil. Pour un faisceau déjà repéré avec une ancienne version, l'onglet Modifications du dossier liste fil par fil ce qu'il faut reprendre.
+
+| Version | Publiée | Indice | Inchangés | Extrémité changée | Nouveau repère | Supprimés | Nouveaux | Faits par MaxxECU | Section | Couleur seule |
+|---|---|---|---|---|---|---|---|---|---|---|
+| F | 2026-10-08 19:08 UTC | Fils MX-01 à MX-03 « faits par MaxxECU » ; COM-06 en vert (GN). | 152 / 152 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| E2 | 2026-10-08 18:51 UTC | PWR-03 = pont BUS30 → F8 ; SYNC-06 (VR GND, H2) encore à faire toi-même. | 129 / 155 | 0 | 0 | 0 | 0 | 3 | 0 | 23 |
+| E1 | 2026-10-08 18:21 UTC | PWR-03 = F8 → relais principal K1 (pas encore de répartiteurs BUS30 / BUS87). | 107 / 145 | 0 | 13 | 0 | 10 | 3 | 0 | 22 |
+| D2 | 2026-10-08 16:29 UTC | COM-01 = pad → platine IF-PAD ; COM-06 va à CMC2.F2 (AIN8). | 85 / 134 | 16 | 12 | 3 | 24 | 3 | 0 | 15 |
+| D1 | 2026-10-08 16:24 UTC | COM-01 = pad → platine IF-PAD ; COM-06 va à CMC1.K3. | 85 / 134 | 16 | 12 | 3 | 24 | 3 | 0 | 15 |
+| C | 2026-10-08 13:09 UTC | SYNC-03 en rouge/blanc (RD/WH), venant de F6 ; COM-01 = compte-tours. | 84 / 123 | 9 | 10 | 2 | 34 | 3 | 0 | 15 |
+| B3 | 2026-10-08 12:58 UTC | WBO-05 en 0,75 mm² ; SYNC-03 (+12 V capteur PMH) en rouge (RD), venant de F6. | 84 / 123 | 9 | 10 | 2 | 34 | 3 | 0 | 15 |
+| B2 | 2026-10-08 07:58 UTC | Planche « Démarrage & charge » présente ; WBO-05 (chauffe lambda) en 1 mm². | 83 / 123 | 9 | 10 | 2 | 34 | 3 | 1 | 15 |
+| B1 | 2026-10-07 12:15 UTC | Plus de connecteur XINT ; COM-01 = compte-tours ; pas encore de planche « Démarrage & charge ». | 83 / 116 | 7 | 6 | 1 | 40 | 3 | 1 | 15 |
+| A | 2026-10-07 11:55 UTC | COM-01 va au connecteur de cloison XINT (XINT.8). | 77 / 126 | 16 | 3 | 11 | 40 | 3 | 3 | 13 |
+
 ## Audit du plan d'origine
 
 ### 🛠 Corrigé — Retour du capteur AAC sur VR GND (CMC1 H2), pas sur Sensor GND (H1)
