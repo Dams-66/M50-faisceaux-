@@ -27,7 +27,7 @@ Protection;Relais ISO mini 40 A;3;pc;
 Protection;Relais ISO mini 30/40 A;1;pc;
 Protection;Relais ISO mini 4 broches (contact travail);5;pc;
 Épissures;Manchon non isolé 6–10 mm² (ou soudure ultrasons) + thermo à colle 3:1;4;pc;SPL-COIL12 (6 mm²), SPL-COIL-SGND (4,5 mm²), SPL-COIL-PGND (6 mm²), SPL-INJ12 (4,5 mm²)
-Épissures;Épissure D-436-38 (≤ 3,3 mm² par côté) + thermo à colle;8;pc;SPL-5V-MAIN (1,5 mm²), SPL-5V-ENG (1,5 mm²), SPL-SG-MAIN (2 mm²), SPL-SG-ENG (2,5 mm²), SPL-ACT12 (3 mm²), SPL-RLY (1,5 mm²), SPL-SG-PAD (2,5 mm²), SPL-GND-PAD (2,5 mm²)
+Épissures;Épissure D-436-38 (≤ 3,3 mm² par côté) + thermo à colle;8;pc;SPL-5V-MAIN (1,5 mm²), SPL-5V-ENG (2 mm²), SPL-SG-MAIN (2 mm²), SPL-SG-ENG (2,5 mm²), SPL-ACT12 (2,25 mm²), SPL-RLY (1,5 mm²), SPL-SG-PAD (2,5 mm²), SPL-GND-PAD (2,5 mm²)
 Masses;Cosse œillet M8 étamée — GP-HEAD;2;pc;Masse moteur ECU (goujon arrière culasse)
 Masses;Cosse œillet M8 étamée — GP-COIL;2;pc;Masse bobines (goujon culasse, voisin)
 Masses;Cosse œillet M8 étamée — GP-CH;3;pc;Masse caisse habitacle (PDM)
@@ -35,7 +35,7 @@ Masses;Cosse œillet M8 étamée — GP-CH-AV;1;pc;Masse caisse avant (ventilate
 Masses;Cosse œillet M8 étamée — GP-CH-AR;1;pc;Masse caisse arrière (pompe)
 Fil;FLRY-B 0,5 mm² BK;1,5;m;coupe 1,40 m + 10 %
 Fil;FLRY-B 0,5 mm² BN;12,9;m;coupe 11,70 m + 10 %
-Fil;FLRY-B 0,5 mm² OG;8,3;m;coupe 7,55 m + 10 %
+Fil;FLRY-B 0,5 mm² OG;9,9;m;coupe 9,00 m + 10 %
 Fil;FLRY-B 0,5 mm² RD/WH;2,4;m;coupe 2,15 m + 10 %
 Fil;FLRY-B 0,5 mm² VT;1,7;m;coupe 1,55 m + 10 %
 Fil;FLRY-B 0,5 mm² VT/GY;1,2;m;coupe 1,05 m + 10 %
@@ -48,7 +48,7 @@ Fil;FLRY-B 0,75 mm² BK;2,4;m;coupe 2,15 m + 10 %
 Fil;FLRY-B 0,75 mm² BU/RD;4,3;m;coupe 3,95 m + 10 %
 Fil;FLRY-B 0,75 mm² GN;0,3;m;coupe 0,25 m + 10 %
 Fil;FLRY-B 0,75 mm² RD;1,5;m;coupe 1,35 m + 10 %
-Fil;FLRY-B 0,75 mm² RD/WH;8,5;m;coupe 7,70 m + 10 %
+Fil;FLRY-B 0,75 mm² RD/WH;6,9;m;coupe 6,25 m + 10 %
 Fil;FLRY-B 1 mm² BK;2,1;m;coupe 1,95 m + 10 %
 Fil;FLRY-B 1 mm² RD/WH;6,8;m;coupe 6,15 m + 10 %
 Fil;FLRY-B 1,5 mm² BK;0,6;m;coupe 0,55 m + 10 %

@@ -35,7 +35,7 @@ IGN-26;1;BK;0,35;;ENG;COIL6.4;Masse puissance;SPL-COIL-PGND;Masse puissance bobi
 DBW-05;≈1;RD;2,80;C-ETBM;ENG;CMC2.H4;MOTOR 1+ / GPO 12;ETB.3;Moteur +;Papillon motorisé & pédale;;MOTOR 1+ : couper à 2,80 m;Fil MaxxECU « MOTOR 1+ » : couper à 2,80 m.
 DBW-06;≈1;RD;2,80;C-ETBM;ENG;CMC2.H2;MOTOR 1- / GPO 11;ETB.5;Moteur −;Papillon motorisé & pédale;;MOTOR 1- : couper à 2,80 m;Fil MaxxECU « MOTOR 1- » : couper à 2,80 m.
 PWR-13;≈1;RD;0,65;;PDM;F1.2;Sortie;CMC1.M4;+12 V ECU;Alimentation & relais principal;F1;12V ECU, (M4) : couper à 0,65 m;Fil MaxxECU « 12V ECU, (M4) » : couper à 0,65 m. Alimentation ECU (15 A, préconisation MaxxECU). Si ton faisceau a un fil rouge « 12V ECU, (C) » relié à M4, c'est lui qui va à F1
-ACT-03;1;RD/WH;1,90;;ENG;F4.2;Sortie;SPL-ACT12;+12 V VANOS, MAC, capteur PMH et chauffage lambda;VANOS & MAC valve (boost);F4;;
+ACT-03;1;RD/WH;1,90;;ENG;F4.2;Sortie;SPL-ACT12;+12 V VANOS, MAC et chauffage lambda;VANOS & MAC valve (boost);F4;;
 IGN-08;1;RD/WH;0,45;;ENG;SPL-COIL12;+12 V bobines;COIL1.1;+12 V;Allumage — 6 bobines intelligentes;F2;;
 IGN-09;1;RD/WH;0,35;;ENG;SPL-COIL12;+12 V bobines;COIL2.1;+12 V;Allumage — 6 bobines intelligentes;F2;;
 IGN-10;1;RD/WH;0,30;;ENG;SPL-COIL12;+12 V bobines;COIL3.1;+12 V;Allumage — 6 bobines intelligentes;F2;;
@@ -61,16 +61,15 @@ INJ-04;≈0,75;GY;2,25;;ENG;CMC1.M2;INJECTOR CYL 4;INJ4.2;Commande ECU;Injection
 INJ-05;≈0,75;GY;2,20;;ENG;CMC1.M3;INJECTOR CYL 5;INJ5.2;Commande ECU;Injection — 6 × 870 cc;;INJECTOR CYL 5, (M3) : couper à 2,20 m;Fil MaxxECU « INJECTOR CYL 5, (M3) » : couper à 2,20 m.
 INJ-06;≈0,75;GY;2,10;;ENG;CMC1.L3;INJECTOR CYL 6;INJ6.2;Commande ECU;Injection — 6 × 870 cc;;INJECTOR CYL 6, (L3) : couper à 2,10 m;Fil MaxxECU « INJECTOR CYL 6, (L3) » : couper à 2,10 m.
 DEM-03;0,75;RD;1,35;;CAB;F9.2;Sortie;KEY.30;+30 entrée (permanent, fusible F9);Contact, démarreur & excitation alternateur;F9;;Alimentation de l'interrupteur de contact
-ACT-04;0,75;RD/WH;1,50;;ENG;SPL-ACT12;+12 V VANOS, MAC, capteur PMH et chauffage lambda;MAC.1;+12 V;VANOS & MAC valve (boost);F4;;
-ACT-05;0,75;RD/WH;1,10;;ENG;SPL-ACT12;+12 V VANOS, MAC, capteur PMH et chauffage lambda;VANOS.1;+12 V;VANOS & MAC valve (boost);F4;;
+ACT-04;0,75;RD/WH;1,50;;ENG;SPL-ACT12;+12 V VANOS, MAC et chauffage lambda;MAC.1;+12 V;VANOS & MAC valve (boost);F4;;
+ACT-05;0,75;RD/WH;1,10;;ENG;SPL-ACT12;+12 V VANOS, MAC et chauffage lambda;VANOS.1;+12 V;VANOS & MAC valve (boost);F4;;
 INJ-08;0,75;RD/WH;0,45;;ENG;SPL-INJ12;+12 V injecteurs;INJ1.1;+12 V;Injection — 6 × 870 cc;F3;;
 INJ-09;0,75;RD/WH;0,35;;ENG;SPL-INJ12;+12 V injecteurs;INJ2.1;+12 V;Injection — 6 × 870 cc;F3;;
 INJ-10;0,75;RD/WH;0,30;;ENG;SPL-INJ12;+12 V injecteurs;INJ3.1;+12 V;Injection — 6 × 870 cc;F3;;
 INJ-11;0,75;RD/WH;0,20;;ENG;SPL-INJ12;+12 V injecteurs;INJ4.1;+12 V;Injection — 6 × 870 cc;F3;;
 INJ-12;0,75;RD/WH;0,30;;ENG;SPL-INJ12;+12 V injecteurs;INJ5.1;+12 V;Injection — 6 × 870 cc;F3;;
 INJ-13;0,75;RD/WH;0,35;;ENG;SPL-INJ12;+12 V injecteurs;INJ6.1;+12 V;Injection — 6 × 870 cc;F3;;
-SYNC-03;0,75;RD/WH;1,45;;ENG;SPL-ACT12;+12 V VANOS, MAC, capteur PMH et chauffage lambda;CRANK.1;+12 V;Synchronisation PMH / AAC & blindages;F4;;"+12 V capteur PMH pris sur F4 (épissure actionneurs, arrière culasse) : fil séparé, hors câble blindé ; 0,75 mm² derrière un fusible de 10 A"
-WBO-06;0,75;RD/WH;1,70;;ENG;SPL-ACT12;+12 V VANOS, MAC, capteur PMH et chauffage lambda;LSU.4;Chauffage +12 V;Lambda LSU 4.9 & EGT;F4;;"+12 V chauffage lambda pris sur l'épissure actionneurs (même fusible que VANOS, MAC et PMH) ; 0,75 mm² derrière un fusible de 10 A. Broche 4 de la LSU 4.9"
+WBO-06;0,75;RD/WH;1,70;;ENG;SPL-ACT12;+12 V VANOS, MAC et chauffage lambda;LSU.4;Chauffage +12 V;Lambda LSU 4.9 & EGT;F4;;"+12 V chauffage lambda pris sur l'épissure actionneurs (même fusible que VANOS et MAC) ; 0,75 mm² derrière un fusible de 10 A. Broche 4 de la LSU 4.9"
 COM-07;≈0,5;BK;0,65;;PDM;K6.30;Contact → entrée DIN1 (CMC1 K3);CMC1.K3;DIGITAL IN 1;Habitacle : pad de commandes → ECU, CAN;;DIGITAL IN 1, (K3) : couper à 0,65 m;"Fil MaxxECU « DIGITAL IN 1, (K3) » : couper à 0,65 m. DIN1 = changement de carto (Boost target switch (use table 2)) ; relais collé = entrée à la masse, pull-up activé"
 COM-08;≈0,5;BK;0,65;;PDM;K7.30;Contact → entrée DIN2 (CMC1 K4);CMC1.K4;DIGITAL IN 2;Habitacle : pad de commandes → ECU, CAN;;DIGITAL IN 2, (K4) : couper à 0,65 m;"Fil MaxxECU « DIGITAL IN 2, (K4) » : couper à 0,65 m. DIN2 = ALS off (Anti-lag enable) ; relais collé = entrée à la masse, pull-up activé"
 COM-09;≈0,5;BK;0,65;;PDM;K8.30;Contact → entrée DIN4 (CMC2 F3);CMC2.F3;DIGITAL / VR IN 4;Habitacle : pad de commandes → ECU, CAN;;DIGITAL/VR IN 4 : couper à 0,65 m;"Fil MaxxECU « DIGITAL/VR IN 4 » : couper à 0,65 m. DIN4 = carto de chauffe (Internal output → limiteur secondaire) ; relais collé = entrée à la masse, pull-up activé"
@@ -129,6 +128,7 @@ DBW-11;0,5;OG;1,40;;CAB;SPL-5V-MAIN;+5 V — départ ECU;APP.5;+5 V piste 1;Papi
 SNS-02;0,5;OG;1,85;;ENG;SPL-5V-MAIN;+5 V — départ ECU;SPL-5V-ENG;+5 V — branche moteur;Capteurs température / pression & distribution 5 V / Sensor GND;;;
 SNS-03;0,5;OG;1,10;;ENG;SPL-5V-ENG;+5 V — branche moteur;OIL.3;+5 V;Capteurs température / pression & distribution 5 V / Sensor GND;;;
 SNS-04;0,5;OG;0,65;;ENG;SPL-5V-ENG;+5 V — branche moteur;FUEL.3;+5 V;Capteurs température / pression & distribution 5 V / Sensor GND;;;
+SYNC-03;0,5;OG;1,45;;ENG;SPL-5V-ENG;+5 V — branche moteur;CRANK.1;+5 V;Synchronisation PMH / AAC & blindages;;;"+5 V capteurs de l'ECU pour le capteur PMH Hall (alimenté en 5 V comme sur le M52 d'origine) : fil séparé, hors câble blindé ; pas de fusible : le +5 V vient de l'ECU, limité à 0,5 A crête. Révision G : avant, ce fil venait de l'épissure +12 V de F4"
 COM-24;≈0,5;PK;1,50;C-CAN;CAB;CMC1.E2;CAN L;CANDEV.L;CAN L;Habitacle : pad de commandes → ECU, CAN;;CAN L — câble CAN : couper à 1,50 m;Fil MaxxECU « CAN L — câble CAN » : couper à 1,50 m.
 SNS-01;≈0,5;RD;0,20;;ENG;CMC1.G1;+5 V SENSOR SUPPLY;SPL-5V-MAIN;+5 V — départ ECU;Capteurs température / pression & distribution 5 V / Sensor GND;;5V SENSOR SUPPLY, (G1) : couper à 0,20 m;Fil MaxxECU « 5V SENSOR SUPPLY, (G1) » : couper à 0,20 m.
 WBO-08;≈0,5;RD;2,20;C-EGT;ENG;CMC2.D1;EGT1-;EGT1.-;K− (alumel);Lambda LSU 4.9 & EGT;;EGT1- : couper à 2,20 m;Fil MaxxECU « EGT1- » : couper à 2,20 m. Conducteur K− (rouge en norme ANSI, blanc en IEC)

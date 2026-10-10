@@ -13,8 +13,8 @@ meta:
   project: "Faisceau moteur M50B25 VANOS Turbo"
   engine: "BMW M50B25 VANOS — turbo — BMW E36"
   ecu: "MaxxECU RACE Gen1 (REV9+)"
-  revision: "F"
-  date: "2026-10-08"
+  revision: "G"
+  date: "2026-10-10"
   status: "Étude — à valider sur véhicule"
   assumptions:
     - "BMW E36 conduite à gauche, caisse vide : faisceau entièrement neuf, aucun faisceau d'origine conservé."
@@ -30,6 +30,9 @@ meta:
   sources:
     - {label: "MaxxECU RACE (REV9+) — schéma de câblage officiel", url: "https://www.maxxecu.com/files/Documentation/Wirings/MaxxECU%20RACE%20(REV9+)%20-%20Wiring-en.pdf"}
     - {label: "MaxxECU — faisceau BMW M50 (note culasse VANOS / capteur 12141726590)", url: "https://maxxecu.com/webhelp/wirings-terminated_engine_harness-bmw_m50.html"}
+    - {label: "Haltech — moteur BMW M52 : capteur PMH avant Hall, broche 1 = +5 V, 2 = signal, 3 = masse", url: "https://support.haltech.com/portal/en/kb/articles/m52-engine"}
+    - {label: "BimmerWorld — capteur PMH 12141703277 (M52 européen, Hall 5 V, montage avant)", url: "https://www.bimmerworld.com/Engine/Engine-Sensors/Euro-Crankshaft-Position-Sensor-E36-12141703277.html"}
+    - {label: "BMW SIB 12 10 99 — capteur PMH Hall du M52 alimenté en 5 V par le calculateur", url: "https://bmwrepairguide.com/sib/121099.pdf"}
     - {label: "MaxxECU — brochages papillons électroniques (VDO BMW)", url: "https://maxxecu.com/webhelp/wirings-e-throttle_bodies.html"}
     - {label: "MaxxECU — BMW M54 plug-in (papillon sur GPO11/12, TPS + AIN3/4/5)", url: "https://maxxecu.com/webhelp/wirings-pluginecu-bmw_m54.html"}
     - {label: "MaxxECU RACE — caractéristiques (GPO 2 A, GPO9 5 A, INJ 8 A crête / 4 A continu, MAP 3 bar boost)", url: "https://maxxecu.com/products/race"}
@@ -313,17 +316,17 @@ components:
   CRANK:
     label: "Capteur PMH (vilebrequin)"
     ref: "BMW 12141703277 (type M52)"
-    type: "Effet Hall 3 fils, alim 12 V"
+    type: "Effet Hall 3 fils, alim 5 V (capteur avant du M52 européen)"
     connector: "BMW 3 voies (capteur M52)"
     system: SYNC
     node: N_CRANK
-    load_a: 0.02
+    supply5_ma: 15
     pins:
-      "1": {fn: "+12 V", cls: PWR12, supply: true}
+      "1": {fn: "+5 V", cls: V5}
       "2": {fn: "Signal Hall"}
       "3": {fn: "Masse capteur", cls: GND_VR}
-    notes: "3 fils, mais le câble TRIGGER du faisceau MaxxECU n'en a que 2 : blanc = signal → broche 2, marron = masse capteur (VR GND) → broche 3, blindage déjà relié côté ECU (rien à brancher côté capteur). Le +12 V de la broche 1 ne vient pas de l'ECU : c'est un fil séparé depuis F4 (épissure actionneurs). Lit la cible 60-2 avant du M50 : support et entrefer à valider. MTune : trigger en mode Digital (hall) avec la résistance de rappel (pull-up) interne ACTIVÉE : la sortie Hall ne fait que tirer le signal à la masse."
-    verify: "Brochage à confirmer sur le capteur avant sertissage (alim 1 / signal 2 / masse 3)."
+    notes: "3 fils, mais le câble TRIGGER du faisceau MaxxECU n'en a que 2 : blanc = signal → broche 2, marron = masse capteur (VR GND) → broche 3, blindage déjà relié côté ECU (rien à brancher côté capteur). La broche 1 reçoit le +5 V capteurs de l'ECU (fil SYNC-03 depuis l'épissure +5 V moteur), comme sur le M52 d'origine où le calculateur l'alimentait en 5 V : pas de +12 V, donc pas de fusible. C'est le capteur avant du M52 européen : il lit la cible 60-2 du damper avant, comme celui du M50 ; support et entrefer à valider. MTune : trigger en mode Digital (hall) avec la résistance de rappel (pull-up) interne ACTIVÉE : la sortie Hall ne fait que tirer le signal à la masse."
+    verify: "Brochage à confirmer au banc avant sertissage : Haltech donne 1 = +5 V, 2 = signal, 3 = masse, d'autres sources inversent 2 et 3, ou 1 et 3. Jamais d'essai en 12 V ni à l'ohmmètre."
   CAM:
     label: "Capteur AAC (arbre à cames)"
     ref: "Delphi SS11198 / BMW 12141726590 / Bosch 0 261 210 053"
@@ -644,7 +647,7 @@ components:
   F1:  {label: "Fusible ECU", ref: "15 A", type: fuse, rating_a: 15, system: PWR, node: PDM, connector: "Boîte à fusibles 10 voies", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
   F2:  {label: "Fusible bobines", ref: "15 A", type: fuse, rating_a: 15, system: IGN, node: PDM, connector: "Boîte à fusibles 10 voies", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
   F3:  {label: "Fusible injecteurs", ref: "10 A", type: fuse, rating_a: 10, system: INJ, node: PDM, connector: "Boîte à fusibles 10 voies", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
-  F4:  {label: "Fusible actionneurs, capteur PMH et chauffage lambda", ref: "10 A", type: fuse, rating_a: 10, system: ACT, node: PDM, connector: "Boîte à fusibles 10 voies", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
+  F4:  {label: "Fusible VANOS, MAC et chauffage lambda", ref: "10 A", type: fuse, rating_a: 10, system: ACT, node: PDM, connector: "Boîte à fusibles 10 voies", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
   F5:  {label: "Fusible bobines des relais K2 (pompe) et K3 (ventilo) + voyant de charge", ref: "5 A", type: fuse, rating_a: 5, system: RLY, node: PDM, connector: "Boîte à fusibles 10 voies", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
   F6:  {label: "Fusible pompe à essence", ref: "20 A", type: fuse, rating_a: 20, system: RLY, node: PDM, connector: "Boîte à fusibles 10 voies", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
   F7:  {label: "Fusible ventilateur", ref: "30 A", type: fuse, rating_a: 30, system: RLY, node: PDM, connector: "Boîte à fusibles 10 voies", pins: {"1": {fn: "Entrée"}, "2": {fn: "Sortie"}}}
@@ -815,7 +818,7 @@ splices:
   SPL-COIL-SGND: {label: "Masse électronique bobines (broches 2)", node: TOP4, cls: GND_PWR}
   SPL-COIL-PGND: {label: "Masse puissance bobines (broches 4)", node: TOP4, cls: GND_PWR}
   SPL-INJ12:     {label: "+12 V injecteurs", node: INT4, cls: PWR12}
-  SPL-ACT12:     {label: "+12 V VANOS, MAC, capteur PMH et chauffage lambda", node: T1, cls: PWR12}
+  SPL-ACT12:     {label: "+12 V VANOS, MAC et chauffage lambda", node: T1, cls: PWR12}
   SPL-RLY:       {label: "+12 V bobines K2 / K3 et voyant de charge", node: PDM, cls: PWR12}
   SPL-SG-PAD:    {label: "Sensor GND — contacts des relais du pad", node: PDM, cls: GND_SENS, rank: 60}
   SPL-GND-PAD:   {label: "Masse des bobines des relais du pad", node: PDM, cls: GND_PWR, rank: 70}
@@ -920,7 +923,7 @@ wires:
   # ===== Synchronisation PMH / AAC =====
   - {id: SYNC-01, sheet: SYNC, from: CMC1.H3, to: CRANK.2, mm2: 0.5, color: WH, cable: C-CRANK}
   - {id: SYNC-02, sheet: SYNC, from: SPL-VRG, to: CRANK.3, mm2: 0.5, color: BN, cable: C-CRANK}
-  - {id: SYNC-03, sheet: SYNC, from: SPL-ACT12, to: CRANK.1, mm2: 0.75, color: RD/WH, note: "+12 V capteur PMH pris sur F4 (épissure actionneurs, arrière culasse) : fil séparé, hors câble blindé ; 0,75 mm² derrière un fusible de 10 A"}
+  - {id: SYNC-03, sheet: SYNC, from: SPL-5V-ENG, to: CRANK.1, mm2: 0.5, color: OG, note: "+5 V capteurs de l'ECU pour le capteur PMH Hall (alimenté en 5 V comme sur le M52 d'origine) : fil séparé, hors câble blindé ; pas de fusible : le +5 V vient de l'ECU, limité à 0,5 A crête. Révision G : avant, ce fil venait de l'épissure +12 V de F4"}
   - {id: SYNC-04, sheet: SYNC, from: CMC1.H4, to: CAM.1, mm2: 0.5, color: WH, cable: C-CAM}
   - {id: SYNC-05, sheet: SYNC, from: SPL-VRG, to: CAM.2, mm2: 0.5, color: BN, cable: C-CAM, note: "CORRIGÉ : retour AAC sur VR GND (H2), pas sur Sensor GND"}
   - {id: MX-01, sheet: SYNC, from: CMC1.H2, to: SPL-VRG, mm2: 0.5, color: BN}
@@ -968,7 +971,7 @@ wires:
   - {id: WBO-04, sheet: WBO, from: CMC1.F4, to: LSU.6, mm2: 0.5, color: BN, cable: C-LSU}
   - {id: SH-04, sheet: WBO, from: C-LSU.SH, to: SPL-SHLD, drain: true}
   - {id: WBO-05, sheet: WBO, from: CMC1.D1, to: LSU.3, mm2: 0.75, color: GN, note: "Chauffage − piloté par GPO9 (5 A). Broche 3 sur la LSU 4.9 ; l'étiquette MaxxECU « PIN 4 » suit la numérotation de la LSU 4.2"}
-  - {id: WBO-06, sheet: WBO, from: SPL-ACT12, to: LSU.4, mm2: 0.75, color: RD/WH, note: "+12 V chauffage lambda pris sur l'épissure actionneurs (même fusible que VANOS, MAC et PMH) ; 0,75 mm² derrière un fusible de 10 A. Broche 4 de la LSU 4.9"}
+  - {id: WBO-06, sheet: WBO, from: SPL-ACT12, to: LSU.4, mm2: 0.75, color: RD/WH, note: "+12 V chauffage lambda pris sur l'épissure actionneurs (même fusible que VANOS et MAC) ; 0,75 mm² derrière un fusible de 10 A. Broche 4 de la LSU 4.9"}
   - {id: WBO-07, sheet: WBO, from: CMC2.C1, to: EGT1.+, mm2: 0.5, color: YE, cable: C-EGT, note: "Conducteur K+ (jaune en norme ANSI, vert en IEC)"}
   - {id: WBO-08, sheet: WBO, from: CMC2.D1, to: EGT1.-, mm2: 0.5, color: RD, cable: C-EGT, note: "Conducteur K− (rouge en norme ANSI, blanc en IEC)"}
 
@@ -1188,6 +1191,9 @@ audit:
     title: "Révision D : contact sans clé, pad 8 boutons"
     detail: "Plus de clé : un interrupteur de contact alimenté par F9 donne le +15 (relais principal K1) et alimente le bouton démarreur mécanique, qui commande K4 ; le démarreur ne peut donc pas être lancé contact coupé. F9 reste nécessaire : c'est lui qui protège le fil qui va de la barrette +30 jusqu'à l'interrupteur. Plus de combiné : la sortie compte-tours (GPO8, CMC1 A4) est libre. Le bouton 8 arrête le moteur (Stop engine/prevent start) sans couper le contact : l'ECU reste alimentée et continue de piloter le ventilateur pour refroidir."
   - sev: add
+    title: "Révision G : capteur PMH en 5 V, sonde LSU 4.9 confirmée"
+    detail: "Un seul fil change : SYNC-03 garde son repère, mais part maintenant de l'épissure +5 V moteur (SPL-5V-ENG) au lieu de l'épissure +12 V de F4, en 0,5 mm² orange au lieu de 0,75 mm² rouge/blanc. Le capteur PMH est donc alimenté en 5 V par l'ECU, comme sur le M52 d'origine : plus de fusible pour lui, et un court-circuit VANOS, MAC ou lambda n'arrête plus le moteur. La sonde LSU 4.9 est confirmée : la 4.2 du kit n'est pas utilisée. Tous les autres fils sont identiques : voir l'onglet Modifications."
+  - sev: add
     title: "Révision F : faisceaux MaxxECU du kit Premium"
     detail: "Le kit RACE Premium fournit les deux faisceaux MaxxECU REV2 : tous les fils sortent déjà sertis des connecteurs de l'ECU, avec une étiquette imprimée, et font 3 m. Plus rien à sertir côté ECU, ni pince ni contact Molex. Pour chaque fil qui part de l'ECU, la liste de coupe donne la longueur à garder ou la rallonge à faire, et sa couleur est celle du fil MaxxECU. Les câbles blindés TRIGGER (PMH), HOME/CAM (AAC), WBO2 1 (lambda), KNOCK 1 et 2 sont fournis avec leurs masses (VR GND, KNOCK GND) et leurs blindages déjà reliés côté ECU : ces liaisons sont marquées « fait par MaxxECU ». Il reste à faire les épissures +5 V et Sensor GND, toutes les alimentations, les masses, les relais et le pad."
   - sev: warn
@@ -1202,9 +1208,9 @@ audit:
   - sev: warn
     title: "Boîte 10 voies à entrées séparées : 2 répartiteurs, ponts du +30 à garder courts"
     detail: "Chaque fusible de ta boîte a sa propre entrée. F1 à F5 sont alimentés par 5 ponts de 2,5 mm² depuis le répartiteur +87 (BUS87, sortie du relais principal par PWR-07), F6 à F10 par 5 ponts de 2,5 mm² depuis le répartiteur +30 (BUS30, après F0 par PWR-02). Ne jamais relier les deux répartiteurs : l'ECU, les bobines et les injecteurs resteraient sous tension contact coupé. Les ponts du +30 ne sont protégés que par F0 (80 A) : moins de 20 cm, gainés, fixés, et capot isolant sur le répartiteur +30. Le répartiteur +30 porte ≈ 52 A en continu (pompe, ventilateur, relais principal) : 60 A mini."
-  - sev: warn
-    title: "F4 commun : un court-circuit VANOS, MAC ou chauffage lambda arrête le moteur"
-    detail: "Le capteur PMH partage F4 avec la VANOS, la MAC et le chauffage de la sonde lambda. Un court-circuit sur l'un d'eux fait fondre F4 et coupe aussi le capteur PMH : le moteur cale, alors qu'avec des fusibles séparés il continuait à tourner. Le fil du chauffage lambda longe l'échappement : soigner sa protection thermique et sa fixation. C'est le prix de 2 fusibles en moins."
+  - sev: fix
+    title: "Capteur PMH en 5 V par l'ECU : pas de fusible, et F4 ne peut plus caler le moteur"
+    detail: "Ta question « faut-il vraiment un fusible au capteur PMH ? » : non. Ton capteur 12141703277 est le capteur avant du M52 européen ; BMW l'alimentait en 5 V par le calculateur (Haltech et BimmerWorld aussi : broche 1 = +5 V), jamais par un fusible. Sa tenue en 12 V n'est pas prouvée. Révision G : il prend le +5 V capteurs de l'ECU (G1, 150 mA maxi, ≈ 60 mA utilisés avec lui) sur l'épissure +5 V moteur, comme les capteurs de pression et le papillon. Plus de fil +12 V, donc plus de fusible : le +5 V vient de l'ECU, qui le limite à 0,5 A crête. Comme tout fil +5 V, un court-circuit sur ce fil coupe le +5 V de tous les capteurs et arrête le moteur : soigner son passage le long du bloc. F4 n'alimente plus que la VANOS, la MAC et le chauffage lambda : un court-circuit sur l'un d'eux fait fondre F4 (VANOS au repos, turbo limité au ressort de wastegate, sonde froide) mais le moteur continue de tourner. Le fil du chauffage lambda longe l'échappement : soigner sa protection thermique et sa fixation."
   - sev: warn
     title: "Bouton 8 : moteur arrêté, contact mis = batterie qui se vide"
     detail: "Moteur arrêté par le bouton 8, l'alternateur ne charge plus (voyant de charge allumé, c'est normal) alors que le ventilateur tire 19,5 A, plus ECU, papillon et relais : environ 22 A, soit à peu près 2 Ah pour 5 minutes. La pompe à essence, elle, s'arrête seule (MaxxECU coupe sa sortie dès que le signal PMH disparaît). Couper le contact une fois le moteur refroidi."
@@ -1233,8 +1239,8 @@ audit:
     title: "Lambda LSU 4.9 sur contrôleur interne"
     detail: "Tu montes la LSU 4.9 (Bosch 0 258 017 025) : la liste de coupe suit son brochage, conforme au schéma MaxxECU (vue côté câble) : 1 IP → G3, 2 COM → F3, 3 chauffage − → D1, 4 +12 V, 5 RCAL → G4, 6 VS → F4. La LSU 4.2 du kit et son connecteur restent dans la boîte : aucune broche n'est commune. Attention aux deux étiquettes MaxxECU écrites pour la 4.2 : « WBO2 HTR PIN 4 » va à la broche 3 de la 4.9, et « 12V LAMBDA (PIN 3) » n'est pas utilisé. Dans MTune, choisir Bosch LSU 4.9 avant la première mise sous tension sonde montée. Vérifie que ton boîtier est bien REV9 ou plus (étiquette)."
   - sev: warn
-    title: "Capteur PMH Hall M52 sur cible 60-2 du M50"
-    detail: "Le M50 d'origine utilise un capteur inductif en face de la cible 60-2 avant. Le capteur M52 (Hall, 12 V) demande un support et un entrefer adaptés. Dans MTune : entrée trigger en mode Digital (hall), pull-up interne activé (sinon pas de régime, pas de démarrage)."
+    title: "Capteur PMH Hall M52 sur cible 60-2 du M50 : tester au banc avant de sertir"
+    detail: "Le M50 d'origine utilise un capteur inductif (sans alimentation) devant la cible 60-2 du damper. Ton 12141703277 est le capteur Hall avant du M52 européen : même emplacement (sous le thermostat), même type de cible, mais support et entrefer à valider sur ton moteur. Son brochage n'est pas certain (Haltech : 1 = +5 V, 2 = signal, 3 = masse ; d'autres sources inversent) : au banc, ECU alimentée, essayer d'abord le brochage Haltech et passer une pièce d'acier devant le capteur : le signal TRIGGER doit basculer dans MTune. Jamais en 12 V, jamais à l'ohmmètre. Dans MTune : entrée trigger en mode Digital (hall), pull-up interne activé (sinon pas de régime, pas de démarrage). S'il ne bascule pas en 5 V, me le dire avant de le passer en 12 V. Option sans alimentation : remettre le capteur inductif d'origine du M50, câblé comme l'AAC (blanc broche 1, marron broche 2), trigger en VR."
   - sev: warn
     title: "Une seule alimentation +5 V et une seule Sensor GND"
     detail: "La RACE Gen1 n'a qu'un +5 V (G1) et qu'une Sensor GND (H1) : pédale et papillon les partagent. C'est normal ; un court-circuit sur le +5 V fait passer le papillon en sécurité. Consommation totale estimée ≈ 45 mA."
@@ -1287,7 +1293,7 @@ checks:
       - "Injecteurs : mesurer la résistance (≈ 12 Ω haute impédance / ≈ 2–3 Ω basse impédance)."
       - "AAC : résistance 1–2 de quelques centaines d'ohms ; continuité broche 3 ↔ corps (décide du raccord du blindage côté capteur)."
       - "IAT / CLT / NTC des capteurs huile et essence : ≈ 2–3 kΩ à 20 °C."
-      - "Capteur PMH : confirmer alim / signal / masse sur sa doc ou par essai (12 V + pull-up, passage d'une pièce acier) ; dans MTune, pull-up du trigger activé."
+      - "Capteur PMH au banc avant sertissage : ECU alimentée, +5 V (G1) sur la broche 1, VR GND (H2) sur la 3, TRIGGER (H3) sur la 2 (brochage Haltech), trigger en Digital (hall) + pull-up activé ; une pièce d'acier passée devant doit faire basculer le signal dans MTune. Jamais en 12 V ni à l'ohmmètre."
       - "Bobines : confirmer le repérage 1-2-3-4 moulé sur le connecteur."
       - "Vérifier l'étiquette de la RACE : REV9 ou plus (LSU 4.9)."
       - "Faisceaux MaxxECU : repérer chaque fil utilisé par son étiquette ; poser le faisceau et mesurer avant de couper (fils de 3 m, MAC et TRIGGER au plus juste)."

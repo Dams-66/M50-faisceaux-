@@ -118,6 +118,9 @@ python3 tools/build_harness.py --freeze "ce qui a changé"
 13. **Révision F : faisceaux MaxxECU du kit Premium** : plus rien à sertir côté ECU ; liste de coupe
     « fil MaxxECU à recouper » / « fil à fabriquer », couleurs MaxxECU, câbles blindés et masses VR / Knock
     déjà faits par MaxxECU, alerte sur les fils de 3 m trop justes (MAC, PMH).
+14. **Révision G : capteur PMH en 5 V** : le capteur Hall 12141703277 (capteur avant du M52 européen) est
+    alimenté par le +5 V capteurs de l'ECU, comme BMW le faisait : plus de fil +12 V ni de fusible pour lui,
+    et F4 (VANOS, MAC, chauffage lambda) ne peut plus caler le moteur. Sonde LSU 4.9 confirmée.
 
 Le détail, les points validés et les sources sont dans `docs/rapport.md`.
 
@@ -131,5 +134,6 @@ Le détail, les points validés et les sources sont dans `docs/rapport.md`.
 - Longueurs de tronçons estimées : à mesurer sur la voiture (dont démarreur et alternateur).
 - Démarreur : solénoïde estimé à 10 A en maintien (30–40 A à l'appel, absorbé par le fusible 30 A temporisé).
 - Fils MaxxECU de 3 m : MAC et câble TRIGGER (PMH) au plus juste, à mesurer avant de couper.
+- Capteur PMH 12141703277 : alimentation 5 V (BMW, Haltech) et brochage à confirmer au banc avant sertissage.
 - Pad 8 boutons : sorties +12 V commutées côté haut (à vérifier au multimètre) ; boutons 1 à 3 (éclairage,
   warnings, essuie-glace) câblés hors faisceau moteur.

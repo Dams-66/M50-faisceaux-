@@ -3,8 +3,8 @@
   "project": "Faisceau moteur M50B25 VANOS Turbo",
   "engine": "BMW M50B25 VANOS — turbo — BMW E36",
   "ecu": "MaxxECU RACE Gen1 (REV9+)",
-  "revision": "F",
-  "date": "2026-10-08",
+  "revision": "G",
+  "date": "2026-10-10",
   "status": "Étude — à valider sur véhicule",
   "assumptions": [
    "BMW E36 conduite à gauche, caisse vide : faisceau entièrement neuf, aucun faisceau d'origine conservé.",
@@ -26,6 +26,18 @@
    {
     "label": "MaxxECU — faisceau BMW M50 (note culasse VANOS / capteur 12141726590)",
     "url": "https://maxxecu.com/webhelp/wirings-terminated_engine_harness-bmw_m50.html"
+   },
+   {
+    "label": "Haltech — moteur BMW M52 : capteur PMH avant Hall, broche 1 = +5 V, 2 = signal, 3 = masse",
+    "url": "https://support.haltech.com/portal/en/kb/articles/m52-engine"
+   },
+   {
+    "label": "BimmerWorld — capteur PMH 12141703277 (M52 européen, Hall 5 V, montage avant)",
+    "url": "https://www.bimmerworld.com/Engine/Engine-Sensors/Euro-Crankshaft-Position-Sensor-E36-12141703277.html"
+   },
+   {
+    "label": "BMW SIB 12 10 99 — capteur PMH Hall du M52 alimenté en 5 V par le calculateur",
+    "url": "https://bmwrepairguide.com/sib/121099.pdf"
    },
    {
     "label": "MaxxECU — brochages papillons électroniques (VDO BMW)",
@@ -1393,17 +1405,17 @@
    "cat": "comp",
    "label": "Capteur PMH (vilebrequin)",
    "ref": "BMW 12141703277 (type M52)",
-   "type": "Effet Hall 3 fils, alim 12 V",
+   "type": "Effet Hall 3 fils, alim 5 V (capteur avant du M52 européen)",
    "connector": "BMW 3 voies (capteur M52)",
    "node": "N_CRANK",
    "system": "SYNC",
    "harness": null,
-   "notes": "3 fils, mais le câble TRIGGER du faisceau MaxxECU n'en a que 2 : blanc = signal → broche 2, marron = masse capteur (VR GND) → broche 3, blindage déjà relié côté ECU (rien à brancher côté capteur). Le +12 V de la broche 1 ne vient pas de l'ECU : c'est un fil séparé depuis F4 (épissure actionneurs). Lit la cible 60-2 avant du M50 : support et entrefer à valider. MTune : trigger en mode Digital (hall) avec la résistance de rappel (pull-up) interne ACTIVÉE : la sortie Hall ne fait que tirer le signal à la masse.",
-   "verify": "Brochage à confirmer sur le capteur avant sertissage (alim 1 / signal 2 / masse 3).",
+   "notes": "3 fils, mais le câble TRIGGER du faisceau MaxxECU n'en a que 2 : blanc = signal → broche 2, marron = masse capteur (VR GND) → broche 3, blindage déjà relié côté ECU (rien à brancher côté capteur). La broche 1 reçoit le +5 V capteurs de l'ECU (fil SYNC-03 depuis l'épissure +5 V moteur), comme sur le M52 d'origine où le calculateur l'alimentait en 5 V : pas de +12 V, donc pas de fusible. C'est le capteur avant du M52 européen : il lit la cible 60-2 du damper avant, comme celui du M50 ; support et entrefer à valider. MTune : trigger en mode Digital (hall) avec la résistance de rappel (pull-up) interne ACTIVÉE : la sortie Hall ne fait que tirer le signal à la masse.",
+   "verify": "Brochage à confirmer au banc avant sertissage : Haltech donne 1 = +5 V, 2 = signal, 3 = masse, d'autres sources inversent 2 et 3, ou 1 et 3. Jamais d'essai en 12 V ni à l'ohmmètre.",
    "rating_a": null,
-   "load_a": 0.02,
+   "load_a": null,
    "r_ohm": null,
-   "supply5_ma": null,
+   "supply5_ma": 15,
    "external": false,
    "optional": false,
    "rank": null,
@@ -2194,7 +2206,7 @@
   },
   "F4": {
    "cat": "fuse",
-   "label": "Fusible actionneurs, capteur PMH et chauffage lambda",
+   "label": "Fusible VANOS, MAC et chauffage lambda",
    "ref": "10 A",
    "type": "fuse",
    "connector": "Boîte à fusibles 10 voies",
@@ -2613,8 +2625,8 @@
    "busbar": false,
    "rank": null,
    "maxxecu": false,
-   "wires": 4,
-   "csa": 2.0
+   "wires": 5,
+   "csa": 2.5
   },
   "SPL-SG-MAIN": {
    "cat": "splice",
@@ -2717,14 +2729,14 @@
   },
   "SPL-ACT12": {
    "cat": "splice",
-   "label": "+12 V VANOS, MAC, capteur PMH et chauffage lambda",
+   "label": "+12 V VANOS, MAC et chauffage lambda",
    "node": "T1",
    "system": "REF",
    "busbar": false,
    "rank": null,
    "maxxecu": false,
-   "wires": 5,
-   "csa": 4.0
+   "wires": 4,
+   "csa": 3.25
   },
   "SPL-RLY": {
    "cat": "splice",
@@ -3658,9 +3670,8 @@
    "owner": "CRANK",
    "pin": "1",
    "cat": "comp",
-   "fn": "+12 V",
-   "cls": "PWR12",
-   "supply": true
+   "fn": "+5 V",
+   "cls": "V5"
   },
   "CRANK.2": {
    "owner": "CRANK",
@@ -4804,7 +4815,7 @@
   "SPL-ACT12": {
    "owner": "SPL-ACT12",
    "cat": "splice",
-   "fn": "+12 V VANOS, MAC, capteur PMH et chauffage lambda",
+   "fn": "+12 V VANOS, MAC et chauffage lambda",
    "cls": "PWR12"
   },
   "SPL-RLY": {
@@ -6666,21 +6677,20 @@
   },
   {
    "id": "SYNC-03",
-   "from": "SPL-ACT12",
+   "from": "SPL-5V-ENG",
    "to": "CRANK.1",
    "sheet": "SYNC",
-   "mm2": 0.75,
-   "color": "RD/WH",
+   "mm2": 0.5,
+   "color": "OG",
    "cable": null,
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "+12 V capteur PMH pris sur F4 (épissure actionneurs, arrière culasse) : fil séparé, hors câble blindé ; 0,75 mm² derrière un fusible de 10 A",
+   "note": "+5 V capteurs de l'ECU pour le capteur PMH Hall (alimenté en 5 V comme sur le M52 d'origine) : fil séparé, hors câble blindé ; pas de fusible : le +5 V vient de l'ECU, limité à 0,5 A crête. Révision G : avant, ce fil venait de l'épissure +12 V de F4",
    "jumper": false,
    "premade": false,
    "lead": null,
-   "net": "N054",
-   "fuse": "F4",
+   "net": "N020",
    "route_m": 1.255,
    "length_m": 1.45,
    "path": [
@@ -7910,7 +7920,7 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "+12 V chauffage lambda pris sur l'épissure actionneurs (même fusible que VANOS, MAC et PMH) ; 0,75 mm² derrière un fusible de 10 A. Broche 4 de la LSU 4.9",
+   "note": "+12 V chauffage lambda pris sur l'épissure actionneurs (même fusible que VANOS et MAC) ; 0,75 mm² derrière un fusible de 10 A. Broche 4 de la LSU 4.9",
    "jumper": false,
    "premade": false,
    "lead": null,
@@ -9188,14 +9198,13 @@
   {
    "id": "N054",
    "members": [
-    "CRANK.1",
     "F4.2",
     "LSU.4",
     "MAC.1",
     "SPL-ACT12",
     "VANOS.1"
    ],
-   "name": "+12 V VANOS, MAC, capteur PMH et chauffage lambda"
+   "name": "+12 V VANOS, MAC et chauffage lambda"
   },
   {
    "id": "N056",
@@ -9414,6 +9423,7 @@
     "APP.3",
     "APP.5",
     "CMC1.G1",
+    "CRANK.1",
     "ETB.2",
     "FUEL.3",
     "OIL.3",
@@ -10243,7 +10253,7 @@
     "b": "TOP6",
     "length": 0.15,
     "wires": 19,
-    "bundle_mm": 11.5,
+    "bundle_mm": 11.4,
     "sleeve": "DR-25 19.1/9.5 mm"
    },
    {
@@ -10270,7 +10280,7 @@
     "b": "TOP3",
     "length": 0.091,
     "wires": 22,
-    "bundle_mm": 11.8,
+    "bundle_mm": 11.7,
     "sleeve": "DR-25 19.1/9.5 mm"
    },
    {
@@ -10279,7 +10289,7 @@
     "b": "TOP2",
     "length": 0.091,
     "wires": 18,
-    "bundle_mm": 10.9,
+    "bundle_mm": 10.8,
     "sleeve": "DR-25 19.1/9.5 mm"
    },
    {
@@ -10288,7 +10298,7 @@
     "b": "TOP1",
     "length": 0.091,
     "wires": 14,
-    "bundle_mm": 10.0,
+    "bundle_mm": 9.9,
     "sleeve": "DR-25 12.7/6.4 mm"
    },
    {
@@ -10297,7 +10307,7 @@
     "b": "FRONT",
     "length": 0.2,
     "wires": 10,
-    "bundle_mm": 8.9,
+    "bundle_mm": 8.8,
     "sleeve": "DR-25 12.7/6.4 mm"
    },
    {
@@ -10333,7 +10343,7 @@
     "b": "N_CRANK",
     "length": 0.45,
     "wires": 3,
-    "bundle_mm": 5.6,
+    "bundle_mm": 5.5,
     "sleeve": "DR-25 9.5/4.8 mm"
    },
    {
@@ -10533,7 +10543,7 @@
    "label": "Fusible général",
    "rating": 80,
    "min_mm2": 10.0,
-   "load": 62.43,
+   "load": 62.41,
    "ratio": 0.78,
    "status": "ok",
    "loads": [
@@ -10547,7 +10557,7 @@
     },
     {
      "id": "F8",
-     "a": 17.63
+     "a": 17.61
     },
     {
      "id": "F9",
@@ -10646,17 +10656,13 @@
   },
   {
    "id": "F4",
-   "label": "Fusible actionneurs, capteur PMH et chauffage lambda",
+   "label": "Fusible VANOS, MAC et chauffage lambda",
    "rating": 10,
    "min_mm2": 0.75,
-   "load": 3.66,
-   "ratio": 0.37,
+   "load": 3.64,
+   "ratio": 0.36,
    "status": "ok",
    "loads": [
-    {
-     "id": "CRANK",
-     "a": 0.02
-    },
     {
      "id": "LSU",
      "a": 1.5
@@ -10729,7 +10735,7 @@
    "label": "Fusible relais principal",
    "rating": 30,
    "min_mm2": 2.5,
-   "load": 17.63,
+   "load": 17.61,
    "ratio": 0.59,
    "status": "ok",
    "loads": [
@@ -10747,7 +10753,7 @@
     },
     {
      "id": "F4",
-     "a": 3.66
+     "a": 3.64
     },
     {
      "id": "F5",
@@ -11001,7 +11007,7 @@
    "status": "ok"
   }
  ],
- "five_v_ma": 45,
+ "five_v_ma": 60,
  "drops": [
   {
    "id": "PUMP",
@@ -11093,6 +11099,11 @@
   },
   {
    "sev": "add",
+   "title": "Révision G : capteur PMH en 5 V, sonde LSU 4.9 confirmée",
+   "detail": "Un seul fil change : SYNC-03 garde son repère, mais part maintenant de l'épissure +5 V moteur (SPL-5V-ENG) au lieu de l'épissure +12 V de F4, en 0,5 mm² orange au lieu de 0,75 mm² rouge/blanc. Le capteur PMH est donc alimenté en 5 V par l'ECU, comme sur le M52 d'origine : plus de fusible pour lui, et un court-circuit VANOS, MAC ou lambda n'arrête plus le moteur. La sonde LSU 4.9 est confirmée : la 4.2 du kit n'est pas utilisée. Tous les autres fils sont identiques : voir l'onglet Modifications."
+  },
+  {
+   "sev": "add",
    "title": "Révision F : faisceaux MaxxECU du kit Premium",
    "detail": "Le kit RACE Premium fournit les deux faisceaux MaxxECU REV2 : tous les fils sortent déjà sertis des connecteurs de l'ECU, avec une étiquette imprimée, et font 3 m. Plus rien à sertir côté ECU, ni pince ni contact Molex. Pour chaque fil qui part de l'ECU, la liste de coupe donne la longueur à garder ou la rallonge à faire, et sa couleur est celle du fil MaxxECU. Les câbles blindés TRIGGER (PMH), HOME/CAM (AAC), WBO2 1 (lambda), KNOCK 1 et 2 sont fournis avec leurs masses (VR GND, KNOCK GND) et leurs blindages déjà reliés côté ECU : ces liaisons sont marquées « fait par MaxxECU ». Il reste à faire les épissures +5 V et Sensor GND, toutes les alimentations, les masses, les relais et le pad."
   },
@@ -11117,9 +11128,9 @@
    "detail": "Chaque fusible de ta boîte a sa propre entrée. F1 à F5 sont alimentés par 5 ponts de 2,5 mm² depuis le répartiteur +87 (BUS87, sortie du relais principal par PWR-07), F6 à F10 par 5 ponts de 2,5 mm² depuis le répartiteur +30 (BUS30, après F0 par PWR-02). Ne jamais relier les deux répartiteurs : l'ECU, les bobines et les injecteurs resteraient sous tension contact coupé. Les ponts du +30 ne sont protégés que par F0 (80 A) : moins de 20 cm, gainés, fixés, et capot isolant sur le répartiteur +30. Le répartiteur +30 porte ≈ 52 A en continu (pompe, ventilateur, relais principal) : 60 A mini."
   },
   {
-   "sev": "warn",
-   "title": "F4 commun : un court-circuit VANOS, MAC ou chauffage lambda arrête le moteur",
-   "detail": "Le capteur PMH partage F4 avec la VANOS, la MAC et le chauffage de la sonde lambda. Un court-circuit sur l'un d'eux fait fondre F4 et coupe aussi le capteur PMH : le moteur cale, alors qu'avec des fusibles séparés il continuait à tourner. Le fil du chauffage lambda longe l'échappement : soigner sa protection thermique et sa fixation. C'est le prix de 2 fusibles en moins."
+   "sev": "fix",
+   "title": "Capteur PMH en 5 V par l'ECU : pas de fusible, et F4 ne peut plus caler le moteur",
+   "detail": "Ta question « faut-il vraiment un fusible au capteur PMH ? » : non. Ton capteur 12141703277 est le capteur avant du M52 européen ; BMW l'alimentait en 5 V par le calculateur (Haltech et BimmerWorld aussi : broche 1 = +5 V), jamais par un fusible. Sa tenue en 12 V n'est pas prouvée. Révision G : il prend le +5 V capteurs de l'ECU (G1, 150 mA maxi, ≈ 60 mA utilisés avec lui) sur l'épissure +5 V moteur, comme les capteurs de pression et le papillon. Plus de fil +12 V, donc plus de fusible : le +5 V vient de l'ECU, qui le limite à 0,5 A crête. Comme tout fil +5 V, un court-circuit sur ce fil coupe le +5 V de tous les capteurs et arrête le moteur : soigner son passage le long du bloc. F4 n'alimente plus que la VANOS, la MAC et le chauffage lambda : un court-circuit sur l'un d'eux fait fondre F4 (VANOS au repos, turbo limité au ressort de wastegate, sonde froide) mais le moteur continue de tourner. Le fil du chauffage lambda longe l'échappement : soigner sa protection thermique et sa fixation."
   },
   {
    "sev": "warn",
@@ -11168,8 +11179,8 @@
   },
   {
    "sev": "warn",
-   "title": "Capteur PMH Hall M52 sur cible 60-2 du M50",
-   "detail": "Le M50 d'origine utilise un capteur inductif en face de la cible 60-2 avant. Le capteur M52 (Hall, 12 V) demande un support et un entrefer adaptés. Dans MTune : entrée trigger en mode Digital (hall), pull-up interne activé (sinon pas de régime, pas de démarrage)."
+   "title": "Capteur PMH Hall M52 sur cible 60-2 du M50 : tester au banc avant de sertir",
+   "detail": "Le M50 d'origine utilise un capteur inductif (sans alimentation) devant la cible 60-2 du damper. Ton 12141703277 est le capteur Hall avant du M52 européen : même emplacement (sous le thermostat), même type de cible, mais support et entrefer à valider sur ton moteur. Son brochage n'est pas certain (Haltech : 1 = +5 V, 2 = signal, 3 = masse ; d'autres sources inversent) : au banc, ECU alimentée, essayer d'abord le brochage Haltech et passer une pièce d'acier devant le capteur : le signal TRIGGER doit basculer dans MTune. Jamais en 12 V, jamais à l'ohmmètre. Dans MTune : entrée trigger en mode Digital (hall), pull-up interne activé (sinon pas de régime, pas de démarrage). S'il ne bascule pas en 5 V, me le dire avant de le passer en 12 V. Option sans alimentation : remettre le capteur inductif d'origine du M50, câblé comme l'AAC (blanc broche 1, marron broche 2), trigger en VR."
   },
   {
    "sev": "warn",
@@ -11293,7 +11304,7 @@
     "Injecteurs : mesurer la résistance (≈ 12 Ω haute impédance / ≈ 2–3 Ω basse impédance).",
     "AAC : résistance 1–2 de quelques centaines d'ohms ; continuité broche 3 ↔ corps (décide du raccord du blindage côté capteur).",
     "IAT / CLT / NTC des capteurs huile et essence : ≈ 2–3 kΩ à 20 °C.",
-    "Capteur PMH : confirmer alim / signal / masse sur sa doc ou par essai (12 V + pull-up, passage d'une pièce acier) ; dans MTune, pull-up du trigger activé.",
+    "Capteur PMH au banc avant sertissage : ECU alimentée, +5 V (G1) sur la broche 1, VR GND (H2) sur la 3, TRIGGER (H3) sur la 2 (brochage Haltech), trigger en Digital (hall) + pull-up activé ; une pièce d'acier passée devant doit faire basculer le signal dans MTune. Jamais en 12 V ni à l'ohmmètre.",
     "Bobines : confirmer le repérage 1-2-3-4 moulé sur le connecteur.",
     "Vérifier l'étiquette de la RACE : REV9 ou plus (LSU 4.9).",
     "Faisceaux MaxxECU : repérer chaque fil utilisé par son étiquette ; poser le faisceau et mesurer avant de couper (fils de 3 m, MAC et TRIGGER au plus juste).",
@@ -11541,7 +11552,7 @@
    "cat": "Épissures",
    "item": "Épissure D-436-38 (≤ 3,3 mm² par côté) + thermo à colle",
    "qty": 8,
-   "detail": "SPL-5V-MAIN (1,5 mm²), SPL-5V-ENG (1,5 mm²), SPL-SG-MAIN (2 mm²), SPL-SG-ENG (2,5 mm²), SPL-ACT12 (3 mm²), SPL-RLY (1,5 mm²), SPL-SG-PAD (2,5 mm²), SPL-GND-PAD (2,5 mm²)",
+   "detail": "SPL-5V-MAIN (1,5 mm²), SPL-5V-ENG (2 mm²), SPL-SG-MAIN (2 mm²), SPL-SG-ENG (2,5 mm²), SPL-ACT12 (2,25 mm²), SPL-RLY (1,5 mm²), SPL-SG-PAD (2,5 mm²), SPL-GND-PAD (2,5 mm²)",
    "unit": "pc"
   },
   {
@@ -11596,9 +11607,9 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 0,5 mm² OG",
-   "qty": 8.3,
+   "qty": 9.9,
    "unit": "m",
-   "detail": "coupe 7,55 m + 10 %"
+   "detail": "coupe 9,00 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -11687,9 +11698,9 @@
   {
    "cat": "Fil",
    "item": "FLRY-B 0,75 mm² RD/WH",
-   "qty": 8.5,
+   "qty": 6.9,
    "unit": "m",
-   "detail": "coupe 7,70 m + 10 %"
+   "detail": "coupe 6,25 m + 10 %"
   },
   {
    "cat": "Fil",
@@ -12084,14 +12095,9 @@
       },
       "changes": [
        [
-        "mm2",
-        0.5,
-        0.75
-       ],
-       [
         "color",
         "RD",
-        "RD/WH"
+        "OG"
        ]
       ]
      },
@@ -13158,14 +13164,9 @@
       },
       "changes": [
        [
-        "mm2",
-        0.5,
-        0.75
-       ],
-       [
         "color",
         "RD",
-        "RD/WH"
+        "OG"
        ]
       ]
      },
@@ -13992,14 +13993,9 @@
       },
       "changes": [
        [
-        "mm2",
-        0.5,
-        0.75
-       ],
-       [
         "color",
         "RD",
-        "RD/WH"
+        "OG"
        ]
       ]
      },
@@ -14937,14 +14933,9 @@
       },
       "changes": [
        [
-        "mm2",
-        0.5,
-        0.75
-       ],
-       [
         "color",
         "RD",
-        "RD/WH"
+        "OG"
        ]
       ]
      },
@@ -15855,9 +15846,9 @@
       },
       "changes": [
        [
-        "mm2",
-        0.5,
-        0.75
+        "color",
+        "RD/WH",
+        "OG"
        ]
       ]
      },
@@ -16749,10 +16740,36 @@
    "from": "2026-10-08T16:24:41+00:00",
    "until": "2026-10-08T16:24:41+00:00",
    "n": 134,
-   "todo": 58,
+   "todo": 59,
    "diff": {
-    "same": 85,
+    "same": 84,
     "moved": [
+     {
+      "old": {
+       "id": "SYNC-03",
+       "a": "SPL-ACT12",
+       "b": "CRANK.1",
+       "af": "+12 V actionneurs + capteur PMH",
+       "bf": "Capteur PMH (vilebrequin) — +12 V",
+       "mm2": 0.75,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "SYNC-03"
+      },
+      "changes": [
+       [
+        "mm2",
+        0.75,
+        0.5
+       ],
+       [
+        "color",
+        "RD/WH",
+        "OG"
+       ]
+      ]
+     },
      {
       "old": {
        "id": "WBO-06",
@@ -17797,10 +17814,36 @@
    "from": "2026-10-08T16:29:27+00:00",
    "until": "2026-10-08T17:53:51+00:00",
    "n": 134,
-   "todo": 58,
+   "todo": 59,
    "diff": {
-    "same": 85,
+    "same": 84,
     "moved": [
+     {
+      "old": {
+       "id": "SYNC-03",
+       "a": "SPL-ACT12",
+       "b": "CRANK.1",
+       "af": "+12 V actionneurs + capteur PMH",
+       "bf": "Capteur PMH (vilebrequin) — +12 V",
+       "mm2": 0.75,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "SYNC-03"
+      },
+      "changes": [
+       [
+        "mm2",
+        0.75,
+        0.5
+       ],
+       [
+        "color",
+        "RD/WH",
+        "OG"
+       ]
+      ]
+     },
      {
       "old": {
        "id": "WBO-06",
@@ -18845,10 +18888,37 @@
    "from": "2026-10-08T18:21:06+00:00",
    "until": "2026-10-08T18:42:30+00:00",
    "n": 145,
-   "todo": 26,
+   "todo": 27,
    "diff": {
-    "same": 107,
-    "moved": [],
+    "same": 106,
+    "moved": [
+     {
+      "old": {
+       "id": "SYNC-03",
+       "a": "SPL-ACT12",
+       "b": "CRANK.1",
+       "af": "+12 V VANOS, MAC, capteur PMH et chauffage lambda",
+       "bf": "Capteur PMH (vilebrequin) — +12 V",
+       "mm2": 0.75,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "SYNC-03"
+      },
+      "changes": [
+       [
+        "mm2",
+        0.75,
+        0.5
+       ],
+       [
+        "color",
+        "RD/WH",
+        "OG"
+       ]
+      ]
+     }
+    ],
     "added": [
      {
       "id": "PWR-03",
@@ -19648,10 +19718,37 @@
    "from": "2026-10-08T18:51:57+00:00",
    "until": "2026-10-08T18:51:57+00:00",
    "n": 155,
-   "todo": 3,
+   "todo": 4,
    "diff": {
-    "same": 129,
-    "moved": [],
+    "same": 128,
+    "moved": [
+     {
+      "old": {
+       "id": "SYNC-03",
+       "a": "SPL-ACT12",
+       "b": "CRANK.1",
+       "af": "+12 V VANOS, MAC, capteur PMH et chauffage lambda",
+       "bf": "Capteur PMH (vilebrequin) — +12 V",
+       "mm2": 0.75,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "SYNC-03"
+      },
+      "changes": [
+       [
+        "mm2",
+        0.75,
+        0.5
+       ],
+       [
+        "color",
+        "RD/WH",
+        "OG"
+       ]
+      ]
+     }
+    ],
     "added": [],
     "removed": [],
     "relabel": [],
@@ -20193,6 +20290,52 @@
    "clue": "Fils MX-01 à MX-03 « faits par MaxxECU » ; COM-06 en vert (GN).",
    "from": "2026-10-08T19:08:47+00:00",
    "until": "2026-10-09T16:45:12+00:00",
+   "n": 152,
+   "todo": 1,
+   "diff": {
+    "same": 151,
+    "moved": [
+     {
+      "old": {
+       "id": "SYNC-03",
+       "a": "SPL-ACT12",
+       "b": "CRANK.1",
+       "af": "+12 V VANOS, MAC, capteur PMH et chauffage lambda",
+       "bf": "Capteur PMH (vilebrequin) — +12 V",
+       "mm2": 0.75,
+       "color": "RD/WH"
+      },
+      "new": {
+       "id": "SYNC-03"
+      },
+      "changes": [
+       [
+        "mm2",
+        0.75,
+        0.5
+       ],
+       [
+        "color",
+        "RD/WH",
+        "OG"
+       ]
+      ]
+     }
+    ],
+    "added": [],
+    "removed": [],
+    "relabel": [],
+    "premade": [],
+    "attr": []
+   }
+  },
+  {
+   "key": "G",
+   "rev": "G",
+   "title": "Capteur PMH en 5 V par l'ECU (plus de fusible), sonde LSU 4.9 confirmée",
+   "clue": "",
+   "from": "2026-10-10T07:40:41+00:00",
+   "until": "2026-10-10T07:40:41+00:00",
    "n": 152,
    "todo": 0,
    "diff": {

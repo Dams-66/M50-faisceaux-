@@ -2828,7 +2828,8 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
         side(r.a, r.af, other && !keep.includes(r.a)), " → ", side(r.b, r.bf, other && !keep.includes(r.b)));
     };
     const spec = r => [colorChip(r.color), h("span", { class: "mono" }, mm2(r.mm2) + " mm²")];
-    const secChg = x => x.changes && x.changes.some(c => c[0] === "mm2") ? h("div", { class: "warn-l" }, "Section changée : " + mm2(x.old.mm2) + " → " + mm2(x.new.mm2) + " mm², refais ce fil dans la nouvelle section.") : null;
+    const secTxt = x => x.new.mm2 > x.old.mm2 ? "refais ce fil dans la nouvelle section." : "ton fil plus gros convient aussi.";
+    const secChg = x => x.changes && x.changes.some(c => c[0] === "mm2") ? h("div", { class: "warn-l" }, "Section changée : " + mm2(x.old.mm2) + " → " + mm2(x.new.mm2) + " mm², " + secTxt(x)) : null;
     function group(chip, title, text, items, render, open) {
       if (!items.length) return null;
       const body = [h("p", null, text), h("ul", { class: "chg" }, items.map(x => render(x)))];
@@ -2872,8 +2873,8 @@ footer { margin-top: 40px; padding-top: 14px; border-top: 1.5px solid var(--ink)
           x.was_premade ? h("div", { class: "warn-l" }, "Ce fil n'est plus fourni par MaxxECU : il est à faire.") : null)),
         group("info", "Désormais faits par MaxxECU", "Ces liaisons sont déjà faites dans le faisceau MaxxECU du kit : rien à couper ni à sertir. Si tu les as faites, elles sont en trop.", d.premade, x => h("li", { "data-w": x.new.id },
           h("div", { class: "ids" }, tagOld(x.old.id), "→", h("span", { class: "wid" }, x.new.id), h("span", { class: "chip mx" }, "MaxxECU")), ends(x.new))),
-        group("warn", "Section changée", "Refais ces fils dans la nouvelle section.", mm, x => h("li", { "data-w": x.new.id },
-          h("div", { class: "ids" }, tagNow(x.new), h("span", { class: "mono" }, mm2(x.old.mm2) + " → " + mm2(x.new.mm2) + " mm²")), ends(x.new))),
+        group("warn", "Section changée", "Section plus grosse : refais le fil. Plus petite : ton fil convient aussi.", mm, x => h("li", { "data-w": x.new.id },
+          h("div", { class: "ids" }, tagNow(x.new), h("span", { class: "mono" }, mm2(x.old.mm2) + " → " + mm2(x.new.mm2) + " mm²")), ends(x.new), secChg(x))),
         group("info", "Couleur conseillée changée : rien à refaire", "Le dossier indique une autre couleur (souvent la vraie couleur du fil MaxxECU). Ton fil reste bon : c'est le repère qui compte.", col, x => h("li", null,
           h("div", { class: "ids" }, tagNow(x.new), colorChip(x.old.color), "→", colorChip(x.new.color)), ends(x.new)), false));
     }
