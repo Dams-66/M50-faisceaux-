@@ -9,7 +9,7 @@ Connecteurs;Bosch JPT 2 voies;3;pc;IAT, CLT, VANOS — 6 contacts
 Connecteurs;Bosch JPT 3 voies;1;pc;CAM — 3 contacts
 Connecteurs;Connecteur 2 voies du ventilateur;1;pc;FAN — 2 contacts
 Connecteurs;Connecteur Bosch du capteur (broche 1 non câblée);2;pc;OIL, FUEL — 8 contacts
-Connecteurs;Contre-connecteur LSU 4.9 6 voies côté faisceau (Bosch D 261 205 356-01 ou kit Bosch Motorsport 1 987 280 016) — seulement si tu montes une LSU 4.9 achetée à part;1;pc;LSU — 6 contacts
+Connecteurs;Contre-connecteur LSU 4.9 6 voies côté faisceau (Bosch D 261 205 356-01 ou kit Bosch Motorsport 1 987 280 016) — celui de la LSU 4.2 du kit ne s'adapte pas;1;pc;LSU — 6 contacts
 Connecteurs;Cosse / fiche D+ de l'alternateur;1;pc;ALT — 1 contacts
 Connecteurs;Cosse de la borne 50 (selon démarreur);1;pc;STARTER — 1 contacts
 Connecteurs;Selon pompe;1;pc;PUMP — 2 contacts
@@ -69,8 +69,8 @@ Gaine;DR-25 4.8/2.4 mm;8,0;m;selon tronçons du formboard
 Gaine;DR-25 6.4/3.2 mm;3,7;m;selon tronçons du formboard
 Gaine;DR-25 9.5/4.8 mm;1,7;m;selon tronçons du formboard
 Repérage;Étiquettes thermo imprimables (repère de fil);249;pc;une à chaque extrémité des fils neufs, une côté composant pour les fils MaxxECU
-Faisceau MaxxECU (fourni);Fil sans broche « 12V ECU, (C) » (RD);1;pc;"relié à M4 (+12 V ECU) — s'il existe, c'est lui qui va à F1 (fil PWR-13) ; sinon F1 va au fil « 12V ECU, (M4) »"
-Faisceau MaxxECU (fourni);Fil sans broche « 12V LAMBDA (PIN 3) » (RD);1;pc;"relié à M4 : sous tension dès que F1 l'est — isoler le bout sous gaine thermo (le chauffage de la sonde est alimenté par F4) ; ne jamais le relier à F4"
+Faisceau MaxxECU (fourni);Fil sans broche « 12V ECU, (C) » (RD);1;pc;relié à M4 (+12 V ECU) — c'est lui qui va à F1 (fil PWR-13)
+Faisceau MaxxECU (fourni);Fil sans broche « 12V LAMBDA (PIN 3) » (RD);1;pc;"relié à M4 : sous tension dès que F1 l'est — isoler le bout sous gaine thermo (« PIN 3 » = numérotation LSU 4.2 ; le chauffage de ta LSU 4.9 est alimenté par F4) ; ne jamais le relier à F4"
 Faisceau MaxxECU (fourni);Fil sans broche « 12V INJECTORS » (RD);1;pc;"relié à M4 : sous tension dès que F1 l'est — isoler le bout ; ne jamais le relier à l'épissure +12 V injecteurs (F3)"
 Faisceau MaxxECU (fourni);Fil sans broche « 12V GP OUT » (RD);1;pc;"relié à M4 : sous tension dès que F1 l'est — isoler le bout ; ne jamais le relier aux +12 V des actionneurs (F4) ni des relais (F5)"
 Faisceau MaxxECU (fourni);Fil sans broche « 12V IGNITION, (D) » (RD);1;pc;relié au fil « +12v power supply for ignition coils », non alimenté — isoler les deux bouts : les bobines sont alimentées par F2
@@ -85,7 +85,7 @@ Protection;Porte-fusible MAXI étanche, entrée / sortie 10 mm²;1;pc;F0 — bor
 Cosses;Cosse œillet tubulaire étamée 10 mm²;4;pc;PWR-01 (B+ M8 et F0), PWR-02 (F0 et répartiteur +30 BUS30) : diamètres selon porte-fusible
 Contacts;Contacts, joints de fil et bouchons pour chaque connecteur capteur / actionneur;1;lot;"JPT / EV1, VAG 1J0 973 724, BMW, MQS, Superseal, contre-connecteur LSU : référence de contact selon la section de chaque fil (liste de coupe) ; pour les fils MaxxECU, section non publiée (« ≈ » dans la liste) : choisir contact et joint d'après la section et l'isolant mesurés sur le fil reçu"
 Faisceau MaxxECU (fourni);Connecteurs EGT mini-K (type K);8;pc;"fournis avec le faisceau 2 ; un seul utilisé (EGT1)"
-Faisceau MaxxECU (fourni);Sonde lambda Bosch LSU 4.2 et son connecteur 6 voies;1;pc;"fournis dans le kit Premium ; le dossier est câblé pour une LSU 4.9 : voir l'avertissement « LSU 4.2 ou 4.9 »"
+Faisceau MaxxECU (fourni);Sonde lambda Bosch LSU 4.2 et son connecteur 6 voies;1;pc;fournis dans le kit Premium, non utilisés : tu montes une LSU 4.9 (brochage différent)
 Faisceau MaxxECU (fourni);Câble d'installation MaxxECU (bobines de couleur);1;lot;fourni dans le kit : utilisable pour les fils qui ne partent pas de l'ECU (alimentations, relais, pad, rallonges), section à vérifier sur chaque bobine
 Épissures;Manchons à souder (Raychem D-436-36 ou équivalent) pour rallonges de fils MaxxECU;5;pc;MAC (GPO1) et câble TRIGGER si trop courts une fois posés, plus réserve
 Gaine;Manchons de dérivation et embouts thermo à colle (Raychem 202K / 222K);1;lot;dérivations HB, T0, T1, FRONT, bobines, injecteurs, papillon, échappement

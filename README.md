@@ -131,6 +131,5 @@ Le détail, les points validés et les sources sont dans `docs/rapport.md`.
 - Longueurs de tronçons estimées : à mesurer sur la voiture (dont démarreur et alternateur).
 - Démarreur : solénoïde estimé à 10 A en maintien (30–40 A à l'appel, absorbé par le fusible 30 A temporisé).
 - Fils MaxxECU de 3 m : MAC et câble TRIGGER (PMH) au plus juste, à mesurer avant de couper.
-- Sonde lambda : le kit fournit une LSU 4.2, le dossier est câblé pour une LSU 4.9 (à confirmer).
 - Pad 8 boutons : sorties +12 V commutées côté haut (à vérifier au multimètre) ; boutons 1 à 3 (éclairage,
   warnings, essuie-glace) câblés hors faisceau moteur.

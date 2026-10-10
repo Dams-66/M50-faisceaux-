@@ -74,15 +74,11 @@ Le kit RACE Premium fournit les deux faisceaux MaxxECU REV2 : tous les fils sort
 
 ### ⚠️ À vérifier — Fils rouges MaxxECU sans broche : à repérer et isoler
 
-Sur le plan MaxxECU, le faisceau 1 porte des fils prévus pour l'ancien connecteur d'alimentation 12 voies, absent sur ta version REV2 : « 12V ECU, (C) », « 12V LAMBDA (PIN 3) », « 12V INJECTORS » et « 12V GP OUT » sont reliés à M4, donc sous tension dès que F1 alimente l'ECU ; « 12V IGNITION, (D) » est relié au « +12v power supply for ignition coils » ; un fil noir double L4. À réception, ECU débranchée, repérer chacun à l'ohmmètre. F1 va sur « 12V ECU, (C) » s'il existe, sinon sur « 12V ECU, (M4) ». Tous les autres fils rouges sont isolés un par un (gaine thermo) et ne sont jamais reliés à F2, F3 ou F4 : sinon deux fusibles se retrouvent en parallèle. Le fil noir de L4 va au goujon GP-HEAD avec le marron, ou il est isolé. Le détail est dans la nomenclature.
+Ton faisceau 1 porte bien ces fils, prévus pour l'ancien connecteur d'alimentation 12 voies absent sur la version REV2 : « 12V ECU, (C) », « 12V LAMBDA (PIN 3) », « 12V INJECTORS » et « 12V GP OUT » sont reliés à M4, donc sous tension dès que F1 alimente l'ECU ; « 12V IGNITION, (D) » est relié au « +12v power supply for ignition coils » ; un fil noir double L4. À réception, ECU débranchée, repérer chacun à l'ohmmètre. F1 va sur « 12V ECU, (C) ». Tous les autres fils rouges sont isolés un par un (gaine thermo) et ne sont jamais reliés à F2, F3 ou F4 : sinon deux fusibles se retrouvent en parallèle. Le fil noir de L4 va au goujon GP-HEAD avec le marron, ou il est isolé. Le détail est dans la nomenclature.
 
 ### ⚠️ À vérifier — Fils MaxxECU de 3 m : mesurer avant de couper
 
 Les longueurs du dossier sont estimées. Trois fils dépassent 3 m : GPO1 vers la MAC (≈ 3,15 m) et le câble TRIGGER vers le capteur PMH (≈ 3,10 m, signal et masse). Poser tout le faisceau, mesurer, puis couper : jamais l'inverse. Si un fil est trop court, le rallonger avec un manchon à souder ; pour le câble blindé TRIGGER, rallonger avec du câble 2 × 0,5 mm² blindé et reprendre le blindage, ou rapprocher le passage du tablier. Les fils non utilisés restent à longueur, isolés au bout et repliés dans le faisceau.
-
-### ⚠️ À vérifier — LSU 4.2 ou 4.9 ?
-
-Le kit Premium est livré avec une sonde LSU 4.2 (Bosch 0 258 007 057) et son connecteur, alors que la liste de coupe suit la LSU 4.9 (LSU.1 à LSU.6 : 1 IP, 2 COM, 3 chauffage −, 4 +12 V, 5 RCAL, 6 VS). Aucune broche n'est commune entre les deux. Brochage LSU 4.2 (vue côté câble, plan MaxxECU) : 1 = VS (fil marron WBO2 VS, F4) ; 2 = RCAL (vert WBO2 RCAL, G4) ; 3 = +12 V chauffage (fil RD/WH du dossier, ou fil MaxxECU « 12V LAMBDA (PIN 3) ») ; 4 = chauffage − (vert « WBO2 HTR PIN 4 », D1) ; 5 = COM (jaune, F3) ; 6 = IP (blanc, G3). Avec la 4.2 du kit : sertir son connecteur d'après ce tableau, pas d'après la liste de coupe, et choisir « Bosch LSU 4.2 » dans MTune. Avec une 4.9 : acheter la sonde 0 258 017 025 et son contre-connecteur, la 4.2 du kit reste dans la boîte.
 
 ### ➕ Ajouté — Révision E : fusibles F1 à F10, relais du pad
 
@@ -128,9 +124,9 @@ MaxxECU câble le M54 avec le papillon sur GPO11/12 (= Motor 1 −/+) et les pis
 
 Brochage confirmé : 1 non assignée, 2 pression (0,5–4,5 V = 0–10 bar), 3 +5 V, 4 masse, 5 NTC.
 
-### ✅ Validé — Lambda LSU 4.9 sur contrôleur interne (si tu montes une 4.9)
+### ✅ Validé — Lambda LSU 4.9 sur contrôleur interne
 
-Brochage LSU 4.9 conforme au schéma MaxxECU (vue côté câble) ; pour la LSU 4.2 du kit, voir l'avertissement « LSU 4.2 ou 4.9 ? » : 1 IP → G3, 2 COM → F3, 3 chauffage − → D1, 4 +12 V, 5 RCAL → G4, 6 VS → F4. Vérifie que ton boîtier est bien REV9 ou plus (étiquette).
+Tu montes la LSU 4.9 (Bosch 0 258 017 025) : la liste de coupe suit son brochage, conforme au schéma MaxxECU (vue côté câble) : 1 IP → G3, 2 COM → F3, 3 chauffage − → D1, 4 +12 V, 5 RCAL → G4, 6 VS → F4. La LSU 4.2 du kit et son connecteur restent dans la boîte : aucune broche n'est commune. Attention aux deux étiquettes MaxxECU écrites pour la 4.2 : « WBO2 HTR PIN 4 » va à la broche 3 de la 4.9, et « 12V LAMBDA (PIN 3) » n'est pas utilisé. Dans MTune, choisir Bosch LSU 4.9 avant la première mise sous tension sonde montée. Vérifie que ton boîtier est bien REV9 ou plus (étiquette).
 
 ### ⚠️ À vérifier — Capteur PMH Hall M52 sur cible 60-2 du M50
 

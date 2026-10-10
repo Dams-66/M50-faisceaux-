@@ -1482,11 +1482,11 @@
    "label": "Sonde lambda large bande",
    "ref": "Bosch LSU 4.9 — 0 258 017 025",
    "type": "WBO2 6 fils (contrôleur interne RACE REV9+)",
-   "connector": "Contre-connecteur LSU 4.9 6 voies côté faisceau (Bosch D 261 205 356-01 ou kit Bosch Motorsport 1 987 280 016) — seulement si tu montes une LSU 4.9 achetée à part",
+   "connector": "Contre-connecteur LSU 4.9 6 voies côté faisceau (Bosch D 261 205 356-01 ou kit Bosch Motorsport 1 987 280 016) — celui de la LSU 4.2 du kit ne s'adapte pas",
    "node": "N_LSU",
    "system": "WBO",
    "harness": null,
-   "notes": "Numéros de broche de la LSU 4.9 (vue côté câble, schéma MaxxECU). Le kit fournit une LSU 4.2 : brochage complètement différent. Brochage LSU 4.2 (vue côté câble, plan MaxxECU) : 1 = VS (fil marron WBO2 VS, F4) ; 2 = RCAL (vert WBO2 RCAL, G4) ; 3 = +12 V chauffage (fil RD/WH du dossier, ou fil MaxxECU « 12V LAMBDA (PIN 3) ») ; 4 = chauffage − (vert « WBO2 HTR PIN 4 », D1) ; 5 = COM (jaune, F3) ; 6 = IP (blanc, G3). Capteur à sélectionner dans MTune avant usage. Connecteur fixé côté froid (< 140 °C, fiche Bosch) : seule la queue d'origine de la sonde longe la descente, le faisceau ne va pas jusqu'au turbo.",
+   "notes": "Sonde LSU 4.9 confirmée. Numéros de broche de la LSU 4.9, vue côté câble (schéma MaxxECU) : 1 IP, 2 COM, 3 chauffage −, 4 +12 V, 5 RCAL, 6 VS. La LSU 4.2 du kit et son connecteur ne servent pas (brochage différent) : ne pas les mélanger. Deux étiquettes MaxxECU suivent la numérotation 4.2 : « WBO2 HTR PIN 4 » va à la broche 3 de la 4.9 et « 12V LAMBDA (PIN 3) » n'est pas utilisé. MTune : Bosch LSU 4.9 sélectionnée avant la première mise sous tension sonde montée. Connecteur fixé côté froid (< 140 °C, fiche Bosch) : seule la queue d'origine de la sonde longe la descente, le faisceau ne va pas jusqu'au turbo.",
    "verify": "",
    "rating_a": null,
    "load_a": 1.5,
@@ -7726,7 +7726,7 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "Fil MaxxECU « WBO2 IP — câble WBO2 1 » : couper à 1,95 m. Numéro de broche LSU 4.9 ; pour la LSU 4.2 du kit, voir la fiche LSU",
+   "note": "Fil MaxxECU « WBO2 IP — câble WBO2 1 » : couper à 1,95 m.",
    "jumper": false,
    "premade": false,
    "lead": {
@@ -7759,7 +7759,7 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "Fil MaxxECU « WBO2 COM — câble WBO2 1 » : couper à 1,95 m. Numéro de broche LSU 4.9 ; pour la LSU 4.2 du kit, voir la fiche LSU",
+   "note": "Fil MaxxECU « WBO2 COM — câble WBO2 1 » : couper à 1,95 m.",
    "jumper": false,
    "premade": false,
    "lead": {
@@ -7792,7 +7792,7 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "Fil MaxxECU « WBO2 RCAL — câble WBO2 1 » : couper à 1,95 m. Numéro de broche LSU 4.9 ; pour la LSU 4.2 du kit, voir la fiche LSU",
+   "note": "Fil MaxxECU « WBO2 RCAL — câble WBO2 1 » : couper à 1,95 m.",
    "jumper": false,
    "premade": false,
    "lead": {
@@ -7825,7 +7825,7 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "Fil MaxxECU « WBO2 VS/O2 IN — câble WBO2 1 » : couper à 1,95 m. Numéro de broche LSU 4.9 ; pour la LSU 4.2 du kit, voir la fiche LSU",
+   "note": "Fil MaxxECU « WBO2 VS/O2 IN — câble WBO2 1 » : couper à 1,95 m.",
    "jumper": false,
    "premade": false,
    "lead": {
@@ -7910,7 +7910,7 @@
    "harness": "ENG",
    "internal": false,
    "drain": false,
-   "note": "+12 V chauffage lambda pris sur l'épissure actionneurs (même fusible que VANOS, MAC et PMH) ; 0,75 mm² derrière un fusible de 10 A. Broche 4 sur la LSU 4.9, broche 3 sur la LSU 4.2",
+   "note": "+12 V chauffage lambda pris sur l'épissure actionneurs (même fusible que VANOS, MAC et PMH) ; 0,75 mm² derrière un fusible de 10 A. Broche 4 de la LSU 4.9",
    "jumper": false,
    "premade": false,
    "lead": null,
@@ -11099,17 +11099,12 @@
   {
    "sev": "warn",
    "title": "Fils rouges MaxxECU sans broche : à repérer et isoler",
-   "detail": "Sur le plan MaxxECU, le faisceau 1 porte des fils prévus pour l'ancien connecteur d'alimentation 12 voies, absent sur ta version REV2 : « 12V ECU, (C) », « 12V LAMBDA (PIN 3) », « 12V INJECTORS » et « 12V GP OUT » sont reliés à M4, donc sous tension dès que F1 alimente l'ECU ; « 12V IGNITION, (D) » est relié au « +12v power supply for ignition coils » ; un fil noir double L4. À réception, ECU débranchée, repérer chacun à l'ohmmètre. F1 va sur « 12V ECU, (C) » s'il existe, sinon sur « 12V ECU, (M4) ». Tous les autres fils rouges sont isolés un par un (gaine thermo) et ne sont jamais reliés à F2, F3 ou F4 : sinon deux fusibles se retrouvent en parallèle. Le fil noir de L4 va au goujon GP-HEAD avec le marron, ou il est isolé. Le détail est dans la nomenclature."
+   "detail": "Ton faisceau 1 porte bien ces fils, prévus pour l'ancien connecteur d'alimentation 12 voies absent sur la version REV2 : « 12V ECU, (C) », « 12V LAMBDA (PIN 3) », « 12V INJECTORS » et « 12V GP OUT » sont reliés à M4, donc sous tension dès que F1 alimente l'ECU ; « 12V IGNITION, (D) » est relié au « +12v power supply for ignition coils » ; un fil noir double L4. À réception, ECU débranchée, repérer chacun à l'ohmmètre. F1 va sur « 12V ECU, (C) ». Tous les autres fils rouges sont isolés un par un (gaine thermo) et ne sont jamais reliés à F2, F3 ou F4 : sinon deux fusibles se retrouvent en parallèle. Le fil noir de L4 va au goujon GP-HEAD avec le marron, ou il est isolé. Le détail est dans la nomenclature."
   },
   {
    "sev": "warn",
    "title": "Fils MaxxECU de 3 m : mesurer avant de couper",
    "detail": "Les longueurs du dossier sont estimées. Trois fils dépassent 3 m : GPO1 vers la MAC (≈ 3,15 m) et le câble TRIGGER vers le capteur PMH (≈ 3,10 m, signal et masse). Poser tout le faisceau, mesurer, puis couper : jamais l'inverse. Si un fil est trop court, le rallonger avec un manchon à souder ; pour le câble blindé TRIGGER, rallonger avec du câble 2 × 0,5 mm² blindé et reprendre le blindage, ou rapprocher le passage du tablier. Les fils non utilisés restent à longueur, isolés au bout et repliés dans le faisceau."
-  },
-  {
-   "sev": "warn",
-   "title": "LSU 4.2 ou 4.9 ?",
-   "detail": "Le kit Premium est livré avec une sonde LSU 4.2 (Bosch 0 258 007 057) et son connecteur, alors que la liste de coupe suit la LSU 4.9 (LSU.1 à LSU.6 : 1 IP, 2 COM, 3 chauffage −, 4 +12 V, 5 RCAL, 6 VS). Aucune broche n'est commune entre les deux. Brochage LSU 4.2 (vue côté câble, plan MaxxECU) : 1 = VS (fil marron WBO2 VS, F4) ; 2 = RCAL (vert WBO2 RCAL, G4) ; 3 = +12 V chauffage (fil RD/WH du dossier, ou fil MaxxECU « 12V LAMBDA (PIN 3) ») ; 4 = chauffage − (vert « WBO2 HTR PIN 4 », D1) ; 5 = COM (jaune, F3) ; 6 = IP (blanc, G3). Avec la 4.2 du kit : sertir son connecteur d'après ce tableau, pas d'après la liste de coupe, et choisir « Bosch LSU 4.2 » dans MTune. Avec une 4.9 : acheter la sonde 0 258 017 025 et son contre-connecteur, la 4.2 du kit reste dans la boîte."
   },
   {
    "sev": "add",
@@ -11168,8 +11163,8 @@
   },
   {
    "sev": "ok",
-   "title": "Lambda LSU 4.9 sur contrôleur interne (si tu montes une 4.9)",
-   "detail": "Brochage LSU 4.9 conforme au schéma MaxxECU (vue côté câble) ; pour la LSU 4.2 du kit, voir l'avertissement « LSU 4.2 ou 4.9 ? » : 1 IP → G3, 2 COM → F3, 3 chauffage − → D1, 4 +12 V, 5 RCAL → G4, 6 VS → F4. Vérifie que ton boîtier est bien REV9 ou plus (étiquette)."
+   "title": "Lambda LSU 4.9 sur contrôleur interne",
+   "detail": "Tu montes la LSU 4.9 (Bosch 0 258 017 025) : la liste de coupe suit son brochage, conforme au schéma MaxxECU (vue côté câble) : 1 IP → G3, 2 COM → F3, 3 chauffage − → D1, 4 +12 V, 5 RCAL → G4, 6 VS → F4. La LSU 4.2 du kit et son connecteur restent dans la boîte : aucune broche n'est commune. Attention aux deux étiquettes MaxxECU écrites pour la 4.2 : « WBO2 HTR PIN 4 » va à la broche 3 de la 4.9, et « 12V LAMBDA (PIN 3) » n'est pas utilisé. Dans MTune, choisir Bosch LSU 4.9 avant la première mise sous tension sonde montée. Vérifie que ton boîtier est bien REV9 ou plus (étiquette)."
   },
   {
    "sev": "warn",
@@ -11418,7 +11413,7 @@
   },
   {
    "cat": "Connecteurs",
-   "item": "Contre-connecteur LSU 4.9 6 voies côté faisceau (Bosch D 261 205 356-01 ou kit Bosch Motorsport 1 987 280 016) — seulement si tu montes une LSU 4.9 achetée à part",
+   "item": "Contre-connecteur LSU 4.9 6 voies côté faisceau (Bosch D 261 205 356-01 ou kit Bosch Motorsport 1 987 280 016) — celui de la LSU 4.2 du kit ne s'adapte pas",
    "qty": 1,
    "detail": "LSU — 6 contacts",
    "unit": "pc"
@@ -11840,14 +11835,14 @@
    "cat": "Faisceau MaxxECU (fourni)",
    "item": "Fil sans broche « 12V ECU, (C) » (RD)",
    "qty": 1,
-   "detail": "relié à M4 (+12 V ECU) — s'il existe, c'est lui qui va à F1 (fil PWR-13) ; sinon F1 va au fil « 12V ECU, (M4) »",
+   "detail": "relié à M4 (+12 V ECU) — c'est lui qui va à F1 (fil PWR-13)",
    "unit": "pc"
   },
   {
    "cat": "Faisceau MaxxECU (fourni)",
    "item": "Fil sans broche « 12V LAMBDA (PIN 3) » (RD)",
    "qty": 1,
-   "detail": "relié à M4 : sous tension dès que F1 l'est — isoler le bout sous gaine thermo (le chauffage de la sonde est alimenté par F4) ; ne jamais le relier à F4",
+   "detail": "relié à M4 : sous tension dès que F1 l'est — isoler le bout sous gaine thermo (« PIN 3 » = numérotation LSU 4.2 ; le chauffage de ta LSU 4.9 est alimenté par F4) ; ne jamais le relier à F4",
    "unit": "pc"
   },
   {
@@ -11953,7 +11948,7 @@
    "item": "Sonde lambda Bosch LSU 4.2 et son connecteur 6 voies",
    "qty": 1,
    "unit": "pc",
-   "detail": "fournis dans le kit Premium ; le dossier est câblé pour une LSU 4.9 : voir l'avertissement « LSU 4.2 ou 4.9 »"
+   "detail": "fournis dans le kit Premium, non utilisés : tu montes une LSU 4.9 (brochage différent)"
   },
   {
    "cat": "Faisceau MaxxECU (fourni)",
